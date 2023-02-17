@@ -6,7 +6,8 @@ import 'package:special_lab_dashboard/Pages/studenthome.dart';
 
 void main() {
   runApp(
-      MaterialApp(
+      const MaterialApp(
+        debugShowCheckedModeBanner: false,
           home: Scaffold(
 
             body: MainPage(),
@@ -27,6 +28,7 @@ class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     return LabSwitchPage();
+
   }
 }
 
