@@ -1,4 +1,3 @@
-import 'package:cool_dropdown/cool_dropdown.dart';
 import 'package:flutter/material.dart';
 
 import '../Components.dart';
@@ -158,10 +157,7 @@ class _LabSwitchPageState extends State<LabSwitchPage> {
                                 ),
                               )
                             ),
-                            Expanded(
-                                flex: 3,
-                                child: renderStudentDetailsCard()
-                            ),
+
                             Expanded(flex: 3, child: Container(),)
                           ],
                         )
