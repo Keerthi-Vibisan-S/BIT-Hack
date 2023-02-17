@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class FacultyHome extends StatefulWidget {
   const FacultyHome({Key? key}) : super(key: key);
@@ -9,113 +10,353 @@ class FacultyHome extends StatefulWidget {
 }
 
 class _FacultyHomeState extends State<FacultyHome> {
+  bool press1 = false;
+  bool press2 = true;
+
+  List data = [
+    {
+      "S.No": 1,
+      "Roll No": "202CT141",
+      "Name": "VENKAT RAMAN S P",
+      "Department": "COMPUTER TECHNOLOGY",
+      "Gender": "Male",
+      "Mail ID": "venkatraman.ct20@bitsathy.ac.in"
+    },
+    {
+      "S.No": 1,
+      "Roll No": "202CT141",
+      "Name": "VENKAT RAMAN S P",
+      "Department": "COMPUTER TECHNOLOGY",
+      "Gender": "Male",
+      "Mail ID": "venkatraman.ct20@bitsathy.ac.in"
+    },
+    {
+      "S.No": 1,
+      "Roll No": "202CT141",
+      "Name": "VENKAT RAMAN S P",
+      "Department": "COMPUTER SCIENCE AND BUSSINESS SYSTEM",
+      "Gender": "Male",
+      "Mail ID": "venkatraman.ct20@bitsathy.ac.in"
+    },
+    {
+      "S.No": 1,
+      "Roll No": "202CT141",
+      "Name": "VENKAT RAMAN S P",
+      "Department": "COMPUTER TECHNOLOGY",
+      "Gender": "Male",
+      "Mail ID": "venkatraman.ct20@bitsathy.ac.in"
+    }
+    ];
+
   @override
   Widget build(BuildContext context) {
     return Container(
-      // color: Colors.deepPurple,
+      decoration: const BoxDecoration(
+        gradient: LinearGradient(
+          colors: [Color(0xff200061), Color(0xff3800AA)],
+        ),
+      ),
       child: Row(
         children: [
-          Expanded(
-            flex: 2,
-            child: Container(
-              child: Padding(
-                padding: const EdgeInsets.only(left:8),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(child: Icon(Icons.dashboard)),
-                    SizedBox(height: 20,),
-                    Icon(Icons.swap_horiz),
-                  ],
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                alignment: Alignment.centerLeft,
+                decoration: BoxDecoration(
+                  borderRadius: const BorderRadius.only(
+                      topRight: Radius.circular(10),
+                      bottomRight: Radius.circular(10)),
+                  color: press1 ? Colors.white : Colors.transparent,
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: IconButton(
+                      onPressed: () {
+                        setState(() {
+                          if (press1 == true) {
+                            press1 = false;
+                            press2 = true;
+                          } else {
+                            press1 = true;
+                            press2 = false;
+                          }
+                        });
+                      },
+                      icon: Icon(
+                        Icons.dashboard,
+                        size: 25,
+                        color: press1 ? Colors.black : Colors.white,
+                      )),
                 ),
               ),
-            ),
+              const SizedBox(
+                height: 20,
+              ),
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: const BorderRadius.only(
+                      topRight: Radius.circular(10),
+                      bottomRight: Radius.circular(10)),
+                  color: press2 ? Colors.white : Colors.transparent,
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: IconButton(
+                    onPressed: () {
+                      setState(() {
+                        if (press2 == true) {
+                          press2 = false;
+                          press1 = true;
+                        } else {
+                          press2 = true;
+                          press1 = false;
+                        }
+                      });
+                    },
+                    icon: Icon(Icons.swap_horiz,
+                        size: 25, color: press2 ? Colors.black : Colors.white),
+                  ),
+                ),
+              ),
+            ],
           ),
           Expanded(
             flex: 40,
             child: Padding(
-              padding: EdgeInsets.all(15),
+              padding: const EdgeInsets.all(12.0),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(20),
                 child: Container(
+                  // color: Colors.orange,
                   width: MediaQuery.of(context).size.width - 30,
-                  color: Color(0xffebebeb),
-                  child: Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(80.0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
+                  color: const Color(0xffebebeb),
+                  child: Padding(
+                    padding:
+                        const EdgeInsets.only(left: 100, top: 70, right: 100),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                "Portal",
+                                style: GoogleFonts.poppins(
+                                    fontWeight: FontWeight.w600, fontSize: 28),
+                              ),
+                              Row(
+                                children: const [
+                                  CircleAvatar(),
+                                  SizedBox(
+                                    width: 24,
+                                  ),
+                                  Icon(Icons.logout),
+                                  Text("Logout")
+                                ],
+                              )
+                            ]),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 20.0),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Text(
+                                "Cloud Computing",
+                                style: GoogleFonts.poppins(
+                                    fontWeight: FontWeight.w500, fontSize: 24),
+                              ),
+                              Text(
+                                " - 148 Students",
+                                style: GoogleFonts.poppins(
+                                    fontWeight: FontWeight.w500, fontSize: 18),
+                              )
+                            ],
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 8.0),
+                          child: Text(
+                            "SLB-031",
+                            style: GoogleFonts.poppins(
+                                fontWeight: FontWeight.w500, fontSize: 17),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 30.0),
+                          child: Container(
+                            width: 1200,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text("Portal", style: TextStyle(fontWeight: FontWeight.w900, fontSize: 25),),
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 40.0),
-                                  child: Row(
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text("Cloud Computing", style: TextStyle(fontWeight: FontWeight.w800, fontSize: 20),),
-                                      Text(" - 148 Students", style: TextStyle(fontWeight: FontWeight.w500, fontSize: 15),)
-                                    ],
-                                  ),
+                                Text(
+                                  "Student Database",
+                                  style: GoogleFonts.poppins(
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 20),
                                 ),
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 8.0),
-                                  child: Text("SLB-031", style: TextStyle(fontWeight: FontWeight.w500, fontSize: 15),),
-                                ),
-
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 40.0),
-                                  child: Row(
-                                    children: [
-                                      Text(
-                                        "Student Database", style: TextStyle(fontWeight: FontWeight.w800, fontSize: 20),
-                                      ),
-
-                                      Container(
-                                        width: 200,
-                                        child: TextField(
-
-                                          onChanged: (s){
-
-                                          },
-                                          decoration:InputDecoration(
-                                              suffixIcon:IconButton(
-                                                  onPressed: (){
-
-                                                  } , icon: Icon(Icons.search_rounded)
-                                              ) ,
-                                              border: OutlineInputBorder(
-                                                  borderRadius: BorderRadius.circular(40)
-                                              )
-                                          ),
-                                        ),
-                                      )
-                                    ],
+                                Material(
+                                  elevation: 15,
+                                  borderRadius: BorderRadius.circular(40),
+                                  child: Container(
+                                    width: 210,
+                                    child: TextField(
+                                      onChanged: (s) {},
+                                      decoration: InputDecoration(
+                                          suffixIcon: IconButton(
+                                              onPressed: () {},
+                                              icon: const Icon(Icons.search_rounded)),
+                                          border: OutlineInputBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(40))),
+                                    ),
                                   ),
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 30,),
+                        Container(
+                          color: Colors.black12,
+                          height: 40,
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              children: [
+                                Text(
+                                  "S.No",
+                                  style: GoogleFonts.poppins(
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 16),
+                                ),
+                                SizedBox(width: 50,),
+                                Text(
+                                  "Roll No",
+                                  style: GoogleFonts.poppins(
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 16),
+                                ),
+                                SizedBox(width: 150,),
+                                Text(
+                                  "Name",
+                                  style: GoogleFonts.poppins(
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 16),
+                                ),
+                                SizedBox(width: 220,),
+                                Text(
+                                  "Department",
+                                  style: GoogleFonts.poppins(
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 16),
+                                ),
+                                SizedBox(width: 130,),
+                                Text(
+                                  "Gender",
+                                  style: GoogleFonts.poppins(
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 16),
+                                ),
+                                SizedBox(width: 130,),
+                                Text(
+                                  "Mail ID",
+                                  style: GoogleFonts.poppins(
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 16),
                                 ),
                               ],
                             ),
                           ),
-
-                          Padding(
-                            padding: const EdgeInsets.all(80.0),
-                            child: Row(
-                              children: [
-                                CircleAvatar(),
-                                SizedBox(width: 24,),
-                                Icon(Icons.logout),
-                                Text("Logout")
-                              ],
-                            ),
-                          )
-                        ],
-                      )
-                    ],
+                        ),
+                        Container(
+                          width: 1200,
+                          height: 420,
+                          color: Colors.white,
+                          child: ListView.builder(
+                              itemCount: data.length,
+                              itemBuilder: (BuildContext context, int index) {
+                            return Container(
+                              height: 40,
+                              color: index%2==0?Colors.white70:Colors.black12,
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Row(
+                                  children: [
+                                    Container(
+                                      width: 40,
+                                      alignment: Alignment.center,
+                                      // color: Colors.orange,
+                                      child: Text(
+                                        data[index]['S.No'].toString(),
+                                        style: GoogleFonts.poppins(
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 16),
+                                      ),
+                                    ),
+                                    Container(
+                                      width: 150,
+                                      alignment: Alignment.center,
+                                      // color: Colors.orange,
+                                      child: Text(
+                                        data[index]['Roll No'],
+                                        style: GoogleFonts.poppins(
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 16),
+                                      ),
+                                    ),
+                                    Container(
+                                      // color: Colors.orange,
+                                      width: 270,
+                                      alignment: Alignment.center,
+                                      child: Text(
+                                        data[index]['Name'],
+                                        style: GoogleFonts.poppins(
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 16),
+                                      ),
+                                    ),
+                                    Container(
+                                      // color: Colors.orange,
+                                      width: 300,
+                                      alignment: Alignment.center,
+                                      child: Text(
+                                        data[index]['Department'],
+                                        style: GoogleFonts.poppins(
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 16),
+                                      ),
+                                    ),
+                                    Container(
+                                      width: 100,
+                                      alignment: Alignment.center,
+                                      // color: Colors.orange,
+                                      child: Text(
+                                        data[index]['Gender'],
+                                        style: GoogleFonts.poppins(
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 16),
+                                      ),
+                                    ),
+                                    Container(
+                                      width: 280,
+                                      alignment: Alignment.center,
+                                      // color: Colors.orange,
+                                      child: Text(
+                                        data[index]['Mail ID'],
+                                        style: GoogleFonts.poppins(
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 16),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            );
+                          }),
+                        )
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -126,5 +367,3 @@ class _FacultyHomeState extends State<FacultyHome> {
     );
   }
 }
-
-
