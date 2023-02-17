@@ -1,5 +1,7 @@
 
 
+import 'package:dropdown_button2/custom_dropdown_button2.dart';
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 
 getFacultyCard()
@@ -43,10 +45,11 @@ getFacultyCard()
 }
 
 
-renderStudentDetailsCard()
-{
-  return Card(
-    elevation: 10,
+renderStudentDetailsCard() {
+  return Container(
+
+    color: Colors.grey.shade50,
+    // elevation: 10,
     child: ClipRRect(
       borderRadius: BorderRadius.circular(25),
       child: Container(
@@ -170,3 +173,5 @@ renderStudentDetailsCard()
     ),
   );
 }
+
+

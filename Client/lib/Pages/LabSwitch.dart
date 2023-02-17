@@ -1,4 +1,5 @@
-import 'package:cool_dropdown/cool_dropdown.dart';
+// import 'package:cool_dropdown/cool_dropdown.dart';
+import 'package:dropdown_button2/custom_dropdown_button2.dart';
 import 'package:flutter/material.dart';
 
 import '../Components.dart';
@@ -14,37 +15,15 @@ class _LabSwitchPageState extends State<LabSwitchPage> {
   var switfrom = TextEditingController(text: "Cloud Computing");
   var switto = TextEditingController();
 
-  List specialLabs = [
+  List<String> specialLabs = [
     "AR/ VR",
     "Mobile And App",
     "Ind Auto",
     "IoT"
   ];
 
+  String? selectedValue;
 
-  // @override
-  // void initState() {
-  //
-  //   for (var i = 0; i < specialLabs.length; i++) {
-  //     specialLabs.add(
-  //       {
-  //         'label': i,
-  //         'value': i,
-  //         'icon': Container(
-  //           // key: UniqueKey(),
-  //           height: 20,
-  //           width: 20,
-  //
-  //           ),
-  //         'selectedIcon': Container(
-  //           key: UniqueKey(),
-  //           width: 20,
-  //           height: 20,
-  //         ),
-  //       },
-  //     );
-  //   }
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -81,6 +60,7 @@ class _LabSwitchPageState extends State<LabSwitchPage> {
                     padding: const EdgeInsets.only(left: 50),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
+
                       children: [
                         SizedBox(height: 30,),
                         Row(
@@ -100,68 +80,95 @@ class _LabSwitchPageState extends State<LabSwitchPage> {
                             )
                           ],
                         ),
-                        SizedBox(height: 80,),
+                        SizedBox(height: 100,),
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Expanded(flex: 2, child: Container(),),
                             Expanded(
-                              flex: 4,
-                              child: Container(
-                                child: Padding(
-                                  padding: const EdgeInsets.all(56.0),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Text("Switching From"),
-                                      SizedBox(height: 10,),
-                                      Container(
-                                        color: Colors.grey,
-                                        child: TextField(
-                                          controller: switfrom,
-                                          decoration: InputDecoration(
-                                            border: OutlineInputBorder(
-                                              borderRadius: BorderRadius.all(Radius.circular(15))
+                              flex: 10,
+                              child: Card(
+                                elevation: 20,
+                                child: Row(
+                                  children: [
+                                    Expanded(
+                                      flex:3,
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(56.0),
+                                        child: Column(
+                                          mainAxisAlignment: MainAxisAlignment.start,
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Text("Switching From"),
+                                            SizedBox(height: 10,),
+                                            ClipRRect(
+                                              borderRadius: BorderRadius.all(Radius.circular(10)),
+                                              child: Container(
+                                                color: Colors.grey.shade300,
+                                                child: TextField(
+                                                  controller: switfrom,
+                                                  decoration: InputDecoration(
+                                                    border: OutlineInputBorder(
+                                                      borderRadius: BorderRadius.all(Radius.circular(10))
+                                                    ),
+                                                  ),
+                                                  style: TextStyle(fontSize: 15),
+                                                  readOnly: true,
+                                                ),
+                                              ),
                                             ),
-                                          ),
-                                          style: TextStyle(fontSize: 12.5),
-                                          readOnly: true,
+                                            SizedBox(height: 20,),
+                                            Text("Switching To"),
+                                            SizedBox(height: 10,),
+                                            ClipRRect(
+                                              borderRadius: BorderRadius.all(Radius.circular(15)),
+                                              child: Container(
+                                                color: Colors.grey.shade300,
+                                                child: CustomDropdownButton2(
+                                                  hint: selectedValue??"Select Lab",
+
+                                                  dropdownItems: specialLabs,
+                                                  value: selectedValue,
+                                                  onChanged: (value) {
+                                                    selectedValue = value;
+                                                    setState(() {
+
+                                                    });
+                                                  },
+                                                  buttonWidth: 400,
+                                                ),
+                                              ),
+                                            ),
+                                            SizedBox(height: 20,),
+                                            Text("Reason"),
+                                            SizedBox(height: 10,),
+                                            ClipRRect(
+                                              borderRadius: BorderRadius.all(Radius.circular(10)),
+                                              child: Container(
+                                                color: Colors.grey.shade300,
+                                                child: TextField(
+                                                  decoration: InputDecoration(
+                                                    border: OutlineInputBorder(
+                                                        borderRadius: BorderRadius.all(Radius.circular(10))
+                                                    ),
+                                                    hintText: "Write here..."
+                                                  ),
+                                                  maxLines: 5,
+                                                ),
+                                              ),
+                                            ),
+                                          ],
                                         ),
                                       ),
-                                      SizedBox(height: 20,),
-                                      Text("Switching To"),
-                                      SizedBox(height: 10,),
-                                      // Container(
-                                      //   color: Colors.grey,
-                                      //   child: CoolDropdown(dropdownList: specialLabs, onChange: (selectedItem) {
-                                      //     print(selectedItem);
-                                      //   })
-                                      // ),
-                                      SizedBox(height: 20,),
-                                      Text("Reason"),
-                                      SizedBox(height: 10,),
-                                      Container(
-                                        color: Colors.grey,
-                                        child: TextField(
-                                          decoration: InputDecoration(
-                                            border: OutlineInputBorder(
-                                                borderRadius: BorderRadius.all(Radius.circular(15))
-                                            ),
-                                            hintText: "Write here..."
-                                          ),
-                                          maxLines: 5,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
+                                    ),
+                                    // Expanded(child: Container()),
+                                    SizedBox(width: 100,),
+                                    Expanded(flex:2, child: renderStudentDetailsCard())
+                                  ],
                                 ),
                               )
                             ),
-                            Expanded(
-                                flex: 3,
-                                child: renderStudentDetailsCard()
-                            ),
+
                             Expanded(flex: 3, child: Container(),)
                           ],
                         )

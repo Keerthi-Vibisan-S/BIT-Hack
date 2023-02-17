@@ -41,16 +41,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.17.0"
-<<<<<<< HEAD
-  cool_dropdown:
-    dependency: "direct main"
-    description:
-      name: cool_dropdown
-      sha256: "6b1bbadd8605f957b8199e5ece8f51435b371d43978558e5332f29399b4f287a"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.4.2"
-=======
   crypto:
     dependency: transitive
     description:
@@ -59,7 +49,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.0.2"
->>>>>>> 3d5c7e7fef07003dd42cc10122f3646e16250cfd
   cupertino_icons:
     dependency: "direct main"
     description:
@@ -68,6 +57,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.5"
+  dropdown_button2:
+    dependency: "direct main"
+    description:
+      name: dropdown_button2
+      sha256: "580bfe26a91e822a95d96e227ac02c1e14a7d5eea32501d0fbc6fe8d5c5606e5"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.9.2"
   fake_async:
     dependency: transitive
     description:

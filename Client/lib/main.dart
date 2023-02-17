@@ -9,7 +9,6 @@ void main() {
       const MaterialApp(
         debugShowCheckedModeBanner: false,
           home: Scaffold(
-
             body: MainPage(),
           )
       )
@@ -27,7 +26,7 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
-    return LabSwitchPage();
+    return LoginPage();
 
   }
 }

@@ -1,5 +1,4 @@
 
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:special_lab_dashboard/APIHandler/loginPage.dart';
@@ -34,7 +33,6 @@ class _LoginPageState extends State<LoginPage> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-
                       Container(
                         width: 250,
                         child: Column(
@@ -54,9 +52,19 @@ class _LoginPageState extends State<LoginPage> {
                               ),
                               SizedBox(height: 20,),
                               ElevatedButton(onPressed: () async {
-                                await checkValidUser(emailController.text).then((v) =>{
-                                      Navigator.push(context, MaterialPageRoute(builder: (context)=>StudentHome(v)))
-                                });
+                                RegExp re = new RegExp(r"^\w+\.?(\w\w)?(\d\d)?@bitsathy\.ac\.in$");
+                                var iter = re.firstMatch(emailController.text);
+                                var match = iter?.groups([1, 2]);
+
+                                if(match?[0] != null) {
+                                  print("Student");
+                                  await checkValidUser(emailController.text).then((v) =>{
+                                    Navigator.push(context, MaterialPageRoute(builder: (context)=>StudentHome(v)))
+                                  });
+                                }
+                                else
+                                  print("Teacher");
+
 
                               }, child: Text("Login")),
                               SizedBox(height: 20,),
