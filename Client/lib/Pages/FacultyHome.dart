@@ -34,7 +34,7 @@ class _FacultyHomeState extends State<FacultyHome> {
       "S.No": 1,
       "Roll No": "202CT141",
       "Name": "VENKAT RAMAN S P",
-      "Department": "COMPUTER SCIENCE AND BUSSINESS SYSTEM",
+      "Department": "COMPUTER SCIENCE AND BUSSINESS SYSTEMS",
       "Gender": "Male",
       "Mail ID": "venkatraman.ct20@bitsathy.ac.in"
     },
@@ -50,6 +50,12 @@ class _FacultyHomeState extends State<FacultyHome> {
 
   @override
   Widget build(BuildContext context) {
+
+    var size = MediaQuery.of(context).size;
+    var height = size.height/100;
+    var width = size.width/100;
+
+
     return Container(
       decoration: const BoxDecoration(
         gradient: LinearGradient(
@@ -185,7 +191,7 @@ class _FacultyHomeState extends State<FacultyHome> {
                         Padding(
                           padding: const EdgeInsets.only(top: 30.0),
                           child: Container(
-                            width: 1200,
+                            width: width*100,
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
@@ -219,134 +225,155 @@ class _FacultyHomeState extends State<FacultyHome> {
                         SizedBox(height: 30,),
                         Container(
                           color: Colors.black12,
-                          height: 40,
+                          height: height*5,
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text(
-                                  "S.No",
-                                  style: GoogleFonts.poppins(
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 16),
+                                Container(
+                                  width: width*3,
+                                  alignment: Alignment.center,
+                                  child: Text(
+                                    "S.No",
+                                    style: GoogleFonts.poppins(
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: width*1.2),
+                                  ),
                                 ),
-                                SizedBox(width: 50,),
-                                Text(
-                                  "Roll No",
-                                  style: GoogleFonts.poppins(
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 16),
+                                Container(
+                                  width: width*9,
+                                  alignment: Alignment.center,
+                                  child: Text(
+                                    "Roll No",
+                                    style: GoogleFonts.poppins(
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: width*1.2),
+                                  ),
                                 ),
-                                SizedBox(width: 150,),
-                                Text(
-                                  "Name",
-                                  style: GoogleFonts.poppins(
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 16),
+                                Container(
+                                  width: width*12,
+                                  alignment: Alignment.center,
+                                  child: Text(
+                                    "Name",
+                                    style: GoogleFonts.poppins(
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: width*1.2),
+                                  ),
                                 ),
-                                SizedBox(width: 220,),
-                                Text(
-                                  "Department",
-                                  style: GoogleFonts.poppins(
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 16),
+                                Container(
+                                  width: width*22,
+                                  alignment: Alignment.center,
+                                  child: Text(
+                                    "Department",
+                                    style: GoogleFonts.poppins(
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: width*1.2),
+                                  ),
                                 ),
-                                SizedBox(width: 130,),
-                                Text(
-                                  "Gender",
-                                  style: GoogleFonts.poppins(
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 16),
+                                Container(
+                                  width: width*5,
+                                  alignment: Alignment.center,
+                                  child: Text(
+                                    "Gender",
+                                    style: GoogleFonts.poppins(
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: width*1.2),
+                                  ),
                                 ),
-                                SizedBox(width: 130,),
-                                Text(
-                                  "Mail ID",
-                                  style: GoogleFonts.poppins(
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 16),
+                                Container(
+                                  width: width*20,
+                                  alignment: Alignment.center,
+                                  child: Text(
+                                    "Mail ID",
+                                    style: GoogleFonts.poppins(
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: width*1.2),
+                                  ),
                                 ),
                               ],
                             ),
                           ),
                         ),
                         Container(
-                          width: 1200,
-                          height: 420,
+                          width: width*100,
+                          height: height*50,
                           color: Colors.white,
                           child: ListView.builder(
                               itemCount: data.length,
                               itemBuilder: (BuildContext context, int index) {
                             return Container(
-                              height: 40,
+                              height: height*4.5,
                               color: index%2==0?Colors.white70:Colors.black12,
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
                                     Container(
-                                      width: 40,
+                                      width: width*3,
                                       alignment: Alignment.center,
                                       // color: Colors.orange,
                                       child: Text(
                                         data[index]['S.No'].toString(),
                                         style: GoogleFonts.poppins(
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 16),
+                                            fontWeight: FontWeight.w400,
+                                            fontSize:  width*1),
                                       ),
                                     ),
                                     Container(
-                                      width: 150,
+                                      width: width*9,
                                       alignment: Alignment.center,
                                       // color: Colors.orange,
                                       child: Text(
                                         data[index]['Roll No'],
                                         style: GoogleFonts.poppins(
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 16),
+                                            fontWeight: FontWeight.w400,
+                                            fontSize:  width*1),
                                       ),
                                     ),
                                     Container(
                                       // color: Colors.orange,
-                                      width: 270,
+                                      width: width*12,
                                       alignment: Alignment.center,
                                       child: Text(
                                         data[index]['Name'],
                                         style: GoogleFonts.poppins(
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 16),
+                                            fontWeight: FontWeight.w400,
+                                            fontSize:  width*1),
                                       ),
                                     ),
                                     Container(
                                       // color: Colors.orange,
-                                      width: 300,
+                                      width: width*22,
                                       alignment: Alignment.center,
                                       child: Text(
                                         data[index]['Department'],
                                         style: GoogleFonts.poppins(
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 16),
+                                            fontWeight: FontWeight.w400,
+                                            fontSize:  width*1),
                                       ),
                                     ),
                                     Container(
-                                      width: 100,
+                                      width: width*5,
                                       alignment: Alignment.center,
                                       // color: Colors.orange,
                                       child: Text(
                                         data[index]['Gender'],
                                         style: GoogleFonts.poppins(
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 16),
+                                            fontWeight: FontWeight.w400,
+                                            fontSize:  width*1),
                                       ),
                                     ),
                                     Container(
-                                      width: 280,
+                                      width: width*20,
                                       alignment: Alignment.center,
                                       // color: Colors.orange,
                                       child: Text(
                                         data[index]['Mail ID'],
                                         style: GoogleFonts.poppins(
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 16),
+                                            fontWeight: FontWeight.w400,
+                                            fontSize:  width*1),
                                       ),
                                     ),
                                   ],
