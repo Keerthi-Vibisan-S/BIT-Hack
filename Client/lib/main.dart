@@ -6,10 +6,8 @@ import 'package:special_lab_dashboard/Pages/studenthome.dart';
 void main() {
   runApp(
       MaterialApp(
-          debugShowCheckedModeBanner: false,
           home: Scaffold(
-
-            // backgroundColor: Color(0xff200269),
+            backgroundColor: Color(0xff200269),
             body: MainPage(),
           )
       )
