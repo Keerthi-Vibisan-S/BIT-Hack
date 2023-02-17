@@ -18,6 +18,9 @@ app.use('/labs', labs);
 const faculty = require('./routes/faculty');
 app.use('/faculty', faculty);
 
+const request = require('./routes/requests');
+app.use('/request', request);
+
 app.listen(80, () => {
     console.log("Listening on port 3001");
 })

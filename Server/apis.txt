@@ -1,0 +1,14 @@
+/authenticate/verify --> To Login
+/labs/getFaculty --> To get faculty list in special lab
+
+/request/addReq --> To add Lab change request
+
+Format:
+{
+    "stu_id": "202CT113",
+    "from_lab_faculty_id": "101",
+    "to_lab_faculty_id": "101",
+    "head_id": "1000",
+    "reason": "I wanna change Lab!"
+}
+
