@@ -77,17 +77,11 @@ class _StudentHomeState extends State<StudentHome> {
                                   Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      Text("Special Lab",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20),),
+                                      Text("Special Lab - Cloud Computing",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20),),
                                       SizedBox(height: 20,),
                                       ClipRRect(
                                         borderRadius: BorderRadius.circular(20),
-                                        child: Expanded(
-                                          child: Container(
-                                              // width: 650,
-                                              height: 250,
-                                            color: Colors.blueGrey,
-                                          ),
-                                        ),
+                                        child: Image.asset('assets/cloudcomputing.jpg',height: 300,),
                                       ),
                                     ],
                                   ),
