@@ -3,15 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:special_lab_dashboard/Components.dart';
 
 class StudentHome extends StatefulWidget {
-  const StudentHome({Key? key}) : super(key: key);
+  final dynamic userdetails;
+  const StudentHome(this.userdetails,{Key? key, }) : super(key: key);
 
   @override
   State<StudentHome> createState() => _StudentHomeState();
 }
 
 class _StudentHomeState extends State<StudentHome> {
-  var titles = ["Year", "Department", "Special Lab", "Lab Code", "Incharge", "Joined Date", "History of Change"];
-  var values = ["3rd Year", "Infomation Tech", "Cloud Computing", "SLB-031", "Nataraj N", "29.08.22", "0"];
+
+
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -135,5 +137,10 @@ class _StudentHomeState extends State<StudentHome> {
         ],
       ),
     );
+  }
+
+  @override
+  void initState() {
+    print(widget.userdetails);
   }
 }
