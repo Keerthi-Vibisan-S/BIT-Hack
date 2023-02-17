@@ -2,6 +2,7 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:special_lab_dashboard/APIHandler/loginPage.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -11,60 +12,66 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  var emailController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Container(
-        height: 450,
-        width: 750,
-        color: Colors.grey,
-        child: Row(
-          children: [
-            Expanded(child: Container(
+      child: Card(
+        elevation: 20,
+        child: Container(
+          height: 450,
+          width: 750,
+          color: Colors.grey,
+          child: Row(
+            children: [
+              Expanded(child: Container(
 
-            )),
-            Expanded(
-              child: Container(
-                color: Color(0xffeeeeee),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Container(
-                      child: FlutterLogo(
+              )),
+              Expanded(
+                child: Container(
+                  color: Color(0xffeeeeee),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
 
+                      Container(
+                        width: 250,
+                        child: Column(
+                            children: [
+                              SizedBox(height: 20,),
+                              TextField(
+                                controller: emailController,
+                                decoration: InputDecoration(
+                                  hintText: "Email  "
+                                ),
+                              ),
+                              SizedBox(height: 20,),
+                              TextField(
+                                decoration: InputDecoration(
+                                    hintText: "Password"
+                                ),
+                              ),
+                              SizedBox(height: 20,),
+                              ElevatedButton(onPressed: () async {
+                                await checkValidUser(emailController.text).then((v) =>{
+
+                                });
+
+                              }, child: Text("Login")),
+                              SizedBox(height: 20,),
+                              Text("Forget Password"),
+                              SizedBox(height: 20,),
+                              Text("Or continue with Google"),
+                            ],
+                          ),
                       ),
-                    ),
-                    Container(
-                      width: 250,
-                      child: Column(
-                          children: [
-                            SizedBox(height: 20,),
-                            TextField(
-                              decoration: InputDecoration(
-                                hintText: "Username"
-                              ),
-                            ),
-                            SizedBox(height: 20,),
-                            TextField(
-                              decoration: InputDecoration(
-                                  hintText: "Password"
-                              ),
-                            ),
-                            SizedBox(height: 20,),
-                            ElevatedButton(onPressed: (){}, child: Text("Login")),
-                            SizedBox(height: 20,),
-                            Text("Forget Password"),
-                            SizedBox(height: 20,),
-                            Text("Or continue with Google"),
-                          ],
-                        ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-            )
-          ],
-        )
+              )
+            ],
+          )
+        ),
       ),
     );
   }
