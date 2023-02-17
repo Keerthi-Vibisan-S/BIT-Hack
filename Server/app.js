@@ -12,6 +12,12 @@ app.get("/" ,(req, res) => {
 const auth = require('./routes/authenticate');
 app.use('/authenticate', auth);
 
+const labs = require('./routes/SpecialLab');
+app.use('/labs', labs);
+
+const faculty = require('./routes/faculty');
+app.use('/faculty', faculty);
+
 app.listen(80, () => {
     console.log("Listening on port 3001");
 })
