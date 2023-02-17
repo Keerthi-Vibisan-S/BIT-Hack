@@ -43,7 +43,7 @@ getFacultyCard()
 }
 
 
-renderStudentDetailsCard()
+renderStudentDetailsCard(dynamic userdetails)
 {
   return Card(
     elevation: 10,
@@ -54,12 +54,14 @@ renderStudentDetailsCard()
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            CircleAvatar(),
+            CircleAvatar(
+              radius: 50,
+            ),
             Column(
               children: [
-                Text("Student name"),
+                Text(userdetails["STU_NAME"],style: TextStyle(fontSize: 15,fontWeight: FontWeight.bold),),
                 SizedBox(height: 10,),
-                Text("mail id"),
+                Text(userdetails["STU_EMAIL"]),
               ],
             ),
             // Row(
@@ -148,11 +150,11 @@ renderStudentDetailsCard()
                     children: [
                       Text("3rd Year"),
                       SizedBox(height:10),
-                      Text("Information Tech"),
+                      Text("CT"),
                       SizedBox(height:10),
                       Text("Cloud Computing"),
                       SizedBox(height:10),
-                      Text("SLB-031"),
+                      Text(userdetails["LAB_ID"]),
                       SizedBox(height:10),
                       Text("Nataraj N"),
                       SizedBox(height:10),
@@ -168,5 +170,88 @@ renderStudentDetailsCard()
         ),
       ),
     ),
+  );
+}
+
+renderCards(title,count,startcolor,endcolor)
+{
+  return ClipRRect(
+    borderRadius: BorderRadius.circular(20),
+    child: Card(
+      elevation: 10,
+      child: Container(
+        height: 150,
+        width: 300,
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Color(startcolor),Color(endcolor)],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Text(title.toString(),style: TextStyle(color: Colors.white,fontSize: 18),),
+                  ],
+                ),
+              SizedBox(height: 10,),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Text(count.toString(),style: TextStyle(color: Colors.white,fontSize: 18),)
+                ],
+              )
+            ],
+          ),
+        ),
+      ),
+    ),
+  );
+}
+
+
+renderLabAnanlysisBar(labname,int width,int index)
+{
+  var startcolor = 0xff0249ff;
+  var endcolor = 0xffa9c1ff;
+  if(index%2 !=0 )
+    {
+      startcolor = 0xff0610ff;
+      endcolor = 0xff9ca0ff;
+    }
+  return Row(
+    children: [
+      Expanded(
+        flex: width,
+        child: ClipRRect(
+          borderRadius: BorderRadius.only(topRight: Radius.circular(10),bottomRight: Radius.circular(10)),
+          child: Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                  colors: [Color(startcolor),Color(endcolor)],
+                  begin: Alignment.centerLeft,
+                  end: Alignment.centerRight,
+              )
+            ),
+            child: Padding(
+              padding: const EdgeInsets.only(left: 8.0),
+              child: Text(labname,style: TextStyle(color: Colors.white),),
+            ),
+            alignment: Alignment.centerLeft,
+            height: 50,
+            width: width.toDouble(),
+          ),
+        ),
+      ),
+      Expanded(
+          flex: 10-width,
+          child: Container())
+    ],
   );
 }

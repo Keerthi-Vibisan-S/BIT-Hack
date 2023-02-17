@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:special_lab_dashboard/Pages/AdminHomePage.dart';
+import 'package:special_lab_dashboard/Pages/FacultyHome.dart';
 import 'package:special_lab_dashboard/Pages/LoginPage.dart';
 import 'package:special_lab_dashboard/Pages/studenthome.dart';
 
 void main() {
   runApp(
       MaterialApp(
-        debugShowCheckedModeBanner: false,
           home: Scaffold(
-            backgroundColor: Color(0xff200269),
             body: MainPage(),
           )
       )
@@ -25,7 +25,7 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
-    return StudentHome();
+    return AdminHomePage();
   }
 }
 
