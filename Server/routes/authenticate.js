@@ -26,7 +26,7 @@ route.post("/verify", (req, res) => {
 
       const payload = ticket.getPayload();
       const userid = payload['sub'];
-      console.log("PAYLOAD: ", payload);
+    //   console.log("PAYLOAD: ", payload);
       user.email = payload.email;
       user.verify = payload.email_verified;
       user.name = payload.name;

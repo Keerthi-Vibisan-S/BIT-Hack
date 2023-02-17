@@ -1,4 +1,4 @@
-/authenticate/verify --> To Login
+/authenticate/verify --> To Login (object.data --> to access ALL)
 /labs/getFaculty --> To get faculty list in special lab
 
 /request/addReq --> To add Lab change Request

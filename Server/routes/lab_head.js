@@ -1,16 +1,15 @@
 const express = require('express');
 const sql_con = require('../settings/databaseConnection');
 const route = express.Router();
-const authenticate = require('../helpers/auth_middleware');
 
 route.get("/", (req, res) => {
-    res.send("SpecialLab");
+    res.send("Lab_Head");
 })
 
 //! To get list of faculty in a lab
-route.post("/getFaculty", authenticate,  (req, res) => {
-    const lab_id = req.body.lab_id;
-    let q = `select * from FACULTY WHERE LAB_ID = "${lab_id}"`;
+route.post("/getFaculty", (req, res) => {
+    const fac_id = req.body.faculty_id;
+    let q = `select * from FACULTY WHERE FACULTY_ID = "${lab_id}"`;
     try {
         sql_con.query(q, (err, result) => {
             if(err) {
