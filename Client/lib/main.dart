@@ -7,7 +7,7 @@ void main() {
   runApp(
       MaterialApp(
           home: Scaffold(
-            backgroundColor: Color(0xff200269),
+
             body: MainPage(),
           )
       )

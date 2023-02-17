@@ -3,6 +3,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:special_lab_dashboard/APIHandler/loginPage.dart';
+import 'package:special_lab_dashboard/Pages/studenthome.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -54,7 +55,7 @@ class _LoginPageState extends State<LoginPage> {
                               SizedBox(height: 20,),
                               ElevatedButton(onPressed: () async {
                                 await checkValidUser(emailController.text).then((v) =>{
-
+                                      Navigator.push(context, MaterialPageRoute(builder: (context)=>StudentHome(v)))
                                 });
 
                               }, child: Text("Login")),

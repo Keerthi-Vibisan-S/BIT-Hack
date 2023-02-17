@@ -83,8 +83,8 @@ class _StudentHomeState extends State<StudentHome> {
                                         borderRadius: BorderRadius.circular(20),
                                         child: Expanded(
                                           child: Container(
-                                              // width: 650,
-                                              height: 250,
+                                            // width: 650,
+                                            height: 250,
                                             color: Colors.blueGrey,
                                           ),
                                         ),
@@ -119,8 +119,8 @@ class _StudentHomeState extends State<StudentHome> {
                             ),
                             Expanded(flex: 1, child: Container(),),
                             Expanded(
-                              flex: 3,
-                              child: renderStudentDetailsCard()
+                                flex: 3,
+                                child: renderStudentDetailsCard()
                             ),
                             Expanded(flex: 1, child: Container(),)
                           ],
