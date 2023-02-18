@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:special_lab_dashboard/Components.dart';
+import 'package:special_lab_dashboard/Pages/LabSwitch.dart';
 
 class StudentHome extends StatefulWidget {
   final dynamic userdetails;
@@ -11,9 +12,11 @@ class StudentHome extends StatefulWidget {
 }
 
 class _StudentHomeState extends State<StudentHome> {
+
   @override
   Widget build(BuildContext context) {
     return Container(
+      color: Color(0xff210368),
       child: Row(
         children: [
           Expanded(
@@ -24,9 +27,18 @@ class _StudentHomeState extends State<StudentHome> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(Icons.dashboard,color: Colors.white,),
+                    Container(
+                      width: 30,
+                      color: Colors.white,
+                      child: Icon(Icons.dashboard,color: Color(0xff210368),)
+                    ),
                     SizedBox(height: 20,),
-                    Icon(Icons.swap_horiz,color: Colors.white,),
+                    GestureDetector(
+                      onTap: (){
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => LabSwitchPage()));
+                      },
+                        child: Icon(Icons.swap_horiz,color: Colors.white,)
+                    ),
                   ],
                 ),
               ),
@@ -50,7 +62,7 @@ class _StudentHomeState extends State<StudentHome> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            Expanded(child: Text("Portal",style: TextStyle(fontWeight: FontWeight.w900,fontSize: 30),)),
+                            Expanded(child: Text("Portal",style: TextStyle(fontWeight: FontWeight.w900,decoration: TextDecoration.none,color: Colors.black,fontSize: 30),)),
                             CircleAvatar(),
                             SizedBox(width: 20,),
                             Padding(
@@ -58,7 +70,7 @@ class _StudentHomeState extends State<StudentHome> {
                               child: Row(
                                 children: [
                                   Icon(Icons.logout),
-                                  Text("Logout")
+                                  Text("Logout",style: TextStyle(decoration: TextDecoration.none,fontSize: 15,color: Colors.black,),)
                                 ],
                               ),
                             )
@@ -76,17 +88,12 @@ class _StudentHomeState extends State<StudentHome> {
                                   Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      Text("Special Lab",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20),),
+                                      Text("Special Lab - Cloud Computing",style: TextStyle(fontWeight: FontWeight.bold,decoration: TextDecoration.none,color: Colors.black,fontSize: 20),),
                                       SizedBox(height: 20,),
                                       ClipRRect(
                                         borderRadius: BorderRadius.circular(20),
-                                        child: Expanded(
-                                          child: Container(
-                                            // width: 650,
-                                            height: 250,
-                                            color: Colors.blueGrey,
-                                          ),
-                                        ),
+                                        child: Image.asset('assets/cloudcomputing.jpg',height: 300,),
+
                                       ),
                                     ],
                                   ),
@@ -94,7 +101,7 @@ class _StudentHomeState extends State<StudentHome> {
                                   Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      Text("Special Lab Faculties",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20),),
+                                      Text("Special Lab Faculties",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20,decoration: TextDecoration.none,color: Colors.black,),),
                                       Container(
                                         height: 130,
                                         child: Expanded(
@@ -119,7 +126,7 @@ class _StudentHomeState extends State<StudentHome> {
                             Expanded(flex: 1, child: Container(),),
                             Expanded(
                                 flex: 3,
-                                child: renderStudentDetailsCard()
+                                child: renderStudentDetailsCard(widget.userdetails)
                             ),
                             Expanded(flex: 1, child: Container(),)
                           ],

@@ -1,10 +1,14 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:special_lab_dashboard/APIHandler/loginPage.dart';
 import 'package:special_lab_dashboard/Navigator.dart';
-import 'package:special_lab_dashboard/Pages/studenthome.dart';
 
+import 'package:special_lab_dashboard/Pages/studenthome.dart';
+import 'package:google_sign_in_web/google_sign_in_web.dart';
+
+import 'AdminHomePage.dart';
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
 
@@ -14,6 +18,28 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   var emailController = TextEditingController();
+  GoogleSignIn? _googleSignIn;
+  Future<Map> _handleSignIn() async {
+    var details= {"email":"", "idToken":""};
+    try {
+      await _googleSignIn?.signIn().then((value) async {
+        // print("Details");
+        details["email"] = value?.email ?? "email";
+        // print(value.toString());
+        await value?.authentication.then((token) async {
+          details["idToken"] = token.idToken.toString() ?? "idToken";
+          // print("TokenRaw: "+token.idToken.toString());
+        }).then((value) {
+            // print("Token: "+details.toString());
+            return details;
+        });
+      });
+    } catch (error) {
+      print(error);
+    }
+
+    return details;
+  }
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -26,11 +52,11 @@ class _LoginPageState extends State<LoginPage> {
           child: Row(
             children: [
               Expanded(child: Container(
-
+                  child: Image.asset("assets/login_banner1.jpg"),
               )),
               Expanded(
                 child: Container(
-                  color: Color(0xffeeeeee),
+                  color: Colors.white,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
@@ -47,32 +73,56 @@ class _LoginPageState extends State<LoginPage> {
                               ),
                               SizedBox(height: 20,),
                               TextField(
+                                obscureText: true,
                                 decoration: InputDecoration(
+
                                     hintText: "Password"
                                 ),
                               ),
                               SizedBox(height: 20,),
+                              ElevatedButton(onPressed: (){
+                                Navigator.push(context, MaterialPageRoute(builder: (context) => AdminHomePage()));
+                              }, child: Text("Login")),
+                              SizedBox(height: 20,),
                               ElevatedButton(onPressed: () async {
+                                _googleSignIn = GoogleSignIn(
+                                  clientId: "852762241490-gr45nghc45rkvjp5bs3uqvr4q0qkp80h.apps.googleusercontent.com",
+                                  scopes: [
+                                    'email',
+                                  ],
+                                );
+
+                                var details = await _handleSignIn();
+                                var userDetails;
+                                print("sadkjhasdiu " +details["email"] +" " +details["idToken"] );
                                 RegExp re = new RegExp(r"^\w+\.?(\w\w)?(\d\d)?@bitsathy\.ac\.in$");
-                                var iter = re.firstMatch(emailController.text);
+                                var iter = re.firstMatch(details["email"]);
                                 var match = iter?.groups([1, 2]);
                                 var role;
                                 if(match?[0] != null) {
                                   role = "Student";
-                                  await checkValidUser(emailController.text).then((v) =>{
-                                    Navigator.push(context, MaterialPageRoute(builder: (context)=>StudentHome(v)))
+                                // }
+                                  await checkValidUser(details["email"], details["idToken"]?.toString()).then((v) async {
+                                      userDetails = await v;
+                                      print("This is Data $userDetails");
+                                    // Navigator.push(context, MaterialPageRoute(builder: (context)=>StudentHome(v)))
                                   });
                                 }
                                 else
                                   role = "Teacher";
 
-                                Navigator.push(context, MaterialPageRoute(builder: (context) => NavigatorPage(role)));
+                                Navigator.push(context, MaterialPageRoute(builder: (context) => NavigatorPage(role, details["idToken"], userDetails)));
 
-                              }, child: Text("Login")),
-                              SizedBox(height: 20,),
-                              Text("Forget Password"),
-                              SizedBox(height: 20,),
-                              Text("Or continue with Google"),
+                                // await checkValidUser(emailController.text).then((v) =>{
+                                //       Navigator.push(context, MaterialPageRoute(builder: (context)=>StudentHome(v)))
+                                // });
+
+
+                              }, child: Text("Sign in Google")),
+
+                              // Text("Forget Password"),
+                              // SizedBox(height: 20,),
+                              // Text("Or continue with Google"),
                             ],
                           ),
                       ),
@@ -316,22 +366,4 @@ class _LoginPageState extends State<LoginPage> {
 // child: Container(
 // width: 27,
 // height: 27,
-// decoration: BoxDecoration(
-// image : DecorationImage(
-// image: AssetImage('assets/images/Googlelogo98081.png'),
-// fit: BoxFit.fitWidth
-// ),
-// )
-// )
-// ),
-// ]
-// )
-// )
-// ),
-// ]
-// )
-// )
-// ),
-// ]
-// )
-// );
+// decoration: BoxDecora

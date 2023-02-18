@@ -1,5 +1,6 @@
 // import 'package:cool_dropdown/cool_dropdown.dart';
 import 'package:dropdown_button2/custom_dropdown_button2.dart';
+
 import 'package:flutter/material.dart';
 
 import '../Components.dart';
@@ -39,7 +40,12 @@ class _LabSwitchPageState extends State<LabSwitchPage> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(Icons.dashboard,color: Colors.white,),
+                    GestureDetector(
+                      onTap: (){
+                        Navigator.pop(context);
+                      },
+                        child: Icon(Icons.dashboard,color: Colors.white,)
+                    ),
                     SizedBox(height: 20,),
                     Icon(Icons.swap_horiz,color: Colors.white,),
                   ],
@@ -66,7 +72,7 @@ class _LabSwitchPageState extends State<LabSwitchPage> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            Expanded(child: Text("Portal",style: TextStyle(fontWeight: FontWeight.w900,fontSize: 30),)),
+                            Expanded(child: Text("Portal",style: TextStyle(fontWeight: FontWeight.w900,decoration: TextDecoration.none,color: Colors.black,fontSize: 30),)),
                             CircleAvatar(),
                             SizedBox(width: 20,),
                             Padding(
@@ -74,7 +80,7 @@ class _LabSwitchPageState extends State<LabSwitchPage> {
                               child: Row(
                                 children: [
                                   Icon(Icons.logout),
-                                  Text("Logout")
+                                  Text("Logout",style: TextStyle(decoration: TextDecoration.none,fontSize: 15,color: Colors.black,),)
                                 ],
                               ),
                             )
@@ -157,13 +163,15 @@ class _LabSwitchPageState extends State<LabSwitchPage> {
                                                 ),
                                               ),
                                             ),
+                                            SizedBox(height: 20,),
+                                            ElevatedButton(onPressed: (){}, child: Text("Submit"))
                                           ],
                                         ),
                                       ),
                                     ),
                                     // Expanded(child: Container()),
                                     SizedBox(width: 100,),
-                                    Expanded(flex:2, child: renderStudentDetailsCard())
+                                    Expanded(flex:2, child: renderStudentDetailsCard(null))
                                   ],
                                 ),
                               )

@@ -1,12 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:special_lab_dashboard/Pages/FacultyHome.dart';
 
-import 'package:special_lab_dashboard/Pages/LabSwitch.dart';
-
-import 'package:special_lab_dashboard/Pages/FacultySwitch.dart';
-
-import 'package:special_lab_dashboard/Pages/LoginPage.dart';
-import 'package:special_lab_dashboard/Pages/studenthome.dart';
+import 'Pages/LoginPage.dart';
 
 void main() {
   runApp(
