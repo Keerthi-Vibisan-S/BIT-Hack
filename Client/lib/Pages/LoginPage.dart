@@ -2,9 +2,10 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:special_lab_dashboard/APIHandler/loginPage.dart';
 import 'package:special_lab_dashboard/Pages/studenthome.dart';
-
+import 'package:google_sign_in_web/google_sign_in_web.dart';
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
 
@@ -14,6 +15,20 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   var emailController = TextEditingController();
+  GoogleSignIn? _googleSignIn;
+  Future<void> _handleSignIn() async {
+    try {
+      await _googleSignIn?.signIn().then((value) {
+        print("Details");
+        print(value.toString());
+        value?.authentication.then((token){
+          print(token.idToken);
+        });
+      });
+    } catch (error) {
+      print(error);
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -56,9 +71,19 @@ class _LoginPageState extends State<LoginPage> {
                               ),
                               SizedBox(height: 20,),
                               ElevatedButton(onPressed: () async {
-                                await checkValidUser(emailController.text).then((v) =>{
-                                      Navigator.push(context, MaterialPageRoute(builder: (context)=>StudentHome(v)))
-                                });
+
+                                 _googleSignIn = GoogleSignIn(
+                                   clientId: "852762241490-gr45nghc45rkvjp5bs3uqvr4q0qkp80h.apps.googleusercontent.com",
+                                  scopes: [
+                                    'email',
+                                  ],
+                                );
+
+                                 _handleSignIn();
+
+                                // await checkValidUser(emailController.text).then((v) =>{
+                                //       Navigator.push(context, MaterialPageRoute(builder: (context)=>StudentHome(v)))
+                                // });
 
                               }, child: Text("Login")),
                               SizedBox(height: 20,),
