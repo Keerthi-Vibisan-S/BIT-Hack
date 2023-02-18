@@ -2,6 +2,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:special_lab_dashboard/APIHandler/loginPage.dart';
+import 'package:special_lab_dashboard/Navigator.dart';
 import 'package:special_lab_dashboard/Pages/studenthome.dart';
 
 class LoginPage extends StatefulWidget {
@@ -55,16 +56,17 @@ class _LoginPageState extends State<LoginPage> {
                                 RegExp re = new RegExp(r"^\w+\.?(\w\w)?(\d\d)?@bitsathy\.ac\.in$");
                                 var iter = re.firstMatch(emailController.text);
                                 var match = iter?.groups([1, 2]);
-
+                                var role;
                                 if(match?[0] != null) {
-                                  print("Student");
+                                  role = "Student";
                                   await checkValidUser(emailController.text).then((v) =>{
                                     Navigator.push(context, MaterialPageRoute(builder: (context)=>StudentHome(v)))
                                   });
                                 }
                                 else
-                                  print("Teacher");
+                                  role = "Teacher";
 
+                                Navigator.push(context, MaterialPageRoute(builder: (context) => NavigatorPage(role)));
 
                               }, child: Text("Login")),
                               SizedBox(height: 20,),
