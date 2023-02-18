@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 
 getFacultyCard()
@@ -59,9 +57,9 @@ renderStudentDetailsCard(dynamic userdetails)
             ),
             Column(
               children: [
-                Text(userdetails["STU_NAME"],style: TextStyle(fontSize: 15,fontWeight: FontWeight.bold),),
+                Text("Balasuriya",style: TextStyle(fontSize: 15,fontWeight: FontWeight.bold),),
                 SizedBox(height: 10,),
-                Text(userdetails["STU_EMAIL"]),
+                Text("balasuriya.cs20@bitsathy.ac.in"),
               ],
             ),
             // Row(
@@ -150,11 +148,11 @@ renderStudentDetailsCard(dynamic userdetails)
                     children: [
                       Text("3rd Year"),
                       SizedBox(height:10),
-                      Text("CT"),
+                      Text("CS"),
                       SizedBox(height:10),
                       Text("Cloud Computing"),
                       SizedBox(height:10),
-                      Text(userdetails["LAB_ID"]),
+                      Text("1"),
                       SizedBox(height:10),
                       Text("Nataraj N"),
                       SizedBox(height:10),
@@ -194,12 +192,12 @@ renderCards(title,count,startcolor,endcolor)
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Text(title.toString(),style: TextStyle(color: Colors.white,fontSize: 18),),
-                  ],
-                ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Text(title.toString(),style: TextStyle(color: Colors.white,fontSize: 18),),
+                ],
+              ),
               SizedBox(height: 10,),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
@@ -221,10 +219,10 @@ renderLabAnanlysisBar(labname,int width,int index)
   var startcolor = 0xff0249ff;
   var endcolor = 0xffa9c1ff;
   if(index%2 !=0 )
-    {
-      startcolor = 0xff0610ff;
-      endcolor = 0xff9ca0ff;
-    }
+  {
+    startcolor = 0xff0610ff;
+    endcolor = 0xff9ca0ff;
+  }
   return Row(
     children: [
       Expanded(
@@ -233,15 +231,15 @@ renderLabAnanlysisBar(labname,int width,int index)
           borderRadius: BorderRadius.only(topRight: Radius.circular(10),bottomRight: Radius.circular(10)),
           child: Container(
             decoration: BoxDecoration(
-              gradient: LinearGradient(
+                gradient: LinearGradient(
                   colors: [Color(startcolor),Color(endcolor)],
                   begin: Alignment.centerLeft,
                   end: Alignment.centerRight,
-              )
+                )
             ),
             child: Padding(
               padding: const EdgeInsets.only(left: 8.0),
-              child: Text(labname,style: TextStyle(color: Colors.white),),
+              child: Text(labname,style: TextStyle(decoration : TextDecoration.none,fontSize: 15,color: Colors.white,),),
             ),
             alignment: Alignment.centerLeft,
             height: 50,

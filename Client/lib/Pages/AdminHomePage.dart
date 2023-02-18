@@ -1,6 +1,9 @@
+
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:special_lab_dashboard/Components.dart';
+import 'package:special_lab_dashboard/Pages/AdminSpecialLabDatabase.dart';
 
 class AdminHomePage extends StatefulWidget {
   const AdminHomePage({Key? key}) : super(key: key);
@@ -31,7 +34,11 @@ class _AdminHomePageState extends State<AdminHomePage> {
                         child: Icon(Icons.dashboard,color: Color(0xff210368),)
                     ),
                     SizedBox(height: 20,),
-                    Icon(Icons.swap_horiz,color: Colors.white,),
+                    GestureDetector(
+                        onTap: (){
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=>AdminSpecialLabDatabase()));
+                        },
+                        child: Icon(Icons.swap_horiz,color: Colors.white,)),
                   ],
                 ),
               ),
@@ -57,7 +64,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                              Expanded(child: Text("Portal",style: TextStyle(fontWeight: FontWeight.w900,decoration: TextDecoration.none,color: Colors.black,fontSize: 35),)),
+                              Expanded(child: Text("Portal",style: TextStyle(fontWeight: FontWeight.w900,decoration: TextDecoration.none,color: Colors.black,fontSize: 30),)),
                               CircleAvatar(),
                               SizedBox(width: 20,),
                               Padding(
@@ -65,7 +72,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
                                 child: Row(
                                   children: [
                                     Icon(Icons.logout),
-                                    Text("Logout",style: TextStyle(decoration: TextDecoration.none,fontSize: 15,color: Colors.black,),)
+                                  Text("Logout",style: TextStyle(decoration: TextDecoration.none,fontSize: 15,color: Colors.black,),)
                                   ],
                                 ),
                               )
@@ -75,9 +82,9 @@ class _AdminHomePageState extends State<AdminHomePage> {
                         SizedBox(height: 40,),
                         Row(
                           children: [
-                            Text("Analysis",style: TextStyle(fontWeight: FontWeight.w800,fontSize: 18),),
+                            Text("Analysis",style: TextStyle(fontWeight: FontWeight.w800,fontSize: 18,decoration : TextDecoration.none,color: Colors.black,),),
                             SizedBox(width: 20,),
-                            Text(". 1278 Students")
+                            Text(". 1278 Students", style: TextStyle(fontWeight: FontWeight.w800,fontSize: 18,decoration : TextDecoration.none,color: Colors.black,),)
                           ],
                         ),
                         SizedBox(height: 20,),
@@ -92,7 +99,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
                         ),
                         SizedBox(height: 30,),
                         Text("Special Lab Details",style: TextStyle(fontWeight: FontWeight.w800,fontSize: 18),),
-                        SizedBox(height: 20,),
+                        SizedBox(height: 10,),
                         Row(
                           children: [
                             Expanded(
@@ -153,20 +160,20 @@ class _AdminHomePageState extends State<AdminHomePage> {
                                   child: Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      Text("Cloud Computing",style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),),
+                                      Text("Cloud Computing",style: TextStyle(decoration : TextDecoration.none,fontSize: 15,color: Colors.black,),),
                                       SizedBox(height: 30,),
-                                      Text("127 Students",style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),),
+                                      Text("127 Students",style: TextStyle(decoration : TextDecoration.none,fontSize: 15,color: Colors.black,),),
                                       SizedBox(height: 20,),
-                                      Text("I year : 37",style: TextStyle(fontSize: 16)),
-                                      Text("II year : 45",style: TextStyle(fontSize: 16)),
-                                      Text("III year : 26",style: TextStyle(fontSize: 16)),
-                                      Text("IV year : 16",style: TextStyle(fontSize: 16)),
+                                      Text("I year : 37",style: TextStyle(decoration : TextDecoration.none,fontSize: 15,color: Colors.black,)),
+                                      Text("II year : 45",style: TextStyle(decoration : TextDecoration.none,fontSize: 15,color: Colors.black,)),
+                                      Text("III year : 26",style: TextStyle(decoration : TextDecoration.none,fontSize: 15,color: Colors.black,)),
+                                      Text("IV year : 16",style: TextStyle(decoration : TextDecoration.none,fontSize: 15,color: Colors.black,)),
                                       SizedBox(height: 30,),
-                                      Text("Faculties",style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),),
+                                      Text("Faculties",style: TextStyle(decoration : TextDecoration.none,fontSize: 15,color: Colors.black,),),
                                       SizedBox(height: 20,),
-                                      Text("Nataraj N",style: TextStyle(fontSize: 16)),
-                                      Text("Poornima",style: TextStyle(fontSize: 16)),
-                                      Text("Nithya",style: TextStyle(fontSize: 16)),
+                                      Text("Nataraj N",style: TextStyle(decoration : TextDecoration.none,fontSize: 15,color: Colors.black,)),
+                                      Text("Poornima",style: TextStyle(decoration : TextDecoration.none,fontSize: 15,color: Colors.black,)),
+                                      Text("Nithya",style: TextStyle(decoration : TextDecoration.none,fontSize: 15,color: Colors.black,)),
 
                                     ],
                                   ),

@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:special_lab_dashboard/Components.dart';
+import 'package:special_lab_dashboard/Pages/LabSwitch.dart';
 
 class StudentHome extends StatefulWidget {
   final dynamic userdetails;
@@ -11,6 +12,7 @@ class StudentHome extends StatefulWidget {
 }
 
 class _StudentHomeState extends State<StudentHome> {
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -31,7 +33,12 @@ class _StudentHomeState extends State<StudentHome> {
                       child: Icon(Icons.dashboard,color: Color(0xff210368),)
                     ),
                     SizedBox(height: 20,),
-                    Icon(Icons.swap_horiz,color: Colors.white,),
+                    GestureDetector(
+                      onTap: (){
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => LabSwitchPage()));
+                      },
+                        child: Icon(Icons.swap_horiz,color: Colors.white,)
+                    ),
                   ],
                 ),
               ),

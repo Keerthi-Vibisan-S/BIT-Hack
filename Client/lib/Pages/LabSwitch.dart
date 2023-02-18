@@ -1,3 +1,6 @@
+// import 'package:cool_dropdown/cool_dropdown.dart';
+import 'package:dropdown_button2/custom_dropdown_button2.dart';
+
 import 'package:flutter/material.dart';
 
 import '../Components.dart';
@@ -13,37 +16,15 @@ class _LabSwitchPageState extends State<LabSwitchPage> {
   var switfrom = TextEditingController(text: "Cloud Computing");
   var switto = TextEditingController();
 
-  List specialLabs = [
+  List<String> specialLabs = [
     "AR/ VR",
     "Mobile And App",
     "Ind Auto",
     "IoT"
   ];
 
+  String? selectedValue;
 
-  // @override
-  // void initState() {
-  //
-  //   for (var i = 0; i < specialLabs.length; i++) {
-  //     specialLabs.add(
-  //       {
-  //         'label': i,
-  //         'value': i,
-  //         'icon': Container(
-  //           // key: UniqueKey(),
-  //           height: 20,
-  //           width: 20,
-  //
-  //           ),
-  //         'selectedIcon': Container(
-  //           key: UniqueKey(),
-  //           width: 20,
-  //           height: 20,
-  //         ),
-  //       },
-  //     );
-  //   }
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +40,12 @@ class _LabSwitchPageState extends State<LabSwitchPage> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(Icons.dashboard,color: Colors.white,),
+                    GestureDetector(
+                      onTap: (){
+                        Navigator.pop(context);
+                      },
+                        child: Icon(Icons.dashboard,color: Colors.white,)
+                    ),
                     SizedBox(height: 20,),
                     Icon(Icons.swap_horiz,color: Colors.white,),
                   ],
@@ -80,12 +66,13 @@ class _LabSwitchPageState extends State<LabSwitchPage> {
                     padding: const EdgeInsets.only(left: 50),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
+
                       children: [
                         SizedBox(height: 30,),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            Expanded(child: Text("Portal",style: TextStyle(fontWeight: FontWeight.w900,fontSize: 30),)),
+                            Expanded(child: Text("Portal",style: TextStyle(fontWeight: FontWeight.w900,decoration: TextDecoration.none,color: Colors.black,fontSize: 30),)),
                             CircleAvatar(),
                             SizedBox(width: 20,),
                             Padding(
@@ -93,67 +80,99 @@ class _LabSwitchPageState extends State<LabSwitchPage> {
                               child: Row(
                                 children: [
                                   Icon(Icons.logout),
-                                  Text("Logout")
+                                  Text("Logout",style: TextStyle(decoration: TextDecoration.none,fontSize: 15,color: Colors.black,),)
                                 ],
                               ),
                             )
                           ],
                         ),
-                        SizedBox(height: 80,),
+                        SizedBox(height: 100,),
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Expanded(flex: 2, child: Container(),),
                             Expanded(
-                              flex: 4,
-                              child: Container(
-                                child: Padding(
-                                  padding: const EdgeInsets.all(56.0),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Text("Switching From"),
-                                      SizedBox(height: 10,),
-                                      Container(
-                                        color: Colors.grey,
-                                        child: TextField(
-                                          controller: switfrom,
-                                          decoration: InputDecoration(
-                                            border: OutlineInputBorder(
-                                              borderRadius: BorderRadius.all(Radius.circular(15))
+                              flex: 10,
+                              child: Card(
+                                elevation: 20,
+                                child: Row(
+                                  children: [
+                                    Expanded(
+                                      flex:3,
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(56.0),
+                                        child: Column(
+                                          mainAxisAlignment: MainAxisAlignment.start,
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Text("Switching From"),
+                                            SizedBox(height: 10,),
+                                            ClipRRect(
+                                              borderRadius: BorderRadius.all(Radius.circular(10)),
+                                              child: Container(
+                                                color: Colors.grey.shade300,
+                                                child: TextField(
+                                                  controller: switfrom,
+                                                  decoration: InputDecoration(
+                                                    border: OutlineInputBorder(
+                                                      borderRadius: BorderRadius.all(Radius.circular(10))
+                                                    ),
+                                                  ),
+                                                  style: TextStyle(fontSize: 15),
+                                                  readOnly: true,
+                                                ),
+                                              ),
                                             ),
-                                          ),
-                                          style: TextStyle(fontSize: 12.5),
-                                          readOnly: true,
+                                            SizedBox(height: 20,),
+                                            Text("Switching To"),
+                                            SizedBox(height: 10,),
+                                            ClipRRect(
+                                              borderRadius: BorderRadius.all(Radius.circular(15)),
+                                              child: Container(
+                                                color: Colors.grey.shade300,
+                                                child: CustomDropdownButton2(
+                                                  hint: selectedValue??"Select Lab",
+
+                                                  dropdownItems: specialLabs,
+                                                  value: selectedValue,
+                                                  onChanged: (value) {
+                                                    selectedValue = value;
+                                                    setState(() {
+
+                                                    });
+                                                  },
+                                                  buttonWidth: 400,
+                                                ),
+                                              ),
+                                            ),
+                                            SizedBox(height: 20,),
+                                            Text("Reason"),
+                                            SizedBox(height: 10,),
+                                            ClipRRect(
+                                              borderRadius: BorderRadius.all(Radius.circular(10)),
+                                              child: Container(
+                                                color: Colors.grey.shade300,
+                                                child: TextField(
+                                                  decoration: InputDecoration(
+                                                    border: OutlineInputBorder(
+                                                        borderRadius: BorderRadius.all(Radius.circular(10))
+                                                    ),
+                                                    hintText: "Write here..."
+                                                  ),
+                                                  maxLines: 5,
+                                                ),
+                                              ),
+                                            ),
+                                            SizedBox(height: 20,),
+                                            ElevatedButton(onPressed: (){}, child: Text("Submit"))
+                                          ],
                                         ),
                                       ),
-                                      SizedBox(height: 20,),
-                                      Text("Switching To"),
-                                      SizedBox(height: 10,),
-                                      // Container(
-                                      //   color: Colors.grey,
-                                      //   child: CoolDropdown(dropdownList: specialLabs, onChange: (selectedItem) {
-                                      //     print(selectedItem);
-                                      //   })
-                                      // ),
-                                      SizedBox(height: 20,),
-                                      Text("Reason"),
-                                      SizedBox(height: 10,),
-                                      Container(
-                                        color: Colors.grey,
-                                        child: TextField(
-                                          decoration: InputDecoration(
-                                            border: OutlineInputBorder(
-                                                borderRadius: BorderRadius.all(Radius.circular(15))
-                                            ),
-                                            hintText: "Write here..."
-                                          ),
-                                          maxLines: 5,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
+                                    ),
+                                    // Expanded(child: Container()),
+                                    SizedBox(width: 100,),
+                                    Expanded(flex:2, child: renderStudentDetailsCard(null))
+                                  ],
                                 ),
                               )
                             ),

@@ -62,7 +62,11 @@ class _AdminSpecialLabDatabaseState extends State<AdminSpecialLabDatabase> {
                     Container(
                         width: 30,
                         color: Colors.white,
-                        child: Icon(Icons.dashboard,color: Color(0xff210368),)
+                        child: GestureDetector(
+                            onTap: (){
+                              Navigator.pop(context);
+                            },
+                            child: Icon(Icons.dashboard,color: Color(0xff210368),))
                     ),
                     SizedBox(height: 20,),
                     Icon(Icons.swap_horiz,color: Colors.white,),
@@ -157,7 +161,8 @@ class _AdminSpecialLabDatabaseState extends State<AdminSpecialLabDatabase> {
                                       "S.No",
                                       style: GoogleFonts.poppins(
                                           fontWeight: FontWeight.w500,
-                                          fontSize: width*1.2),
+                                          fontSize: width*1.2,
+                                          decoration : TextDecoration.none,color: Colors.black),
                                     ),
                                   ),
                                   Container(
@@ -168,7 +173,8 @@ class _AdminSpecialLabDatabaseState extends State<AdminSpecialLabDatabase> {
                                       "Special Lab",
                                       style: GoogleFonts.poppins(
                                           fontWeight: FontWeight.w500,
-                                          fontSize: width*1.2),
+                                          fontSize: width*1.2,
+                                          decoration : TextDecoration.none,color: Colors.black),
                                     ),
                                   ),
                                   Container(
@@ -179,7 +185,8 @@ class _AdminSpecialLabDatabaseState extends State<AdminSpecialLabDatabase> {
                                       "Lab ID",
                                       style: GoogleFonts.poppins(
                                           fontWeight: FontWeight.w500,
-                                          fontSize: width*1.2),
+                                          fontSize: width*1.2,
+                                          decoration : TextDecoration.none,color: Colors.black),
                                     ),
                                   ),
                                   Container(
@@ -190,7 +197,8 @@ class _AdminSpecialLabDatabaseState extends State<AdminSpecialLabDatabase> {
                                       "Incharge",
                                       style: GoogleFonts.poppins(
                                           fontWeight: FontWeight.w500,
-                                          fontSize: width*1.2),
+                                          fontSize: width*1.2,
+                                          decoration : TextDecoration.none,color: Colors.black),
                                     ),
                                   ),
                                   Container(
@@ -201,7 +209,8 @@ class _AdminSpecialLabDatabaseState extends State<AdminSpecialLabDatabase> {
                                       "Strength",
                                       style: GoogleFonts.poppins(
                                           fontWeight: FontWeight.w500,
-                                          fontSize: width*1.2),
+                                          fontSize: width*1.2,
+                                          decoration : TextDecoration.none,color: Colors.black),
                                     ),
                                   ),
                                   Container(
@@ -212,7 +221,8 @@ class _AdminSpecialLabDatabaseState extends State<AdminSpecialLabDatabase> {
                                       "",
                                       style: GoogleFonts.poppins(
                                           fontWeight: FontWeight.w500,
-                                          fontSize: width*1.2),
+                                          fontSize: width*1.2,
+                                          decoration : TextDecoration.none,color: Colors.black),
                                     ),
                                   ),
                                 ],
@@ -245,7 +255,8 @@ class _AdminSpecialLabDatabaseState extends State<AdminSpecialLabDatabase> {
                                               data[index]['S.No'].toString(),
                                               style: GoogleFonts.poppins(
                                                   fontWeight: FontWeight.w400,
-                                                  fontSize:  width*1),
+                                                  fontSize:  width*1,
+                                                  decoration : TextDecoration.none,color: Colors.black),
                                             ),
                                           ),
                                           Container(
@@ -256,7 +267,8 @@ class _AdminSpecialLabDatabaseState extends State<AdminSpecialLabDatabase> {
                                               data[index]['Spl_lab'],
                                               style: GoogleFonts.poppins(
                                                   fontWeight: FontWeight.w400,
-                                                  fontSize:  width*1),
+                                                  fontSize:  width*1,
+                                                  decoration : TextDecoration.none,color: Colors.black),
                                             ),
                                           ),
                                           Container(
@@ -267,7 +279,8 @@ class _AdminSpecialLabDatabaseState extends State<AdminSpecialLabDatabase> {
                                               data[index]['Lab_id'],
                                               style: GoogleFonts.poppins(
                                                   fontWeight: FontWeight.w400,
-                                                  fontSize:  width*1),
+                                                  fontSize:  width*1,
+                                                  decoration : TextDecoration.none,color: Colors.black),
                                             ),
                                           ),
                                           Container(
@@ -278,7 +291,8 @@ class _AdminSpecialLabDatabaseState extends State<AdminSpecialLabDatabase> {
                                               data[index]['Incharge'],
                                               style: GoogleFonts.poppins(
                                                   fontWeight: FontWeight.w400,
-                                                  fontSize:  width*1),
+                                                  fontSize:  width*1,
+                                                  decoration : TextDecoration.none,color: Colors.black),
                                             ),
                                           ),
                                           Container(
@@ -289,7 +303,8 @@ class _AdminSpecialLabDatabaseState extends State<AdminSpecialLabDatabase> {
                                               data[index]['Strength'],
                                               style: GoogleFonts.poppins(
                                                   fontWeight: FontWeight.w400,
-                                                  fontSize:  width*1),
+                                                  fontSize:  width*1,
+                                                  decoration : TextDecoration.none,color: Colors.black),
                                             ),
                                           ),
                                           Container(
@@ -306,7 +321,7 @@ class _AdminSpecialLabDatabaseState extends State<AdminSpecialLabDatabase> {
                                                 ),
                                                 child: Align(
                                                     alignment: Alignment.center,
-                                                    child: Text("View")))
+                                                    child: Text("View", style: TextStyle(decoration : TextDecoration.none,color: Colors.black, fontSize: 10),)))
                                           ),
                                         ],
                                       ),
