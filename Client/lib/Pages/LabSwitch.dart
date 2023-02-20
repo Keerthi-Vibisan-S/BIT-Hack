@@ -98,7 +98,7 @@ class _LabSwitchPageState extends State<LabSwitchPage> {
                                 child: Row(
                                   children: [
                                     Expanded(
-                                      flex:3,
+                                      flex:4,
                                       child: Padding(
                                         padding: const EdgeInsets.all(56.0),
                                         child: Column(
@@ -169,9 +169,9 @@ class _LabSwitchPageState extends State<LabSwitchPage> {
                                         ),
                                       ),
                                     ),
-                                    // Expanded(child: Container()),
-                                    SizedBox(width: 100,),
-                                    Expanded(flex:2, child: renderStudentDetailsCard(null))
+                                    Expanded(flex:2,child: Container()),
+                                    // SizedBox(width: 10,),
+                                    Expanded(flex:4, child: renderStudentDetailsCard(null)),
                                   ],
                                 ),
                               )

@@ -46,7 +46,7 @@ renderStudentDetailsCard(dynamic userdetails)
 {
   return Column(
     children: [
-      SizedBox(height: 30,),
+
       Card(
         elevation: 10,
         shape: RoundedRectangleBorder(

@@ -180,7 +180,12 @@ class _StudentHomeState extends State<StudentHome> {
                             ),
                             Expanded(
                               flex:4,
-                              child:renderStudentDetailsCard(widget.userdetails),
+                              child:Column(
+                                children: [
+                                  SizedBox(height: 30,),
+                                  renderStudentDetailsCard(widget.userdetails),
+                                ],
+                              )
                             ),
                             Expanded(
                               flex:2,
