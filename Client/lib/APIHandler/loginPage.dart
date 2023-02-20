@@ -25,3 +25,7 @@ dynamic checkValidUser(String? email, String? idToken) async{
 
 
 }
+
+sendMail(String s, Map map) {
+
+}

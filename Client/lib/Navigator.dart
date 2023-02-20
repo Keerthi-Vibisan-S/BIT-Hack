@@ -16,11 +16,6 @@ class _NavigatorPageState extends State<NavigatorPage> {
   Widget build(BuildContext context) {
     return (widget.role == "Student")
         ? StudentHome(widget.userDetails)
-        : FacultyHome();
-  }
-
-  @override
-  void initState() {
-
+        : const FacultyHome();
   }
 }

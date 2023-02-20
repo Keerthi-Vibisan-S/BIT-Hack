@@ -1,16 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-// import 'package:google_fonts/google_fonts.dart';
 
-class FacultySwitch extends StatefulWidget {
-  const FacultySwitch({Key? key}) : super(key: key);
+class InchargeSwitch extends StatefulWidget {
+  const InchargeSwitch({Key? key}) : super(key: key);
 
   @override
-  State<FacultySwitch> createState() => _FacultySwitchState();
+  State<InchargeSwitch> createState() => _InchargeSwitchState();
 }
 
-class _FacultySwitchState extends State<FacultySwitch> {
+class _InchargeSwitchState extends State<InchargeSwitch> {
   bool press1 = false;
   bool press2 = true;
 
@@ -22,7 +21,8 @@ class _FacultySwitchState extends State<FacultySwitch> {
       "Department": "COMPUTER TECHNOLOGY",
       "Year": "III",
       "History": 5,
-      "From": "Cloud Lab"
+      "From": "Cloud Lab",
+      "To": "Data Science"
     },
     {
       "S.No": 1,
@@ -31,7 +31,8 @@ class _FacultySwitchState extends State<FacultySwitch> {
       "Department": "COMPUTER TECHNOLOGY",
       "Year": "III",
       "History": 5,
-      "From": "Cloud Lab"
+      "From": "Cloud Lab",
+      "To": "Data Science"
     },
     {
       "S.No": 1,
@@ -40,7 +41,8 @@ class _FacultySwitchState extends State<FacultySwitch> {
       "Department": "COMPUTER TECHNOLOGY",
       "Year": "III",
       "History": 5,
-      "From": "Cloud Lab"
+      "From": "Cloud Lab",
+      "To": "Data Science"
     },
     {
       "S.No": 1,
@@ -49,7 +51,8 @@ class _FacultySwitchState extends State<FacultySwitch> {
       "Department": "COMPUTER TECHNOLOGY",
       "Year": "III",
       "History": 5,
-      "From": "Cloud Lab"
+      "From": "Cloud Lab",
+      "To": "Data Science"
     },
     {
       "S.No": 1,
@@ -58,54 +61,25 @@ class _FacultySwitchState extends State<FacultySwitch> {
       "Department": "COMPUTER TECHNOLOGY",
       "Year": "III",
       "History": 5,
-      "From": "Cloud Lab"
-    },
-    {
-      "S.No": 1,
-      "Roll No": "202CT141",
-      "Name": "VENKAT RAMAN S P",
-      "Department": "COMPUTER TECHNOLOGY",
-      "Year": "III",
-      "History": 5,
-      "From": "Cloud Lab"
-    },
-    {
-      "S.No": 1,
-      "Roll No": "202CT141",
-      "Name": "VENKAT RAMAN S P",
-      "Department": "COMPUTER TECHNOLOGY",
-      "Year": "III",
-      "History": 5,
-      "From": "Cloud Lab"
-    },
-    {
-      "S.No": 1,
-      "Roll No": "202CT141",
-      "Name": "VENKAT RAMAN S P",
-      "Department": "COMPUTER TECHNOLOGY",
-      "Year": "III",
-      "History": 5,
-      "From": "Cloud Lab"
-    },
-    {
-      "S.No": 1,
-      "Roll No": "202CT141",
-      "Name": "VENKAT RAMAN S P",
-      "Department": "COMPUTER TECHNOLOGY",
-      "Year": "III",
-      "History": 5,
-      "From": "Cloud Lab"
-    },
-    {
-      "S.No": 1,
-      "Roll No": "202CT141",
-      "Name": "VENKAT RAMAN S P",
-      "Department": "COMPUTER TECHNOLOGY",
-      "Year": "III",
-      "History": 5,
-      "From": "Cloud Lab"
+      "From": "Cloud Lab",
+      "To": "Data Science"
     },
   ];
+  List data2 = [
+    {"from": "Hackathon", "to": "Blockchain Technology"},
+    {"from": "Hackathon", "to": "Blockchain Technology"},
+    {"from": "Hackathon", "to": "Blockchain Technology"},
+    {"from": "Hackathon", "to": "Blockchain Technology"}
+  ];
+  Map<String, String> convert = {
+    "COMPUTER TECHNOLOGY": "CT",
+    "INFORMATION TECHNOLOGY": "IT"
+  };
+  Map<String, String> data3 = {
+    "from": "Blockchain Technology",
+    "to": "Cloud Computing Lab"
+  };
+
   int selec = 0;
 
   @override
@@ -216,50 +190,13 @@ class _FacultySwitchState extends State<FacultySwitch> {
                         ),
                       ),
                     ),
-                    SizedBox(
-                      height: 30,
-                    ),
-                    Container(
-                      height: height * 5,
-                      width: width * 16,
-                      child: Container(
-                        child: TabBar(
-                          indicatorColor: Colors.deepPurple,
-                          indicator: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              color: Colors.black12),
-                          tabs: [
-                            Tab(
-                              child: Text(
-                                "Joining",
-                                style: GoogleFonts.poppins(
-                                    fontWeight: FontWeight.w400,
-                                    fontSize: 16,
-                                    color: Colors.black),
-                              ),
-                            ),
-                            Tab(
-                              child: Text(
-                                "Leaving",
-                                style: GoogleFonts.poppins(
-                                    fontWeight: FontWeight.w400,
-                                    fontSize: 16,
-                                    color: Colors.black),
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
                     const SizedBox(
-                      height: 3,
+                      height: 20,
                     ),
                     Container(
-                      width: width * 100,
-                      height: height * 50,
-                      child: TabBarView(
-                        children: [table(data, "From"), table(data, "To")],
-                      ),
+                      width: width * 120,
+                      height: height * 55,
+                      child: table(data),
                     ),
                   ],
                 ),
@@ -271,14 +208,16 @@ class _FacultySwitchState extends State<FacultySwitch> {
     );
   }
 
-  Widget table(List data, String where) {
+  Widget table(List data) {
     var size = MediaQuery.of(context).size;
     var height = size.height / 100;
     var width = size.width / 100;
 
     return Container(
-      width: width * 100,
-      height: height * 54, 
+      // color: Colors.blue,
+      width: width * 120,
+      height: height * 70,
+      color: Colors.white,
       child: Column(
         children: [
           Container(
@@ -287,8 +226,7 @@ class _FacultySwitchState extends State<FacultySwitch> {
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Row(
-                mainAxisAlignment:
-                MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Container(
                     width: width * 3,
@@ -296,8 +234,7 @@ class _FacultySwitchState extends State<FacultySwitch> {
                     child: Text(
                       "S.No",
                       style: GoogleFonts.poppins(
-                          fontWeight: FontWeight.w500,
-                          fontSize: width * 1.2),
+                          fontWeight: FontWeight.w500, fontSize: width * 1.2),
                     ),
                   ),
                   Container(
@@ -306,8 +243,7 @@ class _FacultySwitchState extends State<FacultySwitch> {
                     child: Text(
                       "Roll No",
                       style: GoogleFonts.poppins(
-                          fontWeight: FontWeight.w500,
-                          fontSize: width * 1.2),
+                          fontWeight: FontWeight.w500, fontSize: width * 1.2),
                     ),
                   ),
                   Container(
@@ -316,18 +252,16 @@ class _FacultySwitchState extends State<FacultySwitch> {
                     child: Text(
                       "Name",
                       style: GoogleFonts.poppins(
-                          fontWeight: FontWeight.w500,
-                          fontSize: width * 1.2),
+                          fontWeight: FontWeight.w500, fontSize: width * 1.2),
                     ),
                   ),
                   Container(
-                    width: width * 22,
+                    width: width * 6,
                     alignment: Alignment.center,
                     child: Text(
-                      "Department",
+                      "Dept",
                       style: GoogleFonts.poppins(
-                          fontWeight: FontWeight.w500,
-                          fontSize: width * 1.2),
+                          fontWeight: FontWeight.w500, fontSize: width * 1.2),
                     ),
                   ),
                   Container(
@@ -336,8 +270,25 @@ class _FacultySwitchState extends State<FacultySwitch> {
                     child: Text(
                       "Year",
                       style: GoogleFonts.poppins(
-                          fontWeight: FontWeight.w500,
-                          fontSize: width * 1.2),
+                          fontWeight: FontWeight.w500, fontSize: width * 1.2),
+                    ),
+                  ),
+                  Container(
+                    width: width * 8,
+                    alignment: Alignment.center,
+                    child: Text(
+                      "From",
+                      style: GoogleFonts.poppins(
+                          fontWeight: FontWeight.w500, fontSize: width * 1.2),
+                    ),
+                  ),
+                  Container(
+                    width: width * 8,
+                    alignment: Alignment.center,
+                    child: Text(
+                      "To",
+                      style: GoogleFonts.poppins(
+                          fontWeight: FontWeight.w500, fontSize: width * 1.2),
                     ),
                   ),
                   Container(
@@ -346,18 +297,7 @@ class _FacultySwitchState extends State<FacultySwitch> {
                     child: Text(
                       "History",
                       style: GoogleFonts.poppins(
-                          fontWeight: FontWeight.w500,
-                          fontSize: width * 1.2),
-                    ),
-                  ),
-                  Container(
-                    width: width * 6,
-                    alignment: Alignment.center,
-                    child: Text(
-                      where,
-                      style: GoogleFonts.poppins(
-                          fontWeight: FontWeight.w500,
-                          fontSize: width * 1.2),
+                          fontWeight: FontWeight.w500, fontSize: width * 1.2),
                     ),
                   ),
                   Container(
@@ -366,8 +306,7 @@ class _FacultySwitchState extends State<FacultySwitch> {
                     child: Text(
                       "Approval",
                       style: GoogleFonts.poppins(
-                          fontWeight: FontWeight.w500,
-                          fontSize: width * 1.2),
+                          fontWeight: FontWeight.w500, fontSize: width * 1.2),
                     ),
                   ),
                 ],
@@ -375,7 +314,7 @@ class _FacultySwitchState extends State<FacultySwitch> {
             ),
           ),
           Container(
-            height: height*45,
+            height: height * 45,
             child: ListView.builder(
                 itemCount: data.length,
                 itemBuilder: (BuildContext context, int index) {
@@ -394,7 +333,8 @@ class _FacultySwitchState extends State<FacultySwitch> {
                             child: Text(
                               data[index]['S.No'].toString(),
                               style: GoogleFonts.poppins(
-                                  fontWeight: FontWeight.w400, fontSize: width * 1),
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: width * 1),
                             ),
                           ),
                           Container(
@@ -404,7 +344,8 @@ class _FacultySwitchState extends State<FacultySwitch> {
                             child: Text(
                               data[index]['Roll No'],
                               style: GoogleFonts.poppins(
-                                  fontWeight: FontWeight.w400, fontSize: width * 1),
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: width * 1),
                             ),
                           ),
                           Container(
@@ -414,17 +355,19 @@ class _FacultySwitchState extends State<FacultySwitch> {
                             child: Text(
                               data[index]['Name'],
                               style: GoogleFonts.poppins(
-                                  fontWeight: FontWeight.w400, fontSize: width * 1),
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: width * 1),
                             ),
                           ),
                           Container(
                             // color: Colors.orange,
-                            width: width * 22,
+                            width: width * 6,
                             alignment: Alignment.center,
                             child: Text(
-                              data[index]['Department'],
+                              convert[data[index]['Department']]!,
                               style: GoogleFonts.poppins(
-                                  fontWeight: FontWeight.w400, fontSize: width * 1),
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: width * 1),
                             ),
                           ),
                           Container(
@@ -434,7 +377,30 @@ class _FacultySwitchState extends State<FacultySwitch> {
                             child: Text(
                               data[index]['Year'],
                               style: GoogleFonts.poppins(
-                                  fontWeight: FontWeight.w400, fontSize: width * 1),
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: width * 1),
+                            ),
+                          ),
+                          Container(
+                            width: width * 8,
+                            alignment: Alignment.center,
+                            // color: Colors.orange,
+                            child: Text(
+                              data[index]['From'],
+                              style: GoogleFonts.poppins(
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: width * 1),
+                            ),
+                          ),
+                          Container(
+                            width: width * 8,
+                            alignment: Alignment.center,
+                            // color: Colors.orange,
+                            child: Text(
+                              data[index]['To'],
+                              style: GoogleFonts.poppins(
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: width * 1),
                             ),
                           ),
                           Container(
@@ -444,17 +410,8 @@ class _FacultySwitchState extends State<FacultySwitch> {
                             child: Text(
                               data[index]['History'].toString(),
                               style: GoogleFonts.poppins(
-                                  fontWeight: FontWeight.w400, fontSize: width * 1),
-                            ),
-                          ),
-                          Container(
-                            width: width * 6,
-                            alignment: Alignment.center,
-                            // color: Colors.orange,
-                            child: Text(
-                              data[index]['From'],
-                              style: GoogleFonts.poppins(
-                                  fontWeight: FontWeight.w400, fontSize: width * 1),
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: width * 1),
                             ),
                           ),
                           Container(
@@ -463,8 +420,134 @@ class _FacultySwitchState extends State<FacultySwitch> {
                             // color: Colors.orange,
                             child: Row(
                               children: [
+                                Container(
+                                  width: 60,
+                                  height: 25.0,
+                                  decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      border: Border.all(
+                                          width: 0.1, color: Color(0xffFF0000)),
+                                      borderRadius: BorderRadius.circular(10),
+                                      boxShadow: const [
+                                        BoxShadow(
+                                          color: Colors.black12,
+                                          offset: Offset(0.0, 1.5),
+                                          blurRadius: 1.5,
+                                        ),
+                                      ]),
+                                  child: Material(
+                                    color: Colors.transparent,
+                                    child: InkWell(
+                                        onTap: () {
+                                          showDialog(
+                                            context: context,
+                                            builder: (BuildContext context) {
+                                              return Container(
+                                                height: height*100,
+                                                width: width*100,
+                                                child: AlertDialog(
+                                                  title: Text(
+                                                    '${data[index]["Name"]}  -  ${data[index]["Roll No"]}  -  ${convert[data[index]['Department']]}  -  ${data[index]['Year']}',
+                                                    style: GoogleFonts.poppins(
+                                                        fontWeight:
+                                                        FontWeight.w500,
+                                                        fontSize: width * 1),
+                                                  ),
+                                                  content: Column(
+                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                    children: [
+                                                      Text(
+                                                        "History",
+                                                        style:
+                                                        GoogleFonts.poppins(
+                                                            fontWeight:
+                                                            FontWeight
+                                                                .w500,
+                                                            fontSize:
+                                                            width * 1),
+                                                      ),
+                                                      Container(
+                                                        height: height*30,
+                                                        width: width*50,
+                                                        child: ListView.builder(
+                                                            itemCount:
+                                                            data2.length,
+                                                            itemBuilder:
+                                                                (BuildContext
+                                                            context,
+                                                                int index) {
+                                                              return Padding(
+                                                                padding:
+                                                                const EdgeInsets
+                                                                    .all(8.0),
+                                                                child: ListTile(
+                                                                  leading: Text(
+                                                                      (index + 1)
+                                                                          .toString()),
+                                                                  title: Text(
+                                                                      data2[index]
+                                                                      [
+                                                                      'from']),
+                                                                  trailing: Text(
+                                                                      data2[index]
+                                                                      ['to']),
+                                                                ),
+                                                              );
+                                                            }),
+                                                      ),
+                                                      SizedBox(height: 20,),
+                                                      Text(
+                                                        "Request",
+                                                        style: GoogleFonts.poppins(
+                                                            fontWeight: FontWeight.w500,
+                                                            fontSize: width * 1),
+                                                      ),
+                                                      SizedBox(height: 20,),
+                                                      Row(
+                                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                        children: [
+                                                          Text(
+                                                              (data2.length + 1)
+                                                                  .toString()),
+                                                          Text(
+                                                              data3['from']!
+                                                          ),
+                                                          Text(
+                                                              data3['to']!
+                                                          )
+                                                        ],
+                                                      )
+                                                    ],
+                                                  ),
+                                                  actions: [
+                                                    TextButton(
+                                                      onPressed: () {
+                                                        Navigator.pop(context);
+                                                      },
+                                                      child: Text('CANCEL'),
+                                                    ),
+                                                    TextButton(
+                                                      onPressed: () async {
+                                                        // await sendMail("balasuriya.cs20@bitsathy.ac.in", {
+                                                        //   "stu_name":"Balasuriya K A",
+                                                        //   "from_lab":"Cloud Computing",
+                                                        //   "to_lab":"No Lab Interested"
+                                                        // });
+                                                      },
+                                                      child: Text('ACCEPT'),
+                                                    ),
+                                                  ],
+                                                ),
+                                              );
+                                            },
+                                          );
+                                        },
+                                        child:
+                                        const Center(child: Text("View"))),
+                                  ),
+                                ),
                                 SizedBox(
-                                  width: 50,
+                                  width: 25,
                                 ),
                                 Container(
                                   width: 60,
@@ -546,4 +629,6 @@ class _FacultySwitchState extends State<FacultySwitch> {
       ),
     );
   }
+
+
 }
