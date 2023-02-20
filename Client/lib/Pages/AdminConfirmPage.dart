@@ -90,119 +90,84 @@ class _InchargeSwitchState extends State<InchargeSwitch> {
 
     return Expanded(
       flex: 40,
-      child: Padding(
-        padding: const EdgeInsets.all(12.0),
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(20),
-          child: Container(
-            // color: Colors.orange,
-            width: MediaQuery.of(context).size.width - 30,
-            color: const Color(0xffebebeb),
-            child: Padding(
-              padding:
-              const EdgeInsets.only(left: 100, top: 70, right: 100),
-              child: DefaultTabController(
-                length: 2,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+      child: DefaultTabController(
+        length: 2,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(top: 20.0),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    "Cloud Computing",
+                    style: GoogleFonts.poppins(
+                        fontWeight: FontWeight.w500,
+                        fontSize: 24),
+                  ),
+                  Text(
+                    " - 148 Students",
+                    style: GoogleFonts.poppins(
+                        fontWeight: FontWeight.w500,
+                        fontSize: 18),
+                  )
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 8.0),
+              child: Text(
+                "SLB-031",
+                style: GoogleFonts.poppins(
+                    fontWeight: FontWeight.w500, fontSize: 17),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 30.0),
+              child: Container(
+                width: width * 100,
+                child: Row(
+                  mainAxisAlignment:
+                  MainAxisAlignment.spaceBetween,
                   children: [
-                    Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            "Portal",
-                            style: GoogleFonts.poppins(
-                                fontWeight: FontWeight.w600,
-                                fontSize: 28),
-                          ),
-                          Row(
-                            children: const [
-                              CircleAvatar(),
-                              SizedBox(
-                                width: 24,
-                              ),
-                              Icon(Icons.logout),
-                              Text("Logout")
-                            ],
-                          )
-                        ]),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 20.0),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Text(
-                            "Cloud Computing",
-                            style: GoogleFonts.poppins(
-                                fontWeight: FontWeight.w500,
-                                fontSize: 24),
-                          ),
-                          Text(
-                            " - 148 Students",
-                            style: GoogleFonts.poppins(
-                                fontWeight: FontWeight.w500,
-                                fontSize: 18),
-                          )
-                        ],
-                      ),
+                    Text(
+                      "Student Database",
+                      style: GoogleFonts.poppins(
+                          fontWeight: FontWeight.w500,
+                          fontSize: 20),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 8.0),
-                      child: Text(
-                        "SLB-031",
-                        style: GoogleFonts.poppins(
-                            fontWeight: FontWeight.w500, fontSize: 17),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 30.0),
+                    Material(
+                      elevation: 15,
+                      borderRadius: BorderRadius.circular(40),
                       child: Container(
-                        width: width * 100,
-                        child: Row(
-                          mainAxisAlignment:
-                          MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              "Student Database",
-                              style: GoogleFonts.poppins(
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 20),
-                            ),
-                            Material(
-                              elevation: 15,
-                              borderRadius: BorderRadius.circular(40),
-                              child: Container(
-                                width: 210,
-                                child: TextField(
-                                  onChanged: (s) {},
-                                  decoration: InputDecoration(
-                                      suffixIcon: IconButton(
-                                          onPressed: () {},
-                                          icon: const Icon(
-                                              Icons.search_rounded)),
-                                      border: OutlineInputBorder(
-                                          borderRadius:
-                                          BorderRadius.circular(40))),
-                                ),
-                              ),
-                            )
-                          ],
+                        width: 210,
+                        child: TextField(
+                          onChanged: (s) {},
+                          decoration: InputDecoration(
+                              suffixIcon: IconButton(
+                                  onPressed: () {},
+                                  icon: const Icon(
+                                      Icons.search_rounded)),
+                              border: OutlineInputBorder(
+                                  borderRadius:
+                                  BorderRadius.circular(40))),
                         ),
                       ),
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    Container(
-                      width: width * 120,
-                      height: height * 55,
-                      child: table(data),
-                    ),
+                    )
                   ],
                 ),
               ),
             ),
-          ),
+            const SizedBox(
+              height: 20,
+            ),
+            Container(
+              width: width * 120,
+              height: height * 55,
+              child: table(data),
+            ),
+          ],
         ),
       ),
     );

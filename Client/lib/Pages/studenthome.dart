@@ -13,6 +13,20 @@ class StudentHome extends StatefulWidget {
 
 class _StudentHomeState extends State<StudentHome> {
 
+  ScrollController sc = new ScrollController();
+
+  void _scrollRight()
+  {
+    // if(sc.hasClients)
+      sc.animateTo(sc.offset+350, duration: Duration(milliseconds: 500), curve: Curves.linear);
+  }
+
+  void _scrollLeft()
+  {
+    // if(sc.hasClients)
+    sc.animateTo(sc.offset-350, duration: Duration(milliseconds: 500), curve: Curves.linear);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -76,59 +90,102 @@ class _StudentHomeState extends State<StudentHome> {
                             )
                           ],
                         ),
-                        SizedBox(height: 80,),
+                        SizedBox(height: 50,),
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Expanded(
-                              flex: 6,
+                              flex:7,
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.stretch,
                                     children: [
                                       Text("Special Lab - Cloud Computing",style: TextStyle(fontWeight: FontWeight.bold,decoration: TextDecoration.none,color: Colors.black,fontSize: 20),),
                                       SizedBox(height: 20,),
+                                      // CircleAvatar(
+                                      //   radius: 150,
+                                      //   child: Image.asset(),
+                                      // ),
                                       ClipRRect(
-                                        borderRadius: BorderRadius.circular(20),
-                                        child: Image.asset('assets/cloudcomputing.jpg',height: 300,),
 
-                                      ),
+                                        borderRadius: BorderRadius.circular(20), // Image border
+                                        child: SizedBox.fromSize(
+
+                                          size: Size.fromRadius(190), // Image radius
+                                          child: Image.network('assets/cloudcomputing.jpg',fit: BoxFit.cover),
+                                        ),
+                                      )
+                                      // ClipRRect(
+                                      //   borderRadius: BorderRadius.circular(10),
+                                      //   child: ,height:350
+                                      //   ,fit: BoxFit.cover,
+                                      //   ),
+                                      // ),
                                     ],
                                   ),
-                                  SizedBox(height: 60,),
+                                  SizedBox(
+                                    height:45
+                                  ),
                                   Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       Text("Special Lab Faculties",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20,decoration: TextDecoration.none,color: Colors.black,),),
-                                      Container(
-                                        height: 130,
-                                        child: Expanded(
+                                      SizedBox(
+                                        width: 900,
+                                        child: Row(
+                                          children: [
+                                            IconButton(
+                                              icon: Icon(Icons.arrow_left),
+                                              onPressed: _scrollLeft,
+                                            ),
+                                            Expanded(
+                                              child: Container(
+                                                height: 130,
+                                                child: Scrollbar(
+                                                  // thumbVisibility: true,
+                                                  // trackVisibility: true,
+                                                  controller: sc,
+                                                  interactive: true,
+                                                  child: ListView.builder(
+                                                      shrinkWrap: true,
+                                                      controller: sc,
+                                                      itemCount: 5,
+                                                      scrollDirection: Axis.horizontal,
+                                                      itemBuilder: (BuildContext context,int index){
+                                                        return Padding(padding: EdgeInsets.all(10),
+                                                          child: getFacultyCard(),
+                                                        );
 
-                                          child: ListView.builder(
-                                              shrinkWrap: true,
-                                              itemCount: 5,
-                                              scrollDirection: Axis.horizontal,
-                                              itemBuilder: (BuildContext context,int index){
-                                                return Padding(padding: EdgeInsets.all(10),
-                                                  child: getFacultyCard(),
-                                                );
-
-                                              }),
+                                                      }),
+                                                ),
+                                              ),
+                                            ),
+                                            IconButton(
+                                                icon: Icon(Icons.arrow_right),
+                                                onPressed: _scrollRight
+                                            )
+                                          ],
                                         ),
-                                      )
+                                      ),
                                     ],
                                   ),
                                 ],
                               ),
                             ),
-                            Expanded(flex: 1, child: Container(),),
                             Expanded(
-                                flex: 3,
-                                child: renderStudentDetailsCard(widget.userdetails)
+                              flex:1,
+                              child:Container()
                             ),
-                            Expanded(flex: 1, child: Container(),)
+                            Expanded(
+                              flex:4,
+                              child:renderStudentDetailsCard(widget.userdetails),
+                            ),
+                            Expanded(
+                              flex:2,
+                              child:Container()
+                            )
                           ],
                         )
                       ],
