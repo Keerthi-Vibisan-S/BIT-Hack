@@ -1,7 +1,11 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:special_lab_dashboard/Components.dart';
 import 'package:special_lab_dashboard/Pages/LabSwitch.dart';
+import 'package:http/http.dart' as http;
 
 class StudentHome extends StatefulWidget {
   final dynamic userdetails;
@@ -12,6 +16,28 @@ class StudentHome extends StatefulWidget {
 }
 
 class _StudentHomeState extends State<StudentHome> {
+
+
+
+  getLabFacultyDetails() async
+  {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    var token = preferences.getString("idToken");
+    http.Response response =  await http.post(Uri.parse("http://6a40-121-200-55-43.in.ngrok.io/labs/getFaculty")
+        ,headers: {
+      "Access-Control-Allow-Origin":"*",
+      "Content-Type":"application/json",
+          "Authorization": "Bearer "+token!,
+    },body: json.encode(
+        {"lab_id": "1"}));
+
+    print("Faculty details");
+    print(response.body);
+
+  }
+
+  var data = " ";
+
 
   @override
   Widget build(BuildContext context) {
@@ -126,7 +152,7 @@ class _StudentHomeState extends State<StudentHome> {
                             Expanded(flex: 1, child: Container(),),
                             Expanded(
                                 flex: 3,
-                                child: renderStudentDetailsCard(widget.userdetails)
+                                child: renderStudentDetailsCard()
                             ),
                             Expanded(flex: 1, child: Container(),)
                           ],
@@ -143,8 +169,20 @@ class _StudentHomeState extends State<StudentHome> {
     );
   }
 
+  getUserDetails ()
+  async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    setState(() {
+        print("photoooo");
+        data =  preferences.getString("user")!;
+        print(data);
+    });
+  }
+
   @override
   void initState() {
+    // getUserDetails();
+    getLabFacultyDetails();
     print(widget.userdetails);
   }
 }

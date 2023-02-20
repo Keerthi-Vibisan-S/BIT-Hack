@@ -2,7 +2,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:special_lab_dashboard/APIHandler/loginPage.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:special_lab_dashboard/APIHandler/apiHandler.dart';
 import 'package:special_lab_dashboard/Navigator.dart';
 
 import 'package:special_lab_dashboard/Pages/studenthome.dart';
@@ -28,6 +29,8 @@ class _LoginPageState extends State<LoginPage> {
         // print(value.toString());
         await value?.authentication.then((token) async {
           details["idToken"] = token.idToken.toString() ?? "idToken";
+          SharedPreferences preferences = await SharedPreferences.getInstance();
+          preferences.setString("idToken", token.idToken.toString());
           // print("TokenRaw: "+token.idToken.toString());
         }).then((value) {
             // print("Token: "+details.toString());
@@ -104,6 +107,8 @@ class _LoginPageState extends State<LoginPage> {
                                 // }
                                   await checkValidUser(details["email"], details["idToken"]?.toString()).then((v) async {
                                       userDetails = await v;
+                                      SharedPreferences preferences = await SharedPreferences.getInstance();
+                                      preferences.setString("user", userDetails.toString());
                                       print("This is Data $userDetails");
                                     // Navigator.push(context, MaterialPageRoute(builder: (context)=>StudentHome(v)))
                                   });

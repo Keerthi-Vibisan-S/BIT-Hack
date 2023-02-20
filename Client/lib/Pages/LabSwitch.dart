@@ -2,6 +2,8 @@
 import 'package:dropdown_button2/custom_dropdown_button2.dart';
 
 import 'package:flutter/material.dart';
+import 'package:special_lab_dashboard/APIHandler/apiHandler.dart';
+import 'package:special_lab_dashboard/SpecialLab.dart';
 
 import '../Components.dart';
 
@@ -15,16 +17,28 @@ class LabSwitchPage extends StatefulWidget {
 class _LabSwitchPageState extends State<LabSwitchPage> {
   var switfrom = TextEditingController(text: "Cloud Computing");
   var switto = TextEditingController();
+  var specialLabs;
+  List<String> specialLabsNames = [];
 
-  List<String> specialLabs = [
-    "AR/ VR",
-    "Mobile And App",
-    "Ind Auto",
-    "IoT"
-  ];
+
 
   String? selectedValue;
 
+  getSL() async {
+    specialLabs = await getSpecialLabs();
+    for(SpecialLab i in specialLabs)
+      {
+        print(i.labname);
+      }
+  }
+
+  @override
+  void initState() {
+  // getSL();
+    setState(() {
+
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -130,19 +144,19 @@ class _LabSwitchPageState extends State<LabSwitchPage> {
                                               borderRadius: BorderRadius.all(Radius.circular(15)),
                                               child: Container(
                                                 color: Colors.grey.shade300,
-                                                child: CustomDropdownButton2(
-                                                  hint: selectedValue??"Select Lab",
-
-                                                  dropdownItems: specialLabs,
-                                                  value: selectedValue,
-                                                  onChanged: (value) {
-                                                    selectedValue = value;
-                                                    setState(() {
-
-                                                    });
-                                                  },
-                                                  buttonWidth: 400,
-                                                ),
+                                                // child: CustomDropdownButton2(
+                                                //   hint: selectedValue??"Select Lab",
+                                                //
+                                                //   dropdownItems: specialLabs,
+                                                //   value: selectedValue,
+                                                //   onChanged: (value) {
+                                                //     selectedValue = value;
+                                                //     setState(() {
+                                                //
+                                                //     });
+                                                //   },
+                                                //   buttonWidth: 400,
+                                                // ),
                                               ),
                                             ),
                                             SizedBox(height: 20,),
@@ -171,7 +185,7 @@ class _LabSwitchPageState extends State<LabSwitchPage> {
                                     ),
                                     // Expanded(child: Container()),
                                     SizedBox(width: 100,),
-                                    Expanded(flex:2, child: renderStudentDetailsCard(null))
+                                    Expanded(flex:2, child: renderStudentDetailsCard())
                                   ],
                                 ),
                               )

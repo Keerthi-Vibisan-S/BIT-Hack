@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 getFacultyCard()
 {
@@ -41,8 +44,12 @@ getFacultyCard()
 }
 
 
-renderStudentDetailsCard(dynamic userdetails)
+renderStudentDetailsCard()
 {
+  // var user = jsonDecode(userdetails);
+  // print("user");
+  // print(user.toString());
+
   return Card(
     elevation: 10,
     child: ClipRRect(
@@ -53,11 +60,12 @@ renderStudentDetailsCard(dynamic userdetails)
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             CircleAvatar(
+              backgroundImage: NetworkImage("https://lh3.googleusercontent.com/a/AEdFTp4Rp8ovWbCc4j8KiPba5PwXrCicVUT_B7NzhGCmMA=s96-c"),
               radius: 50,
             ),
             Column(
               children: [
-                Text("Balasuriya",style: TextStyle(fontSize: 15,fontWeight: FontWeight.bold),),
+                // Text(userdetails.details[0].name,style: TextStyle(fontSize: 15,fontWeight: FontWeight.bold),),
                 SizedBox(height: 10,),
                 Text("balasuriya.cs20@bitsathy.ac.in"),
               ],
