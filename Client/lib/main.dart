@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:special_lab_dashboard/Pages/FacultyHome.dart';
+import 'package:special_lab_dashboard/Pages/LabSwitch.dart';
 import 'package:special_lab_dashboard/Pages/studenthome.dart';
 
 import 'MyCustomScrollBehaviour.dart';

@@ -18,9 +18,7 @@ class _LabSwitchPageState extends State<LabSwitchPage> {
   var switfrom = TextEditingController(text: "Cloud Computing");
   var switto = TextEditingController();
   var specialLabs;
-  List<String> specialLabsNames = [];
-
-
+  List<String> specialLabsNames = ["AR/VR","Data Science","IOT","Mobile Dev","AR/VR","Data Science","IOT","Mobile Dev","AR/VR","Data Science","IOT","Mobile Dev"];
 
   String? selectedValue;
 
@@ -75,19 +73,30 @@ class _LabSwitchPageState extends State<LabSwitchPage> {
                       )
                     ],
                   ),
-                  SizedBox(height: 100,),
+                  SizedBox(height: 70,),
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Expanded(flex: 2, child: Container(),),
                       Expanded(
                         flex: 10,
-                        child: Card(
-                          elevation: 20,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(25.0),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black12.withOpacity(0.1),
+                                blurRadius: 50,
+                                offset: Offset(0, 0), // Shadow position
+                              ),
+                            ],
+                          ),
                           child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
                             children: [
                               Expanded(
-                                flex:4,
+                                flex:7,
                                 child: Padding(
                                   padding: const EdgeInsets.all(56.0),
                                   child: Column(
@@ -97,14 +106,14 @@ class _LabSwitchPageState extends State<LabSwitchPage> {
                                       Text("Switching From"),
                                       SizedBox(height: 10,),
                                       ClipRRect(
-                                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                                        borderRadius: BorderRadius.all(Radius.circular(20)),
                                         child: Container(
-                                          color: Colors.grey.shade300,
+                                          color: Color(0xffefefef),
                                           child: TextField(
                                             controller: switfrom,
                                             decoration: InputDecoration(
                                               border: OutlineInputBorder(
-                                                borderRadius: BorderRadius.all(Radius.circular(10))
+                                                borderRadius: BorderRadius.all(Radius.circular(20))
                                               ),
                                             ),
                                             style: TextStyle(fontSize: 15),
@@ -118,20 +127,20 @@ class _LabSwitchPageState extends State<LabSwitchPage> {
                                       ClipRRect(
                                         borderRadius: BorderRadius.all(Radius.circular(15)),
                                         child: Container(
-                                          color: Colors.grey.shade300,
-                                          // child: CustomDropdownButton2(
-                                          //   hint: selectedValue??"Select Lab",
-                                          //
-                                          //   dropdownItems: specialLabs,
-                                          //   value: selectedValue,
-                                          //   onChanged: (value) {
-                                          //     selectedValue = value;
-                                          //     setState(() {
-                                          //
-                                          //     });
-                                          //   },
-                                          //   buttonWidth: 400,
-                                          // ),
+                                          color: Color(0xffefefef),
+                                          child: CustomDropdownButton2(
+                                            hint: selectedValue??"Select Lab",
+
+                                            dropdownItems: specialLabsNames,
+                                            value: selectedValue,
+                                            onChanged: (value) {
+                                              selectedValue = value;
+                                              setState(() {
+
+                                              });
+                                            },
+                                            buttonWidth: 400,
+                                          ),
                                         ),
                                       ),
                                       SizedBox(height: 20,),
@@ -140,7 +149,7 @@ class _LabSwitchPageState extends State<LabSwitchPage> {
                                       ClipRRect(
                                         borderRadius: BorderRadius.all(Radius.circular(10)),
                                         child: Container(
-                                          color: Colors.grey.shade300,
+                                          color: Color(0xffefefef),
                                           child: TextField(
                                             decoration: InputDecoration(
                                               border: OutlineInputBorder(
@@ -153,7 +162,26 @@ class _LabSwitchPageState extends State<LabSwitchPage> {
                                         ),
                                       ),
                                       SizedBox(height: 20,),
-                                      ElevatedButton(onPressed: (){}, child: Text("Submit"))
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment.end,
+                                        children: [
+                                          Container(
+                                            decoration: BoxDecoration(
+                                              borderRadius: BorderRadius.circular(10)
+                                            ),
+                                            child: ElevatedButton(
+                                                style: ElevatedButton.styleFrom(
+                                                  backgroundColor: Color(0xff5749f3)
+                                                ),
+                                                onPressed: (){},
+                                                child: Padding(
+                                                  padding: const EdgeInsets.all(16),
+                                                  child: Text("Submit"),
+                                                )
+                                            ),
+                                          ),
+                                        ],
+                                      )
                                     ],
                                   ),
                                 ),
@@ -161,7 +189,7 @@ class _LabSwitchPageState extends State<LabSwitchPage> {
                               Expanded(flex:2,child: Container()),
                               // SizedBox(width: 10,),
                               Expanded(
-                                  flex:4,
+                                  flex:5,
                                   child: Hero(tag: "sjai", child: renderStudentDetailsCard())
                               ),
                             ],
