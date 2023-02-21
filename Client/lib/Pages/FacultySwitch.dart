@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+
+import '../Utilities/Util.dart';
 // import 'package:google_fonts/google_fonts.dart';
 
 class FacultySwitch extends StatefulWidget {
@@ -60,6 +62,51 @@ class _FacultySwitchState extends State<FacultySwitch> {
       "History": 5,
       "From": "Cloud Lab"
     },
+    {
+      "S.No": 1,
+      "Roll No": "202CT141",
+      "Name": "VENKAT RAMAN S P",
+      "Department": "COMPUTER TECHNOLOGY",
+      "Year": "III",
+      "History": 5,
+      "From": "Cloud Lab"
+    },
+    {
+      "S.No": 1,
+      "Roll No": "202CT141",
+      "Name": "VENKAT RAMAN S P",
+      "Department": "COMPUTER TECHNOLOGY",
+      "Year": "III",
+      "History": 5,
+      "From": "Cloud Lab"
+    },
+    {
+      "S.No": 1,
+      "Roll No": "202CT141",
+      "Name": "VENKAT RAMAN S P",
+      "Department": "COMPUTER TECHNOLOGY",
+      "Year": "III",
+      "History": 5,
+      "From": "Cloud Lab"
+    },
+    {
+      "S.No": 1,
+      "Roll No": "202CT141",
+      "Name": "VENKAT RAMAN S P",
+      "Department": "COMPUTER TECHNOLOGY",
+      "Year": "III",
+      "History": 5,
+      "From": "Cloud Lab"
+    },
+    {
+      "S.No": 1,
+      "Roll No": "202CT141",
+      "Name": "VENKAT RAMAN S P",
+      "Department": "COMPUTER TECHNOLOGY",
+      "Year": "III",
+      "History": 5,
+      "From": "Cloud Lab"
+    },
   ];
   int selec = 0;
 
@@ -69,233 +116,159 @@ class _FacultySwitchState extends State<FacultySwitch> {
     var height = size.height / 100;
     var width = size.width / 100;
 
-    return Container(
-      decoration: const BoxDecoration(
-        gradient: LinearGradient(
-          colors: [Color(0xff200061), Color(0xff3800AA)],
-        ),
-      ),
-      child: Row(
-        children: [
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                alignment: Alignment.centerLeft,
-                decoration: BoxDecoration(
-                  borderRadius: const BorderRadius.only(
-                      topRight: Radius.circular(10),
-                      bottomRight: Radius.circular(10)),
-                  color: press1 ? Colors.white : Colors.transparent,
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: IconButton(
-                      onPressed: () {
-                        setState(() {
-                          if (press1 == true) {
-                            press1 = false;
-                            press2 = true;
-                          } else {
-                            press1 = true;
-                            press2 = false;
-                          }
-                        });
-                      },
-                      icon: Icon(
-                        Icons.dashboard,
-                        size: 25,
-                        color: press1 ? Colors.black : Colors.white,
-                      )),
-                ),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              Container(
-                decoration: BoxDecoration(
-                  borderRadius: const BorderRadius.only(
-                      topRight: Radius.circular(10),
-                      bottomRight: Radius.circular(10)),
-                  color: press2 ? Colors.white : Colors.transparent,
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: IconButton(
-                    onPressed: () {
-                      setState(() {
-                        if (press2 == true) {
-                          press2 = false;
-                          press1 = true;
-                        } else {
-                          press2 = true;
-                          press1 = false;
-                        }
-                      });
-                    },
-                    icon: Icon(Icons.swap_horiz,
-                        size: 25, color: press2 ? Colors.black : Colors.white),
-                  ),
-                ),
-              ),
-            ],
-          ),
-          Expanded(
-            flex: 40,
+    return Expanded(
+      flex: 40,
+      child: Padding(
+        padding: const EdgeInsets.all(12.0),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(20),
+          child: Container(
+            // color: Colors.orange,
+            width: MediaQuery.of(context).size.width - 30,
+            color: Colors.white,
             child: Padding(
-              padding: const EdgeInsets.all(12.0),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(20),
-                child: Container(
-                  // color: Colors.orange,
-                  width: MediaQuery.of(context).size.width - 30,
-                  color: const Color(0xffebebeb),
-                  child: Padding(
-                    padding:
-                    const EdgeInsets.only(left: 100, top: 70, right: 100),
-                    child: DefaultTabController(
-                      length: 2,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+              padding:
+              const EdgeInsets.only(left: 100, top: 30, right: 100),
+              child: DefaultTabController(
+                length: 2,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
+                          Text(
+                            "Portal",
+                            style: GoogleFonts.poppins(
+                                fontWeight: FontWeight.w600,
+                                fontSize: 28),
+                          ),
                           Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  "Portal",
-                                  style: GoogleFonts.poppins(
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 28),
-                                ),
-                                Row(
-                                  children: const [
-                                    CircleAvatar(),
-                                    SizedBox(
-                                      width: 24,
-                                    ),
-                                    Icon(Icons.logout),
-                                    Text("Logout")
-                                  ],
-                                )
-                              ]),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 20.0),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Text(
-                                  "Cloud Computing",
-                                  style: GoogleFonts.poppins(
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 24),
-                                ),
-                                Text(
-                                  " - 148 Students",
-                                  style: GoogleFonts.poppins(
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 18),
-                                )
-                              ],
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 8.0),
-                            child: Text(
-                              "SLB-031",
-                              style: GoogleFonts.poppins(
-                                  fontWeight: FontWeight.w500, fontSize: 17),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 30.0),
-                            child: Container(
-                              width: width * 100,
-                              child: Row(
-                                mainAxisAlignment:
-                                MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    "Student Database",
-                                    style: GoogleFonts.poppins(
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 20),
-                                  ),
-                                  Material(
-                                    elevation: 15,
-                                    borderRadius: BorderRadius.circular(40),
-                                    child: Container(
-                                      width: 210,
-                                      child: TextField(
-                                        onChanged: (s) {},
-                                        decoration: InputDecoration(
-                                            suffixIcon: IconButton(
-                                                onPressed: () {},
-                                                icon: const Icon(
-                                                    Icons.search_rounded)),
-                                            border: OutlineInputBorder(
-                                                borderRadius:
-                                                BorderRadius.circular(40))),
-                                      ),
-                                    ),
-                                  )
-                                ],
+                            children: const [
+                              CircleAvatar(
+                                radius: 25,
                               ),
-                            ),
-                          ),
-                          SizedBox(
-                            height: 30,
-                          ),
-                          Container(
-                            height: height * 5,
-                            width: width * 16,
-                            child: Container(
-                              child: TabBar(
-                                indicatorColor: Colors.deepPurple,
-                                indicator: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    color: Colors.black12),
-                                tabs: [
-                                  Tab(
-                                    child: Text(
-                                      "Joining",
-                                      style: GoogleFonts.poppins(
-                                          fontWeight: FontWeight.w400,
-                                          fontSize: 16,
-                                          color: Colors.black),
-                                    ),
-                                  ),
-                                  Tab(
-                                    child: Text(
-                                      "Leaving",
-                                      style: GoogleFonts.poppins(
-                                          fontWeight: FontWeight.w400,
-                                          fontSize: 16,
-                                          color: Colors.black),
-                                    ),
-                                  )
-                                ],
+                              SizedBox(
+                                width: 24,
                               ),
-                            ),
+                              Icon(Icons.logout),
+                              Text("Logout")
+                            ],
+                          )
+                        ]),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 20.0),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text(
+                            "Cloud Computing",
+                            style: GoogleFonts.poppins(
+                                fontWeight: FontWeight.w500,
+                                fontSize: 24),
                           ),
-                          const SizedBox(
-                            height: 3,
-                          ),
-                          Container(
-                            width: width * 100,
-                            height: height * 50,
-                            child: TabBarView(
-                              children: [table(data, "From"), table(data, "To")],
-                            ),
-                          ),
+                          Text(
+                            " - 148 Students",
+                            style: GoogleFonts.poppins(
+                                fontWeight: FontWeight.w500,
+                                fontSize: 18),
+                          )
                         ],
                       ),
                     ),
-                  ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 8.0),
+                      child: Text(
+                        "SLB-031",
+                        style: GoogleFonts.poppins(
+                            fontWeight: FontWeight.w500, fontSize: 17),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 30.0),
+                      child: Container(
+                        width: width * 100,
+                        child: Row(
+                          mainAxisAlignment:
+                          MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              "Student Database",
+                              style: GoogleFonts.poppins(
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 20),
+                            ),
+                            Material(
+                              elevation: 10,
+                              shadowColor: Colors.black45,
+                              borderRadius: BorderRadius.circular(10),
+                              child: Container(
+                                width: 210,
+                                child: TextField(
+                                  onChanged: (s) {},
+                                  decoration: InputDecoration(
+                                    suffixIcon: IconButton(
+                                        onPressed: () {},
+                                        icon: const Icon(Icons.search_rounded)),
+                                    border: InputBorder.none,
+
+                                  )
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 30,
+                    ),
+                    Container(
+                      height: height * 5,
+                      width: width * 16,
+                      child: Container(
+                        child: TabBar(
+                          indicatorColor: Colors.deepPurple,
+                          indicator: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color: Colors.black12),
+                          tabs: [
+                            Tab(
+                              child: Text(
+                                "Joining",
+                                style: GoogleFonts.poppins(
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: 16,
+                                    color: Colors.black),
+                              ),
+                            ),
+                            Tab(
+                              child: Text(
+                                "Leaving",
+                                style: GoogleFonts.poppins(
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: 16,
+                                    color: Colors.black),
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                    getSizedBox(3),
+                    Container(
+                      width: width * 100,
+                      height: height * 53,
+                      child: TabBarView(
+                        children: [table(data, "From"), table(data, "To")],
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),
-          )
-        ],
+          ),
+        ),
       ),
     );
   }
@@ -307,99 +280,25 @@ class _FacultySwitchState extends State<FacultySwitch> {
 
     return Container(
       width: width * 100,
-      height: height * 54,
-      color: Colors.white,
+      height: height * 60,
       child: Column(
         children: [
           Container(
-            color: Colors.black12,
-            height: height * 5,
+            color: Colors.grey.shade100.withOpacity(0.5),
+            height: height*7,
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Row(
-                mainAxisAlignment:
-                MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Container(
-                    width: width * 3,
-                    alignment: Alignment.center,
-                    child: Text(
-                      "S.No",
-                      style: GoogleFonts.poppins(
-                          fontWeight: FontWeight.w500,
-                          fontSize: width * 1.2),
-                    ),
-                  ),
-                  Container(
-                    width: width * 9,
-                    alignment: Alignment.center,
-                    child: Text(
-                      "Roll No",
-                      style: GoogleFonts.poppins(
-                          fontWeight: FontWeight.w500,
-                          fontSize: width * 1.2),
-                    ),
-                  ),
-                  Container(
-                    width: width * 12,
-                    alignment: Alignment.center,
-                    child: Text(
-                      "Name",
-                      style: GoogleFonts.poppins(
-                          fontWeight: FontWeight.w500,
-                          fontSize: width * 1.2),
-                    ),
-                  ),
-                  Container(
-                    width: width * 22,
-                    alignment: Alignment.center,
-                    child: Text(
-                      "Department",
-                      style: GoogleFonts.poppins(
-                          fontWeight: FontWeight.w500,
-                          fontSize: width * 1.2),
-                    ),
-                  ),
-                  Container(
-                    width: width * 3,
-                    alignment: Alignment.center,
-                    child: Text(
-                      "Year",
-                      style: GoogleFonts.poppins(
-                          fontWeight: FontWeight.w500,
-                          fontSize: width * 1.2),
-                    ),
-                  ),
-                  Container(
-                    width: width * 4.5,
-                    alignment: Alignment.center,
-                    child: Text(
-                      "History",
-                      style: GoogleFonts.poppins(
-                          fontWeight: FontWeight.w500,
-                          fontSize: width * 1.2),
-                    ),
-                  ),
-                  Container(
-                    width: width * 6,
-                    alignment: Alignment.center,
-                    child: Text(
-                      where,
-                      style: GoogleFonts.poppins(
-                          fontWeight: FontWeight.w500,
-                          fontSize: width * 1.2),
-                    ),
-                  ),
-                  Container(
-                    width: width * 15,
-                    alignment: Alignment.center,
-                    child: Text(
-                      "Approval",
-                      style: GoogleFonts.poppins(
-                          fontWeight: FontWeight.w500,
-                          fontSize: width * 1.2),
-                    ),
-                  ),
+                  getContainerForTable(width, "S.No", 6, FontWeight.w500, 1.2),
+                  getContainerForTable(width, "Roll No", 8, FontWeight.w500, 1.2),
+                  getContainerForTable(width, "Name", 11, FontWeight.w500, 1.2),
+                  getContainerForTable(width, "Department", 17, FontWeight.w500, 1.2),
+                  getContainerForTable(width, "Year", 7, FontWeight.w500, 1.2),
+                  getContainerForTable(width, "History", 4.5, FontWeight.w500, 1.2),
+                  getContainerForTable(width, where, 6, FontWeight.w500, 1.2),
+                  getContainerForTable(width, "Approval", 15, FontWeight.w500, 1.2),
                 ],
               ),
             ),
@@ -411,113 +310,54 @@ class _FacultySwitchState extends State<FacultySwitch> {
                 itemBuilder: (BuildContext context, int index) {
                   return Container(
                     height: height * 7,
-                    color: index % 2 == 0 ? Colors.white70 : Colors.black12,
+                    color: index%2==0?Colors.white:Colors.grey.shade100.withOpacity(0.5),
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Container(
-                            width: width * 3,
-                            alignment: Alignment.center,
-                            // color: Colors.orange,
-                            child: Text(
-                              data[index]['S.No'].toString(),
-                              style: GoogleFonts.poppins(
-                                  fontWeight: FontWeight.w400, fontSize: width * 1),
-                            ),
-                          ),
-                          Container(
-                            width: width * 9,
-                            alignment: Alignment.center,
-                            // color: Colors.orange,
-                            child: Text(
-                              data[index]['Roll No'],
-                              style: GoogleFonts.poppins(
-                                  fontWeight: FontWeight.w400, fontSize: width * 1),
-                            ),
-                          ),
-                          Container(
-                            // color: Colors.orange,
-                            width: width * 12,
-                            alignment: Alignment.center,
-                            child: Text(
-                              data[index]['Name'],
-                              style: GoogleFonts.poppins(
-                                  fontWeight: FontWeight.w400, fontSize: width * 1),
-                            ),
-                          ),
-                          Container(
-                            // color: Colors.orange,
-                            width: width * 22,
-                            alignment: Alignment.center,
-                            child: Text(
-                              data[index]['Department'],
-                              style: GoogleFonts.poppins(
-                                  fontWeight: FontWeight.w400, fontSize: width * 1),
-                            ),
-                          ),
-                          Container(
-                            width: width * 3,
-                            alignment: Alignment.center,
-                            // color: Colors.orange,
-                            child: Text(
-                              data[index]['Year'],
-                              style: GoogleFonts.poppins(
-                                  fontWeight: FontWeight.w400, fontSize: width * 1),
-                            ),
-                          ),
-                          Container(
-                            width: width * 4.5,
-                            alignment: Alignment.center,
-                            // color: Colors.orange,
-                            child: Text(
-                              data[index]['History'].toString(),
-                              style: GoogleFonts.poppins(
-                                  fontWeight: FontWeight.w400, fontSize: width * 1),
-                            ),
-                          ),
-                          Container(
-                            width: width * 6,
-                            alignment: Alignment.center,
-                            // color: Colors.orange,
-                            child: Text(
-                              data[index]['From'],
-                              style: GoogleFonts.poppins(
-                                  fontWeight: FontWeight.w400, fontSize: width * 1),
-                            ),
-                          ),
+                          getContainerForTable(width,data[index]['S.No'].toString(), 6, FontWeight.w300, 1),
+                          getContainerForTable(width,data[index]['Roll No'].toString(), 8, FontWeight.w300, 1),
+                          getContainerForTable(width,data[index]['Name'].toString(), 11, FontWeight.w300, 1),
+                          getContainerForTable(width,data[index]['Department'].toString(), 17, FontWeight.w300, 1),
+                          getContainerForTable(width,data[index]['Year'].toString(), 7, FontWeight.w300, 1),
+                          getContainerForTable(width,data[index]['History'].toString(), 4.5, FontWeight.w300, 1),
+                          getContainerForTable(width,data[index]['From'].toString(), 6, FontWeight.w300, 1),
                           Container(
                             width: width * 15,
-                            alignment: Alignment.centerRight,
+                            alignment: Alignment.centerLeft,
                             // color: Colors.orange,
                             child: Row(
                               children: [
+                                // SizedBox(
+                                //   width: 50,
+                                // ),
+                                Container(
+                                  width: 60,
+                                  height: 25.0,
+                                  child: Material(
+                                      borderRadius: BorderRadius.circular(5),
+                                    color: Colors.red,
+                                    child: InkWell(
+                                        onTap: () {},
+                                        child: const Center(
+                                          child: Icon(
+                                            Icons.close,
+                                            color: Colors.white,
+                                          ),
+                                        )),
+                                  ),
+                                ),
+
                                 SizedBox(
-                                  width: 50,
+                                  width: 10,
                                 ),
                                 Container(
                                   width: 60,
                                   height: 25.0,
-                                  decoration: BoxDecoration(
-                                      border: Border.all(
-                                          width: 0.1, color: Color(0xffFF0000)),
-                                      borderRadius: BorderRadius.circular(10),
-                                      gradient: const LinearGradient(
-                                        colors: <Color>[
-                                          Color(0xff001AFF),
-                                          Colors.white24
-                                        ],
-                                      ),
-                                      boxShadow: const [
-                                        BoxShadow(
-                                          color: Colors.black12,
-                                          offset: Offset(0.0, 1.5),
-                                          blurRadius: 1.5,
-                                        ),
-                                      ]),
                                   child: Material(
-                                    color: Colors.transparent,
+                                    borderRadius: BorderRadius.circular(5),
+                                    color: Color(0xff5749f3),
                                     child: InkWell(
                                         onTap: () {},
                                         child: const Center(
@@ -528,41 +368,6 @@ class _FacultySwitchState extends State<FacultySwitch> {
                                         )),
                                   ),
                                 ),
-                                SizedBox(
-                                  width: 10,
-                                ),
-                                Container(
-                                  width: 60,
-                                  height: 25.0,
-                                  decoration: BoxDecoration(
-                                      border: Border.all(
-                                          width: 0.1, color: Color(0xffFF0000)),
-                                      borderRadius: BorderRadius.circular(10),
-                                      gradient: const LinearGradient(
-                                        colors: <Color>[
-                                          Color(0xffFF0000),
-                                          Colors.white24
-                                        ],
-                                      ),
-                                      boxShadow: const [
-                                        BoxShadow(
-                                          color: Colors.black12,
-                                          offset: Offset(0.0, 1.5),
-                                          blurRadius: 1.5,
-                                        ),
-                                      ]),
-                                  child: Material(
-                                    color: Colors.transparent,
-                                    child: InkWell(
-                                        onTap: () {},
-                                        child: const Center(
-                                          child: Icon(
-                                            Icons.close,
-                                            color: Colors.white,
-                                          ),
-                                        )),
-                                  ),
-                                )
                               ],
                             ),
                           ),

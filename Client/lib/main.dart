@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:special_lab_dashboard/Pages/FacultyHome.dart';
+import 'package:special_lab_dashboard/Pages/studenthome.dart';
 
+import 'Navigator.dart';
+import 'Pages/AdminHomePage.dart';
 import 'Pages/LoginPage.dart';
 
 void main() {
@@ -25,7 +28,7 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
-    return LoginPage();
+    return FacultyHome();
   }
 }
 
