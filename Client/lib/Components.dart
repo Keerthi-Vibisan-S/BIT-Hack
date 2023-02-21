@@ -171,41 +171,52 @@ renderStudentDetailsCard()
 
 renderCards(title,count,startcolor,endcolor)
 {
-  return ClipRRect(
-    borderRadius: BorderRadius.circular(20),
-    child: Card(
-      elevation: 10,
-      child: Container(
-        height: 150,
-        width: 306,
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [Color(startcolor),Color(endcolor)],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
+  return Container(
+    height: 150,
+    width: 280,
+    decoration: BoxDecoration(
+      gradient: LinearGradient(
+        colors: [Color(startcolor),Color(endcolor)],
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
+      ),
+      boxShadow: [
+        BoxShadow(
+          color: Colors.black12.withOpacity(0.1),
+          blurRadius: 50,
+          offset: Offset(0, 0), // Shadow position
         ),
-        child: Padding(
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      ],
+      borderRadius: BorderRadius.circular(15)
+    ),
+    child: Padding(
+      padding: const EdgeInsets.only(left:20,top:20,bottom:20),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Text(title.toString(),style: TextStyle(color: Colors.white,fontSize: 18),),
-                ],
-              ),
-              SizedBox(height: 10,),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Text(count.toString(),style: TextStyle(color: Colors.white,fontSize: 18),)
-                ],
-              )
+              Text(title.toString(),style: TextStyle(color: Colors.white,fontSize: 18),),
             ],
           ),
-        ),
+          SizedBox(height: 10,),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.only(topLeft: Radius.circular(10),bottomLeft: Radius.circular(10)),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 15,right: 15,top:8,bottom: 8),
+                    child: Text(count.toString(),style: TextStyle(color: Colors.black,fontSize: 24),),
+                  )
+              )
+            ],
+          )
+        ],
       ),
     ),
   );
@@ -223,6 +234,8 @@ renderLabAnanlysisBar(labname,int width,int index)
   }
   return Row(
     children: [
+      Expanded(flex:2,child: Text(labname,style: TextStyle(fontWeight: FontWeight.bold),)),
+      Expanded(flex:1,child: Container()),
       Expanded(
         flex: width,
         child: ClipRRect(
@@ -235,10 +248,6 @@ renderLabAnanlysisBar(labname,int width,int index)
                   end: Alignment.centerRight,
                 )
             ),
-            child: Padding(
-              padding: const EdgeInsets.only(left: 8.0),
-              child: Text(labname,style: TextStyle(decoration : TextDecoration.none,fontSize: 15,color: Colors.white,),),
-            ),
             alignment: Alignment.centerLeft,
             height: 50,
             width: width.toDouble(),
@@ -249,6 +258,7 @@ renderLabAnanlysisBar(labname,int width,int index)
           flex: 10-width,
           child: Container())
     ],
+
   );
 }
 

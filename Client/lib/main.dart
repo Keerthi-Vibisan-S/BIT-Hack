@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:special_lab_dashboard/Pages/FacultyHome.dart';
 import 'package:special_lab_dashboard/Pages/LabSwitch.dart';
 import 'package:special_lab_dashboard/Pages/studenthome.dart';
@@ -14,7 +15,7 @@ void main() {
           scrollBehavior: MyCustomScrollBehavior(),
         debugShowCheckedModeBanner: false,
           home: Scaffold(
-            body: MainPage(),
+            body: AdminHomePage(),
           )
       )
   );
@@ -31,7 +32,7 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
-    return StudentHome(null);
+    return AdminHomePage();
   }
 }
 
