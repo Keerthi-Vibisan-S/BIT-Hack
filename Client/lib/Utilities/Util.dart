@@ -31,3 +31,13 @@ getContainerForTable(double width, String text, double widthScale, FontWeight wg
     ),
   );
 }
+
+getExpanded(int flex){
+  return Expanded(
+    flex: flex,
+    child:Container()
+  );
+}
+getStyledTextForProfileCard(String text){
+  return Text(text,style: TextStyle(fontSize: 15,fontWeight: FontWeight.bold),);
+}

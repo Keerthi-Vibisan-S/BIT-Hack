@@ -2,26 +2,41 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:special_lab_dashboard/Utilities/Util.dart';
 
 getFacultyCard()
 {
-  return Card(
-    elevation: 10,
-    child: ClipRRect(
-      borderRadius: BorderRadius.circular(20),
-      child: Container(
-        color: Colors.white,
+  return Align(
+    alignment: AlignmentDirectional.center,
+    child: Container(
+      width: 300,
+      color: Colors.white,
+      child: Card(
+        elevation: 20,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(15.0),
+        ),
         child: Padding(
-          padding: EdgeInsets.all(15),
+          padding: EdgeInsets.only(top: 15, left: 30),
           child: Row(
             children: [
               Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  CircleAvatar(),
+                  CircleAvatar(
+                    radius: 35,
+                    child: Icon(Icons.account_circle , size: 70),
+                  ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Text("CH10372",style: TextStyle(fontSize: 10),),
+                    child: Text(
+                      "CH10372",
+                      style: TextStyle(
+                        fontSize: 13,
+                        color: Colors.black.withOpacity(0.75),
+                        fontWeight: FontWeight.bold
+                      ),
+                    ),
                   )
                 ],
               ),
@@ -29,10 +44,23 @@ getFacultyCard()
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text("Nathan Drake",style: TextStyle(fontWeight: FontWeight.w800),),
+                  getSizedBox(7.5),
+                  Text("Nathan Drake",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 15.5),),
                   SizedBox(height: 10,),
-                  Text("Chemistry Department",style: TextStyle(fontWeight: FontWeight.w100,fontSize: 11),),
-                  Text("Ph. No : 8964093829",style: TextStyle(fontWeight: FontWeight.w100,fontSize: 11),)
+                  Text(
+                    "Chemistry Department",
+                    style: TextStyle(
+                      fontSize: 12.5,
+                      color: Colors.black.withOpacity(0.5)
+                    ),
+                  ),
+                  Text(
+                    "Ph. No : 8964093829",
+                    style: TextStyle(
+                        fontSize: 12.5,
+                        color: Colors.black.withOpacity(0.5)
+                    ),
+                  )
                 ],
               )
             ],
@@ -46,136 +74,98 @@ getFacultyCard()
 
 renderStudentDetailsCard()
 {
-  // var user = jsonDecode(userdetails);
-  // print("user");
-  // print(user.toString());
 
-  return Card(
-    elevation: 10,
-    child: ClipRRect(
-      borderRadius: BorderRadius.circular(25),
-      child: Container(
-        height: 500,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            CircleAvatar(
-              backgroundImage: NetworkImage("https://lh3.googleusercontent.com/a/AEdFTp4Rp8ovWbCc4j8KiPba5PwXrCicVUT_B7NzhGCmMA=s96-c"),
-              radius: 50,
-            ),
-            Column(
+  return Column(
+    children: [
+      Card(
+        elevation: 10,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(25.0),
+        ),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(35),
+          child: Container(
+            // color: Colors.red,
+            height: 550,
+            child:
+              Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                // Text(userdetails.details[0].name,style: TextStyle(fontSize: 15,fontWeight: FontWeight.bold),),
-                SizedBox(height: 10,),
-                Text("balasuriya.cs20@bitsathy.ac.in"),
-              ],
-            ),
-            // Row(
-            //   crossAxisAlignment: CrossAxisAlignment.start,
-            //   children: [
-            //     Column(
-            //       crossAxisAlignment: CrossAxisAlignment.end,
-            //       children: [
-            //         Text("Year"),
-            //         Text("Dept"),
-            //         Text("Special Lab"),
-            //         Text("Lab code"),
-            //         Text("Incharge"),
-            //         Text("Joined Date"),
-            //         Text("History Of Change")
-            //       ],
-            //     ),
-            //     Column(
-            //       crossAxisAlignment: CrossAxisAlignment.start,
-            //       children: [
-            //         Text("3rd year"),
-            //         Text("IT"),
-            //         Text("Cloud Computing"),
-            //         Text("SLB-031"),
-            //         Text("Nataraj N"),
-            //         Text("29.08.22"),
-            //         Text("0")
-            //       ],
-            //     )
-            //   ],
-            // ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text("Year"),
-                      SizedBox(height:10),
-                      Text("Department"),
-                      SizedBox(height:10),
-                      Text("Special Lab"),
-                      SizedBox(height:10),
-                      Text("Lab Code"),
-                      SizedBox(height:10),
-                      Text("Incharge"),
-                      SizedBox(height:10),
-                      Text("Joined Date"),
-                      SizedBox(height:10),
-                      Text("History Of Change"),
-
-                    ],
-                  ),
+                CircleAvatar(
+                  backgroundImage: NetworkImage("https://lh3.googleusercontent.com/a/AEdFTp4Rp8ovWbCc4j8KiPba5PwXrCicVUT_B7NzhGCmMA=s96-c"),
+                  radius: 50,
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                Column(
                     children: [
-                      Text(":"),
-                      SizedBox(height:10),
-                      Text(":"),
-                      SizedBox(height:10),
-                      Text(":"),
-                      SizedBox(height:10),
-                      Text(":"),
-                      SizedBox(height:10),
-                      Text(":"),
-                      SizedBox(height:10),
-                      Text(":"),
-                      SizedBox(height:10),
-                      Text(":"),
+                      Text("Balasuriya K A",style: TextStyle(fontSize: 17.5,fontWeight: FontWeight.bold),),
+                      SizedBox(height: 10,),
+                      Text("balasuriya.cs20@bitsathy.ac.in", 
+                      style: TextStyle(
+                        color: Colors.black.withOpacity(0.7)
+                      ),
+                      ),
+                    ],
+                  ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          getStyledTextForProfileCard("Year"), getSizedBox(15),
+                          getStyledTextForProfileCard("Department"),getSizedBox(15),
+                          getStyledTextForProfileCard("Special Lab"),getSizedBox(15),
+                          getStyledTextForProfileCard("Lab Code"),getSizedBox(15),
+                          getStyledTextForProfileCard("Incharge"),getSizedBox(15),
+                          getStyledTextForProfileCard("Joined Date"),getSizedBox(15),
+                          getStyledTextForProfileCard("History Of Change"),getSizedBox(15),
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          getStyledTextForProfileCard(":"), getSizedBox(15),
+                          getStyledTextForProfileCard(":"),getSizedBox(15),
+                          getStyledTextForProfileCard(":"),getSizedBox(15),
+                          getStyledTextForProfileCard(":"),getSizedBox(15),
+                          getStyledTextForProfileCard(":"),getSizedBox(15),
+                          getStyledTextForProfileCard(":"),getSizedBox(15),
+                          getStyledTextForProfileCard(":"),getSizedBox(15),
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          getStyledTextForProfileCard("3rd Year"), getSizedBox(15),
+                          getStyledTextForProfileCard("CS"),getSizedBox(15),
+                          getStyledTextForProfileCard("Cloud Computing"),getSizedBox(15),
+                          getStyledTextForProfileCard("1"),getSizedBox(15),
+                          getStyledTextForProfileCard("Nataraj N"),getSizedBox(15),
+                          getStyledTextForProfileCard("29.08.20 "),getSizedBox(15),
+                          getStyledTextForProfileCard("0"),getSizedBox(15),
 
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text("3rd Year"),
-                      SizedBox(height:10),
-                      Text("CS"),
-                      SizedBox(height:10),
-                      Text("Cloud Computing"),
-                      SizedBox(height:10),
-                      Text("1"),
-                      SizedBox(height:10),
-                      Text("Nataraj N"),
-                      SizedBox(height:10),
-                      Text("29.08.22"),
-                      SizedBox(height:10),
-                      Text("0"),
-                    ],
-                  ),
+                        ],
+                      ),
+                    )
+                  ],
                 )
               ],
-            )
-          ],
+            ),
+          ),
         ),
       ),
-    ),
+    ],
   );
 }
 
@@ -187,7 +177,7 @@ renderCards(title,count,startcolor,endcolor)
       elevation: 10,
       child: Container(
         height: 150,
-        width: 300,
+        width: 306,
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: [Color(startcolor),Color(endcolor)],
