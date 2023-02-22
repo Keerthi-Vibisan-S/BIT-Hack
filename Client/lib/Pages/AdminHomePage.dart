@@ -11,6 +11,7 @@ import 'package:special_lab_dashboard/Components.dart';
 import 'package:special_lab_dashboard/Pages/AdminSpecialLabDatabase.dart';
 import 'package:special_lab_dashboard/Pages/AdminSpecificLabView.dart';
 import 'package:special_lab_dashboard/Pages/AdminConfirmPage.dart';
+import 'package:special_lab_dashboard/responsive.dart';
 import 'package:super_tooltip/super_tooltip.dart';
 
 class AdminHomePage extends StatefulWidget {
@@ -236,7 +237,7 @@ class _getAdminHomePageState extends State<getAdminHomePage> {
                 ],
               ),
               SizedBox(height: 20,),
-              Row(
+              (Responsive.isDesktop(context))?Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   renderCards("No. of Special Labs", 27,0xff1e1492,0xffaba8d6),
@@ -244,6 +245,13 @@ class _getAdminHomePageState extends State<getAdminHomePage> {
                   renderCards("No. of Students not Enrolled", 103,0xff191919,0xff787878),
                   renderCards("No. of Students not Enrolled", 103,0xff191919,0xff787878),
                   // Expanded(flex: 2,child: Container())
+                ],
+              ):Wrap(
+                children: [
+                  renderCards("No. of Special Labs", 27,0xff1e1492,0xffaba8d6),
+                  renderCards("No. of Students Enrolled",1175,0xffff8a1d,0xffffd7b2),
+                  renderCards("No. of Students not Enrolled", 103,0xff191919,0xff787878),
+                  renderCards("No. of Students not Enrolled", 103,0xff191919,0xff787878),
                 ],
               ),
               SizedBox(height: 30,),
@@ -383,13 +391,33 @@ class ShowSpecialLabStats extends StatelessWidget {
             SizedBox(height: 20,),
             Align(
               alignment: Alignment.center,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text("I year : 37",style: TextStyle(decoration : TextDecoration.none,fontSize: 15,color: Colors.black,)),
-                  Text("II year : 45",style: TextStyle(decoration : TextDecoration.none,fontSize: 15,color: Colors.black,)),
-                  Text("III year : 26",style: TextStyle(decoration : TextDecoration.none,fontSize: 15,color: Colors.black,)),
-                  Text("IV year : 16",style: TextStyle(decoration : TextDecoration.none,fontSize: 15,color: Colors.black,)),
+
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text("I year",style: TextStyle(decoration : TextDecoration.none,fontSize: 15,color: Colors.black,)),
+                      Text("II year",style: TextStyle(decoration : TextDecoration.none,fontSize: 15,color: Colors.black,)),
+                      Text("III year",style: TextStyle(decoration : TextDecoration.none,fontSize: 15,color: Colors.black,)),
+                      Text("IV year",style: TextStyle(decoration : TextDecoration.none,fontSize: 15,color: Colors.black,)),
+                    ],
+                  ),
+                  Column(
+                    children: [
+                      for(int i=0;i<4;i++)
+                        Text(" : ")
+                    ],
+                  ),
+                  Column(
+                    children: [
+                      Text("32",style: TextStyle(decoration : TextDecoration.none,fontSize: 15,color: Colors.black,)),
+                      Text("60",style: TextStyle(decoration : TextDecoration.none,fontSize: 15,color: Colors.black,)),
+                      Text("72",style: TextStyle(decoration : TextDecoration.none,fontSize: 15,color: Colors.black,)),
+                      Text("38",style: TextStyle(decoration : TextDecoration.none,fontSize: 15,color: Colors.black,)),
+                    ],
+                  )
                 ],
               ),
             ),
@@ -419,43 +447,6 @@ class ShowSpecialLabStats extends StatelessWidget {
     );
   }
 }
-
-
-// class MyStatefulWidget extends StatefulWidget {
-//   const MyStatefulWidget({Key? key}) : super(key: key);
-//
-//   @override
-//   State<MyStatefulWidget> createState() => _MyStatefulWidgetState();
-// }
-//
-// /// This is the private State class that goes with MyStatefulWidget.
-// class _MyStatefulWidgetState extends State<MyStatefulWidget> {
-//
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return ConstrainedBox(
-//       constraints: BoxConstraints.tight(const Size(300.0, 200.0)),
-//       child: MouseRegion(
-//
-//         child: Container(
-//           color: Colors.lightBlueAccent,
-//           child: Stack(children:[Column(
-//             mainAxisAlignment: MainAxisAlignment.center,
-//             children: <Widget>[
-//                 renderLabAnanlysisBar(labname, width, index)
-//             ],
-//           ),
-//             Text("test"),
-//             Transform(
-//                 transform: Matrix4.translationValues(x,y-128, 0.0), child: ShowSpecialLabStats("cloud")
-//             )
-//           ]),
-//         ),
-//       ),
-//     );
-//   }
-// }
 
 
 

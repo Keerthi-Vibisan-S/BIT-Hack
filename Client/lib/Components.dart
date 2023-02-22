@@ -171,52 +171,55 @@ renderStudentDetailsCard()
 
 renderCards(title,count,startcolor,endcolor)
 {
-  return Container(
-    height: 150,
-    width: 280,
-    decoration: BoxDecoration(
-      gradient: LinearGradient(
-        colors: [Color(startcolor),Color(endcolor)],
-        begin: Alignment.topLeft,
-        end: Alignment.bottomRight,
-      ),
-      boxShadow: [
-        BoxShadow(
-          color: Colors.black12.withOpacity(0.1),
-          blurRadius: 50,
-          offset: Offset(0, 0), // Shadow position
+  return Padding(
+    padding: const EdgeInsets.all(8.0),
+    child: Container(
+      height: 150,
+      width: 280,
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [Color(startcolor),Color(endcolor)],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
         ),
-      ],
-      borderRadius: BorderRadius.circular(15)
-    ),
-    child: Padding(
-      padding: const EdgeInsets.only(left:20,top:20,bottom:20),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Text(title.toString(),style: TextStyle(color: Colors.white,fontSize: 18),),
-            ],
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black12.withOpacity(0.1),
+            blurRadius: 50,
+            offset: Offset(0, 0), // Shadow position
           ),
-          SizedBox(height: 10,),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              Container(
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.only(topLeft: Radius.circular(10),bottomLeft: Radius.circular(10)),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 15,right: 15,top:8,bottom: 8),
-                    child: Text(count.toString(),style: TextStyle(color: Colors.black,fontSize: 24),),
-                  )
-              )
-            ],
-          )
         ],
+        borderRadius: BorderRadius.circular(15)
+      ),
+      child: Padding(
+        padding: const EdgeInsets.only(left:20,top:20,bottom:20),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Text(title.toString(),style: TextStyle(color: Colors.white,fontSize: 18),),
+              ],
+            ),
+            SizedBox(height: 10,),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.only(topLeft: Radius.circular(10),bottomLeft: Radius.circular(10)),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 15,right: 15,top:8,bottom: 8),
+                      child: Text(count.toString(),style: TextStyle(color: Colors.black,fontSize: 24),),
+                    )
+                )
+              ],
+            )
+          ],
+        ),
       ),
     ),
   );
