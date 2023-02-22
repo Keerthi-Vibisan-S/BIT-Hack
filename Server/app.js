@@ -22,5 +22,5 @@ const request = require('./routes/requests');
 app.use('/request', request);
 
 app.listen(80, () => {
-    console.log("Listening on port 3001");
+    console.log("Listening on port 80");
 })

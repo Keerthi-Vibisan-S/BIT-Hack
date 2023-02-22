@@ -57,4 +57,48 @@ route.post("/verify", (req, res) => {
     });
 })
 
+route.post("/facultyverify", (req, res) => {
+    const token = req.body.token;
+    const email = req.body.email;
+    let user = {};
+    
+    async function verify() {
+      const ticket = await client.verifyIdToken({
+          idToken: token,
+          audience: CLIENT_ID
+      });
+
+      const payload = ticket.getPayload();
+      const userid = payload['sub'];
+    //   console.log("PAYLOAD: ", payload);
+      user.email = payload.email;
+      user.verify = payload.email_verified;
+      user.name = payload.name;
+      user.img = payload.picture;
+    }
+    verify().then(async () => {
+        if(user.email == email)
+        {
+            let q = `SELECT F.FACULTY_ID, F.FACULTY_NAME, F.FACULTY_EMAIL, F.CONTACT, F.LAB_ID, S.LAB_NAME FROM FACULTY AS F, SPECIALLAB AS S WHERE F.LAB_ID = S.LAB_ID AND F.FACULTY_EMAIL="${user.email}"`;
+            try {
+                sql_con.query(q, (err, result) => {
+                    if(err) {
+                        console.log(err);
+                        res.send("Error").status(500);
+                        res.end();
+                    }
+                    else {
+                        user.details = result;
+                        res.send(user).status(200);
+                        res.end();
+                    }
+                })
+            }
+            catch(err){
+                console.log("An error ------> "+err);
+            }
+        }
+    });
+})
+
 module.exports = route;

@@ -10,7 +10,7 @@ function findUser(email)
         let user = {};
         if(err) {
             console.log(err);
-            res.send("Error").status(500);
+            reject("Error");
         }
         else {
             resolve(result[0].STU_ID);
