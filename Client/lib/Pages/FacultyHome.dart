@@ -1,5 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:special_lab_dashboard/Pages/FacultySwitch.dart';
+import 'package:special_lab_dashboard/Utilities/Util.dart';
 
 class FacultyHome extends StatefulWidget {
   const FacultyHome({Key? key}) : super(key: key);
@@ -9,122 +12,316 @@ class FacultyHome extends StatefulWidget {
 }
 
 class _FacultyHomeState extends State<FacultyHome> {
+  bool press1 = true;
+  bool press2 = false;
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      // color: Colors.deepPurple,
-      child: Row(
-        children: [
-          Expanded(
-            flex: 2,
-            child: Container(
+    return getBackground(Row(
+      children: [
+        Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              alignment: Alignment.centerLeft,
+              decoration: BoxDecoration(
+                borderRadius: const BorderRadius.only(
+                    topRight: Radius.circular(10),
+                    bottomRight: Radius.circular(10)),
+                color: press1 ? Colors.white : Colors.transparent,
+              ),
               child: Padding(
-                padding: const EdgeInsets.only(left:8),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(child: Icon(Icons.dashboard)),
-                    SizedBox(height: 20,),
-                    Icon(Icons.swap_horiz),
-                  ],
+                padding: const EdgeInsets.all(8.0),
+                child: IconButton(
+                    onPressed: () {
+                      setState(() {
+                        if (press1 == true) {
+                          press1 = false;
+                          press2 = true;
+                        } else {
+                          press1 = true;
+                          press2 = false;
+                        }
+                      });
+                    },
+                    icon: Icon(
+                      Icons.dashboard,
+                      size: 25,
+                      color: press1 ? Colors.black : Colors.white,
+                    )),
+              ),
+            ),
+            getSizedBox(20),
+            Container(
+              decoration: BoxDecoration(
+                borderRadius: const BorderRadius.only(
+                    topRight: Radius.circular(10),
+                    bottomRight: Radius.circular(10)),
+                color: press2 ? Colors.white : Colors.transparent,
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: IconButton(
+                  onPressed: () {
+                    setState(() {
+                      if (press2 == true) {
+                        press2 = false;
+                        press1 = true;
+                      } else {
+                        press2 = true;
+                        press1 = false;
+                      }
+                    });
+                  },
+                  icon: Icon(Icons.swap_horiz,
+                      size: 25, color: press2 ? Colors.black : Colors.white),
                 ),
               ),
             ),
-          ),
-          Expanded(
-            flex: 40,
+          ],
+        ),
+        (press1)?getHomePage():FacultySwitch()
+      ],
+    ));
+  }
+}
+
+class getHomePage extends StatefulWidget {
+  const getHomePage({Key? key}) : super(key: key);
+
+  @override
+  State<getHomePage> createState() => _getHomePageState();
+}
+
+class _getHomePageState extends State<getHomePage> {
+  List data = [
+    {
+      "S.No": 1,
+      "Roll No": "202CT141",
+      "Name": "VENKAT RAMAN S P",
+      "Department": "COMPUTER TECHNOLOGY",
+      "Gender": "Male",
+      "Mail ID": "venkatraman.ct20@bitsathy.ac.in"
+    },
+    {
+      "S.No": 1,
+      "Roll No": "202CT141",
+      "Name": "VENKAT RAMAN S P",
+      "Department": "COMPUTER TECHNOLOGY",
+      "Gender": "Male",
+      "Mail ID": "venkatraman.ct20@bitsathy.ac.in"
+    },
+    {
+      "S.No": 1,
+      "Roll No": "202CT141",
+      "Name": "VENKAT RAMAN S P",
+      "Department": "COMPUTER SCIENCE AND BUSSINESS SYSTEMS",
+      "Gender": "Male",
+      "Mail ID": "venkatraman.ct20@bitsathy.ac.in"
+    },
+    {
+      "S.No": 1,
+      "Roll No": "202CT141",
+      "Name": "VENKAT RAMAN S P",
+      "Department": "COMPUTER TECHNOLOGY",
+      "Gender": "Male",
+      "Mail ID": "venkatraman.ct20@bitsathy.ac.in"
+    },
+    {
+      "S.No": 1,
+      "Roll No": "202CT141",
+      "Name": "VENKAT RAMAN S P",
+      "Department": "COMPUTER TECHNOLOGY",
+      "Gender": "Male",
+      "Mail ID": "venkatraman.ct20@bitsathy.ac.in"
+    },
+    {
+      "S.No": 1,
+      "Roll No": "202CT141",
+      "Name": "VENKAT RAMAN S P",
+      "Department": "COMPUTER TECHNOLOGY",
+      "Gender": "Male",
+      "Mail ID": "venkatraman.ct20@bitsathy.ac.in"
+    },
+    {
+      "S.No": 1,
+      "Roll No": "202CT141",
+      "Name": "VENKAT RAMAN S P",
+      "Department": "COMPUTER SCIENCE AND BUSSINESS SYSTEMS",
+      "Gender": "Male",
+      "Mail ID": "venkatraman.ct20@bitsathy.ac.in"
+    },
+    {
+      "S.No": 2,
+      "Roll No": "202CT141",
+      "Name": "VENKAT RAMAN S P",
+      "Department": "COMPUTER TECHNOLOGY",
+      "Gender": "Male",
+      "Mail ID": "venkatraman.ct20@bitsathy.ac.in"
+    }
+  ];
+  @override
+  Widget build(BuildContext context) {
+    var size = MediaQuery.of(context).size;
+    var height = size.height/100;
+    var width = size.width/100;
+    return Expanded(
+      flex: 40,
+      child: Padding(
+        padding: const EdgeInsets.all(12.0),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(20),
+          child: Container(
+            width: MediaQuery.of(context).size.width - 30,
+            color: Colors.white,
             child: Padding(
-              padding: EdgeInsets.all(15),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(20),
-                child: Container(
-                  width: MediaQuery.of(context).size.width - 30,
-                  color: Color(0xffebebeb),
-                  child: Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(80.0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text("Portal", style: TextStyle(fontWeight: FontWeight.w900, fontSize: 25),),
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 40.0),
-                                  child: Row(
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text("Cloud Computing", style: TextStyle(fontWeight: FontWeight.w800, fontSize: 20),),
-                                      Text(" - 148 Students", style: TextStyle(fontWeight: FontWeight.w500, fontSize: 15),)
-                                    ],
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 8.0),
-                                  child: Text("SLB-031", style: TextStyle(fontWeight: FontWeight.w500, fontSize: 15),),
-                                ),
-
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 40.0),
-                                  child: Row(
-                                    children: [
-                                      Text(
-                                        "Student Database", style: TextStyle(fontWeight: FontWeight.w800, fontSize: 20),
-                                      ),
-
-                                      Container(
-                                        width: 200,
-                                        child: TextField(
-
-                                          onChanged: (s){
-
-                                          },
-                                          decoration:InputDecoration(
-                                              suffixIcon:IconButton(
-                                                  onPressed: (){
-
-                                                  } , icon: Icon(Icons.search_rounded)
-                                              ) ,
-                                              border: OutlineInputBorder(
-                                                  borderRadius: BorderRadius.circular(40)
-                                              )
-                                          ),
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                              ],
+              padding:
+              const EdgeInsets.only(left: 100, top: 30, right: 100),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "Portal",
+                          style: GoogleFonts.poppins(
+                              fontWeight: FontWeight.w600, fontSize: 28),
+                        ),
+                        Row(
+                          children: const [
+                            CircleAvatar(
+                              radius: 25,
                             ),
-                          ),
+                            SizedBox(
+                              width: 24,
+                            ),
 
-                          Padding(
-                            padding: const EdgeInsets.all(80.0),
-                            child: Row(
-                              children: [
-                                CircleAvatar(),
-                                SizedBox(width: 24,),
-                                Icon(Icons.logout),
-                                Text("Logout")
-                              ],
+                            Icon(Icons.logout),
+                            Text("Logout")
+                          ],
+                        )
+                      ]),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 20.0),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(
+                          "Cloud Computing",
+                          style: GoogleFonts.poppins(
+                              fontWeight: FontWeight.w500, fontSize: 24),
+                        ),
+                        Text(
+                          " - 148 Students",
+                          style: GoogleFonts.poppins(
+                              fontWeight: FontWeight.w500, fontSize: 18),
+                        )
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8.0),
+                    child: Text(
+                      "SLB-031",
+                      style: GoogleFonts.poppins(
+                          fontWeight: FontWeight.w500, fontSize: 17),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 30.0),
+                    child: Container(
+                      width: width*100,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "Student Database",
+                            style: GoogleFonts.poppins(
+                                fontWeight: FontWeight.w500,
+                                fontSize: 20),
+                          ),
+                          Material(
+                            elevation: 10,
+                            shadowColor: Colors.black45,
+                            borderRadius: BorderRadius.circular(10),
+                            child: Container(
+                              width: 210,
+                              child: TextField(
+                                onChanged: (s) {},
+                                decoration: InputDecoration(
+                                    suffixIcon: IconButton(
+                                        onPressed: () {},
+                                        icon: const Icon(Icons.search_rounded)),
+                                    border: InputBorder.none,
+                                )
+                              ),
                             ),
                           )
                         ],
-                      )
-                    ],
+                      ),
+                    ),
                   ),
-                ),
+                  getSizedBox(30),
+                  Material(
+                    borderRadius: BorderRadius.circular(7),
+                    // elevation: 8,
+                    child: Column(
+                      children: [
+                        Container(
+                          color: Colors.grey.shade100.withOpacity(0.5),
+                          height: height*7,
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                getContainerForTable(width, "S.No", 5, FontWeight.w500, 1.2),
+                                getContainerForTable(width, "Roll No", 9, FontWeight.w500, 1.2),
+                                getContainerForTable(width, "Name", 12, FontWeight.w500, 1.2),
+                                getContainerForTable(width, "Department", 20, FontWeight.w500, 1.2),
+                                getContainerForTable(width, "Gender", 7, FontWeight.w500, 1.2),
+                                getContainerForTable(width, "Mail Id", 20, FontWeight.w500, 1.2),
+                              ],
+                            ),
+                          ),
+                        ),
+                        Container(
+                          width: width*100,
+                          height: height*50,
+
+                          child: ListView.builder(
+                              itemCount: data.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                return Container(
+                                  height: height*7,
+                                  color: index%2==0?Colors.white: Colors.grey.shade100.withOpacity(0.5),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        getContainerForTable(width,data[index]['S.No'].toString(), 5, FontWeight.w300, 1),
+                                        getContainerForTable(width,data[index]['Roll No'].toString(), 9, FontWeight.w300, 1),
+                                        getContainerForTable(width,data[index]['Name'].toString(), 12, FontWeight.w300, 1),
+                                        getContainerForTable(width,data[index]['Department'].toString(), 20, FontWeight.w300, 1),
+                                        getContainerForTable(width,data[index]['Gender'].toString(), 7, FontWeight.w300, 1),
+                                        getContainerForTable(width,data[index]['Mail ID'].toString(), 20, FontWeight.w300, 1),
+                                      ],
+                                    ),
+                                  ),
+                                );
+                              }),
+                        )
+                      ],
+                    ),
+                  ),
+                ],
               ),
             ),
-          )
-        ],
+          ),
+        ),
       ),
     );
   }
 }
-
-
