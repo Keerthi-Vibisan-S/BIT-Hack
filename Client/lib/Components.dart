@@ -10,9 +10,9 @@ getFacultyCard()
     alignment: AlignmentDirectional.center,
     child: Container(
       width: 300,
-      color: Colors.white,
+      // color: Colors.white,
       child: Card(
-        elevation: 20,
+        elevation: 10,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(15.0),
         ),
@@ -74,95 +74,95 @@ getFacultyCard()
 
 renderStudentDetailsCard()
 {
-
   return Column(
     children: [
-      Card(
-        elevation: 10,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(25.0),
+      Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(25),
+            color: Colors.white,
+            boxShadow: [
+              BoxShadow(
+                  color: Colors.black12.withOpacity(0.1),
+                  blurRadius: 50,
+                  offset: Offset(0, 0)
+              )
+            ]
         ),
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(35),
-          child: Container(
-            // color: Colors.red,
-            height: 550,
-            child:
-              Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        height: 550,
+        child:
+          Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            CircleAvatar(
+              backgroundImage: NetworkImage("https://lh3.googleusercontent.com/a/AEdFTp4Rp8ovWbCc4j8KiPba5PwXrCicVUT_B7NzhGCmMA=s96-c"),
+              radius: 50,
+            ),
+            Column(
+                children: [
+                  Text("Balasuriya K A",style: TextStyle(fontSize: 17.5,fontWeight: FontWeight.bold),),
+                  SizedBox(height: 10,),
+                  Text("balasuriya.cs20@bitsathy.ac.in",
+                  style: TextStyle(
+                    color: Colors.black.withOpacity(0.7)
+                  ),
+                  ),
+                ],
+              ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                CircleAvatar(
-                  backgroundImage: NetworkImage("https://lh3.googleusercontent.com/a/AEdFTp4Rp8ovWbCc4j8KiPba5PwXrCicVUT_B7NzhGCmMA=s96-c"),
-                  radius: 50,
-                ),
-                Column(
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text("Balasuriya K A",style: TextStyle(fontSize: 17.5,fontWeight: FontWeight.bold),),
-                      SizedBox(height: 10,),
-                      Text("balasuriya.cs20@bitsathy.ac.in", 
-                      style: TextStyle(
-                        color: Colors.black.withOpacity(0.7)
-                      ),
-                      ),
+                      getStyledTextForProfileCard("Year"), getSizedBox(15),
+                      getStyledTextForProfileCard("Department"),getSizedBox(15),
+                      getStyledTextForProfileCard("Special Lab"),getSizedBox(15),
+                      getStyledTextForProfileCard("Lab Code"),getSizedBox(15),
+                      getStyledTextForProfileCard("Incharge"),getSizedBox(15),
+                      getStyledTextForProfileCard("Joined Date"),getSizedBox(15),
+                      getStyledTextForProfileCard("History Of Change"),getSizedBox(15),
                     ],
                   ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          getStyledTextForProfileCard("Year"), getSizedBox(15),
-                          getStyledTextForProfileCard("Department"),getSizedBox(15),
-                          getStyledTextForProfileCard("Special Lab"),getSizedBox(15),
-                          getStyledTextForProfileCard("Lab Code"),getSizedBox(15),
-                          getStyledTextForProfileCard("Incharge"),getSizedBox(15),
-                          getStyledTextForProfileCard("Joined Date"),getSizedBox(15),
-                          getStyledTextForProfileCard("History Of Change"),getSizedBox(15),
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          getStyledTextForProfileCard(":"), getSizedBox(15),
-                          getStyledTextForProfileCard(":"),getSizedBox(15),
-                          getStyledTextForProfileCard(":"),getSizedBox(15),
-                          getStyledTextForProfileCard(":"),getSizedBox(15),
-                          getStyledTextForProfileCard(":"),getSizedBox(15),
-                          getStyledTextForProfileCard(":"),getSizedBox(15),
-                          getStyledTextForProfileCard(":"),getSizedBox(15),
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          getStyledTextForProfileCard("3rd Year"), getSizedBox(15),
-                          getStyledTextForProfileCard("CS"),getSizedBox(15),
-                          getStyledTextForProfileCard("Cloud Computing"),getSizedBox(15),
-                          getStyledTextForProfileCard("1"),getSizedBox(15),
-                          getStyledTextForProfileCard("Nataraj N"),getSizedBox(15),
-                          getStyledTextForProfileCard("29.08.20 "),getSizedBox(15),
-                          getStyledTextForProfileCard("0"),getSizedBox(15),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      getStyledTextForProfileCard(":"), getSizedBox(15),
+                      getStyledTextForProfileCard(":"),getSizedBox(15),
+                      getStyledTextForProfileCard(":"),getSizedBox(15),
+                      getStyledTextForProfileCard(":"),getSizedBox(15),
+                      getStyledTextForProfileCard(":"),getSizedBox(15),
+                      getStyledTextForProfileCard(":"),getSizedBox(15),
+                      getStyledTextForProfileCard(":"),getSizedBox(15),
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      getStyledTextForProfileCard("3rd Year"), getSizedBox(15),
+                      getStyledTextForProfileCard("CS"),getSizedBox(15),
+                      getStyledTextForProfileCard("Cloud Computing"),getSizedBox(15),
+                      getStyledTextForProfileCard("1"),getSizedBox(15),
+                      getStyledTextForProfileCard("Nataraj N"),getSizedBox(15),
+                      getStyledTextForProfileCard("29.08.20 "),getSizedBox(15),
+                      getStyledTextForProfileCard("0"),getSizedBox(15),
 
-                        ],
-                      ),
-                    )
-                  ],
+                    ],
+                  ),
                 )
               ],
-            ),
-          ),
+            )
+          ],
         ),
       ),
     ],

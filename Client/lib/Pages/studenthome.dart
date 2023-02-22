@@ -174,34 +174,38 @@ class _getStudentHomeState extends State<getStudentHome> {
     return Expanded(
       flex: 40,
       child: Padding(
-        padding: EdgeInsets.all(10),
+        padding: const EdgeInsets.all(12.0),
         child: ClipRRect(
-          borderRadius: BorderRadius.circular(30),
+          borderRadius: BorderRadius.circular(20),
           child: Container(
-            width: w - 30,
-            color: Color(0xfffdfeff),
+            // color: Colors.orange,
+            width: MediaQuery.of(context).size.width - 30,
+            color: Colors.white,
             child: Padding(
-              padding: const EdgeInsets.only(left: 50),
+              padding:
+              const EdgeInsets.only(left: 100, top: 40, right: 100),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  getSizedBox(50),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Expanded(child: Text("Portal",style: TextStyle(fontWeight: FontWeight.w900,decoration: TextDecoration.none,color: Colors.black,fontSize: 30),)),
-                      CircleAvatar(),
-                      SizedBox(width: 20,),
-                      Padding(
-                        padding: const EdgeInsets.only(right: 20),
-                        child: Row(
-                          children: [
-                            Icon(Icons.logout),
-                            Text("Logout",style: TextStyle(decoration: TextDecoration.none,fontSize: 15,color: Colors.black,),)
-                          ],
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "Portal",
+                          style: GoogleFonts.poppins(
+                              fontWeight: FontWeight.w600, fontSize: 28),
                         ),
-                      )
-                    ],
+                        Row(
+                          children: const [
+                            CircleAvatar(),
+                            SizedBox(
+                              width: 24,
+                            ),
+                            Icon(Icons.logout),
+                            Text("Logout")
+                          ],
+                        )
+                      ]
                   ),
                   getSizedBox(50),
                   Row(
@@ -219,66 +223,70 @@ class _getStudentHomeState extends State<getStudentHome> {
                                 Container(
                                   width: w * 0.5,
                                   height: h * 0.48,
-                                  decoration: BoxDecoration(
-                                    // boxShadow:
-                                  ),
-                                  child: Stack(
-                                    children: [
-                                      ClipRRect(
-                                        borderRadius: BorderRadius.circular(20), // Image border
-                                        child: SizedBox.expand(
-                                          child: Image.network('assets/cloudcomputing.jpg',fit: BoxFit.cover),
-                                        ),
-                                      ),
-                                      Positioned(
-                                          child: Text(
-                                            "Cloud Computing",
-                                            style: GoogleFonts.poppins(
-                                                fontWeight: FontWeight.w500,
-                                                decoration: TextDecoration.none,
-                                                color: Colors.white,
-                                                fontSize: 20
-                                            )
+
+                                  child: Card(
+                                    // elevation: 200,
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(20),
+                                    ),
+                                    child: Stack(
+                                      children: [
+                                        ClipRRect(
+                                            borderRadius: BorderRadius.circular(20),
+                                          child: SizedBox.expand(
+                                            child: Image.network('assets/cloudcomputing.jpg',fit: BoxFit.cover),
                                           ),
-                                        top: 20,
-                                        left: 20,
-                                      ),
-                                      Positioned(
-                                        child: Text(
-                                            "SLB008",
-                                            style: GoogleFonts.poppins(
-                                                fontWeight: FontWeight.w400,
-                                                decoration: TextDecoration.none,
-                                                color: Colors.white,
-                                                fontSize: 17.5
-                                            )
                                         ),
-                                        top: 60,
-                                        left: 20,
-                                      ),
-                                      Positioned(
-                                        left: 20,
-                                        bottom: 20,
-                                        child: Align(
-                                          // top: h * 0.35,
-                                          // left: 20,
-                                          alignment: Alignment.bottomLeft,
-                                          child: Container(
-                                            width: w * 0.4,
+                                        Positioned(
                                             child: Text(
-                                                "Cloud computing is the on-demand availability of computer system resources, especially data storage and computing power, without direct active management by the user. Large clouds often have functions.",
-                                                maxLines: 4,
-                                                style: GoogleFonts.poppins(
-                                                    fontWeight: FontWeight.w300,
-                                                    decoration: TextDecoration.none,
-                                                    color: Colors.white.withOpacity(0.85),
-                                                    fontSize: 15,
-                                                )
+                                              "Cloud Computing",
+                                              style: GoogleFonts.poppins(
+                                                  fontWeight: FontWeight.w500,
+                                                  decoration: TextDecoration.none,
+                                                  color: Colors.white,
+                                                  fontSize: 20
+                                              )
+                                            ),
+                                          top: 20,
+                                          left: 20,
+                                        ),
+                                        Positioned(
+                                          child: Text(
+                                              "SLB008",
+                                              style: GoogleFonts.poppins(
+                                                  fontWeight: FontWeight.w400,
+                                                  decoration: TextDecoration.none,
+                                                  color: Colors.white,
+                                                  fontSize: 17.5
+                                              )
+                                          ),
+                                          top: 60,
+                                          left: 20,
+                                        ),
+                                        Positioned(
+                                          left: 20,
+                                          bottom: 20,
+                                          child: Align(
+                                            // top: h * 0.35,
+                                            // left: 20,
+                                            alignment: Alignment.bottomLeft,
+                                            child: Container(
+                                              width: w * 0.4,
+                                              child: Text(
+                                                  "Cloud computing is the on-demand availability of computer system resources, especially data storage and computing power, without direct active management by the user. Large clouds often have functions.",
+                                                  maxLines: 4,
+                                                  style: GoogleFonts.poppins(
+                                                      fontWeight: FontWeight.w300,
+                                                      decoration: TextDecoration.none,
+                                                      color: Colors.white.withOpacity(0.85),
+                                                      fontSize: 15,
+                                                  )
+                                              ),
                                             ),
                                           ),
                                         ),
-                                      ),
-                                    ],
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ],
@@ -297,7 +305,6 @@ class _getStudentHomeState extends State<getStudentHome> {
                                   child: Row(
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
-                                      SizedBox(),
                                       Expanded(
                                         child: Container(
                                           height: 130,

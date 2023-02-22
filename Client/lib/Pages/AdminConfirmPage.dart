@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../Utilities/Util.dart';
+
 class InchargeSwitch extends StatefulWidget {
   const InchargeSwitch({Key? key}) : super(key: key);
 
@@ -14,6 +16,66 @@ class _InchargeSwitchState extends State<InchargeSwitch> {
   bool press2 = true;
 
   List data = [
+    {
+      "S.No": 1,
+      "Roll No": "202CT141",
+      "Name": "VENKAT RAMAN S P",
+      "Department": "COMPUTER TECHNOLOGY",
+      "Year": "III",
+      "History": 5,
+      "From": "Cloud Lab",
+      "To": "Data Science"
+    },
+    {
+      "S.No": 1,
+      "Roll No": "202CT141",
+      "Name": "VENKAT RAMAN S P",
+      "Department": "COMPUTER TECHNOLOGY",
+      "Year": "III",
+      "History": 5,
+      "From": "Cloud Lab",
+      "To": "Data Science"
+    },
+    {
+      "S.No": 1,
+      "Roll No": "202CT141",
+      "Name": "VENKAT RAMAN S P",
+      "Department": "COMPUTER TECHNOLOGY",
+      "Year": "III",
+      "History": 5,
+      "From": "Cloud Lab",
+      "To": "Data Science"
+    },
+    {
+      "S.No": 1,
+      "Roll No": "202CT141",
+      "Name": "VENKAT RAMAN S P",
+      "Department": "COMPUTER TECHNOLOGY",
+      "Year": "III",
+      "History": 5,
+      "From": "Cloud Lab",
+      "To": "Data Science"
+    },
+    {
+      "S.No": 1,
+      "Roll No": "202CT141",
+      "Name": "VENKAT RAMAN S P",
+      "Department": "COMPUTER TECHNOLOGY",
+      "Year": "III",
+      "History": 5,
+      "From": "Cloud Lab",
+      "To": "Data Science"
+    },
+    {
+      "S.No": 1,
+      "Roll No": "202CT141",
+      "Name": "VENKAT RAMAN S P",
+      "Department": "COMPUTER TECHNOLOGY",
+      "Year": "III",
+      "History": 5,
+      "From": "Cloud Lab",
+      "To": "Data Science"
+    },
     {
       "S.No": 1,
       "Roll No": "202CT141",
@@ -138,20 +200,19 @@ class _InchargeSwitchState extends State<InchargeSwitch> {
                           fontSize: 20),
                     ),
                     Material(
-                      elevation: 15,
-                      borderRadius: BorderRadius.circular(40),
+                      elevation: 10,
+                      shadowColor: Colors.black45,
+                      borderRadius: BorderRadius.circular(10),
                       child: Container(
                         width: 210,
                         child: TextField(
-                          onChanged: (s) {},
-                          decoration: InputDecoration(
+                            onChanged: (s) {},
+                            decoration: InputDecoration(
                               suffixIcon: IconButton(
                                   onPressed: () {},
-                                  icon: const Icon(
-                                      Icons.search_rounded)),
-                              border: OutlineInputBorder(
-                                  borderRadius:
-                                  BorderRadius.circular(40))),
+                                  icon: const Icon(Icons.search_rounded)),
+                              border: InputBorder.none,
+                            )
                         ),
                       ),
                     )
@@ -159,12 +220,10 @@ class _InchargeSwitchState extends State<InchargeSwitch> {
                 ),
               ),
             ),
-            const SizedBox(
-              height: 20,
-            ),
+            getSizedBox(20),
             Container(
-              width: width * 120,
-              height: height * 55,
+              width: width * 100,
+              height: height * 53,
               child: table(data),
             ),
           ],
@@ -180,219 +239,76 @@ class _InchargeSwitchState extends State<InchargeSwitch> {
 
     return Container(
       // color: Colors.blue,
-      width: width * 120,
-      height: height * 70,
-      color: Colors.white,
+      width: width * 100,
+      height: height * 60,
+      // color: Colors.green,
       child: Column(
         children: [
           Container(
-            color: Colors.black12,
-            height: height * 5,
+            color: Colors.grey.shade100.withOpacity(0.6),
+            height: height * 7,
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Container(
-                    width: width * 3,
-                    alignment: Alignment.center,
-                    child: Text(
-                      "S.No",
-                      style: GoogleFonts.poppins(
-                          fontWeight: FontWeight.w500, fontSize: width * 1.2),
-                    ),
-                  ),
-                  Container(
-                    width: width * 9,
-                    alignment: Alignment.center,
-                    child: Text(
-                      "Roll No",
-                      style: GoogleFonts.poppins(
-                          fontWeight: FontWeight.w500, fontSize: width * 1.2),
-                    ),
-                  ),
-                  Container(
-                    width: width * 12,
-                    alignment: Alignment.center,
-                    child: Text(
-                      "Name",
-                      style: GoogleFonts.poppins(
-                          fontWeight: FontWeight.w500, fontSize: width * 1.2),
-                    ),
-                  ),
-                  Container(
-                    width: width * 6,
-                    alignment: Alignment.center,
-                    child: Text(
-                      "Dept",
-                      style: GoogleFonts.poppins(
-                          fontWeight: FontWeight.w500, fontSize: width * 1.2),
-                    ),
-                  ),
-                  Container(
-                    width: width * 3,
-                    alignment: Alignment.center,
-                    child: Text(
-                      "Year",
-                      style: GoogleFonts.poppins(
-                          fontWeight: FontWeight.w500, fontSize: width * 1.2),
-                    ),
-                  ),
-                  Container(
-                    width: width * 8,
-                    alignment: Alignment.center,
-                    child: Text(
-                      "From",
-                      style: GoogleFonts.poppins(
-                          fontWeight: FontWeight.w500, fontSize: width * 1.2),
-                    ),
-                  ),
-                  Container(
-                    width: width * 8,
-                    alignment: Alignment.center,
-                    child: Text(
-                      "To",
-                      style: GoogleFonts.poppins(
-                          fontWeight: FontWeight.w500, fontSize: width * 1.2),
-                    ),
-                  ),
-                  Container(
-                    width: width * 4.5,
-                    alignment: Alignment.center,
-                    child: Text(
-                      "History",
-                      style: GoogleFonts.poppins(
-                          fontWeight: FontWeight.w500, fontSize: width * 1.2),
-                    ),
-                  ),
-                  Container(
-                    width: width * 15,
-                    alignment: Alignment.center,
-                    child: Text(
-                      "Approval",
-                      style: GoogleFonts.poppins(
-                          fontWeight: FontWeight.w500, fontSize: width * 1.2),
-                    ),
-                  ),
+                  getContainerForTable(width, "S.No", 3, FontWeight.w500, 1.2),
+                  getContainerForTable(width, "Roll No", 4, FontWeight.w500, 1.2),
+                  getContainerForTable(width, "Name", 8, FontWeight.w500, 1.2),
+                  getContainerForTable(width, "Department", 10, FontWeight.w500, 1.2),
+                  getContainerForTable(width, "Year", 3, FontWeight.w500, 1.2),
+                  getContainerForTable(width, "From", 10.5, FontWeight.w500, 1.2),
+                  getContainerForTable(width, "To", 10.5, FontWeight.w500, 1.2),
+                  getContainerForTable(width, "History", 7.5, FontWeight.w500, 1.2),
+                  getContainerForTable(width, "Approval", 12, FontWeight.w500, 1.2),
                 ],
               ),
             ),
           ),
           Container(
-            height: height * 45,
+            // width: width*100,
+            height: height*45,
+            // color: Colors.red,
             child: ListView.builder(
                 itemCount: data.length,
                 itemBuilder: (BuildContext context, int index) {
                   return Container(
                     height: height * 7,
-                    color: index % 2 == 0 ? Colors.white70 : Colors.black12,
+                    color: index % 2 == 0 ? Colors.white70 : Colors.grey.shade100.withOpacity(0.6),
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
+                          getContainerForTable(width,data[index]['S.No'].toString(), 3, FontWeight.w300, 1),
+                          getContainerForTable(width,data[index]['Roll No'].toString(), 4, FontWeight.w300, 1),
+                          getContainerForTable(width,data[index]['Name'].toString(), 8, FontWeight.w300, 1),
+                          getContainerForTable(width,data[index]['Department'].toString(), 10, FontWeight.w300, 1),
+                          getContainerForTable(width,data[index]['Year'].toString(), 3, FontWeight.w300, 1),
+                          getContainerForTable(width,data[index]['From'].toString(), 10.5, FontWeight.w300, 1),
+                          getContainerForTable(width,data[index]['To'].toString(), 10.5, FontWeight.w300, 1),
                           Container(
-                            width: width * 3,
-                            alignment: Alignment.center,
-                            // color: Colors.orange,
-                            child: Text(
-                              data[index]['S.No'].toString(),
-                              style: GoogleFonts.poppins(
-                                  fontWeight: FontWeight.w400,
-                                  fontSize: width * 1),
-                            ),
-                          ),
-                          Container(
-                            width: width * 9,
-                            alignment: Alignment.center,
-                            // color: Colors.orange,
-                            child: Text(
-                              data[index]['Roll No'],
-                              style: GoogleFonts.poppins(
-                                  fontWeight: FontWeight.w400,
-                                  fontSize: width * 1),
-                            ),
-                          ),
-                          Container(
-                            // color: Colors.orange,
-                            width: width * 12,
-                            alignment: Alignment.center,
-                            child: Text(
-                              data[index]['Name'],
-                              style: GoogleFonts.poppins(
-                                  fontWeight: FontWeight.w400,
-                                  fontSize: width * 1),
-                            ),
-                          ),
-                          Container(
-                            // color: Colors.orange,
-                            width: width * 6,
-                            alignment: Alignment.center,
-                            child: Text(
-                              convert[data[index]['Department']]!,
-                              style: GoogleFonts.poppins(
-                                  fontWeight: FontWeight.w400,
-                                  fontSize: width * 1),
-                            ),
-                          ),
-                          Container(
-                            width: width * 3,
-                            alignment: Alignment.center,
-                            // color: Colors.orange,
-                            child: Text(
-                              data[index]['Year'],
-                              style: GoogleFonts.poppins(
-                                  fontWeight: FontWeight.w400,
-                                  fontSize: width * 1),
-                            ),
-                          ),
-                          Container(
-                            width: width * 8,
-                            alignment: Alignment.center,
-                            // color: Colors.orange,
-                            child: Text(
-                              data[index]['From'],
-                              style: GoogleFonts.poppins(
-                                  fontWeight: FontWeight.w400,
-                                  fontSize: width * 1),
-                            ),
-                          ),
-                          Container(
-                            width: width * 8,
-                            alignment: Alignment.center,
-                            // color: Colors.orange,
-                            child: Text(
-                              data[index]['To'],
-                              style: GoogleFonts.poppins(
-                                  fontWeight: FontWeight.w400,
-                                  fontSize: width * 1),
-                            ),
-                          ),
-                          Container(
-                            width: width * 4.5,
-                            alignment: Alignment.center,
-                            // color: Colors.orange,
-                            child: Text(
-                              data[index]['History'].toString(),
-                              style: GoogleFonts.poppins(
-                                  fontWeight: FontWeight.w400,
-                                  fontSize: width * 1),
-                            ),
-                          ),
-                          Container(
-                            width: width * 15,
-                            alignment: Alignment.centerRight,
-                            // color: Colors.orange,
+                            width: width*7.5,
                             child: Row(
                               children: [
+                                Text(
+                                  data[index]['History'].toString(),
+                                  style: GoogleFonts.poppins(
+                                      fontWeight: FontWeight.w300,
+                                      fontSize: width*1 -1.8
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 25,
+                                ),
                                 Container(
                                   width: 60,
-                                  height: 25.0,
+                                  height: 30.0,
                                   decoration: BoxDecoration(
                                       color: Colors.white,
                                       border: Border.all(
-                                          width: 0.1, color: Color(0xffFF0000)),
-                                      borderRadius: BorderRadius.circular(10),
+                                          width: 1, color: Color(0xff5749f3)),
+                                      borderRadius: BorderRadius.circular(7.5),
                                       boxShadow: const [
                                         BoxShadow(
                                           color: Colors.black12,
@@ -407,140 +323,216 @@ class _InchargeSwitchState extends State<InchargeSwitch> {
                                           showDialog(
                                             context: context,
                                             builder: (BuildContext context) {
-                                              return Container(
-                                                height: height*100,
-                                                width: width*100,
-                                                child: AlertDialog(
-                                                  title: Text(
-                                                    '${data[index]["Name"]}  -  ${data[index]["Roll No"]}  -  ${convert[data[index]['Department']]}  -  ${data[index]['Year']}',
-                                                    style: GoogleFonts.poppins(
-                                                        fontWeight:
-                                                        FontWeight.w500,
-                                                        fontSize: width * 1),
+                                              return AlertDialog(
+                                                title: Padding(
+                                                  padding: const EdgeInsets.only(top: 32.0, left: 32.0, right: 32.0),
+                                                  child: Row(
+                                                    children: [
+                                                      Text(
+                                                          '${data[index]["Name"]} ',
+                                                          style: GoogleFonts.poppins(
+                                                          fontWeight: FontWeight.bold,
+                                                        )
+                                                      ),
+                                                      Text('\u2022  ${data[index]["Roll No"]}  \u2022  ${convert[data[index]['Department']]} \u2022 ${data[index]['Year']}',
+                                                          style: GoogleFonts.poppins(
+                                                            fontWeight: FontWeight.normal,
+                                                            color: Colors.black54,
+                                                            fontSize: 17.5
+                                                          )
+                                                      )
+                                                    ],
                                                   ),
-                                                  content: Column(
+                                                ),
+                                                content: Padding(
+                                                  padding: const EdgeInsets.only(left: 32.0, right: 32.0),
+                                                  child: Column(
                                                     crossAxisAlignment: CrossAxisAlignment.start,
+                                                    mainAxisSize: MainAxisSize.min,
                                                     children: [
                                                       Text(
                                                         "History",
-                                                        style:
-                                                        GoogleFonts.poppins(
-                                                            fontWeight:
-                                                            FontWeight
-                                                                .w500,
-                                                            fontSize:
-                                                            width * 1),
+                                                          style: GoogleFonts.poppins(
+                                                            fontWeight: FontWeight.w700,
+                                                            fontSize: 17.5,
+                                                          )
                                                       ),
+                                                      getSizedBox(10),
                                                       Container(
-                                                        height: height*30,
-                                                        width: width*50,
+                                                        height: 200,
+                                                        width: 500,
                                                         child: ListView.builder(
                                                             itemCount:
                                                             data2.length,
                                                             itemBuilder:
-                                                                (BuildContext
-                                                            context,
-                                                                int index) {
+                                                                (BuildContext context, int index) {
                                                               return Padding(
                                                                 padding:
-                                                                const EdgeInsets
-                                                                    .all(8.0),
-                                                                child: ListTile(
-                                                                  leading: Text(
-                                                                      (index + 1)
-                                                                          .toString()),
-                                                                  title: Text(
-                                                                      data2[index]
-                                                                      [
-                                                                      'from']),
-                                                                  trailing: Text(
-                                                                      data2[index]
-                                                                      ['to']),
-                                                                ),
+                                                                const EdgeInsets.only( bottom: 18.0, top: 18.0),
+                                                                child:
+                                                                  Row(
+                                                                    children: [
+                                                                      Flexible(
+                                                                        flex:1,
+                                                                        child: Text((index + 1).toString()+".", style: GoogleFonts.poppins(
+                                                                          fontWeight: FontWeight.bold
+                                                                        ),),
+                                                                      ),
+                                                                      Flexible(flex:2, child: Container()),
+                                                                      Flexible(
+                                                                        child: Text("Industrial Web And App Development",
+                                                                            softWrap:true,
+                                                                            style: GoogleFonts.poppins(
+                                                                              fontWeight: FontWeight.bold,
+                                                                            )
+                                                                        ),
+                                                                        flex: 5,
+                                                                      ),
+                                                                      Flexible(child: Container()),
+                                                                      Flexible(
+                                                                          flex: 2,
+                                                                          child: Icon(Icons.arrow_forward_rounded)),
+                                                                      Flexible(flex:2, child: Container()),
+                                                                      Flexible(
+                                                                        flex:5,
+                                                                        child: Text(data2[index]['to'], style: GoogleFonts.poppins(
+                                                                  fontWeight: FontWeight.bold
+                                                                  )),
+                                                                      )
+                                                                    ]
+                                                                  )
                                                               );
                                                             }),
                                                       ),
                                                       SizedBox(height: 20,),
                                                       Text(
                                                         "Request",
-                                                        style: GoogleFonts.poppins(
-                                                            fontWeight: FontWeight.w500,
-                                                            fontSize: width * 1),
+                                                          style: GoogleFonts.poppins(
+                                                            fontWeight: FontWeight.w700,
+                                                            fontSize: 17.5,
+                                                          )
                                                       ),
                                                       SizedBox(height: 20,),
-                                                      Row(
-                                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                        children: [
-                                                          Text(
-                                                              (data2.length + 1)
-                                                                  .toString()),
-                                                          Text(
-                                                              data3['from']!
-                                                          ),
-                                                          Text(
-                                                              data3['to']!
-                                                          )
-                                                        ],
+                                                      Container(
+                                                        width: 400,
+                                                        child: Row(
+                                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                          children: [
+                                                            Flexible(
+                                                              flex:1,
+                                                              child: Text((data2.length + 1).toString()+".", style: GoogleFonts.poppins(
+                                                                  fontWeight: FontWeight.bold
+                                                              ),),
+                                                            ),
+                                                            Flexible(flex:2, child: Container()),
+                                                            Flexible(
+                                                              child: Text(data2[index]['to'],
+                                                                  softWrap:true,
+                                                                  style: GoogleFonts.poppins(
+                                                                    fontWeight: FontWeight.bold,
+                                                                  )
+                                                              ),
+                                                              flex: 5,
+                                                            ),
+                                                            Flexible(child: Container()),
+                                                            Flexible(
+                                                                flex: 2,
+                                                                child: Icon(Icons.arrow_forward_rounded)),
+                                                            Flexible(flex:2, child: Container()),
+                                                            Flexible(
+                                                              flex:5,
+                                                              child: Text(data2[index]['from'], style: GoogleFonts.poppins(
+                                                                  fontWeight: FontWeight.bold
+                                                              )),
+                                                            )
+                                                          ],
+                                                        ),
                                                       )
                                                     ],
                                                   ),
-                                                  actions: [
-                                                    TextButton(
-                                                      onPressed: () {
-                                                        Navigator.pop(context);
-                                                      },
-                                                      child: Text('CANCEL'),
-                                                    ),
-                                                    TextButton(
-                                                      onPressed: () async {
-                                                        // await sendMail("balasuriya.cs20@bitsathy.ac.in", {
-                                                        //   "stu_name":"Balasuriya K A",
-                                                        //   "from_lab":"Cloud Computing",
-                                                        //   "to_lab":"No Lab Interested"
-                                                        // });
-                                                      },
-                                                      child: Text('ACCEPT'),
-                                                    ),
-                                                  ],
                                                 ),
+                                                actions: [
+                                                  Padding(
+                                                    padding: const EdgeInsets.only(bottom: 32.0, left: 32.0),
+                                                    child: Container(
+                                                      width: 90,
+                                                      height: 40,
+                                                      child: Material(
+                                                        borderRadius: BorderRadius.circular(5),
+                                                        color: Colors.red,
+                                                        child: InkWell(
+                                                            onTap: () async {
+                                                              // await sendMail("balasuriya.cs20@bitsathy.ac.in", {
+                                                              //   "stu_name":"Balasuriya K A",
+                                                              //   "from_lab":"Cloud Computing",
+                                                              //   "to_lab":"No Lab Interested"
+                                                              // });
+                                                            },
+                                                            child: Center(
+                                                              child:  Text(
+                                                                'Decline',
+                                                                style: GoogleFonts.poppins(
+                                                                    color: Colors.white
+                                                                ),
+                                                              ),
+                                                            )),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  Padding(
+                                                    padding: const EdgeInsets.only(bottom: 32.0, left: 16.0, right: 48.0),
+                                                    child: Container(
+                                                      width: 90,
+                                                      height: 40,
+                                                      child: Material(
+                                                        borderRadius: BorderRadius.circular(5),
+                                                        color: Color(0xff5749f3),
+                                                        child: InkWell(
+                                                            onTap: () async {
+                                                              // await sendMail("balasuriya.cs20@bitsathy.ac.in", {
+                                                              //   "stu_name":"Balasuriya K A",
+                                                              //   "from_lab":"Cloud Computing",
+                                                              //   "to_lab":"No Lab Interested"
+                                                              // });
+                                                            },
+                                                            child: Center(
+                                                              child:  Text('Accept',
+                                                                style: GoogleFonts.poppins(
+                                                                    color: Colors.white
+                                                                ),
+                                                              ),
+                                                            )),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
                                               );
                                             },
                                           );
                                         },
-                                        child:
-                                        const Center(child: Text("View"))),
+                                        child: const Center(child: Text("View"))),
                                   ),
                                 ),
-                                SizedBox(
-                                  width: 25,
-                                ),
+                              ],
+                            ),
+                          ),
+                          Container(
+                            width: width * 12,
+                            alignment: Alignment.centerRight,
+                            // color: Colors.orange,
+                            child: Row(
+                              children: [
                                 Container(
                                   width: 60,
                                   height: 25.0,
-                                  decoration: BoxDecoration(
-                                      border: Border.all(
-                                          width: 0.1, color: Color(0xffFF0000)),
-                                      borderRadius: BorderRadius.circular(10),
-                                      gradient: const LinearGradient(
-                                        colors: <Color>[
-                                          Color(0xff001AFF),
-                                          Colors.white24
-                                        ],
-                                      ),
-                                      boxShadow: const [
-                                        BoxShadow(
-                                          color: Colors.black12,
-                                          offset: Offset(0.0, 1.5),
-                                          blurRadius: 1.5,
-                                        ),
-                                      ]),
                                   child: Material(
-                                    color: Colors.transparent,
+                                    borderRadius: BorderRadius.circular(5),
+                                    color: Colors.red,
                                     child: InkWell(
                                         onTap: () {},
                                         child: const Center(
                                           child: Icon(
-                                            Icons.check,
+                                            Icons.close,
                                             color: Colors.white,
                                           ),
                                         )),
@@ -552,35 +544,19 @@ class _InchargeSwitchState extends State<InchargeSwitch> {
                                 Container(
                                   width: 60,
                                   height: 25.0,
-                                  decoration: BoxDecoration(
-                                      border: Border.all(
-                                          width: 0.1, color: Color(0xffFF0000)),
-                                      borderRadius: BorderRadius.circular(10),
-                                      gradient: const LinearGradient(
-                                        colors: <Color>[
-                                          Color(0xffFF0000),
-                                          Colors.white24
-                                        ],
-                                      ),
-                                      boxShadow: const [
-                                        BoxShadow(
-                                          color: Colors.black12,
-                                          offset: Offset(0.0, 1.5),
-                                          blurRadius: 1.5,
-                                        ),
-                                      ]),
                                   child: Material(
-                                    color: Colors.transparent,
+                                    borderRadius: BorderRadius.circular(5),
+                                    color: Color(0xff5749f3),
                                     child: InkWell(
                                         onTap: () {},
                                         child: const Center(
                                           child: Icon(
-                                            Icons.close,
+                                            Icons.check,
                                             color: Colors.white,
                                           ),
                                         )),
                                   ),
-                                )
+                                ),
                               ],
                             ),
                           ),
@@ -594,6 +570,4 @@ class _InchargeSwitchState extends State<InchargeSwitch> {
       ),
     );
   }
-
-
 }

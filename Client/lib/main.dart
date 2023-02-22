@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:special_lab_dashboard/Pages/AdminConfirmPage.dart';
+import 'package:special_lab_dashboard/Pages/AdminSpecificLabView.dart';
 import 'package:special_lab_dashboard/Pages/FacultyHome.dart';
 import 'package:special_lab_dashboard/Pages/studenthome.dart';
 
@@ -30,7 +32,7 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
-    return StudentHome(null);
+    return AdminHomePage();
   }
 }
 

@@ -329,9 +329,6 @@ class _FacultySwitchState extends State<FacultySwitch> {
                             // color: Colors.orange,
                             child: Row(
                               children: [
-                                // SizedBox(
-                                //   width: 50,
-                                // ),
                                 Container(
                                   width: 60,
                                   height: 25.0,
@@ -348,7 +345,6 @@ class _FacultySwitchState extends State<FacultySwitch> {
                                         )),
                                   ),
                                 ),
-
                                 SizedBox(
                                   width: 10,
                                 ),

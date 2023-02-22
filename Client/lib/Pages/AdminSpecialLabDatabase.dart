@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../Utilities/Util.dart';
+
 class AdminSpecialLabDatabase extends StatefulWidget {
   const AdminSpecialLabDatabase({Key? key}) : super(key: key);
 
@@ -12,6 +14,34 @@ class AdminSpecialLabDatabase extends StatefulWidget {
 class _AdminSpecialLabDatabaseState extends State<AdminSpecialLabDatabase> {
 
   List data = [
+    {
+      "S.No": 1,
+      "Spl_lab": "Cloud Computing",
+      "Lab_id": "SLB031",
+      "Incharge": "Nataraj N",
+      "Strength": "137",
+    },
+    {
+      "S.No": 2,
+      "Spl_lab": "Mobile and Web",
+      "Lab_id": "SLB032",
+      "Incharge": "Sundaram",
+      "Strength": "230",
+    },
+    {
+      "S.No": 3,
+      "Spl_lab": "Hackathon",
+      "Lab_id": "SLB034",
+      "Incharge": "Nithya",
+      "Strength": "98",
+    },
+    {
+      "S.No": 4,
+      "Spl_lab": "AR VR",
+      "Lab_id": "SLB037",
+      "Incharge": "Poornima",
+      "Strength": "57",
+    },
     {
       "S.No": 1,
       "Spl_lab": "Cloud Computing",
@@ -53,224 +83,114 @@ class _AdminSpecialLabDatabaseState extends State<AdminSpecialLabDatabase> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: const EdgeInsets.only(top: 30.0),
+            padding: const EdgeInsets.only(top: 50.0),
             child: Container(
               width: 1200,
+              // color: Colors.redAccent,
+              // height: 1000,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text("Special Lab Database",style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),),
+                  Text("Special Lab Database",style: GoogleFonts.poppins(
+                      fontSize: 20,fontWeight: FontWeight.bold
+                  ),),
                   Material(
-                    elevation: 15,
-                    borderRadius: BorderRadius.circular(40),
+                    elevation: 10,
+                    shadowColor: Colors.black45,
+                    borderRadius: BorderRadius.circular(10),
                     child: Container(
                       width: 210,
                       child: TextField(
-                        onChanged: (s) {},
-                        decoration: InputDecoration(
+                          onChanged: (s) {},
+                          decoration: InputDecoration(
                             suffixIcon: IconButton(
                                 onPressed: () {},
                                 icon: const Icon(Icons.search_rounded)),
-                            border: OutlineInputBorder(
-                                borderRadius:
-                                BorderRadius.circular(40))),
+                            border: InputBorder.none,
+                          )
                       ),
                     ),
-                  ),
+                  )
                 ],
               ),
             ),
           ),
-          SizedBox(
-            height: 20,
-          ),
-          Padding(
-            padding: const EdgeInsets.only(right:100),
-            child: Container(
-              color: Colors.black12,
-              height: height*5,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Container(
-                      height: 50,
-                      width: width*3,
-                      alignment: Alignment.center,
-                      child: Text(
-                        "S.No",
-                        style: GoogleFonts.poppins(
-                            fontWeight: FontWeight.w500,
-                            fontSize: width*1.2,
-                            decoration : TextDecoration.none,color: Colors.black),
-                      ),
-                    ),
-                    Container(
-                      height: 50,
-                      width: width*9,
-                      alignment: Alignment.center,
-                      child: Text(
-                        "Special Lab",
-                        style: GoogleFonts.poppins(
-                            fontWeight: FontWeight.w500,
-                            fontSize: width*1.2,
-                            decoration : TextDecoration.none,color: Colors.black),
-                      ),
-                    ),
-                    Container(
-                      height: 50,
-                      width: width*12,
-                      alignment: Alignment.center,
-                      child: Text(
-                        "Lab ID",
-                        style: GoogleFonts.poppins(
-                            fontWeight: FontWeight.w500,
-                            fontSize: width*1.2,
-                            decoration : TextDecoration.none,color: Colors.black),
-                      ),
-                    ),
-                    Container(
-                      height: 50,
-                      width: width*22,
-                      alignment: Alignment.center,
-                      child: Text(
-                        "Incharge",
-                        style: GoogleFonts.poppins(
-                            fontWeight: FontWeight.w500,
-                            fontSize: width*1.2,
-                            decoration : TextDecoration.none,color: Colors.black),
-                      ),
-                    ),
-                    Container(
-                      height: 50,
-                      width: width*6,
-                      alignment: Alignment.center,
-                      child: Text(
-                        "Strength",
-                        style: GoogleFonts.poppins(
-                            fontWeight: FontWeight.w500,
-                            fontSize: width*1.2,
-                            decoration : TextDecoration.none,color: Colors.black),
-                      ),
-                    ),
-                    Container(
-                      height: 50,
-                      width: width*20,
-                      alignment: Alignment.center,
-                      child: Text(
-                        "",
-                        style: GoogleFonts.poppins(
-                            fontWeight: FontWeight.w500,
-                            fontSize: width*1.2,
-                            decoration : TextDecoration.none,color: Colors.black),
-                      ),
-                    ),
-                  ],
+          getSizedBox(50),
+          Column(
+            children: [
+              Container(
+                color: Colors.grey.shade100.withOpacity(0.6),
+                height: height * 7,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      getContainerForTable(width, "S.No", 6, FontWeight.w500, 1.2),
+                      Flexible(child: getContainerForTable(width, "Special Lab", 22, FontWeight.w500, 1.2),),
+                      getContainerForTable(width, "Lab ID", 9, FontWeight.w500, 1.2),
+                      getContainerForTable(width, "Incharge", 9, FontWeight.w500, 1.2),
+                      getContainerForTable(width, "Strength", 6, FontWeight.w500, 1.2),
+                      getContainerForTable(width, " ", 4, FontWeight.w500, 1.2),
+                      getContainerForTable(width, " ", 7.5, FontWeight.w500, 1.2),
+                    ],
+                  ),
                 ),
               ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(right:100),
-            child: Container(
-              width: width*100,
-              height: height*50,
-              color: Colors.white,
-              child: ListView.builder(
-                  itemCount: data.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return Container(
-                      height: height*7,
-                      color: index%2==0?Colors.white70:Colors.black12,
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Container(
-                              width: width*3,
-                              alignment: Alignment.center,
-                              // color: Colors.orange,
-                              child: Text(
-                                data[index]['S.No'].toString(),
-                                style: GoogleFonts.poppins(
-                                    fontWeight: FontWeight.w400,
-                                    fontSize:  width*1,
-                                    decoration : TextDecoration.none,color: Colors.black),
-                              ),
-                            ),
-                            Container(
-                              width: width*9,
-                              alignment: Alignment.center,
-                              // color: Colors.orange,
-                              child: Text(
-                                data[index]['Spl_lab'],
-                                style: GoogleFonts.poppins(
-                                    fontWeight: FontWeight.w400,
-                                    fontSize:  width*1,
-                                    decoration : TextDecoration.none,color: Colors.black),
-                              ),
-                            ),
-                            Container(
-                              // color: Colors.orange,
-                              width: width*12,
-                              alignment: Alignment.center,
-                              child: Text(
-                                data[index]['Lab_id'],
-                                style: GoogleFonts.poppins(
-                                    fontWeight: FontWeight.w400,
-                                    fontSize:  width*1,
-                                    decoration : TextDecoration.none,color: Colors.black),
-                              ),
-                            ),
-                            Container(
-                              // color: Colors.orange,
-                              width: width*22,
-                              alignment: Alignment.center,
-                              child: Text(
-                                data[index]['Incharge'],
-                                style: GoogleFonts.poppins(
-                                    fontWeight: FontWeight.w400,
-                                    fontSize:  width*1,
-                                    decoration : TextDecoration.none,color: Colors.black),
-                              ),
-                            ),
-                            Container(
-                              width: width*5,
-                              alignment: Alignment.center,
-                              // color: Colors.orange,
-                              child: Text(
-                                data[index]['Strength'],
-                                style: GoogleFonts.poppins(
-                                    fontWeight: FontWeight.w400,
-                                    fontSize:  width*1,
-                                    decoration : TextDecoration.none,color: Colors.black),
-                              ),
-                            ),
-                            Container(
-
-                              width: width*20,
-                              alignment: Alignment.center,
-                              // color: Colors.orange,
-                              child: Container(
-                                  width: 60,
+              Container(
+                // width: width*100,
+                height: height*55,
+                // color: Colors.red,
+                child: ListView.builder(
+                    itemCount: data.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return Container(
+                        height: height * 7,
+                        color: index % 2 == 0 ? Colors.white70 : Colors.grey.shade100.withOpacity(0.6),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              getContainerForTable(width, (index+1).toString()+".", 6, FontWeight.w300, 1),
+                              getContainerForTable(width, data[index]['Spl_lab'],22, FontWeight.w300, 1),
+                              getContainerForTable(width, data[index]['Lab_id'], 9, FontWeight.w300, 1),
+                              getContainerForTable(width, data[index]['Incharge'], 9,FontWeight.w300, 1),
+                              getContainerForTable(width, data[index]['Strength'], 6, FontWeight.w300, 1),
+                              Container(
+                                width: width*4,
+                                child: Container(
+                                  width: 100,
+                                  height: 30.0,
                                   decoration: BoxDecoration(
-                                      border: Border.all(),
-
-                                      borderRadius: BorderRadius.circular(5)
+                                      color: Colors.white,
+                                      border: Border.all(
+                                          width: 1, color: Color(0xff5749f3)),
+                                      borderRadius: BorderRadius.circular(7.5),
+                                      boxShadow: const [
+                                        BoxShadow(
+                                          color: Colors.black12,
+                                          offset: Offset(0.0, 1.5),
+                                          blurRadius: 1.5,
+                                        ),
+                                      ]),
+                                  child: Material(
+                                    color: Colors.transparent,
+                                    child: InkWell(
+                                        onTap:(){},
+                                        child: const Center(child: Text("View"))),
                                   ),
-                                  child: Align(
-                                      alignment: Alignment.center,
-                                      child: Text("View", style: TextStyle(decoration : TextDecoration.none,color: Colors.black, fontSize: 10),)))
-                            ),
-                          ],
+                                ),
+                              ),
+                              getContainerForTable(width, " ", 7.5, FontWeight.w500, 1.2),
+                            ],
+                          ),
                         ),
-                      ),
-                    );
-                  }),
-            ),
-          )
+                      );
+                    }),
+              ),
+            ],
+          ),
         ],
       ),
     );

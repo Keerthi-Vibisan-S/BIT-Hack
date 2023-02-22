@@ -17,7 +17,7 @@ class AdminHomePage extends StatefulWidget {
 
 class _AdminHomePageState extends State<AdminHomePage> {
   List<String> labnames = ["Cloud Computing","AR VR","IOT","Data Science","Hackathon","Mobile App"];
-  var pageNo = 0;
+  var pageNo = 1;
   List data = [
     {
       "S.No": 1,
@@ -140,7 +140,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
                 ),
               ),
             ),
-            Expanded(
+         Expanded(
           flex: 40,
           child: Padding(
             padding: const EdgeInsets.all(12.0),
@@ -149,7 +149,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
               child: Container(
                 // color: Colors.orange,
                 width: MediaQuery.of(context).size.width - 30,
-                color: const Color(0xffebebeb),
+                color: Colors.white,
                 child: Padding(
                   padding:
                   const EdgeInsets.only(left: 100, top: 40, right: 100),
@@ -174,7 +174,8 @@ class _AdminHomePageState extends State<AdminHomePage> {
                                 Text("Logout")
                               ],
                             )
-                          ]),
+                          ]
+                      ),
                       screens[pageNo]
                     ],
                   ),
@@ -189,7 +190,6 @@ class _AdminHomePageState extends State<AdminHomePage> {
     );
   }
 }
-
 
 class getAdminHomePage extends StatefulWidget {
   const getAdminHomePage({Key? key}) : super(key: key);
@@ -250,33 +250,6 @@ class _getAdminHomePageState extends State<getAdminHomePage> {
                           ],
                         ),
                       ),
-                      // Column(
-                      //   crossAxisAlignment: CrossAxisAlignment.start,
-                      //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      //   children: [
-                      //     Container(
-                      //       width: 250,
-                      //     ),
-                      //     Container(
-                      //       width: 250,
-                      //     ),
-                      //     Container(
-                      //       width: 250,
-                      //     ),Container(
-                      //       width: 250,
-                      //     ),
-                      //     Container(
-                      //       width: 250,
-                      //     ),
-                      //     Container(
-                      //       width: 250,
-                      //     ),
-                      //     Container(
-                      //       width: 250,
-                      //     ),
-                      //
-                      //   ],
-                      // )
                     ],
                   ),
                 ),
