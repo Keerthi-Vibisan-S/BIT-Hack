@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:special_lab_dashboard/Utilities/Util.dart';
 
@@ -72,8 +73,7 @@ getFacultyCard()
 }
 
 
-renderStudentDetailsCard()
-{
+renderStudentDetailsCard() {
   return Column(
     children: [
       Container(
@@ -171,40 +171,64 @@ renderStudentDetailsCard()
 
 renderCards(title,count,startcolor,endcolor)
 {
-  return ClipRRect(
-    borderRadius: BorderRadius.circular(20),
-    child: Card(
-      elevation: 10,
-      child: Container(
-        height: 150,
-        width: 306,
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [Color(startcolor),Color(endcolor)],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
+  return Padding(
+    padding: const EdgeInsets.all(8.0),
+    child: Container(
+      height: 150,
+      width: 280,
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [Color(startcolor),Color(endcolor)],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
         ),
-        child: Padding(
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Text(title.toString(),style: TextStyle(color: Colors.white,fontSize: 18),),
-                ],
-              ),
-              SizedBox(height: 10,),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Text(count.toString(),style: TextStyle(color: Colors.white,fontSize: 18),)
-                ],
-              )
-            ],
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black12.withOpacity(0.1),
+            blurRadius: 50,
+            offset: Offset(0, 0), // Shadow position
           ),
+        ],
+        borderRadius: BorderRadius.circular(15)
+      ),
+      child: Padding(
+        padding: const EdgeInsets.only(left:20,top:20,bottom:20),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Text(title.toString(),style: GoogleFonts.poppins(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.white
+                ),),
+              ],
+            ),
+            SizedBox(height: 10,),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Container(
+                  width: 90,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.only(topLeft: Radius.circular(10),bottomLeft: Radius.circular(10)),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 4),
+                      child: Align(
+                        alignment: AlignmentDirectional.center,
+                        child: Text(count.toString(),style: GoogleFonts.poppins(
+                            fontSize: 24,fontWeight: FontWeight.w500
+                        ),),
+                      ),
+                    )
+                )
+              ],
+            )
+          ],
         ),
       ),
     ),
@@ -223,6 +247,10 @@ renderLabAnanlysisBar(labname,int width,int index)
   }
   return Row(
     children: [
+      Expanded(flex:2,child: Text(labname,style: GoogleFonts.poppins(
+          fontWeight: FontWeight.w600
+      ),)),
+      Expanded(flex:1,child: Container()),
       Expanded(
         flex: width,
         child: ClipRRect(
@@ -235,10 +263,6 @@ renderLabAnanlysisBar(labname,int width,int index)
                   end: Alignment.centerRight,
                 )
             ),
-            child: Padding(
-              padding: const EdgeInsets.only(left: 8.0),
-              child: Text(labname,style: TextStyle(decoration : TextDecoration.none,fontSize: 15,color: Colors.white,),),
-            ),
             alignment: Alignment.centerLeft,
             height: 50,
             width: width.toDouble(),
@@ -249,6 +273,7 @@ renderLabAnanlysisBar(labname,int width,int index)
           flex: 10-width,
           child: Container())
     ],
+
   );
 }
 

@@ -83,11 +83,9 @@ class _AdminSpecialLabDatabaseState extends State<AdminSpecialLabDatabase> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: const EdgeInsets.only(top: 50.0),
+            padding: const EdgeInsets.only(top: 25, left: 100, right: 100),
             child: Container(
-              width: 1200,
-              // color: Colors.redAccent,
-              // height: 1000,
+              width: width * 100,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -96,16 +94,27 @@ class _AdminSpecialLabDatabaseState extends State<AdminSpecialLabDatabase> {
                   ),),
                   Material(
                     elevation: 10,
-                    shadowColor: Colors.black45,
-                    borderRadius: BorderRadius.circular(10),
+                    shadowColor: Colors.white,
+                    borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(10),
+                        topLeft: Radius.circular(10),
+                        topRight: Radius.circular(30),
+                        bottomRight: Radius.circular(30)
+                    ),
                     child: Container(
-                      width: 210,
+
+                      width: width*15,
                       child: TextField(
                           onChanged: (s) {},
                           decoration: InputDecoration(
+                            hintText: "Search...",
+                            contentPadding: EdgeInsets.all(18.0),
                             suffixIcon: IconButton(
-                                onPressed: () {},
-                                icon: const Icon(Icons.search_rounded)),
+                              onPressed: () {},
+                              icon: Icon(
+                                  Icons.search_rounded),
+
+                            ),
                             border: InputBorder.none,
                           )
                       ),
@@ -116,80 +125,83 @@ class _AdminSpecialLabDatabaseState extends State<AdminSpecialLabDatabase> {
             ),
           ),
           getSizedBox(50),
-          Column(
-            children: [
-              Container(
-                color: Colors.grey.shade100.withOpacity(0.6),
-                height: height * 7,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      getContainerForTable(width, "S.No", 6, FontWeight.w500, 1.2),
-                      Flexible(child: getContainerForTable(width, "Special Lab", 22, FontWeight.w500, 1.2),),
-                      getContainerForTable(width, "Lab ID", 9, FontWeight.w500, 1.2),
-                      getContainerForTable(width, "Incharge", 9, FontWeight.w500, 1.2),
-                      getContainerForTable(width, "Strength", 6, FontWeight.w500, 1.2),
-                      getContainerForTable(width, " ", 4, FontWeight.w500, 1.2),
-                      getContainerForTable(width, " ", 7.5, FontWeight.w500, 1.2),
-                    ],
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 100),
+            child: Column(
+              children: [
+                Container(
+                  color: Colors.grey.shade100.withOpacity(0.6),
+                  height: height * 7,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        getContainerForTable(width, "S.No", 6, FontWeight.w500, 1.2),
+                        Flexible(child: getContainerForTable(width, "Special Lab", 22, FontWeight.w500, 1.2),),
+                        getContainerForTable(width, "Lab ID", 9, FontWeight.w500, 1.2),
+                        getContainerForTable(width, "Incharge", 9, FontWeight.w500, 1.2),
+                        getContainerForTable(width, "Strength", 6, FontWeight.w500, 1.2),
+                        getContainerForTable(width, " ", 4, FontWeight.w500, 1.2),
+                        getContainerForTable(width, " ", 7.5, FontWeight.w500, 1.2),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-              Container(
-                // width: width*100,
-                height: height*55,
-                // color: Colors.red,
-                child: ListView.builder(
-                    itemCount: data.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return Container(
-                        height: height * 7,
-                        color: index % 2 == 0 ? Colors.white70 : Colors.grey.shade100.withOpacity(0.6),
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              getContainerForTable(width, (index+1).toString()+".", 6, FontWeight.w300, 1),
-                              getContainerForTable(width, data[index]['Spl_lab'],22, FontWeight.w300, 1),
-                              getContainerForTable(width, data[index]['Lab_id'], 9, FontWeight.w300, 1),
-                              getContainerForTable(width, data[index]['Incharge'], 9,FontWeight.w300, 1),
-                              getContainerForTable(width, data[index]['Strength'], 6, FontWeight.w300, 1),
-                              Container(
-                                width: width*4,
-                                child: Container(
-                                  width: 100,
-                                  height: 30.0,
-                                  decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      border: Border.all(
-                                          width: 1, color: Color(0xff5749f3)),
-                                      borderRadius: BorderRadius.circular(7.5),
-                                      boxShadow: const [
-                                        BoxShadow(
-                                          color: Colors.black12,
-                                          offset: Offset(0.0, 1.5),
-                                          blurRadius: 1.5,
-                                        ),
-                                      ]),
-                                  child: Material(
-                                    color: Colors.transparent,
-                                    child: InkWell(
-                                        onTap:(){},
-                                        child: const Center(child: Text("View"))),
+                Container(
+                  // width: width*100,
+                  height: height*55,
+                  // color: Colors.red,
+                  child: ListView.builder(
+                      itemCount: data.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return Container(
+                          height: height * 7,
+                          color: index % 2 == 0 ? Colors.white70 : Colors.grey.shade100.withOpacity(0.6),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                getContainerForTable(width, (index+1).toString()+".", 6, FontWeight.w300, 1),
+                                getContainerForTable(width, data[index]['Spl_lab'],22, FontWeight.w300, 1),
+                                getContainerForTable(width, data[index]['Lab_id'], 9, FontWeight.w300, 1),
+                                getContainerForTable(width, data[index]['Incharge'], 9,FontWeight.w300, 1),
+                                getContainerForTable(width, data[index]['Strength'], 6, FontWeight.w300, 1),
+                                Container(
+                                  width: width*4,
+                                  child: Container(
+                                    width: 100,
+                                    height: 30.0,
+                                    decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        border: Border.all(
+                                            width: 1, color: Color(0xff5749f3)),
+                                        borderRadius: BorderRadius.circular(7.5),
+                                        boxShadow: const [
+                                          BoxShadow(
+                                            color: Colors.black12,
+                                            offset: Offset(0.0, 1.5),
+                                            blurRadius: 1.5,
+                                          ),
+                                        ]),
+                                    child: Material(
+                                      color: Colors.transparent,
+                                      child: InkWell(
+                                          onTap:(){},
+                                          child: const Center(child: Text("View"))),
+                                    ),
                                   ),
                                 ),
-                              ),
-                              getContainerForTable(width, " ", 7.5, FontWeight.w500, 1.2),
-                            ],
+                                getContainerForTable(width, " ", 7.5, FontWeight.w500, 1.2),
+                              ],
+                            ),
                           ),
-                        ),
-                      );
-                    }),
-              ),
-            ],
+                        );
+                      }),
+                ),
+              ],
+            ),
           ),
         ],
       ),

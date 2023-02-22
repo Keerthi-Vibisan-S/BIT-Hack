@@ -1,12 +1,18 @@
 
-
+import 'dart:html';
+import 'dart:math';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:just_the_tooltip/just_the_tooltip.dart';
 import 'package:special_lab_dashboard/Components.dart';
 import 'package:special_lab_dashboard/Pages/AdminSpecialLabDatabase.dart';
 import 'package:special_lab_dashboard/Pages/AdminSpecificLabView.dart';
 import 'package:special_lab_dashboard/Pages/AdminConfirmPage.dart';
+import 'package:special_lab_dashboard/Utilities/Util.dart';
+import 'package:special_lab_dashboard/responsive.dart';
+import 'package:super_tooltip/super_tooltip.dart';
 
 class AdminHomePage extends StatefulWidget {
   const AdminHomePage({Key? key}) : super(key: key);
@@ -17,7 +23,7 @@ class AdminHomePage extends StatefulWidget {
 
 class _AdminHomePageState extends State<AdminHomePage> {
   List<String> labnames = ["Cloud Computing","AR VR","IOT","Data Science","Hackathon","Mobile App"];
-  var pageNo = 1;
+  var pageNo = 0;
   List data = [
     {
       "S.No": 1,
@@ -140,50 +146,54 @@ class _AdminHomePageState extends State<AdminHomePage> {
                 ),
               ),
             ),
-         Expanded(
-          flex: 40,
-          child: Padding(
-            padding: const EdgeInsets.all(12.0),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(20),
-              child: Container(
-                // color: Colors.orange,
-                width: MediaQuery.of(context).size.width - 30,
-                color: Colors.white,
-                child: Padding(
-                  padding:
-                  const EdgeInsets.only(left: 100, top: 40, right: 100),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              "Portal",
-                              style: GoogleFonts.poppins(
-                                  fontWeight: FontWeight.w600, fontSize: 28),
-                            ),
-                            Row(
-                              children: const [
-                                CircleAvatar(),
-                                SizedBox(
-                                  width: 24,
+            Expanded(
+              flex: 40,
+              child: Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(20),
+                  child: Container(
+                    // color: Colors.orange,
+                    width: MediaQuery.of(context).size.width - 30,
+                    color: Colors.white,
+
+                    child: Padding(
+                      padding: EdgeInsets.only(top: 40,),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 100),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  "Portal",
+                                  style: GoogleFonts.poppins(
+                                      fontWeight: FontWeight.w600, fontSize: 28),
                                 ),
-                                Icon(Icons.logout),
-                                Text("Logout")
-                              ],
-                            )
-                          ]
+                                Row(
+                                  children: const [
+                                    CircleAvatar(),
+                                    SizedBox(
+                                      width: 24,
+                                    ),
+                                    Icon(Icons.logout),
+                                    Text("Logout")
+                                  ],
+                                )
+                              ]
+                            ),
+                          ),
+                          getSizedBox(20),
+                          screens[pageNo]
+                        ],
                       ),
-                      screens[pageNo]
-                    ],
+                    ),
                   ),
                 ),
               ),
             ),
-          ),
-        ),
           ],
         ),
       ),
@@ -199,98 +209,294 @@ class getAdminHomePage extends StatefulWidget {
 }
 
 class _getAdminHomePageState extends State<getAdminHomePage> {
-  List<String> labnames = ["Cloud Computing","AR VR","IOT","Data Science","Hackathon","Mobile App"];
+  List<String> labnames = [
+    "Cloud Computing",
+    "AR VR",
+    "IOT",
+    "Data Science",
+    "Hackathon",
+    "Mobile App",
+    "Cloud Computing",
+    "AR VR",
+    "IOT",
+    "Data Science",
+    "Hackathon",
+    "Mobile App"
+  ];
+  List<int> labStudentsCount = [3, 6, 2, 9, 7, 4, 3, 6, 2, 9, 7, 4];
+  String labName = "";
+  bool changed = false;
+  final tooltipController = JustTheController();
+
+  double x = 0.0;
+  double y = 0.0;
+  bool isHover = false;
+
+  ScrollController _scrollController = new ScrollController();
+  double _scrollPosition = 0;
+
   @override
   Widget build(BuildContext context) {
-    return  Expanded(
-      flex: 40,
-      child: Padding(
-        padding: const EdgeInsets.only(top: 40),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                Text("Analysis",style: TextStyle(fontWeight: FontWeight.w800,fontSize: 18,decoration : TextDecoration.none,color: Colors.black,),),
-                SizedBox(width: 20,),
-                Text(". 1278 Students", style: TextStyle(fontWeight: FontWeight.w800,fontSize: 18,decoration : TextDecoration.none,color: Colors.black,),)
-              ],
-            ),
-            SizedBox(height: 20,),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                renderCards("No. of Special Labs", 27,0xff1e1492,0xffaba8d6),
-                renderCards("No. of Students Enrolled",1175,0xffff8a1d,0xffffd7b2),
-                renderCards("No. of Students not Enrolled", 103,0xff191919,0xff787878),
-                // Expanded(flex: 2,child: Container())
-              ],
-            ),
-            SizedBox(height: 30,),
-            Text("Special Lab Details",style: TextStyle(fontWeight: FontWeight.w800,fontSize: 18),),
-            SizedBox(height: 10,),
-            Row(
-              children: [
-                Expanded(
-                  flex: 8,
+    var size = MediaQuery
+        .of(context)
+        .size;
+    var height = size.height / 100;
+    var width = size.width / 100;
+    return Expanded(
+      child: SingleChildScrollView(
+        controller: _scrollController,
+        child: Padding(
+            padding: const EdgeInsets.only(top: 25, left: 100, right: 100),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Text("Analysis", style: GoogleFonts.poppins(
+                      fontSize: 20, fontWeight: FontWeight.bold
+                  ),),
+                  SizedBox(width: 20,),
+                  Text("\u2022 1278 Students", style: GoogleFonts.poppins(
+                      fontSize: 15,
+                      // fontWeight: FontWeight.w500,
+                      color: Colors.black54
+                  ))
+                ],
+              ),
+              SizedBox(height: 20,),
+              (Responsive.isDesktop(context))
+                  ? Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        renderCards(
+                            "No. of Special Labs", 27, 0xff1e1492, 0xffaba8d6),
+                        renderCards("No. of Faculties Working", 54, 0xffff8a1d,
+                            0xffffd7b2),
+                        renderCards(
+                            "No. of Students Enrolled", 1175, 0xff024d19, 0xff66cc85),
+                        renderCards("No. of Students not Enrolled", 103, 0xffff0000,
+                            0xffe892a1),
+                        // Expanded(flex: 2,child: Container())
+                      ],
+                    )
+                  : Wrap(
+                      children: [
+                        renderCards(
+                            "No. of Special Labs", 27, 0xff1e1492, 0xffaba8d6),
+                        renderCards("No. of Faculties Working", 54, 0xff191919,
+                            0xff787878),
+                        renderCards(
+                            "No. of Students Enrolled", 1175, 0xffff8a1d, 0xffffd7b2),
+                        renderCards("No. of Students not Enrolled", 103, 0xff191919,
+                            0xff787878),
+                      ],
+                    ),
+              SizedBox(height: 30,),
+              Text("Special Lab Details", style: GoogleFonts.poppins(
+                  fontSize: 18, fontWeight: FontWeight.w800
+              ),),
+              SizedBox(height: 10,),
+              Container(
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(20),
+                    boxShadow: [
+                      BoxShadow(
+                          color: Colors.blue.withOpacity(0.1),
+                          spreadRadius: 15,
+                          blurRadius: 50,
+                          offset: Offset(0, 0),
+
+                      )
+                    ]
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 25, bottom: 25),
                   child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
+                      // Expanded(flex:1,child: Container()),
+                      SizedBox(width: width * 5,),
                       Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        flex: 8,
+                        child: Row(
                           children: [
-                            ListView.builder(
-                              shrinkWrap: true,
-                              itemBuilder: (BuildContext context,int index){
-                                return renderLabAnanlysisBar(labnames[index],index+1,index);
-                              },
-                              itemCount: labnames.length,
+                            Expanded(
+                              child: Stack(
+                                // crossAxisAlignment: CrossAxisAlignment.start,
+                                // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  ListView.builder(
+                                    scrollDirection: Axis.vertical,
+                                    physics: BouncingScrollPhysics(),
+                                    // physics: NeverScrollableScrollPhysics(),
+                                    shrinkWrap: true,
+                                    itemBuilder: (BuildContext context,
+                                        int index) {
+                                      return MouseRegion(
+                                        onExit: (PointerExitEvent exit) {
+                                          setState(() {
+                                            isHover = false;
+                                          });
+                                        },
+                                        onHover: (PointerEvent details) {
+                                          // print(_scrollController.position.pixels);
+                                          setState(() {
+                                            isHover = true;
+                                            x = details.position.dx;
+                                            y = details.position.dy +
+                                                (_scrollController.position
+                                                    .pixels);
+                                            this.labName = labnames[index];
+                                          });
+                                        },
+                                        child: Container(
+                                          child: renderLabAnanlysisBar(
+                                              labnames[index],
+                                              labStudentsCount[index], index),
+                                        ),
+                                      );
+                                    },
+                                    itemCount: labnames.length,
+                                  ),
+                                  (isHover) ? Transform(
+                                      transform: Matrix4.translationValues(
+                                          x - 250, y - 750, 0),
+                                      child: ShowSpecialLabStats(labName)
+                                  ) : SizedBox()
+                                ],
+                              ),
                             ),
                           ],
                         ),
                       ),
+                      Expanded(flex: 3, child: Container())
                     ],
                   ),
                 ),
-                // Expanded(flex:1,child: Container()),
-                Expanded(
-                  flex: 3,
-                  child: Card(
-                    child: Padding(
-                      padding: const EdgeInsets.all(25),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text("Cloud Computing",style: TextStyle(decoration : TextDecoration.none,fontSize: 15,color: Colors.black,),),
-                          SizedBox(height: 30,),
-                          Text("127 Students",style: TextStyle(decoration : TextDecoration.none,fontSize: 15,color: Colors.black,),),
-                          SizedBox(height: 20,),
-                          Text("I year : 37",style: TextStyle(decoration : TextDecoration.none,fontSize: 15,color: Colors.black,)),
-                          Text("II year : 45",style: TextStyle(decoration : TextDecoration.none,fontSize: 15,color: Colors.black,)),
-                          Text("III year : 26",style: TextStyle(decoration : TextDecoration.none,fontSize: 15,color: Colors.black,)),
-                          Text("IV year : 16",style: TextStyle(decoration : TextDecoration.none,fontSize: 15,color: Colors.black,)),
-                          SizedBox(height: 30,),
-                          Text("Faculties",style: TextStyle(decoration : TextDecoration.none,fontSize: 15,color: Colors.black,),),
-                          SizedBox(height: 20,),
-                          Text("Nataraj N",style: TextStyle(decoration : TextDecoration.none,fontSize: 15,color: Colors.black,)),
-                          Text("Poornima",style: TextStyle(decoration : TextDecoration.none,fontSize: 15,color: Colors.black,)),
-                          Text("Nithya",style: TextStyle(decoration : TextDecoration.none,fontSize: 15,color: Colors.black,)),
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+  }
 
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-                Expanded(flex: 3,child: Container())
-              ],
+  @override
+  void initState() {
+    // // Programatically display tooltip after two seconds
+    // Future.delayed(const Duration(seconds: 2), () {
+    //   tooltipController.showTooltip(immediately: false);
+    // });
+    //
+    // tooltipController.addListener(() {
+    //   // Prints the enum value of [TooltipStatus.isShowing] or [TooltipStatus.isHiding]
+    //   print('controller: ${tooltipController.value}');
+    // });
+  }
+}
+
+class ShowSpecialLabStats extends StatelessWidget {
+  final labname;
+  const ShowSpecialLabStats(this.labname,{Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 300,
+      decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(10),
+          boxShadow: [
+            BoxShadow(
+                color: Colors.black12.withOpacity(0.1),
+                blurRadius: 50,
+                offset: Offset(0,0,)
             )
+          ]
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(25),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Text(labname,style: TextStyle(decoration : TextDecoration.none,fontSize: 15,color: Colors.black,),),
+              ],
+            ),
+            SizedBox(height: 30,),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Text("127 Students",style: TextStyle(decoration : TextDecoration.none,fontSize: 15,color: Colors.black,),),
+              ],
+            ),
+            SizedBox(height: 20,),
+            Align(
+              alignment: Alignment.center,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text("I year",style: TextStyle(decoration : TextDecoration.none,fontSize: 15,color: Colors.black,)),
+                      Text("II year",style: TextStyle(decoration : TextDecoration.none,fontSize: 15,color: Colors.black,)),
+                      Text("III year",style: TextStyle(decoration : TextDecoration.none,fontSize: 15,color: Colors.black,)),
+                      Text("IV year",style: TextStyle(decoration : TextDecoration.none,fontSize: 15,color: Colors.black,)),
+                    ],
+                  ),
+                  Column(
+                    children: [
+                      for(int i=0;i<4;i++)
+                        Text(" : ")
+                    ],
+                  ),
+                  Column(
+                    children: [
+                      Text("32",style: TextStyle(decoration : TextDecoration.none,fontSize: 15,color: Colors.black,)),
+                      Text("60",style: TextStyle(decoration : TextDecoration.none,fontSize: 15,color: Colors.black,)),
+                      Text("72",style: TextStyle(decoration : TextDecoration.none,fontSize: 15,color: Colors.black,)),
+                      Text("38",style: TextStyle(decoration : TextDecoration.none,fontSize: 15,color: Colors.black,)),
+                    ],
+                  )
+                ],
+              ),
+            ),
+            SizedBox(height: 30,),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Text("Faculties",style: TextStyle(decoration : TextDecoration.none,fontSize: 15,color: Colors.black,),),
+              ],
+            ),
+            SizedBox(height: 20,),
+            Align(
+              alignment: Alignment.center,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text("Nataraj N",style: TextStyle(decoration : TextDecoration.none,fontSize: 15,color: Colors.black,)),
+                  Text("Poornima",style: TextStyle(decoration : TextDecoration.none,fontSize: 15,color: Colors.black,)),
+                  Text("Nithya",style: TextStyle(decoration : TextDecoration.none,fontSize: 15,color: Colors.black,)),
+                ],
+              ),
+            ),
+
           ],
         ),
       ),
     );
   }
 }
+
+
+
+
 
 
 

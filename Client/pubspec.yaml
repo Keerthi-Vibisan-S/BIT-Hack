@@ -41,6 +41,8 @@ dependencies:
   dropdown_button2: ^1.9.2
   google_sign_in: ^5.4.4
   google_sign_in_web: ^0.10.0
+  super_tooltip: ^1.0.1
+  just_the_tooltip: ^0.0.12
   google_fonts:
   drop_shadow_image: ^0.9.1
 
