@@ -173,13 +173,30 @@ class _AdminHomePageState extends State<AdminHomePage> {
                                       fontWeight: FontWeight.w600, fontSize: 28),
                                 ),
                                 Row(
-                                  children: const [
+                                  children: [
                                     CircleAvatar(),
                                     SizedBox(
                                       width: 24,
                                     ),
-                                    Icon(Icons.logout),
-                                    Text("Logout")
+                                    GestureDetector(
+                                      onTap: (){
+                                        Navigator.pop(context);
+                                      },
+                                      child: Row(
+                                        children: [
+                                          Icon(Icons.login_outlined),
+                                          SizedBox(
+                                            width: 10,
+                                          ),
+                                          Text("Logout", style: GoogleFonts.poppins(
+                                              fontWeight: FontWeight.w400,
+                                              decoration: TextDecoration.none,
+                                              color: Colors.black,
+                                              fontSize: 17.5
+                                          ),)
+                                        ],
+                                      ),
+                                    )
                                   ],
                                 )
                               ]
@@ -424,14 +441,14 @@ class ShowSpecialLabStats extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Text(labname,style: TextStyle(decoration : TextDecoration.none,fontSize: 15,color: Colors.black,),),
+                Text(labname,style: GoogleFonts.poppins(decoration : TextDecoration.none,fontSize: 15,color: Colors.black,),),
               ],
             ),
             SizedBox(height: 30,),
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Text("127 Students",style: TextStyle(decoration : TextDecoration.none,fontSize: 15,color: Colors.black,),),
+                Text("127 Students",style: GoogleFonts.poppins(decoration : TextDecoration.none,fontSize: 15,color: Colors.black,),),
               ],
             ),
             SizedBox(height: 20,),
@@ -444,10 +461,10 @@ class ShowSpecialLabStats extends StatelessWidget {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("I year",style: TextStyle(decoration : TextDecoration.none,fontSize: 15,color: Colors.black,)),
-                      Text("II year",style: TextStyle(decoration : TextDecoration.none,fontSize: 15,color: Colors.black,)),
-                      Text("III year",style: TextStyle(decoration : TextDecoration.none,fontSize: 15,color: Colors.black,)),
-                      Text("IV year",style: TextStyle(decoration : TextDecoration.none,fontSize: 15,color: Colors.black,)),
+                      Text("I year",style: GoogleFonts.poppins(decoration : TextDecoration.none,fontSize: 15,color: Colors.black,)),
+                      Text("II year",style: GoogleFonts.poppins(decoration : TextDecoration.none,fontSize: 15,color: Colors.black,)),
+                      Text("III year",style: GoogleFonts.poppins(decoration : TextDecoration.none,fontSize: 15,color: Colors.black,)),
+                      Text("IV year",style: GoogleFonts.poppins(decoration : TextDecoration.none,fontSize: 15,color: Colors.black,)),
                     ],
                   ),
                   Column(
@@ -458,10 +475,10 @@ class ShowSpecialLabStats extends StatelessWidget {
                   ),
                   Column(
                     children: [
-                      Text("32",style: TextStyle(decoration : TextDecoration.none,fontSize: 15,color: Colors.black,)),
-                      Text("60",style: TextStyle(decoration : TextDecoration.none,fontSize: 15,color: Colors.black,)),
-                      Text("72",style: TextStyle(decoration : TextDecoration.none,fontSize: 15,color: Colors.black,)),
-                      Text("38",style: TextStyle(decoration : TextDecoration.none,fontSize: 15,color: Colors.black,)),
+                      Text("32",style: GoogleFonts.poppins(decoration : TextDecoration.none,fontSize: 15,color: Colors.black,)),
+                      Text("60",style: GoogleFonts.poppins(decoration : TextDecoration.none,fontSize: 15,color: Colors.black,)),
+                      Text("72",style: GoogleFonts.poppins(decoration : TextDecoration.none,fontSize: 15,color: Colors.black,)),
+                      Text("38",style: GoogleFonts.poppins(decoration : TextDecoration.none,fontSize: 15,color: Colors.black,)),
                     ],
                   )
                 ],
@@ -471,7 +488,7 @@ class ShowSpecialLabStats extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Text("Faculties",style: TextStyle(decoration : TextDecoration.none,fontSize: 15,color: Colors.black,),),
+                Text("Faculties",style: GoogleFonts.poppins(decoration : TextDecoration.none,fontSize: 15,color: Colors.black,),),
               ],
             ),
             SizedBox(height: 20,),
@@ -480,9 +497,9 @@ class ShowSpecialLabStats extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text("Nataraj N",style: TextStyle(decoration : TextDecoration.none,fontSize: 15,color: Colors.black,)),
-                  Text("Poornima",style: TextStyle(decoration : TextDecoration.none,fontSize: 15,color: Colors.black,)),
-                  Text("Nithya",style: TextStyle(decoration : TextDecoration.none,fontSize: 15,color: Colors.black,)),
+                  Text("Nataraj N",style: GoogleFonts.poppins(decoration : TextDecoration.none,fontSize: 15,color: Colors.black,)),
+                  Text("Poornima",style: GoogleFonts.poppins(decoration : TextDecoration.none,fontSize: 15,color: Colors.black,)),
+                  Text("Nithya",style: GoogleFonts.poppins(decoration : TextDecoration.none,fontSize: 15,color: Colors.black,)),
                 ],
               ),
             ),

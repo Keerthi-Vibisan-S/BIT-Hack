@@ -144,15 +144,32 @@ class _FacultySwitchState extends State<FacultySwitch> {
                                 fontSize: 28),
                           ),
                           Row(
-                            children: const [
+                            children: [
                               CircleAvatar(
                                 radius: 25,
                               ),
                               SizedBox(
                                 width: 24,
                               ),
-                              Icon(Icons.logout),
-                              Text("Logout")
+                              GestureDetector(
+                                onTap: (){
+                                  Navigator.pop(context);
+                                },
+                                child: Row(
+                                  children: [
+                                    Icon(Icons.login_outlined),
+                                    SizedBox(
+                                      width: 10,
+                                    ),
+                                    Text("Logout", style: GoogleFonts.poppins(
+                                        fontWeight: FontWeight.w400,
+                                        decoration: TextDecoration.none,
+                                        color: Colors.black,
+                                        fontSize: 17.5
+                                    ),)
+                                  ],
+                                ),
+                              )
                             ],
                           )
                         ]),
@@ -200,19 +217,29 @@ class _FacultySwitchState extends State<FacultySwitch> {
                             ),
                             Material(
                               elevation: 10,
-                              shadowColor: Colors.black45,
-                              borderRadius: BorderRadius.circular(10),
+                              shadowColor: Colors.white,
+                              borderRadius: BorderRadius.only(
+                                  bottomLeft: Radius.circular(10),
+                                  topLeft: Radius.circular(10),
+                                  topRight: Radius.circular(30),
+                                  bottomRight: Radius.circular(30)
+                              ),
                               child: Container(
-                                width: 210,
-                                child: TextField(
-                                  onChanged: (s) {},
-                                  decoration: InputDecoration(
-                                    suffixIcon: IconButton(
-                                        onPressed: () {},
-                                        icon: const Icon(Icons.search_rounded)),
-                                    border: InputBorder.none,
 
-                                  )
+                                width: width*15,
+                                child: TextField(
+                                    onChanged: (s) {},
+                                    decoration: InputDecoration(
+                                      hintText: "Search...",
+                                      contentPadding: EdgeInsets.all(18.0),
+                                      suffixIcon: IconButton(
+                                        onPressed: () {},
+                                        icon: Icon(
+                                            Icons.search_rounded),
+
+                                      ),
+                                      border: InputBorder.none,
+                                    )
                                 ),
                               ),
                             )

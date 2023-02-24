@@ -6,9 +6,11 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:special_lab_dashboard/Components.dart';
+import 'package:special_lab_dashboard/Models/FacultyModel.dart';
 import 'package:special_lab_dashboard/Pages/LabSwitch.dart';
 import 'package:http/http.dart' as http;
 
+import '../APIHandler/apiHandler.dart';
 import '../Utilities/Util.dart';
 
 class StudentHome extends StatefulWidget {
@@ -26,84 +28,84 @@ class _StudentHomeState extends State<StudentHome> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Color(0xff210368),
-      child: Row(
-        children: [
-          Expanded(
-            flex: 2,
-            child: Container(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
-                    alignment: Alignment.centerLeft,
-                    decoration: BoxDecoration(
-                      borderRadius: const BorderRadius.only(
-                          topRight: Radius.circular(10),
-                          bottomRight: Radius.circular(10)),
-                      color: press1 ? Colors.white : Colors.transparent,
+    return Scaffold(
+      body: Container(
+        color: Color(0xff210368),
+        child: Row(
+          children: [
+            Expanded(
+              flex: 2,
+              child: Container(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      alignment: Alignment.centerLeft,
+                      decoration: BoxDecoration(
+                        borderRadius: const BorderRadius.only(
+                            topRight: Radius.circular(10),
+                            bottomRight: Radius.circular(10)),
+                        color: press1 ? Colors.white : Colors.transparent,
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: IconButton(
+                            onPressed: () {
+                              setState(() {
+                                if (press1 == true) {
+                                  press1 = false;
+                                  press2 = true;
+                                } else {
+                                  press1 = true;
+                                  press2 = false;
+                                }
+                              });
+                            },
+                            icon: Icon(
+                              Icons.dashboard,
+                              size: 25,
+                              color: press1 ? Colors.black : Colors.white,
+                            )),
+                      ),
                     ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: IconButton(
+                    getSizedBox(20),
+                    Container(
+                      alignment: Alignment.centerLeft,
+                      decoration: BoxDecoration(
+                        borderRadius: const BorderRadius.only(
+                            topRight: Radius.circular(10),
+                            bottomRight: Radius.circular(10)),
+                        color: press2 ? Colors.white : Colors.transparent,
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: IconButton(
                           onPressed: () {
                             setState(() {
-                              if (press1 == true) {
-                                press1 = false;
-                                press2 = true;
-                              } else {
-                                press1 = true;
+                              if (press2 == true) {
                                 press2 = false;
+                                press1 = true;
+                              } else {
+                                press2 = true;
+                                press1 = false;
                               }
                             });
                           },
-                          icon: Icon(
-                            Icons.dashboard,
-                            size: 25,
-                            color: press1 ? Colors.black : Colors.white,
-                          )),
-                    ),
-                  ),
-                  getSizedBox(20),
-                  Container(
-                    alignment: Alignment.centerLeft,
-                    decoration: BoxDecoration(
-                      borderRadius: const BorderRadius.only(
-                          topRight: Radius.circular(10),
-                          bottomRight: Radius.circular(10)),
-                      color: press2 ? Colors.white : Colors.transparent,
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: IconButton(
-                        onPressed: () {
-                          setState(() {
-                            if (press2 == true) {
-                              press2 = false;
-                              press1 = true;
-                            } else {
-                              press2 = true;
-                              press1 = false;
-                            }
-                          });
-                        },
-                        icon: Icon(Icons.swap_horiz,
-                            size: 25, color: press2 ? Colors.black : Colors.white),
+                          icon: Icon(Icons.swap_horiz,
+                              size: 25, color: press2 ? Colors.black : Colors.white),
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
-          ),
-          (press1)?getStudentHome(widget.userdetails):LabSwitchPage()
-        ],
+            (press1)?getStudentHome(widget.userdetails):LabSwitchPage(widget.userdetails)
+          ],
+        ),
       ),
     );
   }
-
-
 }
 
 class getStudentHome extends StatefulWidget {
@@ -115,25 +117,9 @@ class getStudentHome extends StatefulWidget {
 }
 
 class _getStudentHomeState extends State<getStudentHome> {
-  getLabFacultyDetails() async
-  {
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    var token = preferences.getString("idToken");
-    http.Response response =  await http.post(Uri.parse("http://6a40-121-200-55-43.in.ngrok.io/labs/getFaculty")
-        ,headers: {
-          "Access-Control-Allow-Origin":"*",
-          "Content-Type":"application/json",
-          "Authorization": "Bearer "+token!,
-        },body: json.encode(
-            {"lab_id": "1"}));
-
-    print("Faculty details");
-    print(response.body);
-
-  }
-
   var leftClick = false;
   var rightClick = true;
+  List<FacultyOfLab> facultyObjects = [];
 
   var data = " ";
   ScrollController sc = new ScrollController();
@@ -150,21 +136,16 @@ class _getStudentHomeState extends State<getStudentHome> {
     sc.animateTo(sc.offset-370, duration: Duration(milliseconds: 500), curve: Curves.linear);
   }
 
-  getUserDetails ()
-  async {
-    SharedPreferences preferences = await SharedPreferences.getInstance();
+  getFaculties (String? inchargeId) async {
+    facultyObjects = await getLabFacultyDetails(widget.userdetails["details"][0]["LAB_ID"].toString(), inchargeId!);
     setState(() {
-      print("photoooo");
-      data =  preferences.getString("user")!;
-      print(data);
+
     });
   }
 
   @override
   void initState() {
-    // getUserDetails();
-    // getLabFacultyDetails();
-    print(widget.userdetails);
+    getFaculties(widget.userdetails["details"][0]["FACULTY_ID"].toString());
   }
 
   @override
@@ -196,13 +177,35 @@ class _getStudentHomeState extends State<getStudentHome> {
                               fontWeight: FontWeight.w600, fontSize: 28),
                         ),
                         Row(
-                          children: const [
-                            CircleAvatar(),
+                          children: [
+                            CircleAvatar(
+                              child: ClipRRect(
+                                child: Image.network(widget.userdetails["img"] ?? ""),
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                            ),
                             SizedBox(
                               width: 24,
                             ),
-                            Icon(Icons.logout),
-                            Text("Logout")
+                            GestureDetector(
+                              onTap: (){
+                                Navigator.pop(context);
+                              },
+                              child: Row(
+                                children: [
+                                  Icon(Icons.login_outlined),
+                                  SizedBox(
+                                    width: 10,
+                                  ),
+                                  Text("Logout", style: GoogleFonts.poppins(
+                                      fontWeight: FontWeight.w400,
+                                      decoration: TextDecoration.none,
+                                      color: Colors.black,
+                                      fontSize: 17.5
+                                  ),)
+                                ],
+                              ),
+                            )
                           ],
                         )
                       ]
@@ -251,6 +254,8 @@ class _getStudentHomeState extends State<getStudentHome> {
                                           left: 20,
                                         ),
                                         Positioned(
+                                          top: 60,
+                                          left: 20,
                                           child: Text(
                                               "SLB008",
                                               style: GoogleFonts.poppins(
@@ -260,8 +265,6 @@ class _getStudentHomeState extends State<getStudentHome> {
                                                   fontSize: 17.5
                                               )
                                           ),
-                                          top: 60,
-                                          left: 20,
                                         ),
                                         Positioned(
                                           left: 20,
@@ -298,7 +301,9 @@ class _getStudentHomeState extends State<getStudentHome> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
-                                Text("Special Lab Faculties",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20,decoration: TextDecoration.none,color: Colors.black,),),
+                                Text("Special Lab Faculties",style: GoogleFonts.poppins(
+                                  fontWeight: FontWeight.bold,fontSize: 20,decoration: TextDecoration.none,color: Colors.black,
+                                ),),
                                 getSizedBox(20),
                                 SizedBox(
                                   // width: 1200,
@@ -316,12 +321,12 @@ class _getStudentHomeState extends State<getStudentHome> {
                                             child: ListView.builder(
                                                 shrinkWrap: true,
                                                 controller: sc,
-                                                itemCount: 5,
+                                                itemCount: facultyObjects.length,
                                                 scrollDirection: Axis.horizontal,
                                                 itemBuilder: (BuildContext context,int index){
                                                   return Padding(
                                                     padding: const EdgeInsets.symmetric(horizontal: 9.0),
-                                                    child: getFacultyCard(),
+                                                    child: getFacultyCard(facultyObjects[index]),
                                                   );
                                                 }),
                                           ),
@@ -353,7 +358,7 @@ class _getStudentHomeState extends State<getStudentHome> {
                           child:Column(
                             children: [
                               // SizedBox(height: 20,),
-                              Hero(tag: "sjai", child: renderStudentDetailsCard())
+                              Hero(tag: "sjai", child: renderStudentDetailsCard(widget.userdetails))
 
                             ],
                           )

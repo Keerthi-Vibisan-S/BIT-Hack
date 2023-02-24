@@ -4,12 +4,13 @@ import 'package:dropdown_button2/custom_dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:special_lab_dashboard/APIHandler/apiHandler.dart';
-import 'package:special_lab_dashboard/SpecialLab.dart';
+import 'package:special_lab_dashboard/Models/SpecialLabModel.dart';
 
 import '../Components.dart';
 
 class LabSwitchPage extends StatefulWidget {
-  const LabSwitchPage({Key? key}) : super(key: key);
+  final userDetails;
+  const LabSwitchPage(this.userDetails, {Key? key}) : super(key: key);
 
   @override
   State<LabSwitchPage> createState() => _LabSwitchPageState();
@@ -17,23 +18,26 @@ class LabSwitchPage extends StatefulWidget {
 
 class _LabSwitchPageState extends State<LabSwitchPage> {
   var switfrom = TextEditingController(text: "Cloud Computing");
-  var switto = TextEditingController();
+  var reason = TextEditingController();
   var specialLabs;
-  List<String> specialLabsNames = ["AR/VR","Data Science","IOT","Mobile Dev","AR/VR","Data Science","IOT","Mobile Dev","AR/VR","Data Science","IOT","Mobile Dev"];
+  List<String> specialLabsNames = [];
 
   String? selectedValue;
 
   getSL() async {
     specialLabs = await getSpecialLabs();
     for(SpecialLab i in specialLabs)
-      {
-        print(i.labname);
-      }
+        specialLabsNames.add(i.labname ?? "");
+
+    setState(() {
+
+    });
   }
 
   @override
   void initState() {
-  // getSL();
+    print("Started to get Special Lab");
+    getSL();
     setState(() {
 
     });
@@ -41,7 +45,7 @@ class _LabSwitchPageState extends State<LabSwitchPage> {
 
   @override
   Widget build(BuildContext context) {
-    return       Expanded(
+    return Expanded(
       flex: 40,
       child: Padding(
         padding: const EdgeInsets.all(12.0),
@@ -66,13 +70,32 @@ class _LabSwitchPageState extends State<LabSwitchPage> {
                               fontWeight: FontWeight.w600, fontSize: 28),
                         ),
                         Row(
-                          children: const [
-                            CircleAvatar(),
+                          children: [
+                            CircleAvatar(
+                              child: Image.network(widget.userDetails["img"] ?? ""),
+                            ),
                             SizedBox(
                               width: 24,
                             ),
-                            Icon(Icons.logout),
-                            Text("Logout")
+                            GestureDetector(
+                              onTap: (){
+                                Navigator.pop(context);
+                              },
+                              child: Row(
+                                children: [
+                                  Icon(Icons.login_outlined),
+                                  SizedBox(
+                                    width: 10,
+                                  ),
+                                  Text("Logout", style: GoogleFonts.poppins(
+                                      fontWeight: FontWeight.w400,
+                                      decoration: TextDecoration.none,
+                                      color: Colors.black,
+                                      fontSize: 17.5
+                                  ),)
+                                ],
+                              ),
+                            )
                           ],
                         )
                       ]
@@ -120,7 +143,7 @@ class _LabSwitchPageState extends State<LabSwitchPage> {
                                                 borderRadius: BorderRadius.all(Radius.circular(20))
                                               ),
                                             ),
-                                            style: TextStyle(fontSize: 15),
+                                            style: GoogleFonts.poppins(fontSize: 15),
                                             readOnly: true,
                                           ),
                                         ),
@@ -134,11 +157,12 @@ class _LabSwitchPageState extends State<LabSwitchPage> {
                                           color: Color(0xffefefef),
                                           child: CustomDropdownButton2(
                                             hint: selectedValue??"Select Lab",
-
+                                            dropdownWidth: 200,
                                             dropdownItems: specialLabsNames,
                                             value: selectedValue,
                                             onChanged: (value) {
                                               selectedValue = value;
+                                              // print(value);
                                               setState(() {
 
                                               });
@@ -155,6 +179,7 @@ class _LabSwitchPageState extends State<LabSwitchPage> {
                                         child: Container(
                                           color: Color(0xffefefef),
                                           child: TextField(
+                                            controller: reason,
                                             decoration: InputDecoration(
                                               border: OutlineInputBorder(
                                                   borderRadius: BorderRadius.all(Radius.circular(10))
@@ -177,9 +202,16 @@ class _LabSwitchPageState extends State<LabSwitchPage> {
                                                 style: ElevatedButton.styleFrom(
                                                   backgroundColor: Color(0xff5749f3)
                                                 ),
-                                                onPressed: (){},
+                                                onPressed: (){
+                                                  selectedValue = null;
+                                                   reason.text = '';
+
+                                                   setState(() {
+
+                                                   });
+                                                },
                                                 child: Padding(
-                                                  padding: const EdgeInsets.all(16),
+                                                  padding: const EdgeInsets.all(12),
                                                   child: Text("Submit"),
                                                 )
                                             ),
@@ -194,7 +226,7 @@ class _LabSwitchPageState extends State<LabSwitchPage> {
                               // SizedBox(width: 10,),
                               Expanded(
                                   flex:5,
-                                  child: Hero(tag: "sjai", child: renderStudentDetailsCard())
+                                  child: Hero(tag: "sjai", child: renderStudentDetailsCard(widget.userDetails))
                               ),
                             ],
                           ),

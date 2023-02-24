@@ -15,9 +15,7 @@ void main() {
       MaterialApp(
           scrollBehavior: MyCustomScrollBehavior(),
         debugShowCheckedModeBanner: false,
-          home: Scaffold(
-            body: MainPage(),
-          )
+          home: LoginPage(),
       )
   );
 }

@@ -17,72 +17,74 @@ class _FacultyHomeState extends State<FacultyHome> {
 
   @override
   Widget build(BuildContext context) {
-    return getBackground(Row(
-      children: [
-        Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              alignment: Alignment.centerLeft,
-              decoration: BoxDecoration(
-                borderRadius: const BorderRadius.only(
-                    topRight: Radius.circular(10),
-                    bottomRight: Radius.circular(10)),
-                color: press1 ? Colors.white : Colors.transparent,
+    return Scaffold(
+      body: getBackground(Row(
+        children: [
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                alignment: Alignment.centerLeft,
+                decoration: BoxDecoration(
+                  borderRadius: const BorderRadius.only(
+                      topRight: Radius.circular(10),
+                      bottomRight: Radius.circular(10)),
+                  color: press1 ? Colors.white : Colors.transparent,
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: IconButton(
+                      onPressed: () {
+                        setState(() {
+                          if (press1 == true) {
+                            press1 = false;
+                            press2 = true;
+                          } else {
+                            press1 = true;
+                            press2 = false;
+                          }
+                        });
+                      },
+                      icon: Icon(
+                        Icons.dashboard,
+                        size: 25,
+                        color: press1 ? Colors.black : Colors.white,
+                      )),
+                ),
               ),
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: IconButton(
+              getSizedBox(20),
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: const BorderRadius.only(
+                      topRight: Radius.circular(10),
+                      bottomRight: Radius.circular(10)),
+                  color: press2 ? Colors.white : Colors.transparent,
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: IconButton(
                     onPressed: () {
                       setState(() {
-                        if (press1 == true) {
-                          press1 = false;
-                          press2 = true;
-                        } else {
-                          press1 = true;
+                        if (press2 == true) {
                           press2 = false;
+                          press1 = true;
+                        } else {
+                          press2 = true;
+                          press1 = false;
                         }
                       });
                     },
-                    icon: Icon(
-                      Icons.dashboard,
-                      size: 25,
-                      color: press1 ? Colors.black : Colors.white,
-                    )),
-              ),
-            ),
-            getSizedBox(20),
-            Container(
-              decoration: BoxDecoration(
-                borderRadius: const BorderRadius.only(
-                    topRight: Radius.circular(10),
-                    bottomRight: Radius.circular(10)),
-                color: press2 ? Colors.white : Colors.transparent,
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: IconButton(
-                  onPressed: () {
-                    setState(() {
-                      if (press2 == true) {
-                        press2 = false;
-                        press1 = true;
-                      } else {
-                        press2 = true;
-                        press1 = false;
-                      }
-                    });
-                  },
-                  icon: Icon(Icons.swap_horiz,
-                      size: 25, color: press2 ? Colors.black : Colors.white),
+                    icon: Icon(Icons.swap_horiz,
+                        size: 25, color: press2 ? Colors.black : Colors.white),
+                  ),
                 ),
               ),
-            ),
-          ],
-        ),
-        (press1)?getHomePage():FacultySwitch()
-      ],
-    ));
+            ],
+          ),
+          (press1)?getHomePage():FacultySwitch()
+        ],
+      )),
+    );
   }
 }
 
@@ -189,16 +191,32 @@ class _getHomePageState extends State<getHomePage> {
                               fontWeight: FontWeight.w600, fontSize: 28),
                         ),
                         Row(
-                          children: const [
+                          children: [
                             CircleAvatar(
                               radius: 25,
                             ),
                             SizedBox(
                               width: 24,
                             ),
-
-                            Icon(Icons.logout),
-                            Text("Logout")
+                            GestureDetector(
+                              onTap: (){
+                                Navigator.pop(context);
+                              },
+                              child: Row(
+                                children: [
+                                  Icon(Icons.login_outlined),
+                                  SizedBox(
+                                    width: 10,
+                                  ),
+                                  Text("Logout", style: GoogleFonts.poppins(
+                                      fontWeight: FontWeight.w400,
+                                      decoration: TextDecoration.none,
+                                      color: Colors.black,
+                                      fontSize: 17.5
+                                  ),)
+                                ],
+                              ),
+                            )
                           ],
                         )
                       ]),
@@ -243,18 +261,29 @@ class _getHomePageState extends State<getHomePage> {
                           ),
                           Material(
                             elevation: 10,
-                            shadowColor: Colors.black45,
-                            borderRadius: BorderRadius.circular(10),
+                            shadowColor: Colors.white,
+                            borderRadius: BorderRadius.only(
+                                bottomLeft: Radius.circular(10),
+                                topLeft: Radius.circular(10),
+                                topRight: Radius.circular(30),
+                                bottomRight: Radius.circular(30)
+                            ),
                             child: Container(
-                              width: 210,
+
+                              width: width*15,
                               child: TextField(
-                                onChanged: (s) {},
-                                decoration: InputDecoration(
+                                  onChanged: (s) {},
+                                  decoration: InputDecoration(
+                                    hintText: "Search...",
+                                    contentPadding: EdgeInsets.all(18.0),
                                     suffixIcon: IconButton(
-                                        onPressed: () {},
-                                        icon: const Icon(Icons.search_rounded)),
+                                      onPressed: () {},
+                                      icon: Icon(
+                                          Icons.search_rounded),
+
+                                    ),
                                     border: InputBorder.none,
-                                )
+                                  )
                               ),
                             ),
                           )
