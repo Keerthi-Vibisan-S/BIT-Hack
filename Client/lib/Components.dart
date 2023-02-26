@@ -180,7 +180,7 @@ renderCards(title,count,startcolor,endcolor)
     padding: const EdgeInsets.all(8.0),
     child: Container(
       height: 150,
-      width: 280,
+      width: 300,
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [Color(startcolor),Color(endcolor)],

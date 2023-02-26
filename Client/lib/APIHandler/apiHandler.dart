@@ -5,7 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:special_lab_dashboard/Models/FacultyModel.dart';
 import 'package:special_lab_dashboard/Models/SpecialLabModel.dart';
 
-const API_LINK = "http://localhost:80/";
+const API_LINK = "http://10.10.176.69/";
 
 dynamic checkValidUser(String? email, String? idToken) async{
   var res;
@@ -23,7 +23,7 @@ dynamic checkValidUser(String? email, String? idToken) async{
     // SharedPreferences preferences = await SharedPreferences.getInstance();
     // preferences.setString("user-id", value);
   }).catchError((err){
-    print("Error:" +err);
+    print("Error: " +err.toString());
     return "Error";
   });
 
@@ -33,8 +33,8 @@ dynamic checkValidUser(String? email, String? idToken) async{
 dynamic postRequestToChangeSP(String? fromFacId, String? toFacId, String? head_id, String? reason) async{
   var res;
   SharedPreferences preferences = await SharedPreferences.getInstance();
-  String? token = preferences.getString("idToken");
-  await http.post(Uri.parse("https://6a40-121-200-55-43.in.ngrok.io/authenticate/verify"),
+  String? token = preferences.getString("token");
+  await http.post(Uri.parse("${API_LINK}request/addReq"),
       headers: {
         "content-type" : "application/json",
         "Authorization" : "Bearer "+token!
@@ -46,12 +46,14 @@ dynamic postRequestToChangeSP(String? fromFacId, String? toFacId, String? head_i
         "reason": reason
       })
   ).then((value) async {
+    print("inrerwerfwefwer");
     res = value;
     print(value);
     // SharedPreferences preferences = await SharedPreferences.getInstance();
     // preferences.setString("user-id", value);
-  }).catchError((err)=>{
-    print(err)
+  }).catchError((err){
+    print(err);
+    return err;
   });
 
   return json.decode(res.body);
@@ -62,17 +64,19 @@ Future<List<SpecialLab>> getSpecialLabs() async{
   SharedPreferences preferences = await SharedPreferences.getInstance();
   String? token = preferences.getString("token");
   // print("Token : "+token.toString());
+  print("Call");
   await http.get(Uri.parse("${API_LINK}labs/getLabs"),
       headers: {
         "content-type" : "application/json",
-        "Authorization" : "Bearer "+token!
+        "Authorization" : "Bearer "+token!,
       },
   ).then((value) async {
-    // print("IN");
+    print("IN");
     res = value.body;
-    // print(value);
+    print("data-------------");
+    print(res.toString());
     // SharedPreferences preferences = await SharedPreferences.getInstance();
-    // preferences.setString("user-id", value);
+    // preferences.setString("user-id", varlue);
   }).catchError((err){
     print("Error ----> :${err}");
   });

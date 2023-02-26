@@ -147,6 +147,7 @@ class _LoginPageState extends State<LoginPage> {
                                       await checkValidUser(details["email"], details["idToken"]?.toString()).then((v) async {
                                         if(v != "Error") {
                                           userDetails = await v;
+                                          print(v);
                                           SharedPreferences preferences = await SharedPreferences
                                               .getInstance();
                                           preferences.setString(
