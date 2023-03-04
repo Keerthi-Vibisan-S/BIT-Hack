@@ -11,7 +11,7 @@ route.get("/", (req, res) => {
 
 //! To get list of faculty in a lab
 route.post("/addReq", authenticate, async (req, res) => {
-    // console.log("EMAIL LLLLL 🚀🚀 ", req.email);
+    //console.log("EMAIL LLLLL 🚀🚀 ", req.email);
     findUser(req.email).then((result) => {
         let stu_id = result;
         console.log("From REQ PAGE 🚀🚀 ", stu_id);

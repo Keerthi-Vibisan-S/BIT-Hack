@@ -27,7 +27,8 @@ route.post("/getFaculty", authenticate,  (req, res) => {
 })
 
 //! GET ALL LAB HEADS
-route.get("/getLabs", (req, res) => {
+route.get("/getLabs", authenticate , (req, res) => {
+    //console.log("Now we got ot 🚀🚀🚀🚀");
     let q = `SELECT S.LAB_ID, S.LAB_NAME, L.LAB_HEAD_ID FROM SPECIALLAB AS S, LAB_HEAD AS L WHERE S.LAB_ID = L.LAB_ID AND L.LAB_ID`;
     try {
         sql_con.query(q, (err, result) => {
