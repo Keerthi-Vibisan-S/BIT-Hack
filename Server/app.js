@@ -21,6 +21,6 @@ app.use('/faculty', faculty);
 const request = require('./routes/requests');
 app.use('/request', request);
 
-app.listen(80, '10.10.176.69', () => {
+app.listen(80, '0.0.0.0', () => {
     console.log("Listening on port 80");
 })

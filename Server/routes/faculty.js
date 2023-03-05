@@ -7,6 +7,28 @@ route.get("/", (req, res) => {
     res.send("Faculty");
 })
 
-// route.post("/getStu")
+//! Get List of Students under a faculty
+route.get("/getStudents/:fid", authenticate, (req, res) => {
+    //! 🫣🫣🫣 Faculty id must be taken dynamically from DB ⚠️⚠️⚠️⚠️⚠️⚠️⚠️ 
+    let f_id = req.params.fid;
+    let q = `select * from STUDENT where FACULTY_ID="${f_id}"`;
+    console.log(q);
+    try {
+        sql_con.query(q, (err, result) => {
+            if(err) {
+                console.log("Error ---> ", err);
+                res.send("Error").status(500);
+            }
+            else {
+                res.json(result).status(200);
+            }
+        })
+    }
+    catch(err) {
+        console.log("Something error ---> ", err);
+        res.send("Error").status(500);
+    }
+
+})
 
 module.exports = route;
