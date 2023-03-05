@@ -1,7 +1,12 @@
 /authenticate/verify --> To Login (object.data --> to access ALL)
 /labs/getFaculty --> To get faculty list in special lab
 
-/request/addReq --> To add Lab change Request
+
+// Lab Request Change:
+---------------------
+1. /request/addReq --> To add Lab change Request
+
+JSON Data Sample:
 {
     "stu_id": "202CT113",
     "from_lab_faculty_id": "101",
@@ -13,6 +18,7 @@
 
 // Faculty Dahboard:
    ----------------
-1. http://127.0.0.1/faculty/getStudents/{-- FACULTY ID HERE --}
-2. http://127.0.0.1/faculty/getReqStudents/{-- FACULTY ID HERE --}
+/authenticate/facultyverify -----> To Verify Login as Faculty
+1. /faculty/getStudents/{-- FACULTY ID HERE --}  --> All Students under a faculty
+2. /faculty/getReqStudents/{-- FACULTY ID HERE --} --> Requested Students under a Faculty for both LAB Sides
 
