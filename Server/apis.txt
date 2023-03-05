@@ -13,5 +13,6 @@
 
 // Faculty Dahboard:
    ----------------
-1. http://127.0.0.1/faculty/getStudents/{-- ID HERE --}
+1. http://127.0.0.1/faculty/getStudents/{-- FACULTY ID HERE --}
+2. http://127.0.0.1/faculty/getReqStudents/{-- FACULTY ID HERE --}
 
