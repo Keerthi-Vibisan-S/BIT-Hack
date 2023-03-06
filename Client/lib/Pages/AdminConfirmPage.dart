@@ -484,7 +484,7 @@ class _InchargeSwitchState extends State<InchargeSwitch> {
                                           },
                                         );
                                       },
-                                      child: const Center(child: Text("View"))),
+                                      child: Center(child: Text("View",))),
                                 ),
                               ),
                             ],

@@ -15,9 +15,7 @@ void main() {
       MaterialApp(
           scrollBehavior: MyCustomScrollBehavior(),
         debugShowCheckedModeBanner: false,
-          home: Scaffold(
-            body: MainPage(),
-          )
+          home: MainPage(),
       )
   );
 }
@@ -33,7 +31,8 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
-    return StudentHome(null);
+    return LoginPage();
+
   }
 }
 

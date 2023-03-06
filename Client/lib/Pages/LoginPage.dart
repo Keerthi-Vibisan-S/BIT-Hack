@@ -1,13 +1,16 @@
 
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:special_lab_dashboard/APIHandler/apiHandler.dart';
 import 'package:special_lab_dashboard/Navigator.dart';
+import 'package:special_lab_dashboard/Pages/FacultyHome.dart';
 
 import 'package:special_lab_dashboard/Pages/studenthome.dart';
-import 'package:google_sign_in_web/google_sign_in_web.dart';
 
 import 'AdminHomePage.dart';
 class LoginPage extends StatefulWidget {
@@ -21,26 +24,29 @@ class _LoginPageState extends State<LoginPage> {
   var emailController = TextEditingController();
   GoogleSignIn? _googleSignIn;
   Future<Map> _handleSignIn() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
     var details= {"email":"", "idToken":""};
-    try {
-      await _googleSignIn?.signIn().then((value) async {
-        // print("Details");
-        details["email"] = value?.email ?? "email";
-        // print(value.toString());
-        await value?.authentication.then((token) async {
-          details["idToken"] = token.idToken.toString() ?? "idToken";
-          SharedPreferences preferences = await SharedPreferences.getInstance();
-          preferences.setString("idToken", token.idToken.toString());
-          // print("TokenRaw: "+token.idToken.toString());
-        }).then((value) {
-            // print("Token: "+details.toString());
-            return details;
-        });
-      });
-    } catch (error) {
-      print(error);
-    }
 
+    if(preferences.getString("idToken") == null || preferences.getString("idToken") == "") {
+      try {
+        await _googleSignIn?.signIn().then((value) async {
+          details["email"] = value?.email ?? "email";
+          await value?.authentication.then((token) async {
+            details["idToken"] = token.idToken.toString() ?? "idToken";
+            preferences.setString("token", details["idToken"]!);
+          }).then((value) {
+            return details;
+          });
+        });
+      } catch (error) {
+        print(error);
+      }
+    }
+    else{
+      var user = json.decode(preferences.getString("user") ?? "");
+      details["email"] = user["email"];
+      details["idToken"] = preferences.getString("idToken") ?? "";
+    }
     return details;
   }
   @override
@@ -67,25 +73,55 @@ class _LoginPageState extends State<LoginPage> {
                         width: 250,
                         child: Column(
                             children: [
-                              SizedBox(height: 20,),
+                              Image.asset("assets/login_sl_logo.jpg"),
                               TextField(
                                 controller: emailController,
+                                style: GoogleFonts.poppins(
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.black
+                                ),
                                 decoration: InputDecoration(
-                                  hintText: "Email  "
+                                  hintText: "Email",
+                                  hintStyle: GoogleFonts.poppins(
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.black54
+                                  ),
                                 ),
                               ),
                               SizedBox(height: 20,),
                               TextField(
                                 obscureText: true,
+                                style: GoogleFonts.poppins(
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.black
+                                ),
                                 decoration: InputDecoration(
-
-                                    hintText: "Password"
+                                  hintText: "Password",
+                                  hintStyle: GoogleFonts.poppins(
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.black54
+                                  ),
                                 ),
                               ),
                               SizedBox(height: 20,),
                               ElevatedButton(onPressed: (){
-                                Navigator.push(context, MaterialPageRoute(builder: (context) => AdminHomePage()));
-                              }, child: Text("Login")),
+                                var userDetails = "{\"email\":\"balasuriya.cs20@bitsathy.ac.in\",\"verify\":true,\"name\":\"BALASURIYA K A\",\"img\":\"https://lh3.googleusercontent.com/a/AGNmyxZdo8m7KpccPALmjk2YYWqtTzhZlAbYtLzDBtwegQ=s96-c\",\"details\":[{\"STU_ID\":\"201CS130\",\"STU_NAME\":\"BALA SURIYA K A\",\"STU_EMAIL\":\"balasuriya.cs20@bitsathy.ac.in\",\"STU_CONTACT\":\"9782315975\",\"LAB_ID\":\"5\",\"FACULTY_ID\":\"105\",\"COUNT\":0,\"LAST_UPDATED_DATE\":\"2023-02-17T18:30:00.000Z\",\"DEPT\":\"COMPUTER SCIENCE ENGINEERING\",\"YEAR\":\"3rd Year\"}]}";
+                                if(emailController.text == "Student")
+                                  Navigator.push(context, MaterialPageRoute(builder: (context) => StudentHome(userDetails)));
+
+                                else if(emailController.text == "Teacher")
+                                  Navigator.push(context, MaterialPageRoute(builder: (context) => FacultyHome()));
+
+                                else
+                                  Navigator.push(context, MaterialPageRoute(builder: (context) => AdminHomePage()));
+
+                              },
+                                child: Text("Login", style: GoogleFonts.poppins(
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.white
+                                  ),
+                                ),
+                              ),
                               SizedBox(height: 20,),
                               ElevatedButton(onPressed: () async {
                                 _googleSignIn = GoogleSignIn(
@@ -97,33 +133,40 @@ class _LoginPageState extends State<LoginPage> {
 
                                 var details = await _handleSignIn();
                                 var userDetails;
-                                print("sadkjhasdiu " +details["email"] +" " +details["idToken"] );
-                                RegExp re = new RegExp(r"^\w+\.?(\w\w)?(\d\d)?@bitsathy\.ac\.in$");
-                                var iter = re.firstMatch(details["email"]);
-                                var match = iter?.groups([1, 2]);
-                                var role;
-                                if(match?[0] != null) {
-                                  role = "Student";
-                                // }
-                                  await checkValidUser(details["email"], details["idToken"]?.toString()).then((v) async {
-                                      userDetails = await v;
-                                      SharedPreferences preferences = await SharedPreferences.getInstance();
-                                      preferences.setString("user", userDetails.toString());
-                                      print("This is Data $userDetails");
-                                    // Navigator.push(context, MaterialPageRoute(builder: (context)=>StudentHome(v)))
-                                  });
+                                // print("sadkjhasdiu " +details.toString());
+
+                                if(details["idToken"] != null && details["idToken"]!="") {
+                                  print("Sucess");
+                                  RegExp re = new RegExp(
+                                      r"^\w+\.?(\w\w)?(\d\d)?@bitsathy\.ac\.in$");
+                                  var iter = re.firstMatch(details["email"]);
+                                  var match = iter?.groups([1, 2]);
+                                  var role = "Teacher";
+                                  if (match?[0] != null) {
+                                    role = "Student";
+                                      await checkValidUser(details["email"], details["idToken"]?.toString()).then((v) async {
+                                        if(v != "Error") {
+                                          userDetails = await v;
+                                          print(v);
+                                          SharedPreferences preferences = await SharedPreferences
+                                              .getInstance();
+                                          preferences.setString(
+                                              "user", json.encode(userDetails));
+                                          Navigator.push(context, MaterialPageRoute(
+                                              builder: (context) =>
+                                                  NavigatorPage(role, userDetails)));
+                                        }
+                                      });
+                                  }
+
                                 }
-                                else
-                                  role = "Teacher";
-
-                                Navigator.push(context, MaterialPageRoute(builder: (context) => NavigatorPage(role, details["idToken"], userDetails)));
-
-                                // await checkValidUser(emailController.text).then((v) =>{
-                                //       Navigator.push(context, MaterialPageRoute(builder: (context)=>StudentHome(v)))
-                                // });
-
-
-                              }, child: Text("Sign in Google")),
+                              }, child: Text("Sign in Google",
+                                  style: GoogleFonts.poppins(
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.white
+                                  ),
+                                )
+                              ),
 
                               // Text("Forget Password"),
                               // SizedBox(height: 20,),
@@ -202,7 +245,7 @@ class _LoginPageState extends State<LoginPage> {
 // left: 446,
 // child: Text('Forgot Password?',
 // textAlign: TextAlign.left,
-// style: TextStyle(
+// style: GoogleFonts.poppins(
 //
 // fontFamily: 'Inter',
 // fontSize: 9.5,
@@ -222,7 +265,7 @@ class _LoginPageState extends State<LoginPage> {
 // mainAxisSize: MainAxisSize.min,
 //
 // children: <Widget>[
-// Text('LOGIN', textAlign: TextAlign.left, style: TextStyle(
+// Text('LOGIN', textAlign: TextAlign.left, style: GoogleFonts.poppins(
 // color: Color.fromRGBO(0, 0, 0, 1),
 // fontFamily: 'Inter',
 // fontSize: 10,
@@ -237,7 +280,7 @@ class _LoginPageState extends State<LoginPage> {
 // ),Positioned(
 // top: 355,
 // left: 421,
-// child: Text('Or Continue With', textAlign: TextAlign.left, style: TextStyle(
+// child: Text('Or Continue With', textAlign: TextAlign.left, style: GoogleFonts.poppins(
 // color: Color.fromRGBO(0, 0, 0, 1),
 // fontFamily: 'Inter',
 // fontSize: 10,
@@ -307,7 +350,7 @@ class _LoginPageState extends State<LoginPage> {
 // Positioned(
 // top: 9,
 // left: 0,
-// child: Text('Camps', textAlign: TextAlign.left, style: TextStyle(
+// child: Text('Camps', textAlign: TextAlign.left, style: GoogleFonts.poppins(
 // color: Color.fromRGBO(0, 0, 0, 1),
 // fontFamily: 'Paprika',
 // fontSize: 20,
