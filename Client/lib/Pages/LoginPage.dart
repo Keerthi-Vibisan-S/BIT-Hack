@@ -110,7 +110,7 @@ class _LoginPageState extends State<LoginPage> {
                                   Navigator.push(context, MaterialPageRoute(builder: (context) => StudentHome(userDetails)));
 
                                 else if(emailController.text == "Teacher")
-                                  Navigator.push(context, MaterialPageRoute(builder: (context) => FacultyHome()));
+                                  Navigator.push(context, MaterialPageRoute(builder: (context) => FacultyHome(userDetails)));
 
                                 else
                                   Navigator.push(context, MaterialPageRoute(builder: (context) => AdminHomePage()));
@@ -131,35 +131,109 @@ class _LoginPageState extends State<LoginPage> {
                                   ],
                                 );
 
+                                // While Testing for Faculty Comment section 1 and Uncomment Section 2 (Since Google Sign for Faculty is not Set
+
+                                // Permanent Google Sign In Method - Section 1
                                 var details = await _handleSignIn();
                                 var userDetails;
-                                // print("sadkjhasdiu " +details.toString());
-
                                 if(details["idToken"] != null && details["idToken"]!="") {
-                                  print("Sucess");
                                   RegExp re = new RegExp(
                                       r"^\w+\.?(\w\w)?(\d\d)?@bitsathy\.ac\.in$");
-                                  var iter = re.firstMatch(details["email"]);
+                                  var iter = re.firstMatch(details["email"]!);
                                   var match = iter?.groups([1, 2]);
                                   var role = "Teacher";
                                   if (match?[0] != null) {
                                     role = "Student";
-                                      await checkValidUser(details["email"], details["idToken"]?.toString()).then((v) async {
-                                        if(v != "Error") {
-                                          userDetails = await v;
-                                          print(v);
-                                          SharedPreferences preferences = await SharedPreferences
-                                              .getInstance();
-                                          preferences.setString(
-                                              "user", json.encode(userDetails));
-                                          Navigator.push(context, MaterialPageRoute(
-                                              builder: (context) =>
-                                                  NavigatorPage(role, userDetails)));
-                                        }
-                                      });
+                                    await checkValidUser(details["email"],
+                                        details["idToken"]?.toString()).then((
+                                        v) async {
+                                      if (v != "Error") {
+                                        userDetails = await v;
+                                        print(v);
+                                        SharedPreferences preferences = await SharedPreferences
+                                            .getInstance();
+                                        preferences.setString(
+                                            "user", json.encode(userDetails));
+                                        Navigator.push(
+                                            context, MaterialPageRoute(
+                                            builder: (context) =>
+                                                NavigatorPage(
+                                                    role, userDetails)));
+                                      }
+                                    });
                                   }
-
+                                  else {
+                                    await checkValidFacultyUser(
+                                        details["email"],
+                                        details["idToken"]?.toString()).then((
+                                        v) async {
+                                      if (v != "Error") {
+                                        userDetails = await v;
+                                        print(v);
+                                        SharedPreferences preferences = await SharedPreferences
+                                            .getInstance();
+                                        preferences.setString(
+                                            "user", json.encode(userDetails));
+                                        Navigator.push(
+                                            context, MaterialPageRoute(
+                                            builder: (context) =>
+                                                NavigatorPage(
+                                                    role, userDetails)));
+                                      }
+                                    });
+                                  }
                                 }
+                                //
+
+                                // Temporary - Section 2
+                                // var details = {"email":  emailController.text, "idToken": ""};
+                                // var userDetails;
+                                //   RegExp re = new RegExp(
+                                //       r"^\w+\.?(\w\w)?(\d\d)?@bitsathy\.ac\.in$");
+                                //   var iter = re.firstMatch(details["email"]!);
+                                //   var match = iter?.groups([1, 2]);
+                                //   var role = "Teacher";
+                                //   if (match?[0] != null) {
+                                //     role = "Student";
+                                //     await checkValidUser(details["email"],
+                                //         details["idToken"]?.toString()).then((
+                                //         v) async {
+                                //       if (v != "Error") {
+                                //         userDetails = await v;
+                                //         print(v);
+                                //         SharedPreferences preferences = await SharedPreferences
+                                //             .getInstance();
+                                //         preferences.setString(
+                                //             "user", json.encode(userDetails));
+                                //         Navigator.push(
+                                //             context, MaterialPageRoute(
+                                //             builder: (context) =>
+                                //                 NavigatorPage(
+                                //                     role, userDetails)));
+                                //       }
+                                //     });
+                                //   }
+                                //   else {
+                                //     await checkValidFacultyUser(
+                                //         details["email"],
+                                //         details["idToken"]?.toString()).then((
+                                //         v) async {
+                                //       if (v != "Error") {
+                                //         userDetails = await v;
+                                //         print(v);
+                                //         SharedPreferences preferences = await SharedPreferences
+                                //             .getInstance();
+                                //         preferences.setString(
+                                //             "user", json.encode(userDetails));
+                                //         Navigator.push(
+                                //             context, MaterialPageRoute(
+                                //             builder: (context) =>
+                                //                 NavigatorPage(
+                                //                     role, userDetails)));
+                                //       }
+                                //     });
+                                //   }
+                                //
                               }, child: Text("Sign in Google",
                                   style: GoogleFonts.poppins(
                                       fontWeight: FontWeight.w500,
