@@ -33,7 +33,7 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
-    return AdminHomePage();
+    return StudentHome(null);
   }
 }
 

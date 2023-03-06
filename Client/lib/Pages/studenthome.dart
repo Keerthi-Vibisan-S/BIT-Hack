@@ -8,6 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:special_lab_dashboard/Components.dart';
 import 'package:special_lab_dashboard/Pages/LabSwitch.dart';
 import 'package:http/http.dart' as http;
+import 'package:special_lab_dashboard/responsive.dart';
 
 import '../Utilities/Util.dart';
 
@@ -30,7 +31,7 @@ class _StudentHomeState extends State<StudentHome> {
       color: Color(0xff210368),
       child: Row(
         children: [
-          Expanded(
+          (Responsive.isDesktop(context))?Expanded(
             flex: 2,
             child: Container(
               child: Column(
@@ -96,10 +97,11 @@ class _StudentHomeState extends State<StudentHome> {
                 ],
               ),
             ),
-          ),
+          ):Container(),
           (press1)?getStudentHome(widget.userdetails):LabSwitchPage()
         ],
       ),
+
     );
   }
 
@@ -211,12 +213,12 @@ class _getStudentHomeState extends State<getStudentHome> {
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Expanded(
+                      (Responsive.isDesktop(context))?Expanded(
                         flex:6,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Column(
+                            (Responsive.isDesktop(context))?Column(
                               crossAxisAlignment: CrossAxisAlignment.stretch,
                               children: [
                                 // SizedBox(height: 20,),
@@ -227,18 +229,18 @@ class _getStudentHomeState extends State<getStudentHome> {
                                   child: Card(
                                     // elevation: 200,
                                     shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(20),
+                                      borderRadius: BorderRadius.circular(20),
                                     ),
                                     child: Stack(
                                       children: [
                                         ClipRRect(
-                                            borderRadius: BorderRadius.circular(20),
+                                          borderRadius: BorderRadius.circular(20),
                                           child: SizedBox.expand(
                                             child: Image.network('assets/cloudcomputing.jpg',fit: BoxFit.cover),
                                           ),
                                         ),
                                         Positioned(
-                                            child: Text(
+                                          child: Text(
                                               "Cloud Computing",
                                               style: GoogleFonts.poppins(
                                                   fontWeight: FontWeight.w500,
@@ -246,7 +248,7 @@ class _getStudentHomeState extends State<getStudentHome> {
                                                   color: Colors.white,
                                                   fontSize: 20
                                               )
-                                            ),
+                                          ),
                                           top: 20,
                                           left: 20,
                                         ),
@@ -276,10 +278,10 @@ class _getStudentHomeState extends State<getStudentHome> {
                                                   "Cloud computing is the on-demand availability of computer system resources, especially data storage and computing power, without direct active management by the user. Large clouds often have functions.",
                                                   maxLines: 4,
                                                   style: GoogleFonts.poppins(
-                                                      fontWeight: FontWeight.w300,
-                                                      decoration: TextDecoration.none,
-                                                      color: Colors.white.withOpacity(0.85),
-                                                      fontSize: 15,
+                                                    fontWeight: FontWeight.w300,
+                                                    decoration: TextDecoration.none,
+                                                    color: Colors.white.withOpacity(0.85),
+                                                    fontSize: 15,
                                                   )
                                               ),
                                             ),
@@ -290,10 +292,11 @@ class _getStudentHomeState extends State<getStudentHome> {
                                   ),
                                 ),
                               ],
-                            ),
+                            ):Text("Mobile view"),
                             SizedBox(
                                 height:45
                             ),
+
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.start,
@@ -343,18 +346,61 @@ class _getStudentHomeState extends State<getStudentHome> {
                                   ),
                                 ),
                               ],
-                            ),
+                            )
+
                           ],
                         ),
-                      ),
+                      ):renderStudentDetailsCard(),
                       getExpanded(1),
                       Expanded(
                           flex:3,
                           child:Column(
                             children: [
                               // SizedBox(height: 20,),
+                              (Responsive.isDesktop(context))?
                               Hero(tag: "sjai", child: renderStudentDetailsCard())
-
+                                  :SizedBox(
+                                // width: 1200,
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Expanded(
+                                      child: Container(
+                                        height: 130,
+                                        child: Scrollbar(
+                                          // thumbVisibility: true,
+                                          // trackVisibility: true,
+                                          controller: sc,
+                                          interactive: true,
+                                          child: ListView.builder(
+                                              shrinkWrap: true,
+                                              controller: sc,
+                                              itemCount: 5,
+                                              scrollDirection: Axis.horizontal,
+                                              itemBuilder: (BuildContext context,int index){
+                                                return Padding(
+                                                  padding: const EdgeInsets.symmetric(horizontal: 9.0),
+                                                  child: getFacultyCard(),
+                                                );
+                                              }),
+                                        ),
+                                      ),
+                                    ),
+                                    // GestureDetector(
+                                    //   onTap: (){
+                                    //     _scrollRight();
+                                    //     leftClick = true;
+                                    //     setState(() {
+                                    //
+                                    //     });
+                                    //   },
+                                    //   child: CircleAvatar(
+                                    //     child: Icon(Icons.arrow_right),
+                                    //   ),
+                                    // ),
+                                  ],
+                                ),
+                              ),
                             ],
                           )
                       ),

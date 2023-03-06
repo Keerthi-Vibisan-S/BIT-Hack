@@ -340,7 +340,7 @@ class _getAdminHomePageState extends State<getAdminHomePage> {
                                           });
                                         },
                                         onHover: (PointerEvent details) {
-                                          // print(_scrollController.position.pixels);
+                                          // print(_scrollController.position.pixels)
                                           setState(() {
                                             isHover = true;
                                             x = details.position.dx;
