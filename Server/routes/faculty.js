@@ -29,10 +29,10 @@ route.get("/getStudents/:fid", authenticate, (req, res) => {
 });
 
 //! Students REQUESTEDTO TEACHER TO CHANGE THE LAB
-route.get("/getReqStudents/:fid", authenticate, (req, res) => {
+route.get("/getReqStudents/:fid", (req, res) => {
   //! 💀💀 Faculty id must be taken dynamically from DB ⚠️
   let f_id = req.params.fid;
-  let q = `SELECT * FROM REQUESTS WHERE FROM_LAB_FAC_ID ="${f_id}" OR TO_LAB_FAC_ID ="${f_id}";`;
+  let q = `SELECT *, (SELECT LAB_NAME FROM FACULTY , SPECIALLAB WHERE FACULTY.FACULTY_ID = REQUESTS.FROM_LAB_FAC_ID AND FACULTY.LAB_ID = SPECIALLAB.LAB_ID) AS FROM_LAB, (SELECT LAB_NAME FROM FACULTY , SPECIALLAB WHERE FACULTY.FACULTY_ID = REQUESTS.TO_LAB_FAC_ID AND FACULTY.LAB_ID = SPECIALLAB.LAB_ID) AS TO_LAB FROM REQUESTS WHERE FROM_LAB_FAC_ID ="${f_id}" OR TO_LAB_FAC_ID ="${f_id}";`;
 
   try {
     sql_con.query(q, (err, result) => {
