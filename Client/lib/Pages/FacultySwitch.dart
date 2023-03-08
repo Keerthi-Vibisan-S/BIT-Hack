@@ -6,7 +6,8 @@ import '../Utilities/Util.dart';
 // import 'package:google_fonts/google_fonts.dart';
 
 class FacultySwitch extends StatefulWidget {
-  const FacultySwitch({Key? key}) : super(key: key);
+  final userDetails, isFetching, data;
+  const FacultySwitch(this.userDetails, this.isFetching, this.data, {Key? key}) : super(key: key);
 
   @override
   State<FacultySwitch> createState() => _FacultySwitchState();
@@ -16,98 +17,6 @@ class _FacultySwitchState extends State<FacultySwitch> {
   bool press1 = false;
   bool press2 = true;
 
-  List data = [
-    {
-      "S.No": 1,
-      "Roll No": "202CT141",
-      "Name": "VENKAT RAMAN S P",
-      "Department": "COMPUTER TECHNOLOGY",
-      "Year": "III",
-      "History": 5,
-      "From": "Cloud Lab"
-    },
-    {
-      "S.No": 1,
-      "Roll No": "202CT141",
-      "Name": "VENKAT RAMAN S P",
-      "Department": "COMPUTER TECHNOLOGY",
-      "Year": "III",
-      "History": 5,
-      "From": "Cloud Lab"
-    },
-    {
-      "S.No": 1,
-      "Roll No": "202CT141",
-      "Name": "VENKAT RAMAN S P",
-      "Department": "COMPUTER TECHNOLOGY",
-      "Year": "III",
-      "History": 5,
-      "From": "Cloud Lab"
-    },
-    {
-      "S.No": 1,
-      "Roll No": "202CT141",
-      "Name": "VENKAT RAMAN S P",
-      "Department": "COMPUTER TECHNOLOGY",
-      "Year": "III",
-      "History": 5,
-      "From": "Cloud Lab"
-    },
-    {
-      "S.No": 1,
-      "Roll No": "202CT141",
-      "Name": "VENKAT RAMAN S P",
-      "Department": "COMPUTER TECHNOLOGY",
-      "Year": "III",
-      "History": 5,
-      "From": "Cloud Lab"
-    },
-    {
-      "S.No": 1,
-      "Roll No": "202CT141",
-      "Name": "VENKAT RAMAN S P",
-      "Department": "COMPUTER TECHNOLOGY",
-      "Year": "III",
-      "History": 5,
-      "From": "Cloud Lab"
-    },
-    {
-      "S.No": 1,
-      "Roll No": "202CT141",
-      "Name": "VENKAT RAMAN S P",
-      "Department": "COMPUTER TECHNOLOGY",
-      "Year": "III",
-      "History": 5,
-      "From": "Cloud Lab"
-    },
-    {
-      "S.No": 1,
-      "Roll No": "202CT141",
-      "Name": "VENKAT RAMAN S P",
-      "Department": "COMPUTER TECHNOLOGY",
-      "Year": "III",
-      "History": 5,
-      "From": "Cloud Lab"
-    },
-    {
-      "S.No": 1,
-      "Roll No": "202CT141",
-      "Name": "VENKAT RAMAN S P",
-      "Department": "COMPUTER TECHNOLOGY",
-      "Year": "III",
-      "History": 5,
-      "From": "Cloud Lab"
-    },
-    {
-      "S.No": 1,
-      "Roll No": "202CT141",
-      "Name": "VENKAT RAMAN S P",
-      "Department": "COMPUTER TECHNOLOGY",
-      "Year": "III",
-      "History": 5,
-      "From": "Cloud Lab"
-    },
-  ];
   int selec = 0;
 
   @override
@@ -179,24 +88,22 @@ class _FacultySwitchState extends State<FacultySwitch> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Text(
-                            "Cloud Computing",
+                            widget.userDetails["details"][0]["LAB_NAME"],
                             style: GoogleFonts.poppins(
-                                fontWeight: FontWeight.w500,
-                                fontSize: 24),
+                                fontWeight: FontWeight.w500, fontSize: 24),
                           ),
-                          Text(
-                            " - 148 Students",
+                          (!widget.isFetching)?Text(
+                            " - " + widget.data.length.toString() + " students",
                             style: GoogleFonts.poppins(
-                                fontWeight: FontWeight.w500,
-                                fontSize: 18),
-                          )
+                                fontWeight: FontWeight.w500, fontSize: 18),
+                          ):CircularProgressIndicator()
                         ],
                       ),
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 8.0),
                       child: Text(
-                        "SLB-031",
+                        widget.userDetails["details"][0]["LAB_ID"],
                         style: GoogleFonts.poppins(
                             fontWeight: FontWeight.w500, fontSize: 17),
                       ),
@@ -287,7 +194,7 @@ class _FacultySwitchState extends State<FacultySwitch> {
                       width: width * 100,
                       height: height * 53,
                       child: TabBarView(
-                        children: [table(data, "From"), table(data, "To")],
+                        children: [table(widget.data["joining"], "From"), table(widget.data["leaving"], "To")],
                       ),
                     ),
                   ],
@@ -343,13 +250,13 @@ class _FacultySwitchState extends State<FacultySwitch> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          getContainerForTable(width,data[index]['S.No'].toString(), 6, FontWeight.w300, 1),
-                          getContainerForTable(width,data[index]['Roll No'].toString(), 8, FontWeight.w300, 1),
-                          getContainerForTable(width,data[index]['Name'].toString(), 11, FontWeight.w300, 1),
-                          getContainerForTable(width,data[index]['Department'].toString(), 17, FontWeight.w300, 1),
-                          getContainerForTable(width,data[index]['Year'].toString(), 7, FontWeight.w300, 1),
-                          getContainerForTable(width,data[index]['History'].toString(), 4.5, FontWeight.w300, 1),
-                          getContainerForTable(width,data[index]['From'].toString(), 6, FontWeight.w300, 1),
+                          getContainerForTable(width,(index+1).toString(), 6, FontWeight.w300, 1),
+                          getContainerForTable(width,data[index].stu_id.toString(), 8, FontWeight.w300, 1),
+                          getContainerForTable(width,data[index].reason.toString(), 11, FontWeight.w300, 1),
+                          getContainerForTable(width,"department", 17, FontWeight.w300, 1),
+                          getContainerForTable(width,"year", 7, FontWeight.w300, 1),
+                          getContainerForTable(width,"history", 4.5, FontWeight.w300, 1),
+                          getContainerForTable(width,(where == "From")?data[index].from_lab_fac_id.toString():data[index].to_lab_fac_id.toString(), 6, FontWeight.w300, 1),
                           Container(
                             width: width * 15,
                             alignment: Alignment.centerLeft,

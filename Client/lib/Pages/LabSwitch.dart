@@ -23,12 +23,12 @@ class _LabSwitchPageState extends State<LabSwitchPage> {
   var switfrom = TextEditingController();
   var reason = TextEditingController();
   var specialLabs;
-  List<String> specialLabsNames = [];
   List details = [];
   String id1 ="";
   String id2 = "";
   String? selectedValue;
 
+  List<String> specialLabsNames = [];
   getSL() async {
     specialLabs = await getSpecialLabs();
     for(SpecialLab i in specialLabs) {
@@ -40,7 +40,6 @@ class _LabSwitchPageState extends State<LabSwitchPage> {
 
     });
     getuser();
-    // print("OUT");
   }
 
   void getuser() async{
@@ -58,18 +57,17 @@ class _LabSwitchPageState extends State<LabSwitchPage> {
       switfrom.text = labname;
       id1 = users['details'][0]['FACULTY_ID'];
     });
+  }
 
-}
-
-geID(String labname){
-  for(int i=0;i<details.length;i++) {
-    if(labname==details[i]['labname']){
-      setState(() {
-        id2 = details[i]['headid'];
-      });
+  geID(String labname){
+    for(int i=0;i<details.length;i++) {
+      if(labname==details[i]['labname']){
+        setState(() {
+          id2 = details[i]['headid'];
+        });
+      }
     }
   }
-}
 
 
   @override

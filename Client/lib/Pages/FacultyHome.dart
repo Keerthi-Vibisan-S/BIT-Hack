@@ -1,11 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:special_lab_dashboard/APIHandler/apiHandler.dart';
+import 'package:special_lab_dashboard/Models/StudentModel.dart';
 import 'package:special_lab_dashboard/Pages/FacultySwitch.dart';
 import 'package:special_lab_dashboard/Utilities/Util.dart';
 
 class FacultyHome extends StatefulWidget {
-  const FacultyHome({Key? key}) : super(key: key);
+  final userDetails;
+  const FacultyHome(this.userDetails, {Key? key}) : super(key: key);
 
   @override
   State<FacultyHome> createState() => _FacultyHomeState();
@@ -14,6 +17,29 @@ class FacultyHome extends StatefulWidget {
 class _FacultyHomeState extends State<FacultyHome> {
   bool press1 = true;
   bool press2 = false;
+  List<StudentModel> data = [];
+  var requests;
+  bool isFetchingStudents = true, isFetchingRequests = true;
+
+  getStudentsUnderFac() async {
+    data = await getAllStudentUnderFaculty(widget.userDetails["details"][0]["FACULTY_ID"]);
+    setState(() {
+      isFetchingStudents = false;
+    });
+  }
+
+  getRequests() async{
+    requests = await getAllStudentRequestsUnderFaculty(widget.userDetails["details"][0]["FACULTY_ID"]);
+    setState(() {
+      isFetchingRequests = false;
+    });
+  }
+
+  @override
+  void initState() {
+    getStudentsUnderFac();
+    getRequests();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -81,7 +107,7 @@ class _FacultyHomeState extends State<FacultyHome> {
               ),
             ],
           ),
-          (press1)?getHomePage():FacultySwitch()
+          (press1)?getHomePage(widget.userDetails, isFetchingStudents, data):FacultySwitch(widget.userDetails, isFetchingRequests, requests)
         ],
       )),
     );
@@ -89,79 +115,14 @@ class _FacultyHomeState extends State<FacultyHome> {
 }
 
 class getHomePage extends StatefulWidget {
-  const getHomePage({Key? key}) : super(key: key);
+  final userDetails, isFetching, data;
+  const getHomePage(this.userDetails, this.isFetching, this.data, {Key? key}) : super(key: key);
 
   @override
   State<getHomePage> createState() => _getHomePageState();
 }
 
 class _getHomePageState extends State<getHomePage> {
-  List data = [
-    {
-      "S.No": 1,
-      "Roll No": "202CT141",
-      "Name": "VENKAT RAMAN S P",
-      "Department": "COMPUTER TECHNOLOGY",
-      "Gender": "Male",
-      "Mail ID": "venkatraman.ct20@bitsathy.ac.in"
-    },
-    {
-      "S.No": 1,
-      "Roll No": "202CT141",
-      "Name": "VENKAT RAMAN S P",
-      "Department": "COMPUTER TECHNOLOGY",
-      "Gender": "Male",
-      "Mail ID": "venkatraman.ct20@bitsathy.ac.in"
-    },
-    {
-      "S.No": 1,
-      "Roll No": "202CT141",
-      "Name": "VENKAT RAMAN S P",
-      "Department": "COMPUTER SCIENCE AND BUSSINESS SYSTEMS",
-      "Gender": "Male",
-      "Mail ID": "venkatraman.ct20@bitsathy.ac.in"
-    },
-    {
-      "S.No": 1,
-      "Roll No": "202CT141",
-      "Name": "VENKAT RAMAN S P",
-      "Department": "COMPUTER TECHNOLOGY",
-      "Gender": "Male",
-      "Mail ID": "venkatraman.ct20@bitsathy.ac.in"
-    },
-    {
-      "S.No": 1,
-      "Roll No": "202CT141",
-      "Name": "VENKAT RAMAN S P",
-      "Department": "COMPUTER TECHNOLOGY",
-      "Gender": "Male",
-      "Mail ID": "venkatraman.ct20@bitsathy.ac.in"
-    },
-    {
-      "S.No": 1,
-      "Roll No": "202CT141",
-      "Name": "VENKAT RAMAN S P",
-      "Department": "COMPUTER TECHNOLOGY",
-      "Gender": "Male",
-      "Mail ID": "venkatraman.ct20@bitsathy.ac.in"
-    },
-    {
-      "S.No": 1,
-      "Roll No": "202CT141",
-      "Name": "VENKAT RAMAN S P",
-      "Department": "COMPUTER SCIENCE AND BUSSINESS SYSTEMS",
-      "Gender": "Male",
-      "Mail ID": "venkatraman.ct20@bitsathy.ac.in"
-    },
-    {
-      "S.No": 2,
-      "Roll No": "202CT141",
-      "Name": "VENKAT RAMAN S P",
-      "Department": "COMPUTER TECHNOLOGY",
-      "Gender": "Male",
-      "Mail ID": "venkatraman.ct20@bitsathy.ac.in"
-    }
-  ];
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -226,22 +187,22 @@ class _getHomePageState extends State<getHomePage> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Text(
-                          "Cloud Computing",
+                          widget.userDetails["details"][0]["LAB_NAME"],
                           style: GoogleFonts.poppins(
                               fontWeight: FontWeight.w500, fontSize: 24),
                         ),
-                        Text(
-                          " - 148 Students",
+                        (!widget.isFetching)?Text(
+                          " - " + widget.data.length.toString() + " students",
                           style: GoogleFonts.poppins(
                               fontWeight: FontWeight.w500, fontSize: 18),
-                        )
+                        ):CircularProgressIndicator()
                       ],
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.only(top: 8.0),
                     child: Text(
-                      "SLB-031",
+                      widget.userDetails["details"][0]["LAB_ID"],
                       style: GoogleFonts.poppins(
                           fontWeight: FontWeight.w500, fontSize: 17),
                     ),
@@ -319,8 +280,8 @@ class _getHomePageState extends State<getHomePage> {
                           width: width*100,
                           height: height*50,
 
-                          child: ListView.builder(
-                              itemCount: data.length,
+                          child: (!widget.isFetching)?ListView.builder(
+                              itemCount: widget.data.length,
                               itemBuilder: (BuildContext context, int index) {
                                 return Container(
                                   height: height*7,
@@ -330,17 +291,17 @@ class _getHomePageState extends State<getHomePage> {
                                     child: Row(
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
-                                        getContainerForTable(width,data[index]['S.No'].toString(), 5, FontWeight.w300, 1),
-                                        getContainerForTable(width,data[index]['Roll No'].toString(), 9, FontWeight.w300, 1),
-                                        getContainerForTable(width,data[index]['Name'].toString(), 12, FontWeight.w300, 1),
-                                        getContainerForTable(width,data[index]['Department'].toString(), 20, FontWeight.w300, 1),
-                                        getContainerForTable(width,data[index]['Gender'].toString(), 7, FontWeight.w300, 1),
-                                        getContainerForTable(width,data[index]['Mail ID'].toString(), 20, FontWeight.w300, 1),
+                                        getContainerForTable(width,(index+1).toString(), 5, FontWeight.w300, 1),
+                                        getContainerForTable(width,widget.data[index].stu_id.toString(), 9, FontWeight.w300, 1),
+                                        getContainerForTable(width,widget.data[index].stu_name.toString(), 12, FontWeight.w300, 1),
+                                        getContainerForTable(width,widget.data[index].dept.toString(), 20, FontWeight.w300, 1),
+                                        getContainerForTable(width,"Male", 7, FontWeight.w300, 1),
+                                        getContainerForTable(width,widget.data[index].stu_email.toString(), 20, FontWeight.w300, 1),
                                       ],
                                     ),
                                   ),
                                 );
-                              }),
+                              }):Center(child: CircularProgressIndicator()),
                         )
                       ],
                     ),

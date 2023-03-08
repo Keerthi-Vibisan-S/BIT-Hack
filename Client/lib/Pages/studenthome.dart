@@ -22,10 +22,22 @@ class StudentHome extends StatefulWidget {
 }
 
 class _StudentHomeState extends State<StudentHome> {
-
+  List<FacultyOfLab> facultyObjects = [];
   var press1 = true;
   var press2 = false;
+  bool isFetchingHome = true,  isFetchingSwitch = true;
 
+  getFaculties (String? inchargeId) async {
+    facultyObjects = await getLabFacultyDetails(widget.userdetails["details"][0]["LAB_ID"].toString(), inchargeId!);
+    setState(() {
+      isFetchingHome = false;
+    });
+  }
+
+  @override
+  void initState() {
+    getFaculties(widget.userdetails["details"][0]["FACULTY_ID"].toString());
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -100,7 +112,7 @@ class _StudentHomeState extends State<StudentHome> {
                 ),
               ),
             ),
-            (press1)?getStudentHome(widget.userdetails):LabSwitchPage(widget.userdetails)
+            (press1)?getStudentHome(widget.userdetails, facultyObjects, isFetchingHome):LabSwitchPage(widget.userdetails)
           ],
         ),
       ),
@@ -109,8 +121,8 @@ class _StudentHomeState extends State<StudentHome> {
 }
 
 class getStudentHome extends StatefulWidget {
-  final userdetails;
-  const getStudentHome(this.userdetails,{Key? key}) : super(key: key);
+  final userdetails, facultyObjects, isFetchingHome;
+  const getStudentHome(this.userdetails, this.facultyObjects, this.isFetchingHome, {Key? key}) : super(key: key);
 
   @override
   State<getStudentHome> createState() => _getStudentHomeState();
@@ -119,7 +131,6 @@ class getStudentHome extends StatefulWidget {
 class _getStudentHomeState extends State<getStudentHome> {
   var leftClick = false;
   var rightClick = true;
-  List<FacultyOfLab> facultyObjects = [];
 
   var data = " ";
   ScrollController sc = new ScrollController();
@@ -134,18 +145,6 @@ class _getStudentHomeState extends State<getStudentHome> {
   {
     // if(sc.hasClients)
     sc.animateTo(sc.offset-370, duration: Duration(milliseconds: 500), curve: Curves.linear);
-  }
-
-  getFaculties (String? inchargeId) async {
-    facultyObjects = await getLabFacultyDetails(widget.userdetails["details"][0]["LAB_ID"].toString(), inchargeId!);
-    setState(() {
-
-    });
-  }
-
-  @override
-  void initState() {
-    getFaculties(widget.userdetails["details"][0]["FACULTY_ID"].toString());
   }
 
   @override
@@ -311,7 +310,7 @@ class _getStudentHomeState extends State<getStudentHome> {
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
                                       Expanded(
-                                        child: Container(
+                                        child: (!widget.isFetchingHome)?Container(
                                           height: 130,
                                           child: Scrollbar(
                                             // thumbVisibility: true,
@@ -321,16 +320,16 @@ class _getStudentHomeState extends State<getStudentHome> {
                                             child: ListView.builder(
                                                 shrinkWrap: true,
                                                 controller: sc,
-                                                itemCount: facultyObjects.length,
+                                                itemCount: widget.facultyObjects.length,
                                                 scrollDirection: Axis.horizontal,
                                                 itemBuilder: (BuildContext context,int index){
                                                   return Padding(
                                                     padding: const EdgeInsets.symmetric(horizontal: 9.0),
-                                                    child: getFacultyCard(facultyObjects[index]),
+                                                    child: getFacultyCard(widget.facultyObjects[index]),
                                                   );
                                                 }),
                                           ),
-                                        ),
+                                        ):Center(child: CircularProgressIndicator(),),
                                       ),
                                       // GestureDetector(
                                       //   onTap: (){
