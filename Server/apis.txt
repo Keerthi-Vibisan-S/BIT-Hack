@@ -20,5 +20,6 @@ JSON Data Sample:
    ----------------
 /authenticate/facultyverify -----> To Verify Login as Faculty
 1. /faculty/getStudents/{-- FACULTY ID HERE --}  --> All Students under a faculty
-2. /faculty/getReqStudents/{-- FACULTY ID HERE --} --> Requested Students under a Faculty for both LAB Sides
+2. /faculty/getReqStudents/{-- FACULTY ID HERE --} --> Requested Students under a Faculty for both LAB Sides [Nested Population Done]
+3. /getHistory/{-- Student ID HERE -- } ---> To get a Student Lab change History
 
