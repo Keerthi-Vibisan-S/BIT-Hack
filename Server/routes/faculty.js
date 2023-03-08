@@ -8,7 +8,7 @@ route.get("/", (req, res) => {
 })
 
 //! Get List of Students under a faculty
-route.get("/getStudents/:fid", authenticate, (req, res) => {
+route.get("/getStudents/:fid", (req, res) => {
     //! 🫣🫣🫣 Faculty id must be taken dynamically from DB ⚠️⚠️⚠️⚠️⚠️⚠️⚠️ 
     let f_id = req.params.fid;
     let q = `select * from STUDENT where FACULTY_ID="${f_id}"`;
@@ -32,7 +32,7 @@ route.get("/getStudents/:fid", authenticate, (req, res) => {
 })
 
 //! Students REQUESTEDTO TEACHER TO CHANGE THE LAB
-route.get("/getReqStudents/:fid", authenticate, (req, res) => {
+route.get("/getReqStudents/:fid", (req, res) => {
     //! 💀💀 Faculty id must be taken dynamically from DB ⚠️ 
     let f_id = req.params.fid;
     let q = `SELECT * FROM REQUESTS WHERE FROM_LAB_FAC_ID ="${f_id}" OR TO_LAB_FAC_ID ="${f_id}";`;
