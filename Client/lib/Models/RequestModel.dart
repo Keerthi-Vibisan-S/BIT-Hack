@@ -1,6 +1,8 @@
+import 'package:special_lab_dashboard/Models/StudentModel.dart';
+
 class RequestModel{
   String? _r_id;
-  String? _stu_id;
+  StudentModel? _stu;
   String? _from_lab_fac_id;
   String? _to_lab_fac_id;
   String? _from_approval;
@@ -8,6 +10,14 @@ class RequestModel{
   String? _head_id;
   String? _head_approval;
   String? _reason;
+  String? _from_lab_name;
+  String? _to_lab_name;
+
+  StudentModel? get stu => _stu;
+
+  set stu(StudentModel? value) {
+    _stu = value;
+  }
 
   get r_id => _r_id;
 
@@ -15,7 +25,12 @@ class RequestModel{
     _r_id = value;
   }
 
-  get stu_id => _stu_id;
+  String? get from_lab_name => _from_lab_name;
+
+  set from_lab_name(String? value) {
+    _from_lab_name = value;
+  }
+
 
   get reason => _reason;
 
@@ -59,18 +74,22 @@ class RequestModel{
     _from_lab_fac_id = value;
   }
 
-  set stu_id(value) {
-    _stu_id = value;
+  String? get to_lab_name => _to_lab_name;
+
+  set to_lab_name(String? value) {
+    _to_lab_name = value;
   }
 
   RequestModel(
       this._r_id,
-      this._stu_id,
+      this._stu,
       this._from_lab_fac_id,
       this._to_lab_fac_id,
       this._from_approval,
       this._to_approval,
       this._head_id,
       this._head_approval,
-      this._reason);
+      this._reason,
+      this._from_lab_name,
+      this._to_lab_name);
 }

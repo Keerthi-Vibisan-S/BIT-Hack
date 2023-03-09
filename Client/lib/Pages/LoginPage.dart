@@ -233,7 +233,7 @@ class _LoginPageState extends State<LoginPage> {
                                 //       }
                                 //     });
                                 //   }
-                                //
+                                  //
                               }, child: Text("Sign in Google",
                                   style: GoogleFonts.poppins(
                                       fontWeight: FontWeight.w500,

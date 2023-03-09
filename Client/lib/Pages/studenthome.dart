@@ -11,6 +11,7 @@ import 'package:special_lab_dashboard/Pages/LabSwitch.dart';
 import 'package:http/http.dart' as http;
 
 import '../APIHandler/apiHandler.dart';
+import '../Models/SpecialLabModel.dart';
 import '../Utilities/Util.dart';
 
 class StudentHome extends StatefulWidget {
@@ -22,15 +23,41 @@ class StudentHome extends StatefulWidget {
 }
 
 class _StudentHomeState extends State<StudentHome> {
-  List<FacultyOfLab> facultyObjects = [];
   var press1 = true;
   var press2 = false;
   bool isFetchingHome = true,  isFetchingSwitch = true;
 
+  List<SpecialLab> specialLabs = [];
+  List<String> specialLabsNames = []; //
+  String? myLab; //
+  List details = []; //
+  List<FacultyOfLab> fac_of_lab= [];
+  FacultyOfLab? inchargeDetails;
+
   getFaculties (String? inchargeId) async {
-    facultyObjects = await getLabFacultyDetails(widget.userdetails["details"][0]["LAB_ID"].toString(), inchargeId!);
+    var facultyObjects = await getLabFacultyDetails(widget.userdetails["details"][0]["LAB_ID"].toString(), inchargeId!);
+
+    for(var fac in facultyObjects) {
+      fac_of_lab.add(FacultyOfLab(fac["FACULTY_ID"], fac["FACULTY_NAME"], fac["FACULTY_EMAIL"], fac["CONTACT"], fac["LAB_ID"]));
+      if(inchargeId == fac["FACULTY_ID"]) {
+        inchargeDetails = fac_of_lab.last;
+      }
+    }
+
+    getSL();
+  }
+
+  getSL() async {
+    specialLabs = await getSpecialLabs();
+    for(SpecialLab i in specialLabs) {
+      specialLabsNames.add(i.labname ?? "");
+      details.add({"labid":i.labid,"labname":i.labname, "headid":i.labheadid});
+      if(widget.userdetails['details'][0]['LAB_ID'].toString()==i.labid){
+        myLab = i.labname;
+      }
+    }
     setState(() {
-      isFetchingHome = false;
+      isFetchingHome = isFetchingSwitch = false;
     });
   }
 
@@ -38,6 +65,7 @@ class _StudentHomeState extends State<StudentHome> {
   void initState() {
     getFaculties(widget.userdetails["details"][0]["FACULTY_ID"].toString());
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -112,7 +140,7 @@ class _StudentHomeState extends State<StudentHome> {
                 ),
               ),
             ),
-            (press1)?getStudentHome(widget.userdetails, facultyObjects, isFetchingHome):LabSwitchPage(widget.userdetails)
+            (press1)?getStudentHome(widget.userdetails, fac_of_lab, isFetchingHome, myLab, inchargeDetails):LabSwitchPage(widget.userdetails, isFetchingSwitch, specialLabsNames, details, myLab, inchargeDetails)
           ],
         ),
       ),
@@ -121,8 +149,8 @@ class _StudentHomeState extends State<StudentHome> {
 }
 
 class getStudentHome extends StatefulWidget {
-  final userdetails, facultyObjects, isFetchingHome;
-  const getStudentHome(this.userdetails, this.facultyObjects, this.isFetchingHome, {Key? key}) : super(key: key);
+  final userdetails, facultyObjects, isFetchingHome, myLab, inchargeDetails;
+  const getStudentHome(this.userdetails, this.facultyObjects, this.isFetchingHome, this.myLab, this.inchargeDetails, {Key? key}) : super(key: key);
 
   @override
   State<getStudentHome> createState() => _getStudentHomeState();
@@ -240,30 +268,30 @@ class _getStudentHomeState extends State<getStudentHome> {
                                           ),
                                         ),
                                         Positioned(
-                                            child: Text(
-                                              "Cloud Computing",
+                                            child: (!widget.isFetchingHome)?Text(
+                                              widget.myLab.toString().toUpperCase(),
                                               style: GoogleFonts.poppins(
                                                   fontWeight: FontWeight.w500,
                                                   decoration: TextDecoration.none,
                                                   color: Colors.white,
                                                   fontSize: 20
                                               )
-                                            ),
+                                            ) : Text("LAB"),
                                           top: 20,
                                           left: 20,
                                         ),
                                         Positioned(
                                           top: 60,
                                           left: 20,
-                                          child: Text(
-                                              "SLB008",
+                                          child: (!widget.isFetchingHome)?Text(
+                                              widget.userdetails["details"][0]["LAB_ID"].toString(),
                                               style: GoogleFonts.poppins(
                                                   fontWeight: FontWeight.w400,
                                                   decoration: TextDecoration.none,
                                                   color: Colors.white,
                                                   fontSize: 17.5
                                               )
-                                          ),
+                                          ): Text("LAB CODE"),
                                         ),
                                         Positioned(
                                           left: 20,
@@ -275,7 +303,7 @@ class _getStudentHomeState extends State<getStudentHome> {
                                             child: Container(
                                               width: w * 0.4,
                                               child: Text(
-                                                  "Cloud computing is the on-demand availability of computer system resources, especially data storage and computing power, without direct active management by the user. Large clouds often have functions.",
+                                                  "The Internet of things describes physical objects with sensors, processing ability, software and other technologies that connect and exchange data with other devices and systems over the Internet or other communications networks",
                                                   maxLines: 4,
                                                   style: GoogleFonts.poppins(
                                                       fontWeight: FontWeight.w300,
@@ -357,7 +385,7 @@ class _getStudentHomeState extends State<getStudentHome> {
                           child:Column(
                             children: [
                               // SizedBox(height: 20,),
-                              Hero(tag: "sjai", child: renderStudentDetailsCard(widget.userdetails))
+                              (!widget.isFetchingHome)?Hero(tag: "sjai", child: renderStudentDetailsCard(widget.userdetails, widget.inchargeDetails, widget.myLab)):Center(child: CircularProgressIndicator(),)
 
                             ],
                           )

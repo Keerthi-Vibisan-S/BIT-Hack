@@ -26,7 +26,7 @@ dynamic checkValidUser(String? email, String? idToken) async{
     // SharedPreferences preferences = await SharedPreferences.getInstance();
     // preferences.setString("user-id", value);
   }).catchError((err){
-    print("Error: " +err.toString());
+    print("Error: $err");
     return "Error";
   });
 
@@ -49,27 +49,29 @@ dynamic checkValidFacultyUser(String? email, String? idToken) async{
     // SharedPreferences preferences = await SharedPreferences.getInstance();
     // preferences.setString("user-id", value);
   }).catchError((err){
-    print("Error: " +err.toString());
+    print("Error: $err");
     return err;
   });
 
   return json.decode(res.body);
 }
 
-dynamic postRequestToChangeSP(String? fromFacId, String? toFacId, String? head_id, String? reason) async{
+dynamic postRequestToChangeSP(String? fromFacId, String? toFacId, String? head_id, String? reason, String? from_lab, String? to_lab) async{
   var res;
   SharedPreferences preferences = await SharedPreferences.getInstance();
   String? token = preferences.getString("token");
   await http.post(Uri.parse("${API_LINK}request/addReq"),
       headers: {
         "content-type" : "application/json",
-        "Authorization" : "Bearer "+token!
+        "Authorization" : "Bearer ${token!}"
       },
       body: json.encode({
         "from_lab_faculty_id": fromFacId,
         "to_lab_faculty_id": toFacId,
         "head_id": "1000",
-        "reason": reason
+        "reason": reason,
+        // "from_lab_name" : from_lab,
+        // "to_lab_name" : to_lab
       })
   ).then((value) async {
     res = value;
@@ -89,7 +91,7 @@ Future<List<SpecialLab>> getSpecialLabs() async{
   await http.get(Uri.parse("${LOCALHOST}labs/getLabs"),
       headers: {
         "content-type" : "application/json",
-        "Authorization" : "Bearer "+token!,
+        "Authorization" : "Bearer ${token!}",
       },
   ).then((value) async {
     res = value.body;
@@ -98,10 +100,9 @@ Future<List<SpecialLab>> getSpecialLabs() async{
   });
   List<SpecialLab> slobjs= [];
   var ans = json.decode(res);
-  for(var sl in ans)
-    {
-      slobjs.add(SpecialLab(sl["LAB_ID"], sl["LAB_NAME"], sl["LAB_HEAD_ID"]));
-    }
+  for(var sl in ans) {
+    slobjs.add(SpecialLab(sl["LAB_ID"], sl["LAB_NAME"], sl["LAB_HEAD_ID"]));
+  }
   return slobjs;
 
   // return json.decode(res.body);
@@ -116,32 +117,25 @@ getLabFacultyDetails(String? lab_id, String inchargeId) async
       headers: {
         "Access-Control-Allow-Origin":"*",
         "Content-Type":"application/json",
-        "Authorization": "Bearer "+token!,
+        "Authorization": "Bearer ${token!}",
       },
       body: json.encode({
         "lab_id": lab_id
       })
   );
 
-  List<FacultyOfLab> fac_of_lab= [];
-  var ans = json.decode(response.body);
-  for(var fac in ans) {
-    fac_of_lab.add(FacultyOfLab(fac["FACULTY_ID"], fac["FACULTY_NAME"], fac["FACULTY_EMAIL"], fac["CONTACT"], fac["LAB_ID"]));
-  }
-    // if(inchargeId == fac["FACULTY_ID"])
-
-  return fac_of_lab;
+  return json.decode(response.body);
 }
 
 getAllStudentUnderFaculty(String? fac_id) async {
   SharedPreferences preferences = await SharedPreferences.getInstance();
   var token = preferences.getString("token") ?? "";
   http.Response response =  await http.get(
-      Uri.parse("${LOCALHOST}faculty/getStudents/${fac_id}"),
+      Uri.parse("${LOCALHOST}faculty/getStudents/$fac_id"),
       headers: {
         "Access-Control-Allow-Origin":"*",
         "Content-Type":"application/json",
-        "Authorization": "Bearer "+token,
+        "Authorization": "Bearer $token",
       },
   );
   
@@ -158,26 +152,43 @@ getAllStudentRequestsUnderFaculty(String? fac_id) async {
   SharedPreferences preferences = await SharedPreferences.getInstance();
   var token = preferences.getString("token") ?? "";
   http.Response response =  await http.get(
-    Uri.parse("${LOCALHOST}faculty/getReqStudents/${fac_id}"),
+    Uri.parse("${LOCALHOST}faculty/getReqStudents/$fac_id"),
     headers: {
       "Access-Control-Allow-Origin":"*",
       "Content-Type":"application/json",
-      "Authorization": "Bearer "+token,
+      "Authorization": "Bearer $token",
     },
   );
 
   List<RequestModel> joiningRequests = [];
   List<RequestModel> leavingRequests = [];
   var ans = json.decode(response.body);
-  // print(ans);
+
   for(var req in ans){
+    StudentModel stu = await getHistoryOfStudent(req["STU_ID"]);
     if(req["FROM_LAB_FAC_ID"] == fac_id){
-      joiningRequests.add(RequestModel(req["R_ID"].toString(), req["STU_ID"], req["FROM_LAB_FAC_ID"], req["TO_LAB_FAC_ID"], req["FROM_APPROVAL"], req["TO_APPROVAL"], req["HEAD_ID"].toString(), req["HEAD_APPROVAL"], req["REASON"]));
+      joiningRequests.add(RequestModel(req["R_ID"].toString(), stu, req["FROM_LAB_FAC_ID"], req["TO_LAB_FAC_ID"], req["FROM_APPROVAL"], req["TO_APPROVAL"], req["HEAD_ID"].toString(), req["HEAD_APPROVAL"], req["REASON"], req["FROM_LAB"], req["TO_LAB"]));
     }
     if(req["TO_LAB_FAC_ID"] == fac_id){
-      leavingRequests.add(RequestModel(req["R_ID"].toString(), req["STU_ID"], req["FROM_LAB_FAC_ID"], req["TO_LAB_FAC_ID"], req["FROM_APPROVAL"], req["TO_APPROVAL"], req["HEAD_ID"].toString(), req["HEAD_APPROVAL"], req["REASON"]));
+      leavingRequests.add(RequestModel(req["R_ID"].toString(), stu, req["FROM_LAB_FAC_ID"], req["TO_LAB_FAC_ID"], req["FROM_APPROVAL"], req["TO_APPROVAL"], req["HEAD_ID"].toString(), req["HEAD_APPROVAL"], req["REASON"], req["FROM_LAB"], req["TO_LAB"]));
     }
   }
 
   return {"joining": joiningRequests, "leaving" : leavingRequests};
+}
+
+getHistoryOfStudent(String? stu_id) async {
+  SharedPreferences preferences = await SharedPreferences.getInstance();
+  var token = preferences.getString("token") ?? "";
+  http.Response response =  await http.get(
+    Uri.parse("${LOCALHOST}faculty/getHistory/$stu_id"),
+    headers: {
+      "Access-Control-Allow-Origin":"*",
+      "Content-Type":"application/json",
+      "Authorization": "Bearer $token",
+    },
+  );
+
+  var ans = (json.decode(response.body))[0];
+  return StudentModel.forRequests(ans["STU_ID"],ans["STU_NAME"], ans["COUNT"].toString(), ans["DEPT"], ans["YEAR"]);
 }

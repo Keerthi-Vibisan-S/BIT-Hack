@@ -8,7 +8,7 @@ route.get("/", (req, res) => {
 });
 
 //! Get List of Students under a faculty
-route.get("/getStudents/:fid", authenticate, (req, res) => {
+route.get("/getStudents/:fid", (req, res) => {
   //! 🫣🫣🫣 Faculty id must be taken dynamically from DB ⚠️⚠️⚠️⚠️⚠️⚠️⚠️
   let f_id = req.params.fid;
   let q = `select * from STUDENT where FACULTY_ID="${f_id}"`;

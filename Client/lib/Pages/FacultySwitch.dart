@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:special_lab_dashboard/Models/RequestModel.dart';
 
 import '../Utilities/Util.dart';
 // import 'package:google_fonts/google_fonts.dart';
@@ -207,12 +208,12 @@ class _FacultySwitchState extends State<FacultySwitch> {
     );
   }
 
-  Widget table(List data, String where) {
+  Widget table(List<RequestModel> data, String where) {
     var size = MediaQuery.of(context).size;
     var height = size.height / 100;
     var width = size.width / 100;
 
-    return Container(
+    return (data.length!=0)?Container(
       width: width * 100,
       height: height * 60,
       child: Column(
@@ -228,10 +229,11 @@ class _FacultySwitchState extends State<FacultySwitch> {
                   getContainerForTable(width, "S.No", 6, FontWeight.w500, 1.2),
                   getContainerForTable(width, "Roll No", 8, FontWeight.w500, 1.2),
                   getContainerForTable(width, "Name", 11, FontWeight.w500, 1.2),
-                  getContainerForTable(width, "Department", 17, FontWeight.w500, 1.2),
+                  getContainerForTable(width, "Department", 12, FontWeight.w500, 1.2),
                   getContainerForTable(width, "Year", 7, FontWeight.w500, 1.2),
                   getContainerForTable(width, "History", 4.5, FontWeight.w500, 1.2),
                   getContainerForTable(width, where, 6, FontWeight.w500, 1.2),
+                  getContainerForTable(width, "Reason", 5, FontWeight.w500, 1.2),
                   getContainerForTable(width, "Approval", 15, FontWeight.w500, 1.2),
                 ],
               ),
@@ -251,12 +253,63 @@ class _FacultySwitchState extends State<FacultySwitch> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           getContainerForTable(width,(index+1).toString(), 6, FontWeight.w300, 1),
-                          getContainerForTable(width,data[index].stu_id.toString(), 8, FontWeight.w300, 1),
-                          getContainerForTable(width,data[index].reason.toString(), 11, FontWeight.w300, 1),
-                          getContainerForTable(width,"department", 17, FontWeight.w300, 1),
-                          getContainerForTable(width,"year", 7, FontWeight.w300, 1),
-                          getContainerForTable(width,"history", 4.5, FontWeight.w300, 1),
-                          getContainerForTable(width,(where == "From")?data[index].from_lab_fac_id.toString():data[index].to_lab_fac_id.toString(), 6, FontWeight.w300, 1),
+                          getContainerForTable(width,data[index].stu!.stu_id.toString(), 8, FontWeight.w300, 1),
+                          getContainerForTable(width,data[index].stu!.stu_name, 11, FontWeight.w300, 1),
+                          getContainerForTable(width,data[index].stu!.dept, 12, FontWeight.w300, 1),
+                          getContainerForTable(width,data[index].stu!.year, 7, FontWeight.w300, 1),
+                          getContainerForTable(width,data[index].stu!.count, 4.5, FontWeight.w300, 1),
+                          getContainerForTable(width,(where == "From")?data[index].from_lab_name.toString():data[index].to_lab_name.toString(), 6, FontWeight.w300, 1),
+                          Container(
+                            width: width*5,
+                            child: Container(
+                              width: 60,
+                              height: 30.0,
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  border: Border.all(
+                                      width: 1, color: Color(0xff5749f3)),
+                                  borderRadius: BorderRadius.circular(7.5),
+                                  boxShadow: const [
+                                    BoxShadow(
+                                      color: Colors.black12,
+                                      offset: Offset(0.0, 1.5),
+                                      blurRadius: 1.5,
+                                    ),
+                                  ]),
+                              child: Material(
+                                color: Colors.transparent,
+                                child: InkWell(
+                                    onTap: () {
+                                      showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return AlertDialog(
+                                            title: Padding(
+                                              padding: const EdgeInsets.only(left: 32.0, right: 32.0),
+                                              child: Text(
+                                                  'Reason',
+                                                  style: GoogleFonts.poppins(
+                                                    fontWeight: FontWeight.bold,
+                                                  )
+                                              ),
+                                            ),
+                                            content: Padding(
+                                              padding: const EdgeInsets.only(left: 32.0, right: 32.0),
+                                              child: Text(
+                                                  '${data[index].reason} ',
+                                                  style: GoogleFonts.poppins(
+                                                    fontWeight: FontWeight.w700,
+                                                  )
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                      );
+                                    },
+                                    child: Center(child: Text("View",))),
+                              ),
+                            ),
+                          ),
                           Container(
                             width: width * 15,
                             alignment: Alignment.centerLeft,
@@ -309,6 +362,16 @@ class _FacultySwitchState extends State<FacultySwitch> {
           ),
         ],
       ),
+    ):Container(
+      width: width * 100,
+      height: height * 60,
+      child: Center(child: (where=='From')?Text("No Joining Requests Available",  style: GoogleFonts.poppins(
+        fontWeight: FontWeight.bold,
+        fontSize: 24,
+      )):Text("No Leaving Requests Available", style: GoogleFonts.poppins(
+        fontWeight: FontWeight.bold,
+        fontSize: 24,
+      )))
     );
   }
 }

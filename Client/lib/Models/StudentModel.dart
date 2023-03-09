@@ -52,6 +52,9 @@ class StudentModel{
       this._dept,
       this._year);
 
+
+  StudentModel.forRequests(this._stu_id, this._stu_name, this._count, this._dept, this._year);
+
   get faculty_id => _faculty_id;
 
   set faculty_id(value) {
