@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../APIHandler/apiHandler.dart';
 import '../Utilities/Util.dart';
 // import 'package:google_fonts/google_fonts.dart';
 
@@ -16,7 +17,7 @@ class _FacultySwitchState extends State<FacultySwitch> {
   bool press1 = false;
   bool press2 = true;
 
-  List data = [
+  List<dynamic> data = [
     {
       "S.No": 1,
       "Roll No": "202CT141",
@@ -109,6 +110,19 @@ class _FacultySwitchState extends State<FacultySwitch> {
     },
   ];
   int selec = 0;
+
+  void getData() async{
+    await getRequests().then((v){
+      setState(() {
+        data = v;
+      });
+    });
+  }
+
+  @override
+  void initState() {
+      getData();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -343,13 +357,13 @@ class _FacultySwitchState extends State<FacultySwitch> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          getContainerForTable(width,data[index]['S.No'].toString(), 6, FontWeight.w300, 1),
-                          getContainerForTable(width,data[index]['Roll No'].toString(), 8, FontWeight.w300, 1),
-                          getContainerForTable(width,data[index]['Name'].toString(), 11, FontWeight.w300, 1),
-                          getContainerForTable(width,data[index]['Department'].toString(), 17, FontWeight.w300, 1),
-                          getContainerForTable(width,data[index]['Year'].toString(), 7, FontWeight.w300, 1),
-                          getContainerForTable(width,data[index]['History'].toString(), 4.5, FontWeight.w300, 1),
-                          getContainerForTable(width,data[index]['From'].toString(), 6, FontWeight.w300, 1),
+                          getContainerForTable(width,(index+1).toString(), 6, FontWeight.w300, 1),
+                          getContainerForTable(width,data[index]['STU_ID'].toString(), 8, FontWeight.w300, 1),
+                          getContainerForTable(width,"NAME".toString(), 11, FontWeight.w300, 1),
+                          getContainerForTable(width,"DEPARTMENT".toString(), 17, FontWeight.w300, 1),
+                          getContainerForTable(width,"YEAR".toString(), 7, FontWeight.w300, 1),
+                          getContainerForTable(width,"COUNT".toString(), 4.5, FontWeight.w300, 1),
+                          getContainerForTable(width,"FROM", 6, FontWeight.w300, 1),
                           Container(
                             width: width * 15,
                             alignment: Alignment.centerLeft,

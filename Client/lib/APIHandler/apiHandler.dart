@@ -123,3 +123,17 @@ getLabFacultyDetails(String? lab_id, String inchargeId) async
   // print(response.body);
 
 }
+
+
+Future<List> getMyStudents() async
+{
+    http.Response  res =  await http.get(Uri.parse(API_LINK+"faculty/getStudents/104"));
+    List<dynamic> labStudentsList = jsonDecode(res.body);
+    return labStudentsList;
+}
+
+Future<List> getRequests() async{
+  http.Response res = await http.get(Uri.parse(API_LINK+"faculty/getReqStudents/101"));
+  List<dynamic> requestStudentList = jsonDecode(res.body);
+  return requestStudentList;
+}

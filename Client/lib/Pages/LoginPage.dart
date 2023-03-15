@@ -49,6 +49,7 @@ class _LoginPageState extends State<LoginPage> {
     }
     return details;
   }
+  var userDetails;
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -105,15 +106,16 @@ class _LoginPageState extends State<LoginPage> {
                               ),
                               SizedBox(height: 20,),
                               ElevatedButton(onPressed: (){
-                                var userDetails = "{\"email\":\"balasuriya.cs20@bitsathy.ac.in\",\"verify\":true,\"name\":\"BALASURIYA K A\",\"img\":\"https://lh3.googleusercontent.com/a/AGNmyxZdo8m7KpccPALmjk2YYWqtTzhZlAbYtLzDBtwegQ=s96-c\",\"details\":[{\"STU_ID\":\"201CS130\",\"STU_NAME\":\"BALA SURIYA K A\",\"STU_EMAIL\":\"balasuriya.cs20@bitsathy.ac.in\",\"STU_CONTACT\":\"9782315975\",\"LAB_ID\":\"5\",\"FACULTY_ID\":\"105\",\"COUNT\":0,\"LAST_UPDATED_DATE\":\"2023-02-17T18:30:00.000Z\",\"DEPT\":\"COMPUTER SCIENCE ENGINEERING\",\"YEAR\":\"3rd Year\"}]}";
-                                if(emailController.text == "Student")
-                                  Navigator.push(context, MaterialPageRoute(builder: (context) => StudentHome(userDetails)));
-
-                                else if(emailController.text == "Teacher")
+                                // var userDetails = "{\"email\":\"balasuriya.cs20@bitsathy.ac.in\",\"verify\":true,\"name\":\"BALASURIYA K A\",\"img\":\"https://lh3.googleusercontent.com/a/AGNmyxZdo8m7KpccPALmjk2YYWqtTzhZlAbYtLzDBtwegQ=s96-c\",\"details\":[{\"STU_ID\":\"201CS130\",\"STU_NAME\":\"BALA SURIYA K A\",\"STU_EMAIL\":\"balasuriya.cs20@bitsathy.ac.in\",\"STU_CONTACT\":\"9782315975\",\"LAB_ID\":\"5\",\"FACULTY_ID\":\"105\",\"COUNT\":0,\"LAST_UPDATED_DATE\":\"2023-02-17T18:30:00.000Z\",\"DEPT\":\"COMPUTER SCIENCE ENGINEERING\",\"YEAR\":\"3rd Year\"}]}";
+                                // print(userDetails);
+                                // if(emailController.text == "Student")
+                                //   Navigator.push(context, MaterialPageRoute(builder: (context) => StudentHome(userDetails)));
+                                //
+                                // else if(emailController.text == "Teacher")
                                   Navigator.push(context, MaterialPageRoute(builder: (context) => FacultyHome()));
-
-                                else
-                                  Navigator.push(context, MaterialPageRoute(builder: (context) => AdminHomePage()));
+                                //
+                                // else
+                                //   Navigator.push(context, MaterialPageRoute(builder: (context) => AdminHomePage()));
 
                               },
                                 child: Text("Login", style: GoogleFonts.poppins(

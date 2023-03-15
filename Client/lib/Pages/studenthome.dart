@@ -28,6 +28,12 @@ class _StudentHomeState extends State<StudentHome> {
   var press2 = false;
 
   @override
+  void initState() {
+    print("In student page");
+    print(widget.userdetails);
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
@@ -105,7 +111,6 @@ class _StudentHomeState extends State<StudentHome> {
         ],
         ),
       ),
-
     );
   }
 }
@@ -216,7 +221,8 @@ class _getStudentHomeState extends State<getStudentHome> {
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      (Responsive.isDesktop(context))?Expanded(
+                      (Responsive.isDesktop(context))?
+                      Expanded(
                         flex:6,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -355,7 +361,7 @@ class _getStudentHomeState extends State<getStudentHome> {
 
                           ],
                         ),
-                      ):renderStudentDetailsCard(null),
+                      ):Container(),
                       getExpanded(1),
                       Expanded(
                           flex:3,
@@ -363,7 +369,7 @@ class _getStudentHomeState extends State<getStudentHome> {
                             children: [
                               // SizedBox(height: 20,),
                               (Responsive.isDesktop(context))?
-                              Hero(tag: "sjai", child: renderStudentDetailsCard(null))
+                              Hero(tag: "sjai", child: renderStudentDetailsCard(widget.userdetails))
                                   :SizedBox(
                                 // width: 1200,
                                 child: Row(
@@ -406,8 +412,6 @@ class _getStudentHomeState extends State<getStudentHome> {
                                   ],
                                 ),
                               ),
-                              Hero(tag: "sjai", child: renderStudentDetailsCard(widget.userdetails))
-
                             ],
                           )
                       ),

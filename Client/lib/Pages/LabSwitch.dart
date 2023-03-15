@@ -108,7 +108,11 @@ geID(String labname){
                         Row(
                           children: [
                             CircleAvatar(
-                              child: Image.network(widget.userDetails["img"] ?? ""),
+
+                              child: ClipRRect(
+                                child: Image.network(widget.userDetails["img"] ?? ""),
+                                borderRadius: BorderRadius.circular(20),
+                              )
                             ),
                             SizedBox(
                               width: 24,

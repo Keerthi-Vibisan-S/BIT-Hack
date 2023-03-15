@@ -4,6 +4,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:special_lab_dashboard/Pages/FacultySwitch.dart';
 import 'package:special_lab_dashboard/Utilities/Util.dart';
 
+import '../APIHandler/apiHandler.dart';
+
 class FacultyHome extends StatefulWidget {
   const FacultyHome({Key? key}) : super(key: key);
 
@@ -96,7 +98,7 @@ class getHomePage extends StatefulWidget {
 }
 
 class _getHomePageState extends State<getHomePage> {
-  List data = [
+  List<dynamic> data = [
     {
       "S.No": 1,
       "Roll No": "202CT141",
@@ -162,6 +164,18 @@ class _getHomePageState extends State<getHomePage> {
       "Mail ID": "venkatraman.ct20@bitsathy.ac.in"
     }
   ];
+
+  void getData() async{
+    await getMyStudents().then((value){
+        setState(() {
+          data = value;
+        });
+    });
+  }
+  @override
+  void initState() {
+    getData();
+  }
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -309,7 +323,7 @@ class _getHomePageState extends State<getHomePage> {
                                 getContainerForTable(width, "Roll No", 9, FontWeight.w500, 1.2),
                                 getContainerForTable(width, "Name", 12, FontWeight.w500, 1.2),
                                 getContainerForTable(width, "Department", 20, FontWeight.w500, 1.2),
-                                getContainerForTable(width, "Gender", 7, FontWeight.w500, 1.2),
+                                getContainerForTable(width, "Contact", 7, FontWeight.w500, 1.2),
                                 getContainerForTable(width, "Mail Id", 20, FontWeight.w500, 1.2),
                               ],
                             ),
@@ -330,12 +344,12 @@ class _getHomePageState extends State<getHomePage> {
                                     child: Row(
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
-                                        getContainerForTable(width,data[index]['S.No'].toString(), 5, FontWeight.w300, 1),
-                                        getContainerForTable(width,data[index]['Roll No'].toString(), 9, FontWeight.w300, 1),
-                                        getContainerForTable(width,data[index]['Name'].toString(), 12, FontWeight.w300, 1),
-                                        getContainerForTable(width,data[index]['Department'].toString(), 20, FontWeight.w300, 1),
-                                        getContainerForTable(width,data[index]['Gender'].toString(), 7, FontWeight.w300, 1),
-                                        getContainerForTable(width,data[index]['Mail ID'].toString(), 20, FontWeight.w300, 1),
+                                        getContainerForTable(width,(index+1).toString(), 5, FontWeight.w300, 1),
+                                        getContainerForTable(width,data[index]['STU_ID'].toString(), 9, FontWeight.w300, 1),
+                                        getContainerForTable(width,data[index]['STU_NAME'].toString(), 12, FontWeight.w300, 1),
+                                        getContainerForTable(width,data[index]['DEPT'].toString(), 20, FontWeight.w300, 1),
+                                        getContainerForTable(width,data[index]['STU_CONTACT'].toString(), 7, FontWeight.w300, 1),
+                                        getContainerForTable(width,data[index]['STU_EMAIL'].toString(), 20, FontWeight.w300, 1),
                                       ],
                                     ),
                                   ),
