@@ -2,12 +2,10 @@ import 'package:flutter/cupertino.dart';
 
 class Responsive extends StatelessWidget {
   final Widget mobile;
-  final Widget tablet;
   final Widget desktop;
   const Responsive({
     Key? key,
     required this.mobile,
-    required this.tablet,
     required this.desktop,
   }) : super(key: key);
   static bool isMobile(BuildContext context)=>MediaQuery.of(context).size.width <800;
@@ -19,9 +17,6 @@ class Responsive extends StatelessWidget {
         builder: (context, constraints){
           if(constraints.maxWidth>=1200){
             return desktop;
-          }
-          else if(constraints.maxWidth>=800){
-            return tablet ?? mobile;
           }
           else{
             return mobile;

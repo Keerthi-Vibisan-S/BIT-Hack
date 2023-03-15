@@ -1,13 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:special_lab_dashboard/Models/RequestModel.dart';
 
-import '../APIHandler/apiHandler.dart';
 import '../Utilities/Util.dart';
 // import 'package:google_fonts/google_fonts.dart';
 
 class FacultySwitch extends StatefulWidget {
-  const FacultySwitch({Key? key}) : super(key: key);
+  final userDetails, isFetching, data;
+  const FacultySwitch(this.userDetails, this.isFetching, this.data, {Key? key}) : super(key: key);
 
   @override
   State<FacultySwitch> createState() => _FacultySwitchState();
@@ -17,112 +18,7 @@ class _FacultySwitchState extends State<FacultySwitch> {
   bool press1 = false;
   bool press2 = true;
 
-  List<dynamic> data = [
-    {
-      "S.No": 1,
-      "Roll No": "202CT141",
-      "Name": "VENKAT RAMAN S P",
-      "Department": "COMPUTER TECHNOLOGY",
-      "Year": "III",
-      "History": 5,
-      "From": "Cloud Lab"
-    },
-    {
-      "S.No": 1,
-      "Roll No": "202CT141",
-      "Name": "VENKAT RAMAN S P",
-      "Department": "COMPUTER TECHNOLOGY",
-      "Year": "III",
-      "History": 5,
-      "From": "Cloud Lab"
-    },
-    {
-      "S.No": 1,
-      "Roll No": "202CT141",
-      "Name": "VENKAT RAMAN S P",
-      "Department": "COMPUTER TECHNOLOGY",
-      "Year": "III",
-      "History": 5,
-      "From": "Cloud Lab"
-    },
-    {
-      "S.No": 1,
-      "Roll No": "202CT141",
-      "Name": "VENKAT RAMAN S P",
-      "Department": "COMPUTER TECHNOLOGY",
-      "Year": "III",
-      "History": 5,
-      "From": "Cloud Lab"
-    },
-    {
-      "S.No": 1,
-      "Roll No": "202CT141",
-      "Name": "VENKAT RAMAN S P",
-      "Department": "COMPUTER TECHNOLOGY",
-      "Year": "III",
-      "History": 5,
-      "From": "Cloud Lab"
-    },
-    {
-      "S.No": 1,
-      "Roll No": "202CT141",
-      "Name": "VENKAT RAMAN S P",
-      "Department": "COMPUTER TECHNOLOGY",
-      "Year": "III",
-      "History": 5,
-      "From": "Cloud Lab"
-    },
-    {
-      "S.No": 1,
-      "Roll No": "202CT141",
-      "Name": "VENKAT RAMAN S P",
-      "Department": "COMPUTER TECHNOLOGY",
-      "Year": "III",
-      "History": 5,
-      "From": "Cloud Lab"
-    },
-    {
-      "S.No": 1,
-      "Roll No": "202CT141",
-      "Name": "VENKAT RAMAN S P",
-      "Department": "COMPUTER TECHNOLOGY",
-      "Year": "III",
-      "History": 5,
-      "From": "Cloud Lab"
-    },
-    {
-      "S.No": 1,
-      "Roll No": "202CT141",
-      "Name": "VENKAT RAMAN S P",
-      "Department": "COMPUTER TECHNOLOGY",
-      "Year": "III",
-      "History": 5,
-      "From": "Cloud Lab"
-    },
-    {
-      "S.No": 1,
-      "Roll No": "202CT141",
-      "Name": "VENKAT RAMAN S P",
-      "Department": "COMPUTER TECHNOLOGY",
-      "Year": "III",
-      "History": 5,
-      "From": "Cloud Lab"
-    },
-  ];
   int selec = 0;
-
-  void getData() async{
-    await getRequests().then((v){
-      setState(() {
-        data = v;
-      });
-    });
-  }
-
-  @override
-  void initState() {
-      getData();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -193,24 +89,22 @@ class _FacultySwitchState extends State<FacultySwitch> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Text(
-                            "Cloud Computing",
+                            widget.userDetails["details"][0]["LAB_NAME"],
                             style: GoogleFonts.poppins(
-                                fontWeight: FontWeight.w500,
-                                fontSize: 24),
+                                fontWeight: FontWeight.w500, fontSize: 24),
                           ),
-                          Text(
-                            " - 148 Students",
+                          (!widget.isFetching)?Text(
+                            " - " + widget.data.length.toString() + " students",
                             style: GoogleFonts.poppins(
-                                fontWeight: FontWeight.w500,
-                                fontSize: 18),
-                          )
+                                fontWeight: FontWeight.w500, fontSize: 18),
+                          ):CircularProgressIndicator()
                         ],
                       ),
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 8.0),
                       child: Text(
-                        "SLB-031",
+                        widget.userDetails["details"][0]["LAB_ID"],
                         style: GoogleFonts.poppins(
                             fontWeight: FontWeight.w500, fontSize: 17),
                       ),
@@ -301,7 +195,7 @@ class _FacultySwitchState extends State<FacultySwitch> {
                       width: width * 100,
                       height: height * 53,
                       child: TabBarView(
-                        children: [table(data, "From"), table(data, "To")],
+                        children: [table(widget.data["joining"], "From"), table(widget.data["leaving"], "To")],
                       ),
                     ),
                   ],
@@ -314,12 +208,12 @@ class _FacultySwitchState extends State<FacultySwitch> {
     );
   }
 
-  Widget table(List data, String where) {
+  Widget table(List<RequestModel> data, String where) {
     var size = MediaQuery.of(context).size;
     var height = size.height / 100;
     var width = size.width / 100;
 
-    return Container(
+    return (data.length!=0)?Container(
       width: width * 100,
       height: height * 60,
       child: Column(
@@ -335,10 +229,11 @@ class _FacultySwitchState extends State<FacultySwitch> {
                   getContainerForTable(width, "S.No", 6, FontWeight.w500, 1.2),
                   getContainerForTable(width, "Roll No", 8, FontWeight.w500, 1.2),
                   getContainerForTable(width, "Name", 11, FontWeight.w500, 1.2),
-                  getContainerForTable(width, "Department", 17, FontWeight.w500, 1.2),
+                  getContainerForTable(width, "Department", 12, FontWeight.w500, 1.2),
                   getContainerForTable(width, "Year", 7, FontWeight.w500, 1.2),
                   getContainerForTable(width, "History", 4.5, FontWeight.w500, 1.2),
                   getContainerForTable(width, where, 6, FontWeight.w500, 1.2),
+                  getContainerForTable(width, "Reason", 5, FontWeight.w500, 1.2),
                   getContainerForTable(width, "Approval", 15, FontWeight.w500, 1.2),
                 ],
               ),
@@ -358,12 +253,63 @@ class _FacultySwitchState extends State<FacultySwitch> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           getContainerForTable(width,(index+1).toString(), 6, FontWeight.w300, 1),
-                          getContainerForTable(width,data[index]['STU_ID'].toString(), 8, FontWeight.w300, 1),
-                          getContainerForTable(width,"NAME".toString(), 11, FontWeight.w300, 1),
-                          getContainerForTable(width,"DEPARTMENT".toString(), 17, FontWeight.w300, 1),
-                          getContainerForTable(width,"YEAR".toString(), 7, FontWeight.w300, 1),
-                          getContainerForTable(width,"COUNT".toString(), 4.5, FontWeight.w300, 1),
-                          getContainerForTable(width,"FROM", 6, FontWeight.w300, 1),
+                          getContainerForTable(width,data[index].stu!.stu_id.toString(), 8, FontWeight.w300, 1),
+                          getContainerForTable(width,data[index].stu!.stu_name, 11, FontWeight.w300, 1),
+                          getContainerForTable(width,data[index].stu!.dept, 12, FontWeight.w300, 1),
+                          getContainerForTable(width,data[index].stu!.year, 7, FontWeight.w300, 1),
+                          getContainerForTable(width,data[index].stu!.count, 4.5, FontWeight.w300, 1),
+                          getContainerForTable(width,(where == "From")?data[index].from_lab_name.toString():data[index].to_lab_name.toString(), 6, FontWeight.w300, 1),
+                          Container(
+                            width: width*5,
+                            child: Container(
+                              width: 60,
+                              height: 30.0,
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  border: Border.all(
+                                      width: 1, color: Color(0xff5749f3)),
+                                  borderRadius: BorderRadius.circular(7.5),
+                                  boxShadow: const [
+                                    BoxShadow(
+                                      color: Colors.black12,
+                                      offset: Offset(0.0, 1.5),
+                                      blurRadius: 1.5,
+                                    ),
+                                  ]),
+                              child: Material(
+                                color: Colors.transparent,
+                                child: InkWell(
+                                    onTap: () {
+                                      showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return AlertDialog(
+                                            title: Padding(
+                                              padding: const EdgeInsets.only(left: 32.0, right: 32.0),
+                                              child: Text(
+                                                  'Reason',
+                                                  style: GoogleFonts.poppins(
+                                                    fontWeight: FontWeight.bold,
+                                                  )
+                                              ),
+                                            ),
+                                            content: Padding(
+                                              padding: const EdgeInsets.only(left: 32.0, right: 32.0),
+                                              child: Text(
+                                                  '${data[index].reason} ',
+                                                  style: GoogleFonts.poppins(
+                                                    fontWeight: FontWeight.w700,
+                                                  )
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                      );
+                                    },
+                                    child: Center(child: Text("View",))),
+                              ),
+                            ),
+                          ),
                           Container(
                             width: width * 15,
                             alignment: Alignment.centerLeft,
@@ -374,7 +320,7 @@ class _FacultySwitchState extends State<FacultySwitch> {
                                   width: 60,
                                   height: 25.0,
                                   child: Material(
-                                      borderRadius: BorderRadius.circular(5),
+                                    borderRadius: BorderRadius.circular(5),
                                     color: Colors.red,
                                     child: InkWell(
                                         onTap: () {},
@@ -416,6 +362,16 @@ class _FacultySwitchState extends State<FacultySwitch> {
           ),
         ],
       ),
+    ):Container(
+        width: width * 100,
+        height: height * 60,
+        child: Center(child: (where=='From')?Text("No Joining Requests Available",  style: GoogleFonts.poppins(
+          fontWeight: FontWeight.bold,
+          fontSize: 24,
+        )):Text("No Leaving Requests Available", style: GoogleFonts.poppins(
+          fontWeight: FontWeight.bold,
+          fontSize: 24,
+        )))
     );
   }
 }

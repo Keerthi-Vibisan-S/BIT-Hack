@@ -1,82 +1,31 @@
-// import 'package:cool_dropdown/cool_dropdown.dart';
-import 'dart:convert';
-
 import 'package:dropdown_button2/custom_dropdown_button2.dart';
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:special_lab_dashboard/APIHandler/apiHandler.dart';
-import 'package:special_lab_dashboard/Models/SpecialLabModel.dart';
 
 import '../Components.dart';
 
 class LabSwitchPage extends StatefulWidget {
-  final userDetails;
-  const LabSwitchPage(this.userDetails, {Key? key}) : super(key: key);
+  final userDetails, specialLabsNames, details, myLab, inchargeDetails, isFetchingLab;
+  const LabSwitchPage(this.userDetails, this.isFetchingLab, this.specialLabsNames, this.details, this.myLab, this.inchargeDetails,{Key? key}) : super(key: key);
 
   @override
   State<LabSwitchPage> createState() => _LabSwitchPageState();
 }
 
 class _LabSwitchPageState extends State<LabSwitchPage> {
-  var switfrom = TextEditingController();
   var reason = TextEditingController();
-  var specialLabs;
-  List<String> specialLabsNames = [];
-  List details = [];
-  String id1 ="";
   String id2 = "";
-  String? selectedValue;
+  String? switTo;
 
-  getSL() async {
-    specialLabs = await getSpecialLabs();
-    for(SpecialLab i in specialLabs) {
-       specialLabsNames.add(i.labname ?? "");
-       details.add({"labid":i.labid,"labname":i.labname, "headid":i.labheadid});
-    }
-    // print(details);
-    setState(() {
-
-    });
-    getuser();
-    // print("OUT");
-  }
-
-  void getuser() async{
-    SharedPreferences preferences = await SharedPreferences
-        .getInstance();
-    var users = await jsonDecode(preferences.getString("user")!);
-    var labname;
-    // print(users['details'][0]['LAB_ID']);
-    for(int i=0;i<details.length;i++){
-      if(users['details'][0]['LAB_ID'].toString()==details[i]['labid']){
-          labname = details[i]['labname'];
+  getToLabID(String labname){
+    for(int i=0;i<widget.details.length;i++) {
+      if(labname==widget.details[i]['labname']){
+        setState(() {
+          id2 = widget.details[i]['headid'];
+        });
       }
     }
-    setState(() {
-      switfrom.text = labname;
-      id1 = users['details'][0]['FACULTY_ID'];
-    });
-
-}
-
-geID(String labname){
-  for(int i=0;i<details.length;i++) {
-    if(labname==details[i]['labname']){
-      setState(() {
-        id2 = details[i]['headid'];
-      });
-    }
-  }
-}
-
-
-  @override
-  void initState() {
-    print("Started to get Special Lab");
-    getSL();
-    super.initState();
   }
 
   @override
@@ -177,7 +126,7 @@ geID(String labname){
                                         child: Container(
                                           color: Color(0xffefefef),
                                           child: TextField(
-                                            controller: switfrom,
+                                            controller: TextEditingController(text: (!widget.isFetchingLab)?widget.myLab:""),
                                             decoration: InputDecoration(
                                               border: OutlineInputBorder(
                                                 borderRadius: BorderRadius.all(Radius.circular(20))
@@ -196,15 +145,15 @@ geID(String labname){
                                         child: Container(
                                           color: Color(0xffefefef),
                                           child: CustomDropdownButton2(
-                                            hint: selectedValue??"Select Lab",
+                                            hint: switTo??"Select Lab",
                                             dropdownWidth: 200,
-                                            dropdownItems: specialLabsNames,
-                                            value: selectedValue,
+                                            dropdownItems: (!widget.isFetchingLab)?widget.specialLabsNames:[],
+                                            value: switTo,
                                             onChanged: (value) {
                                               // print(value);
                                               setState(() {
-                                                selectedValue = value;
-                                                geID(selectedValue!);
+                                                switTo = value;
+                                                getToLabID(switTo!);
                                               });
                                             },
                                             buttonWidth: 400,
@@ -242,20 +191,19 @@ geID(String labname){
                                                 style: ElevatedButton.styleFrom(
                                                   backgroundColor: Color(0xff5749f3)
                                                 ),
-                                                onPressed: () async{
+                                                onPressed: (!widget.isFetchingLab)?() async{
                                                   if(reason.text.isEmpty){setState(() {
                                                     reason.text = '';
                                                   });
 
 
                                                   }
-                                                  print("id1 "+id1.toString());
-                                                  print("id2 "+id2.toString());
-                                                  print("reason "+reason.text);
-                                                   var response = await postRequestToChangeSP(id1.toString(), id2.toString(), "1000", reason.text);
-                                                   if(!response){
-                                                     print("iN");
-                                                   }
+                                                  // print("id1 "+id1.toString());
+                                                  // print("id2 "+id2.toString());
+                                                  // print("reason "+reason.text);
+                                                    await postRequestToChangeSP(widget.userDetails["details"][0]["FACULTY_ID"].toString(), id2.toString(), "1000", reason.text, widget.myLab, switTo);
+                                                }:(){
+
                                                 },
                                                 child: Padding(
                                                   padding: const EdgeInsets.all(12),
@@ -273,7 +221,7 @@ geID(String labname){
                               // SizedBox(width: 10,),
                               Expanded(
                                   flex:6,
-                                  child: Hero(tag: "sjai", child: renderStudentDetailsCard(widget.userDetails))
+                                  child: (!widget.isFetchingLab)?Hero(tag: "sjai", child: renderStudentDetailsCard(widget.userDetails, widget.inchargeDetails, widget.myLab)):Center(child: CircularProgressIndicator(),)
                               ),
                             ],
                           ),

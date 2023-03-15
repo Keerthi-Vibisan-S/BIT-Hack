@@ -74,7 +74,7 @@ getFacultyCard(FacultyOfLab faculty)
 }
 
 
-renderStudentDetailsCard(userdetails) {
+renderStudentDetailsCard(userdetails, FacultyOfLab incharge,String mylab) {
   return Column(
     children: [
       Container(
@@ -154,11 +154,12 @@ renderStudentDetailsCard(userdetails) {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
+
                       getStyledTextForProfileCard(userdetails["details"][0]["YEAR"]), getSizedBox(15),
                       getStyledTextForProfileCard("CSE"),getSizedBox(15),
-                      getStyledTextForProfileCard("Cloud Computing"),getSizedBox(15),
+                      getStyledTextForProfileCard(mylab),getSizedBox(15),
                       getStyledTextForProfileCard(userdetails["details"][0]["LAB_ID"].toString()),getSizedBox(15),
-                      getStyledTextForProfileCard("Nataraj N"),getSizedBox(15),
+                      getStyledTextForProfileCard(incharge.fac_name ?? ""),getSizedBox(15),
                       getStyledTextForProfileCard("29.08.20 "),getSizedBox(15),
                       getStyledTextForProfileCard(userdetails["details"][0]["COUNT"].toString()),getSizedBox(15),
 
