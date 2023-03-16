@@ -32,4 +32,25 @@ route.get("/get", (req, res) => {
     }
 })
 
+//! Number of students present in a lab
+route.get("/get/:id", (req, res) => {
+    const query = `SELECT count(*) as NO_OF_STUDENTS from STUDENT where LAB_ID = ${req.params.id};`;
+    //console.log(query);
+    try {
+        sql_con.query(query, (err, result) => {
+            if(err) {
+                console.log(err);
+                res.send("Error at our Side").status(500);
+            }
+            else {
+                
+                res.json(result[0]).status(200);
+            }
+        }) 
+    }
+    catch(err) {
+        console.log("Error Occurred ---> ",err);
+    }
+})
+
 module.exports = route;
