@@ -36,7 +36,7 @@ class _StudentHomeState extends State<StudentHome> {
   FacultyOfLab? inchargeDetails;
 
   getFaculties (String? inchargeId) async {
-    var facultyObjects = await getLabFacultyDetails(widget.userdetails["details"][0]["LAB_ID"].toString(), inchargeId!);
+    var facultyObjects = await getLabFacultyDetails(widget.userdetails["details"][0]["LAB_ID"].toString());
 
     for(var fac in facultyObjects) {
       fac_of_lab.add(FacultyOfLab(fac["FACULTY_ID"], fac["FACULTY_NAME"], fac["FACULTY_EMAIL"], fac["CONTACT"], fac["LAB_ID"]));
@@ -62,6 +62,19 @@ class _StudentHomeState extends State<StudentHome> {
     });
   }
 
+  changeScreen()
+  {
+    setState(() {
+      if (press2 == true) {
+        press2 = false;
+        press1 = true;
+      } else {
+        press2 = true;
+        press1 = false;
+      }
+    });
+  }
+
   @override
   void initState() {
     getFaculties(widget.userdetails["details"][0]["FACULTY_ID"].toString());
@@ -69,83 +82,87 @@ class _StudentHomeState extends State<StudentHome> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return (Responsive.isMobile(context))
+        ?StudentHomeMobile(widget.userdetails, inchargeDetails, myLab,new ScrollController(),fac_of_lab,isFetchingSwitch, specialLabsNames, details,changeScreen)
+        :Material(
+          child: Scaffold(
       body: Container(
-        color: Color(0xff210368),
-        child: Row(
-          children: [
-            Expanded(
-              flex: 2,
-              child: Container(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                      alignment: Alignment.centerLeft,
-                      decoration: BoxDecoration(
-                        borderRadius: const BorderRadius.only(
-                            topRight: Radius.circular(10),
-                            bottomRight: Radius.circular(10)),
-                        color: press1 ? Colors.white : Colors.transparent,
+          color: Color(0xff210368),
+          child: Row(
+            children: [
+              Expanded(
+                flex: 2,
+                child: Container(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        alignment: Alignment.centerLeft,
+                        decoration: BoxDecoration(
+                          borderRadius: const BorderRadius.only(
+                              topRight: Radius.circular(10),
+                              bottomRight: Radius.circular(10)),
+                          color: press1 ? Colors.white : Colors.transparent,
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: IconButton(
+                              onPressed: () {
+                                setState(() {
+                                  if (press1 == true) {
+                                    press1 = false;
+                                    press2 = true;
+                                  } else {
+                                    press1 = true;
+                                    press2 = false;
+                                  }
+                                });
+                              },
+                              icon: Icon(
+                                Icons.dashboard,
+                                size: 25,
+                                color: press1 ? Colors.black : Colors.white,
+                              )),
+                        ),
                       ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: IconButton(
+                      getSizedBox(20),
+                      Container(
+                        alignment: Alignment.centerLeft,
+                        decoration: BoxDecoration(
+                          borderRadius: const BorderRadius.only(
+                              topRight: Radius.circular(10),
+                              bottomRight: Radius.circular(10)),
+                          color: press2 ? Colors.white : Colors.transparent,
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: IconButton(
                             onPressed: () {
                               setState(() {
-                                if (press1 == true) {
-                                  press1 = false;
-                                  press2 = true;
-                                } else {
-                                  press1 = true;
+                                if (press2 == true) {
                                   press2 = false;
+                                  press1 = true;
+                                } else {
+                                  press2 = true;
+                                  press1 = false;
                                 }
                               });
                             },
-                            icon: Icon(
-                              Icons.dashboard,
-                              size: 25,
-                              color: press1 ? Colors.black : Colors.white,
-                            )),
-                      ),
-                    ),
-                    getSizedBox(20),
-                    Container(
-                      alignment: Alignment.centerLeft,
-                      decoration: BoxDecoration(
-                        borderRadius: const BorderRadius.only(
-                            topRight: Radius.circular(10),
-                            bottomRight: Radius.circular(10)),
-                        color: press2 ? Colors.white : Colors.transparent,
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: IconButton(
-                          onPressed: () {
-                            setState(() {
-                              if (press2 == true) {
-                                press2 = false;
-                                press1 = true;
-                              } else {
-                                press2 = true;
-                                press1 = false;
-                              }
-                            });
-                          },
-                          icon: Icon(Icons.swap_horiz,
-                              size: 25, color: press2 ? Colors.black : Colors.white),
+                            icon: Icon(Icons.swap_horiz,
+                                size: 25, color: press2 ? Colors.black : Colors.white),
+                          ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
-            ),
-            (press1)?getStudentHome(widget.userdetails, fac_of_lab, isFetchingHome, myLab, inchargeDetails):LabSwitchPage(widget.userdetails, isFetchingSwitch, specialLabsNames, details, myLab, inchargeDetails)
-          ],
-        ),
+              (press1)?getStudentHome(widget.userdetails, fac_of_lab, isFetchingHome, myLab, inchargeDetails):LabSwitchPage(widget.userdetails, isFetchingSwitch, specialLabsNames, details, myLab, inchargeDetails)
+            ],
+          ),
       ),
-    );
+    ),
+        );
   }
 }
 
@@ -340,26 +357,7 @@ class _getStudentHomeState extends State<getStudentHome> {
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
                                       Expanded(
-                                        child: (!widget.isFetchingHome)?Container(
-                                          height: 130,
-                                          child: Scrollbar(
-                                            // thumbVisibility: true,
-                                            // trackVisibility: true,
-                                            controller: sc,
-                                            interactive: true,
-                                            child: ListView.builder(
-                                                shrinkWrap: true,
-                                                controller: sc,
-                                                itemCount: widget.facultyObjects.length,
-                                                scrollDirection: Axis.horizontal,
-                                                itemBuilder: (BuildContext context,int index){
-                                                  return Padding(
-                                                    padding: const EdgeInsets.symmetric(horizontal: 9.0),
-                                                    child: getFacultyCard(widget.facultyObjects[index]),
-                                                  );
-                                                }),
-                                          ),
-                                        ):Center(child: CircularProgressIndicator(),),
+                                        child: (!widget.isFetchingHome)?renderLabFaculties(sc, widget.facultyObjects,Responsive.isMobile(context)):Center(child: CircularProgressIndicator(),),
                                       ),
                                       // GestureDetector(
                                       //   onTap: (){
@@ -450,3 +448,75 @@ class _getStudentHomeState extends State<getStudentHome> {
     );
   }
 }
+
+
+class StudentHomeMobile extends StatefulWidget {
+  final userdetails;
+  final inchargeDetails;
+  final myLab;
+  final ScrollController sc;
+  final facultyObjects,isFetchingSwitch, specialLabsNames, details;
+  final changeScreen;
+  const StudentHomeMobile(this.userdetails,this.inchargeDetails,this.myLab,this.sc,this.facultyObjects,this.isFetchingSwitch,this.specialLabsNames,this.details,this.changeScreen,{Key? key}) : super(key: key);
+
+  @override
+  State<StudentHomeMobile> createState() => _StudentHomeMobileState();
+}
+
+class _StudentHomeMobileState extends State<StudentHomeMobile> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        leading: Container(),
+        actions: [
+          IconButton(icon:Icon(Icons.logout),onPressed: (){
+
+          },),
+        ],
+      ),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(left:8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Text("Profile",style: GoogleFonts.poppins(
+                      fontWeight: FontWeight.bold,fontSize: 20,decoration: TextDecoration.none,color: Colors.black,
+                    ),),
+                  ],
+                ),
+              ),
+              Card(
+                child: renderStudentDetailsCard(widget.userdetails, widget.inchargeDetails, widget.myLab),
+              ),
+              SizedBox(height: 20,),
+              Padding(
+                padding: const EdgeInsets.only(left:8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Text("Special Lab Faculties",style: GoogleFonts.poppins(
+                      fontWeight: FontWeight.bold,fontSize: 20,decoration: TextDecoration.none,color: Colors.black,
+                    ),),
+                  ],
+                ),
+              ),
+              renderLabFaculties(widget.sc, widget.facultyObjects,Responsive.isMobile(context))
+            ],
+          ),
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(onPressed: (){
+        // widget.changeScreen();
+        Navigator.push(context, MaterialPageRoute(builder: (context)=>Material(child: LabSwitchPage(widget.userdetails, widget.isFetchingSwitch, widget.specialLabsNames, widget.details, widget.myLab, widget.inchargeDetails))));
+      },child: Icon(Icons.swap_horiz),),
+    );
+  }
+}
+

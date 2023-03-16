@@ -110,7 +110,7 @@ Future<List<SpecialLab>> getSpecialLabs() async{
   // return json.decode(res.body);
 }
 
-getLabFacultyDetails(String? lab_id, String inchargeId) async
+getLabFacultyDetails(String? lab_id) async
 {
   SharedPreferences preferences = await SharedPreferences.getInstance();
   var token = preferences.getString("token");

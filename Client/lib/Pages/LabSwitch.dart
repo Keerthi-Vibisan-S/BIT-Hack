@@ -2,6 +2,7 @@ import 'package:dropdown_button2/custom_dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:special_lab_dashboard/APIHandler/apiHandler.dart';
+import 'package:special_lab_dashboard/responsive.dart';
 
 import '../Components.dart';
 
@@ -30,7 +31,7 @@ class _LabSwitchPageState extends State<LabSwitchPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
+    return (Responsive.isMobile(context))?LabSwitchMobile(widget.isFetchingLab, widget.myLab, widget.userDetails, getToLabID, id2, widget.specialLabsNames, switTo,widget.details):Expanded(
       flex: 40,
       child: Padding(
         padding: const EdgeInsets.all(12.0),
@@ -115,106 +116,7 @@ class _LabSwitchPageState extends State<LabSwitchPage> {
                                 flex:7,
                                 child: Padding(
                                   padding: const EdgeInsets.all(56.0),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Text("Switching From"),
-                                      SizedBox(height: 10,),
-                                      ClipRRect(
-                                        borderRadius: BorderRadius.all(Radius.circular(20)),
-                                        child: Container(
-                                          color: Color(0xffefefef),
-                                          child: TextField(
-                                            controller: TextEditingController(text: (!widget.isFetchingLab)?widget.myLab:""),
-                                            decoration: InputDecoration(
-                                              border: OutlineInputBorder(
-                                                borderRadius: BorderRadius.all(Radius.circular(20))
-                                              ),
-                                            ),
-                                            style: GoogleFonts.poppins(fontSize: 15),
-                                            readOnly: true,
-                                          ),
-                                        ),
-                                      ),
-                                      SizedBox(height: 20,),
-                                      Text("Switching To"),
-                                      SizedBox(height: 10,),
-                                      ClipRRect(
-                                        borderRadius: BorderRadius.all(Radius.circular(15)),
-                                        child: Container(
-                                          color: Color(0xffefefef),
-                                          child: CustomDropdownButton2(
-                                            hint: switTo??"Select Lab",
-                                            dropdownWidth: 200,
-                                            dropdownItems: (!widget.isFetchingLab)?widget.specialLabsNames:[],
-                                            value: switTo,
-                                            onChanged: (value) {
-                                              // print(value);
-                                              setState(() {
-                                                switTo = value;
-                                                getToLabID(switTo!);
-                                              });
-                                            },
-                                            buttonWidth: 400,
-                                          ),
-                                        ),
-                                      ),
-                                      SizedBox(height: 20,),
-                                      Text("Reason"),
-                                      SizedBox(height: 10,),
-                                      ClipRRect(
-                                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                                        child: Container(
-                                          color: Color(0xffefefef),
-                                          child: TextField(
-                                            controller: reason,
-                                            decoration: InputDecoration(
-                                              border: OutlineInputBorder(
-                                                  borderRadius: BorderRadius.all(Radius.circular(10))
-                                              ),
-                                              hintText: "Write here..."
-                                            ),
-                                            maxLines: 5,
-                                          ),
-                                        ),
-                                      ),
-                                      SizedBox(height: 20,),
-                                      Row(
-                                        mainAxisAlignment: MainAxisAlignment.end,
-                                        children: [
-                                          Container(
-                                            decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.circular(10)
-                                            ),
-                                            child: ElevatedButton(
-                                                style: ElevatedButton.styleFrom(
-                                                  backgroundColor: Color(0xff5749f3)
-                                                ),
-                                                onPressed: (!widget.isFetchingLab)?() async{
-                                                  if(reason.text.isEmpty){setState(() {
-                                                    reason.text = '';
-                                                  });
-
-
-                                                  }
-                                                  // print("id1 "+id1.toString());
-                                                  // print("id2 "+id2.toString());
-                                                  // print("reason "+reason.text);
-                                                    await postRequestToChangeSP(widget.userDetails["details"][0]["FACULTY_ID"].toString(), id2.toString(), "1000", reason.text, widget.myLab, switTo);
-                                                }:(){
-
-                                                },
-                                                child: Padding(
-                                                  padding: const EdgeInsets.all(12),
-                                                  child: Text("Submit"),
-                                                )
-                                            ),
-                                          ),
-                                        ],
-                                      )
-                                    ],
-                                  ),
+                                  child: studentLabSwithcForm(widget.isFetchingLab, widget.myLab, switTo, widget.specialLabsNames, getToLabID, widget.userDetails, id2,widget.details)
                                 ),
                               ),
                               Expanded(flex:1,child: Container()),
@@ -239,3 +141,136 @@ class _LabSwitchPageState extends State<LabSwitchPage> {
     );
   }
 }
+
+
+
+class LabSwitchMobile extends StatefulWidget {
+  final isFetchingLab,myLab,switTo,specialLabsNames,getToLabID,userDetails,id2,details;
+  const LabSwitchMobile(this.isFetchingLab,this.myLab,this.userDetails,this.getToLabID,this.id2,this.specialLabsNames,this.switTo,this.details,{Key? key}) : super(key: key);
+
+  @override
+  State<LabSwitchMobile> createState() => _LabSwitchMobileState();
+}
+
+class _LabSwitchMobileState extends State<LabSwitchMobile> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(),
+      body: Padding(
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          children: [
+            studentLabSwithcForm(widget.isFetchingLab, widget.myLab, widget.switTo, widget.specialLabsNames, widget.getToLabID, widget.userDetails, widget.id2,widget.details)
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+
+
+
+//
+// Column(
+// mainAxisAlignment: MainAxisAlignment.start,
+// crossAxisAlignment: CrossAxisAlignment.start,
+// children: [
+// Text("Switching From"),
+// SizedBox(height: 10,),
+// ClipRRect(
+// borderRadius: BorderRadius.all(Radius.circular(20)),
+// child: Container(
+// color: Color(0xffefefef),
+// child: TextField(
+// controller: TextEditingController(text: (!widget.isFetchingLab)?widget.myLab:""),
+// decoration: InputDecoration(
+// border: OutlineInputBorder(
+// borderRadius: BorderRadius.all(Radius.circular(20))
+// ),
+// ),
+// style: GoogleFonts.poppins(fontSize: 15),
+// readOnly: true,
+// ),
+// ),
+// ),
+// SizedBox(height: 20,),
+// Text("Switching To"),
+// SizedBox(height: 10,),
+// ClipRRect(
+// borderRadius: BorderRadius.all(Radius.circular(15)),
+// child: Container(
+// color: Color(0xffefefef),
+// child: CustomDropdownButton2(
+// hint: switTo??"Select Lab",
+// dropdownWidth: 200,
+// dropdownItems: (!widget.isFetchingLab)?widget.specialLabsNames:[],
+// value: switTo,
+// onChanged: (value) {
+// // print(value);
+// setState(() {
+// switTo = value;
+// getToLabID(switTo!);
+// });
+// },
+// buttonWidth: 400,
+// ),
+// ),
+// ),
+// SizedBox(height: 20,),
+// Text("Reason"),
+// SizedBox(height: 10,),
+// ClipRRect(
+// borderRadius: BorderRadius.all(Radius.circular(10)),
+// child: Container(
+// color: Color(0xffefefef),
+// child: TextField(
+// controller: reason,
+// decoration: InputDecoration(
+// border: OutlineInputBorder(
+// borderRadius: BorderRadius.all(Radius.circular(10))
+// ),
+// hintText: "Write here..."
+// ),
+// maxLines: 5,
+// ),
+// ),
+// ),
+// SizedBox(height: 20,),
+// Row(
+// mainAxisAlignment: MainAxisAlignment.end,
+// children: [
+// Container(
+// decoration: BoxDecoration(
+// borderRadius: BorderRadius.circular(10)
+// ),
+// child: ElevatedButton(
+// style: ElevatedButton.styleFrom(
+// backgroundColor: Color(0xff5749f3)
+// ),
+// onPressed: (!widget.isFetchingLab)?() async{
+// if(reason.text.isEmpty){setState(() {
+// reason.text = '';
+// });
+//
+//
+// }
+// // print("id1 "+id1.toString());
+// // print("id2 "+id2.toString());
+// // print("reason "+reason.text);
+// await postRequestToChangeSP(widget.userDetails["details"][0]["FACULTY_ID"].toString(), id2.toString(), "1000", reason.text, widget.myLab, switTo);
+// }:(){
+//
+// },
+// child: Padding(
+// padding: const EdgeInsets.all(12),
+// child: Text("Submit"),
+// )
+// ),
+// ),
+// ],
+// )
+// ],
+// ),
+
