@@ -21,6 +21,9 @@ app.use('/faculty', faculty);
 const request = require('./routes/requests');
 app.use('/request', request);
 
+const getCount = require('./routes/getCounts');
+app.use('/getAllCount', getCount);
+
 app.listen(80, '0.0.0.0', () => {
     console.log("Listening on port 80");
 })
