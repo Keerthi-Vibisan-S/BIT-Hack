@@ -3,10 +3,12 @@ const route = express.Router();
 const sql_con = require('../settings/databaseConnection');
 const authenticate = require('../helpers/auth_middleware');
 
+
 route.get("/", (req, res) => {
     res.send("Counting Route");
 })
 
+//! --- NEEDS AUTHORIZATION ---
 route.get("/get", (req, res) => {
     const facultyQuery = 'SELECT count(*) AS NO_OF_FACULTY  FROM FACULTY;';
     const labsQuery = 'SELECT count(*) AS NO_OF_LABS FROM SPECIALLAB;';
