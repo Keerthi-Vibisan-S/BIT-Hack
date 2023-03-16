@@ -22,7 +22,6 @@ const request = require('./routes/requests');
 app.use('/request', request);
 
 const getCount = require('./routes/getCounts');
-const sendEmail = require('./templates/mailTemplate');
 app.use('/getAllCount', getCount);
 
 app.listen(80, '0.0.0.0', () => {

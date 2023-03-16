@@ -45,5 +45,29 @@ route.get("/getLabs", authenticate , (req, res) => {
     }
 })
 
+//? Combined Route
+//! GET student details and teachers names
+route.get("/getFullLab/:id", authenticate, (req, res) => {
+    const id = req.params.id;
+    let facultyQuery = `SELECT FACULTY_NAME from FACULTY where LAB_ID = ${id};`;
+    let studentQuery = `select * from STUDENT WHERE LAB_ID = "${id}";`;
+    try {
+        sql_con.query(`${facultyQuery}${studentQuery}`, (err, result) => {
+            if(err) {
+                console.log(err);
+            }
+            else {
+                const data = {};
+                data.student = result[1];
+                data.facultyName = result[0];
+                res.json(data);
+            }
+        })
+    }
+    catch(err){
+        console.log("An error ------> "+err);
+    }
+})
+
 
 module.exports = route;
