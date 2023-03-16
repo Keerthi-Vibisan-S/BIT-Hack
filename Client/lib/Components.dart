@@ -1,15 +1,19 @@
 
+import 'package:dropdown_button2/custom_dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:special_lab_dashboard/Models/FacultyModel.dart';
 import 'package:special_lab_dashboard/Utilities/Util.dart';
+import 'package:special_lab_dashboard/responsive.dart';
 
-getFacultyCard(FacultyOfLab faculty)
+import 'APIHandler/apiHandler.dart';
+
+getFacultyCard(FacultyOfLab faculty,wid)
 {
   return Align(
     alignment: AlignmentDirectional.center,
     child: Container(
-      width: 300,
+      width: wid,
       // color: Colors.white,
       child: Card(
         elevation: 10,
@@ -282,4 +286,152 @@ renderLabAnanlysisBar(labname,int width,int index)
 
   );
 }
+
+renderLabFaculties(ScrollController sc,List<dynamic> facultyObjects,bool isMobile) {
+  return (isMobile)?Padding(
+    padding: const EdgeInsets.symmetric(horizontal: 9.0),
+    child: Column(
+      children: [
+        for(int i=0;i<facultyObjects.length;i++)
+            getFacultyCard(facultyObjects[i],350),
+      ],
+    )
+  ):Container(
+    height: 130,
+    child: Scrollbar(
+      // thumbVisibility: true,
+      // trackVisibility: true,
+      controller: sc,
+      interactive: true,
+      child: ListView.builder(
+          shrinkWrap: true,
+          controller: sc,
+          itemCount: facultyObjects.length,
+          scrollDirection: Axis.horizontal,
+          itemBuilder: (BuildContext context,int index){
+            return Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 9.0),
+              child: getFacultyCard(facultyObjects[index],300),
+            );
+          }),
+    ),
+  );
+}
+
+
+studentLabSwithcForm(bool isFetchingLab,myLab,switTo,specialLabsNames,getToLabID,userDetails,id2,details)
+{
+  var reason = new TextEditingController();
+  return StatefulBuilder(
+    builder: (BuildContext context, void Function(void Function()) setState) {
+      return Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text("Switching From"),
+          SizedBox(height: 10,),
+          ClipRRect(
+            borderRadius: BorderRadius.all(Radius.circular(20)),
+            child: Container(
+              color: Color(0xffefefef),
+              child: TextField(
+                controller: TextEditingController(text: (!isFetchingLab)?myLab:""),
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(20))
+                  ),
+                ),
+                style: GoogleFonts.poppins(fontSize: 15),
+                readOnly: true,
+              ),
+            ),
+          ),
+          SizedBox(height: 20,),
+          Text("Switching To"),
+          SizedBox(height: 10,),
+          ClipRRect(
+            borderRadius: BorderRadius.all(Radius.circular(15)),
+            child: Container(
+              color: Color(0xffefefef),
+              child: CustomDropdownButton2(
+                hint: switTo??"Select Lab",
+                dropdownWidth: 200,
+                dropdownItems: (!isFetchingLab)?specialLabsNames:[],
+                value: switTo,
+                onChanged: (value) {
+                  // print(value);
+                  setState(() {
+                    print("Switch to : "+value.toString());
+                    switTo = value;
+                    for(int i=0;i<details.length;i++) {
+                      if(value.toString()==details[i]['labname']){
+                        setState(() {
+                          id2 = details[i]['headid'];
+                        });
+                      }
+                    }
+                  });
+                },
+                buttonWidth: 400,
+              ),
+            ),
+          ),
+          SizedBox(height: 20,),
+          Text("Reason"),
+          SizedBox(height: 10,),
+          ClipRRect(
+            borderRadius: BorderRadius.all(Radius.circular(10)),
+            child: Container(
+              color: Color(0xffefefef),
+              child: TextField(
+                controller: reason,
+                decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10))
+                    ),
+                    hintText: "Write here..."
+                ),
+                maxLines: 5,
+              ),
+            ),
+          ),
+          SizedBox(height: 20,),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10)
+                ),
+                child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: Color(0xff5749f3)
+                    ),
+                    onPressed: (!isFetchingLab)?() async{
+                      if(reason.text.isEmpty){setState(() {
+                        reason.text = '';
+                      });
+                      }
+                      // print("id1 "+v.toString());
+                      // print("id2 "+id2.toString());
+                      // print("reason "+reason.text);
+                      await postRequestToChangeSP(userDetails["details"][0]["FACULTY_ID"].toString(), id2.toString(), "1000", reason.text, myLab, switTo);
+                    }:(){
+
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.all(12),
+                      child: Text("Submit"),
+                    )
+                ),
+              ),
+            ],
+          )
+        ],
+      );
+    },
+  );
+}
+
+
 
