@@ -23,3 +23,8 @@ JSON Data Sample:
 2. /faculty/getReqStudents/{-- FACULTY ID HERE --} --> Requested Students under a Faculty for both LAB Sides [Nested Population Done]
 3. /getHistory/{-- Student ID HERE -- } ---> To get a Student Lab change History
 
+// Getting Counts:
+   --------------
+1. Type: GET, Route: /getAllCount/get ---> to get all counts 
+2. 1. Type: GET, Route: /getAllCount/get/<ID here> ---> to get count of students in a LAB 
+
