@@ -15,7 +15,10 @@ void main() {
       MaterialApp(
           scrollBehavior: MyCustomScrollBehavior(),
         debugShowCheckedModeBanner: false,
-          home: LoginPage(),
+        initialRoute: "/",
+        routes: {
+          '/' : (context) => const LoginPage(),
+        },
       )
   );
 }

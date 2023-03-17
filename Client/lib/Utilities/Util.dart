@@ -39,5 +39,5 @@ getExpanded(int flex){
   );
 }
 getStyledTextForProfileCard(String text){
-  return Text(text,style: GoogleFonts.poppins(fontSize: 15,fontWeight: FontWeight.bold),);
+  return Text(text,style: GoogleFonts.poppins(fontSize: 15,fontWeight: FontWeight.bold),overflow: TextOverflow.ellipsis,);
 }

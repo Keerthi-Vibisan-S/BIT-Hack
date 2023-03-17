@@ -5,7 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:special_lab_dashboard/Models/FacultyModel.dart';
 import 'package:special_lab_dashboard/Models/SpecialLabModel.dart';
 
-const API_LINK = "http://10.10.176.69/";
+const API_LINK = "http://10.10.237.157/";
 
 dynamic checkValidUser(String? email, String? idToken) async{
   var res;
