@@ -1,6 +1,3 @@
-import 'dart:convert';
-import 'dart:html';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -16,8 +13,9 @@ import '../Models/SpecialLabModel.dart';
 import '../Utilities/Util.dart';
 
 class StudentHome extends StatefulWidget {
-  final dynamic userdetails;
-  const StudentHome(this.userdetails,{Key? key, }) : super(key: key);
+  var  userdetails;
+  StudentHome(this.userdetails,{Key? key, }) : super(key: key);
+  StudentHome.empty();
 
   @override
   State<StudentHome> createState() => _StudentHomeState();
@@ -82,6 +80,7 @@ class _StudentHomeState extends State<StudentHome> {
 
   @override
   Widget build(BuildContext context) {
+    ModalRoute.of(context)?.settings.arguments;
     return (Responsive.isMobile(context))
         ?StudentHomeMobile(widget.userdetails, inchargeDetails, myLab,new ScrollController(),fac_of_lab,isFetchingSwitch, specialLabsNames, details,changeScreen)
         :Material(

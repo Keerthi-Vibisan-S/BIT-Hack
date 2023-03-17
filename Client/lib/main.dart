@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:special_lab_dashboard/RouteGenerator.dart';
 import 'MyCustomScrollBehaviour.dart';
 import 'Pages/LoginPage.dart';
 
-void main() {
+
+void main(){
   runApp(
       MaterialApp(
         scrollBehavior: MyCustomScrollBehavior(),
         debugShowCheckedModeBanner: false,
+        // onGenerateRoute: RouteGenerator.generateRoute,
         home: LoginPage(),
       )
   );

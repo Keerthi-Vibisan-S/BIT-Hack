@@ -41,3 +41,11 @@ getExpanded(int flex){
 getStyledTextForProfileCard(String text){
   return Text(text,style: GoogleFonts.poppins(fontSize: 15,fontWeight: FontWeight.bold),);
 }
+
+customizedTextStyle(String text,fontsize,FontWeight fw)
+{
+  return Padding(
+    padding: const EdgeInsets.all(8.0),
+    child: Text(text, style: GoogleFonts.poppins(fontSize: fontsize,fontWeight: fw)),
+  );
+}

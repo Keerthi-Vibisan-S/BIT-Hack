@@ -7,9 +7,9 @@ import 'package:special_lab_dashboard/responsive.dart';
 import '../Components.dart';
 
 class LabSwitchPage extends StatefulWidget {
-  final userDetails, specialLabsNames, details, myLab, inchargeDetails, isFetchingLab;
-  const LabSwitchPage(this.userDetails, this.isFetchingLab, this.specialLabsNames, this.details, this.myLab, this.inchargeDetails,{Key? key}) : super(key: key);
-
+  var userDetails, specialLabsNames, details, myLab, inchargeDetails, isFetchingLab;
+  LabSwitchPage(this.userDetails, this.isFetchingLab, this.specialLabsNames, this.details, this.myLab, this.inchargeDetails,{Key? key}) : super(key: key);
+  LabSwitchPage.empty();
   @override
   State<LabSwitchPage> createState() => _LabSwitchPageState();
 }

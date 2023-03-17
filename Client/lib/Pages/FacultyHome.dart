@@ -17,7 +17,7 @@ import '../responsive.dart';
 
 class FacultyHome extends StatefulWidget {
   final userDetails;
-  const FacultyHome(this.userDetails, {Key? key}) : super(key: key);
+  FacultyHome(this.userDetails, {Key? key}) : super(key: key);
 
   @override
   State<FacultyHome> createState() => _FacultyHomeState();
@@ -31,16 +31,20 @@ class _FacultyHomeState extends State<FacultyHome> {
   bool isFetchingStudents = true, isFetchingRequests = true;
 
   getStudentsUnderFac() async {
-    data = await getAllStudentUnderFaculty(widget.userDetails["details"][0]["FACULTY_ID"]);
-    setState(() {
-      isFetchingStudents = false;
+    await getAllStudentUnderFaculty(widget.userDetails["details"][0]["FACULTY_ID"]).then((v)=>{
+        setState(() {
+          isFetchingStudents = false;
+          data = v;
+          getRequests();
+          print("All Students "+v.toString());
+        })
     });
   }
 
   getRequests() async{
     await getAllStudentRequestsUnderFaculty(widget.userDetails["details"][0]["FACULTY_ID"]).then((v){
       setState(() {
-        print(v);
+        // print(v);
         requests = v;
         isFetchingRequests = false;
       });
@@ -50,16 +54,23 @@ class _FacultyHomeState extends State<FacultyHome> {
 
   @override
   void initState() {
-    getStudentsUnderFac();
-    getRequests();
+
+    getStudentsUnderFac().then((v){
+      setState(() {
+
+      });
+    });
 
   }
 
   @override
   Widget build(BuildContext context) {
-    return (Responsive.isMobile(context))?
-        FacultyHomeMobile(data)
-        :Scaffold(
+    // print("args" + (ModalRoute.of(context)?.settings.arguments as String).toString());
+    return (Responsive.isMobile(context))
+          ? (!isFetchingStudents)
+              ? FacultyHomeMobile(data,widget.userDetails,requests,isFetchingRequests)
+              : Container()
+          : Scaffold(
       body: getBackground(Row(
         children: [
           Column(
@@ -205,6 +216,10 @@ class _getHomePageState extends State<getHomePage> {
       "Mail ID": "venkatraman.ct20@bitsathy.ac.in"
     }
   ];
+  @override
+  void initState() {
+    print("In Home page"+widget.data.toString());
+  }
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -401,8 +416,12 @@ class _getHomePageState extends State<getHomePage> {
 
 
 class FacultyHomeMobile extends StatefulWidget {
-  final data;
-  const FacultyHomeMobile(this.data,{Key? key}) : super(key: key);
+  final List<StudentModel> data;
+  final switch_req;
+  final userDetails;
+  final isFetching;
+
+  const FacultyHomeMobile(this.data,this.userDetails,this.switch_req,this.isFetching,{Key? key}) : super(key: key);
 
   @override
   State<FacultyHomeMobile> createState() => _FacultyHomeMobileState();
@@ -507,6 +526,8 @@ class _FacultyHomeMobileState extends State<FacultyHomeMobile> {
 
   @override
   void initState() {
+    print("In mobile view");
+    print(widget.data.toString());
     getCurrentUserLabId();
   }
   @override
@@ -514,6 +535,7 @@ class _FacultyHomeMobileState extends State<FacultyHomeMobile> {
     var width = 40.toDouble();
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Color(0xff370d57),
         leading: Container(),
         actions: [
           IconButton(onPressed: (){}, icon: Icon(Icons.logout))
@@ -578,7 +600,16 @@ class _FacultyHomeMobileState extends State<FacultyHomeMobile> {
                 children: [
                   Container(
                     width: 250,
-                      child: CustomDropdownButton2(hint: "Choose Database", value: value, dropdownItems: dropdownItems, onChanged: onChanged)),
+                      child: CustomDropdownButton2(
+                          buttonDecoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            border: null
+                          ),
+                          hint: "Choose Database",
+                          value: value,
+                          dropdownItems: dropdownItems,
+                          onChanged: onChanged)
+                  ),
                 ],
               ),
             ),
@@ -589,12 +620,12 @@ class _FacultyHomeMobileState extends State<FacultyHomeMobile> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      getContainerForTable(width, "S.No", 2, FontWeight.w500, 0.4),
-                      getContainerForTable(width, "Name", 5, FontWeight.w500, 0.4),
-                      getContainerForTable(width, "Department", 4, FontWeight.w500, 0.4),
+                      Expanded(flex:1,child: customizedTextStyle("S.No", 14, FontWeight.w400),),
+                      Expanded(flex:4,child: customizedTextStyle("Name", 14, FontWeight.w400),),
+                      Expanded(flex:5,child: customizedTextStyle("Department", 14, FontWeight.w400),),
                     ],
                   ),
-                  for(int index=0;index<data.length;index++)
+                  for(int index=0;index<widget.data.length;index++)
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: ConstrainedBox(
@@ -604,9 +635,9 @@ class _FacultyHomeMobileState extends State<FacultyHomeMobile> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              getContainerForTable(width,(index+1).toString(), 2, FontWeight.w300, 0.4),
-                              getContainerForTable(width,data[index]["Name"].toString(), 5, FontWeight.w300, 0.4),
-                              getContainerForTable(width,data[index]["Department"].toString(), 4, FontWeight.w300, 0.4),
+                              Expanded(flex:1,child: customizedTextStyle((index+1).toString(), 14, FontWeight.w300),),
+                              Expanded(flex:4,child: customizedTextStyle(widget.data[index].stu_name.toString(), 14, FontWeight.w300),),
+                              Expanded(flex:5,child: customizedTextStyle(widget.data[index].dept.toString(), 14, FontWeight.w300)),
                             ],
                           ),
                         ),
@@ -618,16 +649,21 @@ class _FacultyHomeMobileState extends State<FacultyHomeMobile> {
           ],
         ),
       ),
-      floatingActionButton: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20),
-          gradient:  LinearGradient(
-              colors: [Color(0xff2b18ff),Color(0xff7165ff),Color(0xffbbb5ff)]
-          )
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(20),
-          child: Text("Switch Req",style: TextStyle(color: Colors.white),),
+      floatingActionButton: InkWell(
+        onTap: (){
+          Navigator.push(context, MaterialPageRoute(builder: (context)=>Material(child: FacultySwitch(widget.userDetails, widget.isFetching, widget.switch_req))));
+        },
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20),
+            gradient:  LinearGradient(
+                colors: [Color(0xff6a2f96),Color(0xff77449e),Color(0xffbbb5ff)]
+            )
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(20),
+            child: Text("Switch Req",style: TextStyle(color: Colors.white),),
+          ),
         ),
       ),
     );

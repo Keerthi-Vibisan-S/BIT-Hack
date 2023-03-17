@@ -434,4 +434,39 @@ studentLabSwithcForm(bool isFetchingLab,myLab,switTo,specialLabsNames,getToLabID
 }
 
 
+renderRowForDialog(String title,String value)
+{
+  return Padding(
+    padding: const EdgeInsets.all(8.0),
+    child: Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Expanded(flex:4,child: customizedTextStyle(title, 14, FontWeight.w400),),
+        Expanded(flex:1,child: customizedTextStyle(":", 14, FontWeight.w400),),
+        Expanded(flex:5,child: customizedTextStyle(value, 14, FontWeight.w400),),
+      ],
+    ),
+  );
+}
+
+
+showStudentDetailsDialog(data)
+{
+  return AlertDialog(
+    content: Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        renderRowForDialog("Name",data.stu.stu_name),
+        renderRowForDialog("Roll No",data.stu.stu_id.toString(),),
+        renderRowForDialog("Email",data.stu.stu_email.toString()),
+        renderRowForDialog("Dept",data.stu.dept.toString(),),
+        renderRowForDialog("Year",data.stu.year.toString(),),
+        renderRowForDialog("Contact",data.stu.stu_contact.toString(),),
+        renderRowForDialog("Reason",data.reason.toString(),),
+      ],
+    ),
+  );
+}
+
+
 
