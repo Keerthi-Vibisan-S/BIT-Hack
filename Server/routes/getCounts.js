@@ -24,7 +24,7 @@ route.get("/get", (req, res) => {
                 data.NO_OF_LABS = result[2][0].NO_OF_LABS;
                 data.NO_OF_STUDENTS = result[1][0].NO_OF_STUDENTS;
                 data.NO_OF_FACULTY = result[0][0].NO_OF_FACULTY;
-                // console.log(data);
+                console.log(data);
                 res.json(data).status(200);
             }
         }) 
