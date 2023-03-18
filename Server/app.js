@@ -24,6 +24,6 @@ app.use('/request', request);
 const getCount = require('./routes/getCounts');
 app.use('/getAllCount', getCount);
 
-app.listen(3000, () => {
-    console.log("Listening on port 3000");
+app.listen(80, "0.0.0.0", () => {
+    console.log("Listening on port 80");
 })
