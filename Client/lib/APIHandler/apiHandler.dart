@@ -8,6 +8,7 @@ import 'package:special_lab_dashboard/Models/SpecialLabModel.dart';
 import 'package:special_lab_dashboard/Models/StudentModel.dart';
 
 const API_LINK = "http://127.0.0.1:3000/";
+// http://10.30.10.10:3001/
 
 // const API_LINK = "http://10.10.237.157/";
 // const API_LINK = "http://10.10.176.69/";
@@ -150,7 +151,7 @@ getAllStudentUnderFaculty(String? fac_id) async
   SharedPreferences preferences = await SharedPreferences.getInstance();
   var token = preferences.getString("token") ?? "";
   http.Response response =  await http.get(
-      Uri.parse("${API_LINK}faculty/getStudents/$fac_id"),
+      Uri.parse("${API_LINK}faculty/getStudents"),
       headers: {
         "Access-Control-Allow-Origin":"*",
         "Content-Type":"application/json",
@@ -171,7 +172,7 @@ getAllStudentRequestsUnderFaculty(String? fac_id) async {
   SharedPreferences preferences = await SharedPreferences.getInstance();
   var token = preferences.getString("token") ?? "";
   http.Response response =  await http.get(
-    Uri.parse("${API_LINK}faculty/getReqStudents/$fac_id"),
+    Uri.parse("${API_LINK}faculty/getReqStudents"),
     headers: {
       "Access-Control-Allow-Origin":"*",
       "Content-Type":"application/json",

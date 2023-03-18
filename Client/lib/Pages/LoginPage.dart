@@ -117,19 +117,19 @@ class _LoginPageState extends State<LoginPage> {
                                   //
                                   // else
                                   //   Navigator.push(context, MaterialPageRoute(builder: (context) => AdminHomePage()));
-                                  var userDetails = "{\"email\":\"balasuriya.cs20@bitsathy.ac.in\",\"verify\":true,\"name\":\"BALASURIYA K A\",\"img\":\"https://lh3.googleusercontent.com/a/AGNmyxZdo8m7KpccPALmjk2YYWqtTzhZlAbYtLzDBtwegQ=s96-c\",\"details\":[{\"STU_ID\":\"201CS130\",\"STU_NAME\":\"BALA SURIYA K A\",\"STU_EMAIL\":\"balasuriya.cs20@bitsathy.ac.in\",\"STU_CONTACT\":\"9782315975\",\"LAB_ID\":\"5\",\"FACULTY_ID\":\"105\",\"COUNT\":0,\"LAST_UPDATED_DATE\":\"2023-02-17T18:30:00.000Z\",\"DEPT\":\"COMPUTER SCIENCE ENGINEERING\",\"YEAR\":\"3rd Year\"}]}";
-                                  if(emailController.text == "Student")
-                                  {
-                                    // Navigator.pushNamed(context, "/student_home");
-                                    Navigator.push(context, MaterialPageRoute(builder: (context) => StudentHome(userDetails)));
-                                  }
-
-
-                                  else if(emailController.text == "Teacher")
-                                    Navigator.push(context, MaterialPageRoute(builder: (context) => FacultyHome(userDetails)));
-
-                                  else
-                                    Navigator.push(context, MaterialPageRoute(builder: (context) => AdminHomePage()));
+                                  // var userDetails = "{\"email\":\"balasuriya.cs20@bitsathy.ac.in\",\"verify\":true,\"name\":\"BALASURIYA K A\",\"img\":\"https://lh3.googleusercontent.com/a/AGNmyxZdo8m7KpccPALmjk2YYWqtTzhZlAbYtLzDBtwegQ=s96-c\",\"details\":[{\"STU_ID\":\"201CS130\",\"STU_NAME\":\"BALA SURIYA K A\",\"STU_EMAIL\":\"balasuriya.cs20@bitsathy.ac.in\",\"STU_CONTACT\":\"9782315975\",\"LAB_ID\":\"5\",\"FACULTY_ID\":\"105\",\"COUNT\":0,\"LAST_UPDATED_DATE\":\"2023-02-17T18:30:00.000Z\",\"DEPT\":\"COMPUTER SCIENCE ENGINEERING\",\"YEAR\":\"3rd Year\"}]}";
+                                  // if(emailController.text == "Student")
+                                  // {
+                                  //   // Navigator.pushNamed(context, "/student_home");
+                                  //   Navigator.push(context, MaterialPageRoute(builder: (context) => StudentHome(userDetails)));
+                                  // }
+                                  //
+                                  //
+                                  // else if(emailController.text == "Teacher")
+                                  //   Navigator.push(context, MaterialPageRoute(builder: (context) => FacultyHome(userDetails)));
+                                  //
+                                  // else
+                                  //   Navigator.push(context, MaterialPageRoute(builder: (context) => AdminHomePage()));
 
                                 },
                                   child: Text("Login", style: GoogleFonts.poppins(
@@ -173,7 +173,7 @@ class _LoginPageState extends State<LoginPage> {
                                               context, MaterialPageRoute(
                                               builder: (context) =>
                                                   NavigatorPage(
-                                                      role, userDetails)));
+                                                      "Student")));
                                         }
                                       });
                                     }
@@ -193,7 +193,7 @@ class _LoginPageState extends State<LoginPage> {
                                               context, MaterialPageRoute(
                                               builder: (context) =>
                                                   NavigatorPage(
-                                                      role, userDetails)));
+                                                      role)));
                                         }
                                       });
                                     }
@@ -208,68 +208,6 @@ class _LoginPageState extends State<LoginPage> {
                                     });
                                     return;
                                   }
-                                  // var userDetails;
-                                  try{
-                                    if(details["idToken"] != null && details["idToken"]!="") {
-                                      RegExp re = new RegExp(
-                                          r"^\w+\.?(\w\w)?(\d\d)?@bitsathy\.ac\.in$");
-                                      var iter = re.firstMatch(details["email"]!);
-                                      var match = iter?.groups([1, 2]);
-                                      var role = "Teacher";
-                                      if (match?[0] != null) {
-                                        role = "Student";
-                                        await checkValidUser(details["email"],details["idToken"]?.toString()).then((v) async {
-                                          if (v != "Error") {
-                                            userDetails = await v;
-                                            print(v);
-                                            SharedPreferences preferences = await SharedPreferences
-                                                .getInstance();
-                                            preferences.setString(
-                                                "user", json.encode(userDetails));
-                                            // Navigator.pushNamed(context, "/student_home",arguments: userDetails);
-                                            Navigator.push(
-                                                context, MaterialPageRoute(
-                                                builder: (context) =>
-                                                    NavigatorPage(
-                                                        role, userDetails)));
-                                          }
-
-                                        });
-                                      }
-                                      else {
-                                        await checkValidFacultyUser(
-                                            details["email"],
-                                            details["idToken"]?.toString()).then((
-                                            v) async {
-                                          if (v != "Error") {
-                                            userDetails = await v;
-                                            print(v);
-                                            SharedPreferences preferences = await SharedPreferences
-                                                .getInstance();
-                                            preferences.setString(
-                                                "user", json.encode(userDetails));
-                                            Navigator.push(
-                                                context, MaterialPageRoute(
-                                                builder: (context) =>
-                                                    NavigatorPage(
-                                                        role, userDetails)));
-                                          }
-
-                                        });
-                                      }
-                                    }
-                                  }
-                                  catch(e)
-                                  {
-                                    showDialog(context: context, builder: (BuildContext context){
-                                      return AlertDialog(
-                                        content: Text("Logging with bitsathy email id"),
-                                      );
-                                    });
-                                  }
-
-
-
                                   // Temporary - Section 2
                                   // var details = {"email":  emailController.text, "idToken": ""};
                                   // var userDetails;
@@ -294,7 +232,7 @@ class _LoginPageState extends State<LoginPage> {
                                   //             context, MaterialPageRoute(
                                   //             builder: (context) =>
                                   //                 NavigatorPage(
-                                  //                     role, userDetails)));
+                                  //                     role)));
                                   //       }
                                   //     });
                                   //   }
@@ -315,7 +253,7 @@ class _LoginPageState extends State<LoginPage> {
                                   //             context, MaterialPageRoute(
                                   //             builder: (context) =>
                                   //                 NavigatorPage(
-                                  //                     role, userDetails)));
+                                  //                     "Teacher")));
                                   //       }
                                   //     });
                                   //   }

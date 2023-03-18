@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -5,8 +7,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:special_lab_dashboard/Components.dart';
 import 'package:special_lab_dashboard/Models/FacultyModel.dart';
 import 'package:special_lab_dashboard/Pages/LabSwitch.dart';
-import 'package:http/http.dart' as http;
-import 'package:special_lab_dashboard/Utilities/Colors.dart';
 import 'package:special_lab_dashboard/responsive.dart';
 
 import '../APIHandler/apiHandler.dart';
@@ -15,8 +15,7 @@ import '../Utilities/Util.dart';
 import 'MobileView/Student/StudentHomeMobile.dart';
 
 class StudentHome extends StatefulWidget {
-  var  userdetails;
-  StudentHome(this.userdetails,{Key? key, }) : super(key: key);
+  StudentHome({Key? key, }) : super(key: key);
 
   @override
   State<StudentHome> createState() => _StudentHomeState();
@@ -35,7 +34,7 @@ class _StudentHomeState extends State<StudentHome> {
   FacultyOfLab inchargeDetails = new FacultyOfLab.empty();
 
   getFaculties (String? inchargeId) async {
-    var facultyObjects = await getLabFacultyDetails(widget.userdetails["details"][0]["LAB_ID"].toString());
+    var facultyObjects = await getLabFacultyDetails(userdetails["details"][0]["LAB_ID"].toString());
     for(var fac in facultyObjects) {
       fac_of_lab.add(FacultyOfLab(fac["FACULTY_ID"], fac["FACULTY_NAME"], fac["FACULTY_EMAIL"], fac["CONTACT"], fac["LAB_ID"]));
       if(inchargeId == fac["FACULTY_ID"]) {
@@ -50,7 +49,7 @@ class _StudentHomeState extends State<StudentHome> {
     for(SpecialLab i in specialLabs) {
       specialLabsNames.add(i.labname ?? "");
       details.add({"labid":i.labid,"labname":i.labname, "headid":i.labheadid});
-      if(widget.userdetails['details'][0]['LAB_ID'].toString()==i.labid){
+      if(userdetails['details'][0]['LAB_ID'].toString()==i.labid){
         myLab = i.labname;
       }
     }
@@ -72,10 +71,23 @@ class _StudentHomeState extends State<StudentHome> {
       }
     });
   }
+  var userdetails;
+  GetStoredValue() async{
+    SharedPreferences preferences = await SharedPreferences
+        .getInstance();
+    setState(() {
+      userdetails = jsonDecode(preferences.getString("user")!);
+    });
+    print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+    print(userdetails);
+  }
+  
 
   @override
   void initState() {
-    getFaculties(widget.userdetails["details"][0]["FACULTY_ID"].toString());
+    GetStoredValue().then((value){
+      getFaculties(userdetails["details"][0]["FACULTY_ID"].toString());
+    });
   }
 
   @override
@@ -84,7 +96,7 @@ class _StudentHomeState extends State<StudentHome> {
     return (Responsive.isMobile(context))
         ?
     (!isFetchingHome)
-        ?StudentHomeMobile(widget.userdetails, inchargeDetails, myLab,new ScrollController(),fac_of_lab,isFetchingSwitch, specialLabsNames, details,changeScreen)
+        ?StudentHomeMobile(userdetails, inchargeDetails, myLab,new ScrollController(),fac_of_lab,isFetchingSwitch, specialLabsNames, details,changeScreen)
         :Container()
         :Material(
           child: Scaffold(
@@ -159,7 +171,7 @@ class _StudentHomeState extends State<StudentHome> {
                   ),
                 ),
               ),
-              (press1)?getStudentHome(widget.userdetails, fac_of_lab, isFetchingHome, myLab, inchargeDetails):LabSwitchPage(widget.userdetails, isFetchingSwitch, specialLabsNames, details, myLab, inchargeDetails)
+              (press1)?getStudentHome(userdetails, fac_of_lab, isFetchingHome, myLab, inchargeDetails):LabSwitchPage(userdetails, isFetchingSwitch, specialLabsNames, details, myLab, inchargeDetails)
             ],
           ),
       ),
