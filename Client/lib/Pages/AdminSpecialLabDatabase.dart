@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:special_lab_dashboard/Pages/MobileView/Admin/AdminSpecialLabDatabase.dart';
 
 import '../Utilities/Util.dart';
+import '../responsive.dart';
 
 class AdminSpecialLabDatabase extends StatefulWidget {
   const AdminSpecialLabDatabase({Key? key}) : super(key: key);
@@ -77,7 +79,7 @@ class _AdminSpecialLabDatabaseState extends State<AdminSpecialLabDatabase> {
     var size = MediaQuery.of(context).size;
     var height = size.height/100;
     var width = size.width/100;
-    return Expanded(
+    return (Responsive.isMobile(context))?AdminSpecialLabDatabaseMobile():Expanded(
       flex: 40,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

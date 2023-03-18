@@ -59,11 +59,15 @@ class _AdminHomePageState extends State<AdminHomePage> {
       "Mail ID": "venkatraman.ct20@bitsathy.ac.in"
     }
   ];
+  var result1;
 
 
   getData() async
   {
-    await getDataForAdminDashboard();
+      dynamic result = await getDataForAdminDashboard();
+      setState(() {
+        result1 =result;
+      });
   }
 
   @override
@@ -72,12 +76,14 @@ class _AdminHomePageState extends State<AdminHomePage> {
   }
 
 
+
+
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     var height = size.height/100;
     var width = size.width/100;
-    List<Widget> screens = [getAdminHomePage(), AdminSpecialLabDatabase(), InchargeSwitch()];
+    List<Widget> screens = [getAdminHomePage(count: result1), AdminSpecialLabDatabase(), InchargeSwitch()];
     return (Responsive.isMobile(context))?AdminHomePageMobile():Material(
       child: Container(
         color: Color(0xff210368),
@@ -233,7 +239,8 @@ class _AdminHomePageState extends State<AdminHomePage> {
 }
 
 class getAdminHomePage extends StatefulWidget {
-  const getAdminHomePage({Key? key}) : super(key: key);
+  final count;
+  const getAdminHomePage({Key? key, this.count}) : super(key: key);
 
   @override
   State<getAdminHomePage> createState() => _getAdminHomePageState();
@@ -294,16 +301,19 @@ class _getAdminHomePageState extends State<getAdminHomePage> {
                 ],
               ),
               SizedBox(height: 20,),
-              Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        renderCardsForAdminPage("Special Labs", 27, 0xff1e1492, 0xffaba8d6,150,300,18,24,8,15),
-                        renderCardsForAdminPage("Faculties Working", 54, 0xffff8a1d,0xffffd7b2,150,300,18,24,8,15),
-                        renderCardsForAdminPage("Students Enrolled", 1175, 0xff024d19, 0xff66cc85,150,300,18,24,8,15),
-                        renderCardsForAdminPage("Students not Enrolled", 103, 0xffff0000,0xffe892a1,150,300,18,24,8,15),
-                        // Expanded(flex: 2,child: Container())
-                      ],
-                    ),
+              Container(
+                width: width*200,
+                child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          renderCardsForAdminPage("Special Labs",widget.count["NO_OF_LABS"], 0xff1e1492, 0xffaba8d6,150,width*18,18,24,8,15),
+                          renderCardsForAdminPage("Faculties Working", widget.count["NO_OF_FACULTY"], 0xffff8a1d,0xffffd7b2,150,width*18,18,24,8,15),
+                          renderCardsForAdminPage("Students Enrolled", widget.count["NO_OF_STUDENTS"], 0xff024d19, 0xff66cc85,150,width*18,18,24,8,15),
+                          renderCardsForAdminPage("Students not Enrolled", 103, 0xffff0000,0xffe892a1,150,width*18,18,24,8,15),
+                          Expanded(flex: 2,child: Container())
+                        ],
+                      ),
+              ),
               SizedBox(height: 30,),
               Text("Special Lab Details", style: GoogleFonts.poppins(
                   fontSize: 18, fontWeight: FontWeight.w800

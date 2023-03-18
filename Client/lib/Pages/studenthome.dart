@@ -385,7 +385,7 @@ class _getStudentHomeState extends State<getStudentHome> {
                       ),
                       getExpanded(1),
                       Expanded(
-                          flex:3,
+                          flex:4,
                           child:Column(
                             children: [
                               (!widget.isFetchingHome)?Hero(tag: "sjai", child: renderStudentDetailsCard(widget.userdetails, widget.inchargeDetails, widget.myLab)):Center(child: CircularProgressIndicator(),)

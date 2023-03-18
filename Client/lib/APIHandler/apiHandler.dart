@@ -111,11 +111,11 @@ Future<List<SpecialLab>> getSpecialLabs() async{
   // return json.decode(res.body);
 }
 
-Future<int> getDataForAdminDashboard() async{
+getDataForAdminDashboard() async{
   int res = 0;
   http.Response response = await http.get(Uri.parse("${API_LINK}getAllCount/get"));
-  print(response.body);
-  return res;
+  // print(response.body);
+  return jsonDecode(response.body);
 }
 
 getLabFacultyDetails(String? lab_id) async

@@ -1,4 +1,3 @@
-
 import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
@@ -58,30 +57,30 @@ class _LoginPageState extends State<LoginPage> {
         child: Card(
           elevation: 20,
           child: Container(
-            height: 450,
-            width: 750,
-            color: Colors.grey,
-            child: Row(
-              children: [
-                (Responsive.isMobile(context))?Container():Expanded(child: Container(
+              height: 450,
+              width: 750,
+              color: Colors.grey,
+              child: Row(
+                children: [
+                  (Responsive.isMobile(context))?Container():Expanded(child: Container(
                     child: Image.asset("assets/login_banner1.jpg"),
-                )),
-                Expanded(
-                  child: Container(
-                    color: Colors.white,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Container(
-                          width: 250,
-                          child: Column(
+                  )),
+                  Expanded(
+                    child: Container(
+                      color: Colors.white,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Container(
+                            width: 250,
+                            child: Column(
                               children: [
                                 Image.asset("assets/login_sl_logo.jpg"),
                                 TextField(
                                   controller: emailController,
                                   style: GoogleFonts.poppins(
-                                    fontWeight: FontWeight.w500,
-                                    color: Colors.black
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.black
                                   ),
                                   decoration: InputDecoration(
                                     hintText: "Email",
@@ -120,10 +119,10 @@ class _LoginPageState extends State<LoginPage> {
                                   //   Navigator.push(context, MaterialPageRoute(builder: (context) => AdminHomePage()));
                                   var userDetails = "{\"email\":\"balasuriya.cs20@bitsathy.ac.in\",\"verify\":true,\"name\":\"BALASURIYA K A\",\"img\":\"https://lh3.googleusercontent.com/a/AGNmyxZdo8m7KpccPALmjk2YYWqtTzhZlAbYtLzDBtwegQ=s96-c\",\"details\":[{\"STU_ID\":\"201CS130\",\"STU_NAME\":\"BALA SURIYA K A\",\"STU_EMAIL\":\"balasuriya.cs20@bitsathy.ac.in\",\"STU_CONTACT\":\"9782315975\",\"LAB_ID\":\"5\",\"FACULTY_ID\":\"105\",\"COUNT\":0,\"LAST_UPDATED_DATE\":\"2023-02-17T18:30:00.000Z\",\"DEPT\":\"COMPUTER SCIENCE ENGINEERING\",\"YEAR\":\"3rd Year\"}]}";
                                   if(emailController.text == "Student")
-                                    {
-                                      // Navigator.pushNamed(context, "/student_home");
-                                      Navigator.push(context, MaterialPageRoute(builder: (context) => StudentHome(userDetails)));
-                                    }
+                                  {
+                                    // Navigator.pushNamed(context, "/student_home");
+                                    Navigator.push(context, MaterialPageRoute(builder: (context) => StudentHome(userDetails)));
+                                  }
 
 
                                   else if(emailController.text == "Teacher")
@@ -136,7 +135,7 @@ class _LoginPageState extends State<LoginPage> {
                                   child: Text("Login", style: GoogleFonts.poppins(
                                       fontWeight: FontWeight.w500,
                                       color: Colors.white
-                                    ),
+                                  ),
                                   ),
                                 ),
                                 SizedBox(height: 20,),
@@ -263,9 +262,9 @@ class _LoginPageState extends State<LoginPage> {
                                   catch(e)
                                   {
                                     showDialog(context: context, builder: (BuildContext context){
-                                        return AlertDialog(
-                                          content: Text("Logging with bitsathy email id"),
-                                        );
+                                      return AlertDialog(
+                                        content: Text("Logging with bitsathy email id"),
+                                      );
                                     });
                                   }
 
@@ -322,11 +321,11 @@ class _LoginPageState extends State<LoginPage> {
                                   //   }
 
                                 }, child: Text("Sign in Google",
-                                    style: GoogleFonts.poppins(
-                                        fontWeight: FontWeight.w500,
-                                        color: Colors.white
-                                    ),
-                                  )
+                                  style: GoogleFonts.poppins(
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.white
+                                  ),
+                                )
                                 ),
 
                                 // Text("Forget Password"),
@@ -334,13 +333,13 @@ class _LoginPageState extends State<LoginPage> {
                                 // Text("Or continue with Google"),
                               ],
                             ),
-                        ),
-                      ],
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                )
-              ],
-            )
+                  )
+                ],
+              )
           ),
         ),
       ),
