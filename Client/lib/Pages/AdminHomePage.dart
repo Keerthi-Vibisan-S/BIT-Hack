@@ -78,7 +78,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
     var height = size.height/100;
     var width = size.width/100;
     List<Widget> screens = [getAdminHomePage(), AdminSpecialLabDatabase(), InchargeSwitch()];
-    return (Responsive.isMobile(context))?AdminHomePageMobile():Material(
+    return (Responsive.isMobile(context))?AdminHomePageMobile(pageNo):Material(
       child: Container(
         color: Color(0xff210368),
         child: Row(
@@ -124,9 +124,8 @@ class _AdminHomePageState extends State<AdminHomePage> {
                       ),
                       child: IconButton(
                           onPressed: (){
-                            pageNo=1;
                             setState(() {
-
+                              pageNo=1;
                             });
                           },
                           icon: Icon(Icons.dashboard),
@@ -146,9 +145,9 @@ class _AdminHomePageState extends State<AdminHomePage> {
                       ),
                       child: IconButton(
                           onPressed: (){
-                            pageNo=2;
-                            setState(() {
 
+                            setState(() {
+                              pageNo=2;
                             });
                           },
                           icon: Icon(Icons.swap_horiz),
@@ -173,53 +172,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
 
                     child: Padding(
                       padding: EdgeInsets.only(top: 40,),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 100),
-                            child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    "Portal",
-                                    style: GoogleFonts.poppins(
-                                        fontWeight: FontWeight.w600, fontSize: 28),
-                                  ),
-                                  Row(
-                                    children: [
-                                      CircleAvatar(),
-                                      SizedBox(
-                                        width: 24,
-                                      ),
-                                      GestureDetector(
-                                        onTap: (){
-                                          Navigator.pop(context);
-                                        },
-                                        child: Row(
-                                          children: [
-                                            Icon(Icons.login_outlined),
-                                            SizedBox(
-                                              width: 10,
-                                            ),
-                                            Text("Logout", style: GoogleFonts.poppins(
-                                                fontWeight: FontWeight.w400,
-                                                decoration: TextDecoration.none,
-                                                color: Colors.black,
-                                                fontSize: 17.5
-                                            ),)
-                                          ],
-                                        ),
-                                      )
-                                    ],
-                                  )
-                                ]
-                            ),
-                          ),
-                          getSizedBox(20),
-                          screens[pageNo]
-                        ],
-                      ),
+                      child: (pageNo == 0)?getAdminHomePage():(pageNo == 1)?AdminSpecialLabDatabase():InchargeSwitch(),
                     ),
                   ),
                 ),
@@ -272,126 +225,170 @@ class _getAdminHomePageState extends State<getAdminHomePage> {
         .size;
     var height = size.height / 100;
     var width = size.width / 100;
-    return Expanded(
-      child: SingleChildScrollView(
-        controller: _scrollController,
-        child: Padding(
-            padding: const EdgeInsets.only(top: 25, left: 100),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  Text("Analysis", style: GoogleFonts.poppins(
-                      fontSize: 20, fontWeight: FontWeight.bold
-                  ),),
-                  SizedBox(width: 20,),
-                  Text("\u2022 1278 Students", style: GoogleFonts.poppins(
-                      fontSize: 15,
-                      // fontWeight: FontWeight.w500,
-                      color: Colors.black54
-                  ))
-                ],
-              ),
-              SizedBox(height: 20,),
-              Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        renderCardsForAdminPage("Special Labs", 27, 0xff1e1492, 0xffaba8d6,150,300,18,24,8,15),
-                        renderCardsForAdminPage("Faculties Working", 54, 0xffff8a1d,0xffffd7b2,150,300,18,24,8,15),
-                        renderCardsForAdminPage("Students Enrolled", 1175, 0xff024d19, 0xff66cc85,150,300,18,24,8,15),
-                        renderCardsForAdminPage("Students not Enrolled", 103, 0xffff0000,0xffe892a1,150,300,18,24,8,15),
-                        // Expanded(flex: 2,child: Container())
-                      ],
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 100),
+          child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  "Portal",
+                  style: GoogleFonts.poppins(
+                      fontWeight: FontWeight.w600, fontSize: 28),
+                ),
+                Row(
+                  children: [
+                    CircleAvatar(),
+                    SizedBox(
+                      width: 24,
                     ),
-              SizedBox(height: 30,),
-              Text("Special Lab Details", style: GoogleFonts.poppins(
-                  fontSize: 18, fontWeight: FontWeight.w800
-              ),),
-              SizedBox(height: 10,),
-              Container(
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(20),
-                    boxShadow: [
-                      BoxShadow(
-                          color: Colors.blue.withOpacity(0.1),
-                          spreadRadius: 15,
-                          blurRadius: 50,
-                          offset: Offset(0, 0),
-
-                      )
-                    ]
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 25, bottom: 25),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      // Expanded(flex:1,child: Container()),
-                      SizedBox(width: width * 5,),
-                      Expanded(
-                        flex: 8,
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: Stack(
-                                // crossAxisAlignment: CrossAxisAlignment.start,
-                                // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  ListView.builder(
-                                    scrollDirection: Axis.vertical,
-                                    physics: BouncingScrollPhysics(),
-                                    // physics: NeverScrollableScrollPhysics(),
-                                    shrinkWrap: true,
-                                    itemBuilder: (BuildContext context,
-                                        int index) {
-                                      return MouseRegion(
-                                        onExit: (PointerExitEvent exit) {
-                                          setState(() {
-                                            isHover = false;
-                                          });
-                                        },
-                                        onHover: (PointerEvent details) {
-                                          // print(_scrollController.position.pixels)
-                                          setState(() {
-                                            isHover = true;
-                                            x = details.position.dx;
-                                            y = details.position.dy +
-                                                (_scrollController.position
-                                                    .pixels);
-                                            this.labName = labnames[index];
-                                          });
-                                        },
-                                        child: Container(
-                                          child: renderLabAnanlysisBar(
-                                              labnames[index],
-                                              labStudentsCount[index], index),
-                                        ),
-                                      );
-                                    },
-                                    itemCount: labnames.length,
-                                  ),
-                                  (isHover) ? Transform(
-                                      transform: Matrix4.translationValues(
-                                          x - 250, y - 750, 0),
-                                      child: ShowSpecialLabStats(labName)
-                                  ) : SizedBox()
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
+                    GestureDetector(
+                      onTap: (){
+                        Navigator.pop(context);
+                      },
+                      child: Row(
+                        children: [
+                          Icon(Icons.login_outlined),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Text("Logout", style: GoogleFonts.poppins(
+                              fontWeight: FontWeight.w400,
+                              decoration: TextDecoration.none,
+                              color: Colors.black,
+                              fontSize: 17.5
+                          ),)
+                        ],
                       ),
-                      Expanded(flex: 3, child: Container())
-                    ],
-                  ),
-                ),
-              )
-            ],
+                    )
+                  ],
+                )
+              ]
           ),
         ),
-      ),
+        Expanded(
+          child: SingleChildScrollView(
+            controller: _scrollController,
+            child: Padding(
+                padding: const EdgeInsets.only(top: 25, left: 100),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Text("Analysis", style: GoogleFonts.poppins(
+                          fontSize: 20, fontWeight: FontWeight.bold
+                      ),),
+                      SizedBox(width: 20,),
+                      Text("\u2022 1278 Students", style: GoogleFonts.poppins(
+                          fontSize: 15,
+                          // fontWeight: FontWeight.w500,
+                          color: Colors.black54
+                      ))
+                    ],
+                  ),
+                  SizedBox(height: 20,),
+                  Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            renderCardsForAdminPage("Special Labs", 27, 0xff1e1492, 0xffaba8d6,150,300,18,24,8,15),
+                            renderCardsForAdminPage("Faculties Working", 54, 0xffff8a1d,0xffffd7b2,150,300,18,24,8,15),
+                            renderCardsForAdminPage("Students Enrolled", 1175, 0xff024d19, 0xff66cc85,150,300,18,24,8,15),
+                            renderCardsForAdminPage("Students not Enrolled", 103, 0xffff0000,0xffe892a1,150,300,18,24,8,15),
+                            // Expanded(flex: 2,child: Container())
+                          ],
+                        ),
+                  SizedBox(height: 30,),
+                  Text("Special Lab Details", style: GoogleFonts.poppins(
+                      fontSize: 18, fontWeight: FontWeight.w800
+                  ),),
+                  SizedBox(height: 10,),
+                  Container(
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(20),
+                        boxShadow: [
+                          BoxShadow(
+                              color: Colors.blue.withOpacity(0.1),
+                              spreadRadius: 15,
+                              blurRadius: 50,
+                              offset: Offset(0, 0),
+
+                          )
+                        ]
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 25, bottom: 25),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          // Expanded(flex:1,child: Container()),
+                          SizedBox(width: width * 5,),
+                          Expanded(
+                            flex: 8,
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  child: Stack(
+                                    // crossAxisAlignment: CrossAxisAlignment.start,
+                                    // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      ListView.builder(
+                                        scrollDirection: Axis.vertical,
+                                        physics: BouncingScrollPhysics(),
+                                        // physics: NeverScrollableScrollPhysics(),
+                                        shrinkWrap: true,
+                                        itemBuilder: (BuildContext context,
+                                            int index) {
+                                          return MouseRegion(
+                                            onExit: (PointerExitEvent exit) {
+                                              setState(() {
+                                                isHover = false;
+                                              });
+                                            },
+                                            onHover: (PointerEvent details) {
+                                              // print(_scrollController.position.pixels)
+                                              setState(() {
+                                                isHover = true;
+                                                x = details.position.dx;
+                                                y = details.position.dy +
+                                                    (_scrollController.position
+                                                        .pixels);
+                                                this.labName = labnames[index];
+                                              });
+                                            },
+                                            child: Container(
+                                              child: renderLabAnanlysisBar(
+                                                  labnames[index],
+                                                  labStudentsCount[index], index),
+                                            ),
+                                          );
+                                        },
+                                        itemCount: labnames.length,
+                                      ),
+                                      (isHover) ? Transform(
+                                          transform: Matrix4.translationValues(
+                                              x - 250, y - 750, 0),
+                                          child: ShowSpecialLabStats(labName)
+                                      ) : SizedBox()
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Expanded(flex: 3, child: Container())
+                        ],
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ),
+          ),
+        ),
+      ],
     );
   }
 
@@ -408,6 +405,12 @@ class _getAdminHomePageState extends State<getAdminHomePage> {
     // });
   }
 }
+
+
+
+
+
+
 
 class ShowSpecialLabStats extends StatelessWidget {
   final labname;

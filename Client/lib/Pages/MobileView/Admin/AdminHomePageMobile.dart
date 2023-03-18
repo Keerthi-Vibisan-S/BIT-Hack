@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:special_lab_dashboard/Pages/AdminConfirmPage.dart';
 import 'package:special_lab_dashboard/Pages/AdminSpecialLabDatabase.dart';
 import 'package:special_lab_dashboard/Pages/MobileView/Admin/AdminHome.dart';
 import 'package:special_lab_dashboard/Pages/MobileView/Admin/AdminLabSwitch.dart';
@@ -14,7 +15,8 @@ import '../../../Utilities/Util.dart';
 import '../../AdminHomePage.dart';
 
 class AdminHomePageMobile extends StatefulWidget {
-  const AdminHomePageMobile({Key? key}) : super(key: key);
+  final int pageNo;
+  const AdminHomePageMobile(this.pageNo,{Key? key}) : super(key: key);
 
   @override
   State<AdminHomePageMobile> createState() => _AdminHomePageMobileState();
@@ -40,11 +42,18 @@ class _AdminHomePageMobileState extends State<AdminHomePageMobile> {
   int selected = 0;
 
   @override
+  void initState() {
+    setState(() {
+      selected = widget.pageNo;
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     List<Widget> screens = [
       AdminHome(labnames, faculties, labStudentsCount),
-      AdminSpecialLabDatabaseMobile(),
-      AdminLabSwitch()
+      AdminSpecialLabDatabase(),
+      InchargeSwitch()
     ];
     return Scaffold(
       appBar: AppBar(

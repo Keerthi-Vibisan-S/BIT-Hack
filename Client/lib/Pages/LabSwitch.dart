@@ -33,7 +33,9 @@ class _LabSwitchPageState extends State<LabSwitchPage> {
 
   @override
   Widget build(BuildContext context) {
-    return (Responsive.isMobile(context))?LabSwitchMobile(widget.isFetchingLab, widget.myLab, widget.userDetails, getToLabID, id2, widget.specialLabsNames, switTo,widget.details):Expanded(
+    return (Responsive.isMobile(context))
+        ?LabSwitchMobile(widget.isFetchingLab, widget.myLab, widget.userDetails, getToLabID, id2, widget.specialLabsNames, switTo,widget.details)
+        :Expanded(
       flex: 40,
       child: Padding(
         padding: const EdgeInsets.all(12.0),

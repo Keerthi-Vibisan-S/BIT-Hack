@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:special_lab_dashboard/Pages/MobileView/Admin/AdminLabSwitch.dart';
+import 'package:special_lab_dashboard/responsive.dart';
 
 import '../Utilities/Util.dart';
 
@@ -149,65 +151,113 @@ class _InchargeSwitchState extends State<InchargeSwitch> {
     var size = MediaQuery.of(context).size;
     var height = size.height / 100;
     var width = size.width / 100;
-
-    return Expanded(
-      flex: 40,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(top: 25, left: 100, right: 100),
-            child: Container(
-              width: width * 100,
-              child: Row(
-                mainAxisAlignment:
-                MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    "Student Database",
-                    style: GoogleFonts.poppins(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20),
-                  ),
-                  Material(
-                    elevation: 10,
-                    shadowColor: Colors.white,
-                    borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(10),
-                      topLeft: Radius.circular(10),
-                      topRight: Radius.circular(30),
-                      bottomRight: Radius.circular(30)
+    int pageNo = 2;
+    return (Responsive.isMobile(context))?AdminLabSwitch():Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 100),
+          child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  "Portal",
+                  style: GoogleFonts.poppins(
+                      fontWeight: FontWeight.w600, fontSize: 28),
+                ),
+                Row(
+                  children: [
+                    CircleAvatar(),
+                    SizedBox(
+                      width: 24,
                     ),
+                    GestureDetector(
+                      onTap: (){
+                        Navigator.pop(context);
+                      },
+                      child: Row(
+                        children: [
+                          Icon(Icons.login_outlined),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Text("Logout", style: GoogleFonts.poppins(
+                              fontWeight: FontWeight.w400,
+                              decoration: TextDecoration.none,
+                              color: Colors.black,
+                              fontSize: 17.5
+                          ),)
+                        ],
+                      ),
+                    )
+                  ],
+                )
+              ]
+          ),
+        ),
+        Expanded(
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.only(top: 25),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(top: 25, left: 100, right: 100),
                     child: Container(
-
-                      width: width*15,
-                      child: TextField(
-                          onChanged: (s) {},
-                          decoration: InputDecoration(
-                            hintText: "Search...",
-                            contentPadding: EdgeInsets.all(18.0),
-                            suffixIcon: IconButton(
-                                onPressed: () {},
-                                icon: Icon(
-                                    Icons.search_rounded),
-
+                      width: width * 100,
+                      child: Row(
+                        mainAxisAlignment:
+                        MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "Student Database",
+                            style: GoogleFonts.poppins(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20),
+                          ),
+                          Material(
+                            elevation: 10,
+                            shadowColor: Colors.white,
+                            borderRadius: BorderRadius.only(
+                                bottomLeft: Radius.circular(10),
+                                topLeft: Radius.circular(10),
+                                topRight: Radius.circular(30),
+                                bottomRight: Radius.circular(30)
                             ),
-                            border: InputBorder.none,
+                            child: Container(
+
+                              width: width*15,
+                              child: TextField(
+                                  onChanged: (s) {},
+                                  decoration: InputDecoration(
+                                    hintText: "Search...",
+                                    contentPadding: EdgeInsets.all(18.0),
+                                    suffixIcon: IconButton(
+                                      onPressed: () {},
+                                      icon: Icon(
+                                          Icons.search_rounded),
+
+                                    ),
+                                    border: InputBorder.none,
+                                  )
+                              ),
+                            ),
                           )
+                        ],
                       ),
                     ),
-                  )
+                  ),
+                  getSizedBox(50),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 100),
+                    child: table(data),
+                  ),
                 ],
               ),
             ),
           ),
-          getSizedBox(50),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 100),
-            child: table(data),
-          ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
