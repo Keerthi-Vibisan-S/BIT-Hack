@@ -11,7 +11,7 @@ void main(){
         scrollBehavior: MyCustomScrollBehavior(),
         debugShowCheckedModeBanner: false,
         // onGenerateRoute: RouteGenerator.generateRoute,
-        home: AdminHomePage(),
+        home: LoginPage(),
       )
   );
 }

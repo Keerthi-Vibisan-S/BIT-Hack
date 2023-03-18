@@ -3,6 +3,7 @@ class SpecialLab
   String? _labid;
   String? _labname;
   String? _labheadid;
+  String? _studentsCount;
 
   String? get labid => _labid;
 
@@ -22,5 +23,13 @@ class SpecialLab
     _labname = value;
   }
 
+
+  String? get studentsCount => _studentsCount;
+
+  set studentsCount(String? value) {
+    _studentsCount = value;
+  }
+
   SpecialLab(this._labid, this._labname, this._labheadid);
+  SpecialLab.forAdminPage(this._labid,this._labname,this._studentsCount);
 }

@@ -110,6 +110,13 @@ Future<List<SpecialLab>> getSpecialLabs() async{
   // return json.decode(res.body);
 }
 
+Future<int> getDataForAdminDashboard() async{
+  int res = 0;
+  http.Response response = await http.get(Uri.parse("${LOCALHOST}getAllCount/get"));
+  print(response.body);
+  return res;
+}
+
 getLabFacultyDetails(String? lab_id) async
 {
   SharedPreferences preferences = await SharedPreferences.getInstance();

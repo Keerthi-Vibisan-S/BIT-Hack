@@ -45,4 +45,6 @@ class FacultyOfLab
 
   FacultyOfLab(this._fac_id, this._fac_name, this._fac_email,
       this._fac_phNo, this._lab_id);
+
+  FacultyOfLab.empty();
 }
