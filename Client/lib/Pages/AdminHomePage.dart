@@ -1,6 +1,3 @@
-
-import 'dart:html';
-import 'dart:math';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -357,7 +354,7 @@ class _getAdminHomePageState extends State<getAdminHomePage> {
                                           });
                                         },
                                         onHover: (PointerEvent details) {
-                                          // print(_scrollController.position.pixels);
+                                          // print(_scrollController.position.pixels)
                                           setState(() {
                                             isHover = true;
                                             x = details.position.dx;

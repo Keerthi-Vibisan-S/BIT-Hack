@@ -1,24 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:special_lab_dashboard/Pages/AdminConfirmPage.dart';
-import 'package:special_lab_dashboard/Pages/AdminSpecificLabView.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:special_lab_dashboard/Pages/FacultyHome.dart';
-import 'package:special_lab_dashboard/Pages/LabSwitch.dart';
-import 'package:special_lab_dashboard/Pages/studenthome.dart';
+import 'package:special_lab_dashboard/RouteGenerator.dart';
 import 'MyCustomScrollBehaviour.dart';
-import 'Navigator.dart';
-import 'Pages/AdminHomePage.dart';
 import 'Pages/LoginPage.dart';
 
-void main() {
+
+void main(){
   runApp(
       MaterialApp(
-          scrollBehavior: MyCustomScrollBehavior(),
+        scrollBehavior: MyCustomScrollBehavior(),
         debugShowCheckedModeBanner: false,
         initialRoute: "/",
         routes: {
           '/' : (context) => const LoginPage(),
         },
+        // onGenerateRoute: RouteGenerator.generateRoute,
+        // home: LoginPage(),
       )
   );
 }
@@ -35,8 +31,7 @@ class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     return LoginPage();
+
   }
 }
-
-
 

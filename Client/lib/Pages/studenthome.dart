@@ -1,6 +1,3 @@
-import 'dart:convert';
-import 'dart:html';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -9,108 +6,168 @@ import 'package:special_lab_dashboard/Components.dart';
 import 'package:special_lab_dashboard/Models/FacultyModel.dart';
 import 'package:special_lab_dashboard/Pages/LabSwitch.dart';
 import 'package:http/http.dart' as http;
+import 'package:special_lab_dashboard/responsive.dart';
 
 import '../APIHandler/apiHandler.dart';
+import '../Models/SpecialLabModel.dart';
 import '../Utilities/Util.dart';
 
 class StudentHome extends StatefulWidget {
-  final dynamic userdetails;
-  const StudentHome(this.userdetails,{Key? key, }) : super(key: key);
+  var  userdetails;
+  StudentHome(this.userdetails,{Key? key, }) : super(key: key);
+  StudentHome.empty();
 
   @override
   State<StudentHome> createState() => _StudentHomeState();
 }
 
 class _StudentHomeState extends State<StudentHome> {
-
   var press1 = true;
   var press2 = false;
+  bool isFetchingHome = true,  isFetchingSwitch = true;
+
+  List<SpecialLab> specialLabs = [];
+  List<String> specialLabsNames = []; //
+  String? myLab; //
+  List details = []; //
+  List<FacultyOfLab> fac_of_lab= [];
+  FacultyOfLab? inchargeDetails;
+
+  getFaculties (String? inchargeId) async {
+    var facultyObjects = await getLabFacultyDetails(widget.userdetails["details"][0]["LAB_ID"].toString());
+
+    for(var fac in facultyObjects) {
+      fac_of_lab.add(FacultyOfLab(fac["FACULTY_ID"], fac["FACULTY_NAME"], fac["FACULTY_EMAIL"], fac["CONTACT"], fac["LAB_ID"]));
+      if(inchargeId == fac["FACULTY_ID"]) {
+        inchargeDetails = fac_of_lab.last;
+      }
+    }
+
+    getSL();
+  }
+
+  getSL() async {
+    specialLabs = await getSpecialLabs();
+    for(SpecialLab i in specialLabs) {
+      specialLabsNames.add(i.labname ?? "");
+      details.add({"labid":i.labid,"labname":i.labname, "headid":i.labheadid});
+      if(widget.userdetails['details'][0]['LAB_ID'].toString()==i.labid){
+        myLab = i.labname;
+      }
+    }
+    setState(() {
+      isFetchingHome = isFetchingSwitch = false;
+    });
+  }
+
+  changeScreen()
+  {
+    setState(() {
+      if (press2 == true) {
+        press2 = false;
+        press1 = true;
+      } else {
+        press2 = true;
+        press1 = false;
+      }
+    });
+  }
+
+  @override
+  void initState() {
+    getFaculties(widget.userdetails["details"][0]["FACULTY_ID"].toString());
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    ModalRoute.of(context)?.settings.arguments;
+    return (Responsive.isMobile(context))
+        ?StudentHomeMobile(widget.userdetails, inchargeDetails, myLab,new ScrollController(),fac_of_lab,isFetchingSwitch, specialLabsNames, details,changeScreen)
+        :Material(
+          child: Scaffold(
       body: Container(
-        color: Color(0xff210368),
-        child: Row(
-          children: [
-            Expanded(
-              flex: 2,
-              child: Container(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                      alignment: Alignment.centerLeft,
-                      decoration: BoxDecoration(
-                        borderRadius: const BorderRadius.only(
-                            topRight: Radius.circular(10),
-                            bottomRight: Radius.circular(10)),
-                        color: press1 ? Colors.white : Colors.transparent,
+          color: Color(0xff210368),
+          child: Row(
+            children: [
+              Expanded(
+                flex: 2,
+                child: Container(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        alignment: Alignment.centerLeft,
+                        decoration: BoxDecoration(
+                          borderRadius: const BorderRadius.only(
+                              topRight: Radius.circular(10),
+                              bottomRight: Radius.circular(10)),
+                          color: press1 ? Colors.white : Colors.transparent,
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: IconButton(
+                              onPressed: () {
+                                setState(() {
+                                  if (press1 == true) {
+                                    press1 = false;
+                                    press2 = true;
+                                  } else {
+                                    press1 = true;
+                                    press2 = false;
+                                  }
+                                });
+                              },
+                              icon: Icon(
+                                Icons.dashboard,
+                                size: 25,
+                                color: press1 ? Colors.black : Colors.white,
+                              )),
+                        ),
                       ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: IconButton(
+                      getSizedBox(20),
+                      Container(
+                        alignment: Alignment.centerLeft,
+                        decoration: BoxDecoration(
+                          borderRadius: const BorderRadius.only(
+                              topRight: Radius.circular(10),
+                              bottomRight: Radius.circular(10)),
+                          color: press2 ? Colors.white : Colors.transparent,
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: IconButton(
                             onPressed: () {
                               setState(() {
-                                if (press1 == true) {
-                                  press1 = false;
-                                  press2 = true;
-                                } else {
-                                  press1 = true;
+                                if (press2 == true) {
                                   press2 = false;
+                                  press1 = true;
+                                } else {
+                                  press2 = true;
+                                  press1 = false;
                                 }
                               });
                             },
-                            icon: Icon(
-                              Icons.dashboard,
-                              size: 25,
-                              color: press1 ? Colors.black : Colors.white,
-                            )),
-                      ),
-                    ),
-                    getSizedBox(20),
-                    Container(
-                      alignment: Alignment.centerLeft,
-                      decoration: BoxDecoration(
-                        borderRadius: const BorderRadius.only(
-                            topRight: Radius.circular(10),
-                            bottomRight: Radius.circular(10)),
-                        color: press2 ? Colors.white : Colors.transparent,
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: IconButton(
-                          onPressed: () {
-                            setState(() {
-                              if (press2 == true) {
-                                press2 = false;
-                                press1 = true;
-                              } else {
-                                press2 = true;
-                                press1 = false;
-                              }
-                            });
-                          },
-                          icon: Icon(Icons.swap_horiz,
-                              size: 25, color: press2 ? Colors.black : Colors.white),
+                            icon: Icon(Icons.swap_horiz,
+                                size: 25, color: press2 ? Colors.black : Colors.white),
+                          ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
-            ),
-            (press1)?getStudentHome(widget.userdetails):LabSwitchPage(widget.userdetails)
-          ],
-        ),
+              (press1)?getStudentHome(widget.userdetails, fac_of_lab, isFetchingHome, myLab, inchargeDetails):LabSwitchPage(widget.userdetails, isFetchingSwitch, specialLabsNames, details, myLab, inchargeDetails)
+            ],
+          ),
       ),
-    );
+    ),
+        );
   }
 }
 
 class getStudentHome extends StatefulWidget {
-  final userdetails;
-  const getStudentHome(this.userdetails,{Key? key}) : super(key: key);
+  final userdetails, facultyObjects, isFetchingHome, myLab, inchargeDetails;
+  const getStudentHome(this.userdetails, this.facultyObjects, this.isFetchingHome, this.myLab, this.inchargeDetails, {Key? key}) : super(key: key);
 
   @override
   State<getStudentHome> createState() => _getStudentHomeState();
@@ -119,7 +176,6 @@ class getStudentHome extends StatefulWidget {
 class _getStudentHomeState extends State<getStudentHome> {
   var leftClick = false;
   var rightClick = true;
-  List<FacultyOfLab> facultyObjects = [];
 
   var data = " ";
   ScrollController sc = new ScrollController();
@@ -134,18 +190,6 @@ class _getStudentHomeState extends State<getStudentHome> {
   {
     // if(sc.hasClients)
     sc.animateTo(sc.offset-370, duration: Duration(milliseconds: 500), curve: Curves.linear);
-  }
-
-  getFaculties (String? inchargeId) async {
-    facultyObjects = await getLabFacultyDetails(widget.userdetails["details"][0]["LAB_ID"].toString(), inchargeId!);
-    setState(() {
-
-    });
-  }
-
-  @override
-  void initState() {
-    getFaculties(widget.userdetails["details"][0]["FACULTY_ID"].toString());
   }
 
   @override
@@ -219,7 +263,7 @@ class _getStudentHomeState extends State<getStudentHome> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Column(
+                           Column(
                               crossAxisAlignment: CrossAxisAlignment.stretch,
                               children: [
                                 // SizedBox(height: 20,),
@@ -230,41 +274,41 @@ class _getStudentHomeState extends State<getStudentHome> {
                                   child: Card(
                                     // elevation: 200,
                                     shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(20),
+                                      borderRadius: BorderRadius.circular(20),
                                     ),
                                     child: Stack(
                                       children: [
                                         ClipRRect(
-                                            borderRadius: BorderRadius.circular(20),
+                                          borderRadius: BorderRadius.circular(20),
                                           child: SizedBox.expand(
                                             child: Image.network('assets/cloudcomputing.jpg',fit: BoxFit.cover),
                                           ),
                                         ),
                                         Positioned(
-                                            child: Text(
-                                              "Cloud Computing",
+                                            child: (!widget.isFetchingHome)?Text(
+                                              widget.myLab.toString().toUpperCase(),
                                               style: GoogleFonts.poppins(
                                                   fontWeight: FontWeight.w500,
                                                   decoration: TextDecoration.none,
                                                   color: Colors.white,
                                                   fontSize: 20
                                               )
-                                            ),
+                                            ) : Text("LAB"),
                                           top: 20,
                                           left: 20,
                                         ),
                                         Positioned(
                                           top: 60,
                                           left: 20,
-                                          child: Text(
-                                              "SLB008",
+                                          child: (!widget.isFetchingHome)?Text(
+                                              widget.userdetails["details"][0]["LAB_ID"].toString(),
                                               style: GoogleFonts.poppins(
                                                   fontWeight: FontWeight.w400,
                                                   decoration: TextDecoration.none,
                                                   color: Colors.white,
                                                   fontSize: 17.5
                                               )
-                                          ),
+                                          ): Text("LAB CODE"),
                                         ),
                                         Positioned(
                                           left: 20,
@@ -276,13 +320,13 @@ class _getStudentHomeState extends State<getStudentHome> {
                                             child: Container(
                                               width: w * 0.4,
                                               child: Text(
-                                                  "Cloud computing is the on-demand availability of computer system resources, especially data storage and computing power, without direct active management by the user. Large clouds often have functions.",
+                                                  "The Internet of things describes physical objects with sensors, processing ability, software and other technologies that connect and exchange data with other devices and systems over the Internet or other communications networks",
                                                   maxLines: 4,
                                                   style: GoogleFonts.poppins(
-                                                      fontWeight: FontWeight.w300,
-                                                      decoration: TextDecoration.none,
-                                                      color: Colors.white.withOpacity(0.85),
-                                                      fontSize: 15,
+                                                    fontWeight: FontWeight.w300,
+                                                    decoration: TextDecoration.none,
+                                                    color: Colors.white.withOpacity(0.85),
+                                                    fontSize: 15,
                                                   )
                                               ),
                                             ),
@@ -297,6 +341,7 @@ class _getStudentHomeState extends State<getStudentHome> {
                             SizedBox(
                                 height:45
                             ),
+
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.start,
@@ -311,26 +356,7 @@ class _getStudentHomeState extends State<getStudentHome> {
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
                                       Expanded(
-                                        child: Container(
-                                          height: 130,
-                                          child: Scrollbar(
-                                            // thumbVisibility: true,
-                                            // trackVisibility: true,
-                                            controller: sc,
-                                            interactive: true,
-                                            child: ListView.builder(
-                                                shrinkWrap: true,
-                                                controller: sc,
-                                                itemCount: facultyObjects.length,
-                                                scrollDirection: Axis.horizontal,
-                                                itemBuilder: (BuildContext context,int index){
-                                                  return Padding(
-                                                    padding: const EdgeInsets.symmetric(horizontal: 9.0),
-                                                    child: getFacultyCard(facultyObjects[index]),
-                                                  );
-                                                }),
-                                          ),
-                                        ),
+                                        child: (!widget.isFetchingHome)?renderLabFaculties(sc, widget.facultyObjects,Responsive.isMobile(context)):Center(child: CircularProgressIndicator(),),
                                       ),
                                       // GestureDetector(
                                       //   onTap: (){
@@ -348,7 +374,8 @@ class _getStudentHomeState extends State<getStudentHome> {
                                   ),
                                 ),
                               ],
-                            ),
+                            )
+
                           ],
                         ),
                       ),
@@ -358,8 +385,53 @@ class _getStudentHomeState extends State<getStudentHome> {
                           child:Column(
                             children: [
                               // SizedBox(height: 20,),
-                              Hero(tag: "sjai", child: renderStudentDetailsCard(widget.userdetails))
-
+// <<<<<<< HEAD
+//                               (Responsive.isDesktop(context))?
+//                               Hero(tag: "sjai", child: renderStudentDetailsCard(widget.userdetails))
+//                                   :SizedBox(
+//                                 // width: 1200,
+//                                 child: Row(
+//                                   mainAxisSize: MainAxisSize.min,
+//                                   children: [
+//                                     Expanded(
+//                                       child: Container(
+//                                         height: 130,
+//                                         child: Scrollbar(
+//                                           // thumbVisibility: true,
+//                                           // trackVisibility: true,
+//                                           controller: sc,
+//                                           interactive: true,
+//                                           child: ListView.builder(
+//                                               shrinkWrap: true,
+//                                               controller: sc,
+//                                               itemCount: 5,
+//                                               scrollDirection: Axis.horizontal,
+//                                               itemBuilder: (BuildContext context,int index){
+//                                                 return Padding(
+//                                                   padding: const EdgeInsets.symmetric(horizontal: 9.0),
+//                                                   child: getFacultyCard(facultyObjects[index]),
+//                                                 );
+//                                               }),
+//                                         ),
+//                                       ),
+//                                     ),
+//                                     // GestureDetector(
+//                                     //   onTap: (){
+//                                     //     _scrollRight();
+//                                     //     leftClick = true;
+//                                     //     setState(() {
+//                                     //
+//                                     //     });
+//                                     //   },
+//                                     //   child: CircleAvatar(
+//                                     //     child: Icon(Icons.arrow_right),
+//                                     //   ),
+//                                     // ),
+//                                   ],
+//                                 ),
+//                               ),
+// =======
+                              (!widget.isFetchingHome)?Hero(tag: "sjai", child: renderStudentDetailsCard(widget.userdetails, widget.inchargeDetails, widget.myLab)):Center(child: CircularProgressIndicator(),)
                             ],
                           )
                       ),
@@ -375,3 +447,75 @@ class _getStudentHomeState extends State<getStudentHome> {
     );
   }
 }
+
+
+class StudentHomeMobile extends StatefulWidget {
+  final userdetails;
+  final inchargeDetails;
+  final myLab;
+  final ScrollController sc;
+  final facultyObjects,isFetchingSwitch, specialLabsNames, details;
+  final changeScreen;
+  const StudentHomeMobile(this.userdetails,this.inchargeDetails,this.myLab,this.sc,this.facultyObjects,this.isFetchingSwitch,this.specialLabsNames,this.details,this.changeScreen,{Key? key}) : super(key: key);
+
+  @override
+  State<StudentHomeMobile> createState() => _StudentHomeMobileState();
+}
+
+class _StudentHomeMobileState extends State<StudentHomeMobile> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        leading: Container(),
+        actions: [
+          IconButton(icon:Icon(Icons.logout),onPressed: (){
+
+          },),
+        ],
+      ),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(left:8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Text("Profile",style: GoogleFonts.poppins(
+                      fontWeight: FontWeight.bold,fontSize: 20,decoration: TextDecoration.none,color: Colors.black,
+                    ),),
+                  ],
+                ),
+              ),
+              Card(
+                child: renderStudentDetailsCard(widget.userdetails, widget.inchargeDetails, widget.myLab),
+              ),
+              SizedBox(height: 20,),
+              Padding(
+                padding: const EdgeInsets.only(left:8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Text("Special Lab Faculties",style: GoogleFonts.poppins(
+                      fontWeight: FontWeight.bold,fontSize: 20,decoration: TextDecoration.none,color: Colors.black,
+                    ),),
+                  ],
+                ),
+              ),
+              renderLabFaculties(widget.sc, widget.facultyObjects,Responsive.isMobile(context))
+            ],
+          ),
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(onPressed: (){
+        // widget.changeScreen();
+        Navigator.push(context, MaterialPageRoute(builder: (context)=>Material(child: LabSwitchPage(widget.userdetails, widget.isFetchingSwitch, widget.specialLabsNames, widget.details, widget.myLab, widget.inchargeDetails))));
+      },child: Icon(Icons.swap_horiz),),
+    );
+  }
+}
+

@@ -1,11 +1,23 @@
+import 'dart:convert';
+
+import 'package:dropdown_button2/custom_dropdown_button2.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:special_lab_dashboard/APIHandler/apiHandler.dart';
+import 'package:special_lab_dashboard/Components.dart';
+import 'package:special_lab_dashboard/Models/StudentModel.dart';
 import 'package:special_lab_dashboard/Pages/FacultySwitch.dart';
 import 'package:special_lab_dashboard/Utilities/Util.dart';
 
+import '../APIHandler/apiHandler.dart';
+import '../Models/FacultyModel.dart';
+import '../responsive.dart';
+
 class FacultyHome extends StatefulWidget {
-  const FacultyHome({Key? key}) : super(key: key);
+  final userDetails;
+  FacultyHome(this.userDetails, {Key? key}) : super(key: key);
 
   @override
   State<FacultyHome> createState() => _FacultyHomeState();
@@ -14,10 +26,51 @@ class FacultyHome extends StatefulWidget {
 class _FacultyHomeState extends State<FacultyHome> {
   bool press1 = true;
   bool press2 = false;
+  List<StudentModel> data = [];
+  var requests;
+  bool isFetchingStudents = true, isFetchingRequests = true;
+
+  getStudentsUnderFac() async {
+    await getAllStudentUnderFaculty(widget.userDetails["details"][0]["FACULTY_ID"]).then((v)=>{
+        setState(() {
+          isFetchingStudents = false;
+          data = v;
+          getRequests();
+          print("All Students "+v.toString());
+        })
+    });
+  }
+
+  getRequests() async{
+    await getAllStudentRequestsUnderFaculty(widget.userDetails["details"][0]["FACULTY_ID"]).then((v){
+      setState(() {
+        // print(v);
+        requests = v;
+        isFetchingRequests = false;
+      });
+    });
+
+  }
+
+  @override
+  void initState() {
+
+    getStudentsUnderFac().then((v){
+      setState(() {
+
+      });
+    });
+
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    // print("args" + (ModalRoute.of(context)?.settings.arguments as String).toString());
+    return (Responsive.isMobile(context))
+          ? (!isFetchingStudents)
+              ? FacultyHomeMobile(data,widget.userDetails,requests,isFetchingRequests)
+              : Container()
+          : Scaffold(
       body: getBackground(Row(
         children: [
           Column(
@@ -81,7 +134,7 @@ class _FacultyHomeState extends State<FacultyHome> {
               ),
             ],
           ),
-          (press1)?getHomePage():FacultySwitch()
+          (press1)?getHomePage(widget.userDetails, isFetchingStudents, data):FacultySwitch(widget.userDetails, isFetchingRequests, requests)
         ],
       )),
     );
@@ -89,14 +142,15 @@ class _FacultyHomeState extends State<FacultyHome> {
 }
 
 class getHomePage extends StatefulWidget {
-  const getHomePage({Key? key}) : super(key: key);
+  final userDetails, isFetching, data;
+  const getHomePage(this.userDetails, this.isFetching, this.data, {Key? key}) : super(key: key);
 
   @override
   State<getHomePage> createState() => _getHomePageState();
 }
 
 class _getHomePageState extends State<getHomePage> {
-  List data = [
+  List<dynamic> data = [
     {
       "S.No": 1,
       "Roll No": "202CT141",
@@ -163,6 +217,10 @@ class _getHomePageState extends State<getHomePage> {
     }
   ];
   @override
+  void initState() {
+    print("In Home page"+widget.data.toString());
+  }
+  @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     var height = size.height/100;
@@ -226,22 +284,22 @@ class _getHomePageState extends State<getHomePage> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Text(
-                          "Cloud Computing",
+                          widget.userDetails["details"][0]["LAB_NAME"],
                           style: GoogleFonts.poppins(
                               fontWeight: FontWeight.w500, fontSize: 24),
                         ),
-                        Text(
-                          " - 148 Students",
+                        (!widget.isFetching)?Text(
+                          " - " + widget.data.length.toString() + " students",
                           style: GoogleFonts.poppins(
                               fontWeight: FontWeight.w500, fontSize: 18),
-                        )
+                        ):CircularProgressIndicator()
                       ],
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.only(top: 8.0),
                     child: Text(
-                      "SLB-031",
+                      widget.userDetails["details"][0]["LAB_ID"],
                       style: GoogleFonts.poppins(
                           fontWeight: FontWeight.w500, fontSize: 17),
                     ),
@@ -309,7 +367,7 @@ class _getHomePageState extends State<getHomePage> {
                                 getContainerForTable(width, "Roll No", 9, FontWeight.w500, 1.2),
                                 getContainerForTable(width, "Name", 12, FontWeight.w500, 1.2),
                                 getContainerForTable(width, "Department", 20, FontWeight.w500, 1.2),
-                                getContainerForTable(width, "Gender", 7, FontWeight.w500, 1.2),
+                                getContainerForTable(width, "Contact", 7, FontWeight.w500, 1.2),
                                 getContainerForTable(width, "Mail Id", 20, FontWeight.w500, 1.2),
                               ],
                             ),
@@ -319,8 +377,8 @@ class _getHomePageState extends State<getHomePage> {
                           width: width*100,
                           height: height*50,
 
-                          child: ListView.builder(
-                              itemCount: data.length,
+                          child: (!widget.isFetching)?ListView.builder(
+                              itemCount: widget.data.length,
                               itemBuilder: (BuildContext context, int index) {
                                 return Container(
                                   height: height*7,
@@ -330,17 +388,17 @@ class _getHomePageState extends State<getHomePage> {
                                     child: Row(
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
-                                        getContainerForTable(width,data[index]['S.No'].toString(), 5, FontWeight.w300, 1),
-                                        getContainerForTable(width,data[index]['Roll No'].toString(), 9, FontWeight.w300, 1),
-                                        getContainerForTable(width,data[index]['Name'].toString(), 12, FontWeight.w300, 1),
-                                        getContainerForTable(width,data[index]['Department'].toString(), 20, FontWeight.w300, 1),
-                                        getContainerForTable(width,data[index]['Gender'].toString(), 7, FontWeight.w300, 1),
-                                        getContainerForTable(width,data[index]['Mail ID'].toString(), 20, FontWeight.w300, 1),
+                                        getContainerForTable(width,(index+1).toString(), 5, FontWeight.w300, 1),
+                                        getContainerForTable(width,widget.data[index].stu_id.toString(), 9, FontWeight.w300, 1),
+                                        getContainerForTable(width,widget.data[index].stu_name.toString(), 12, FontWeight.w300, 1),
+                                        getContainerForTable(width,widget.data[index].dept.toString(), 20, FontWeight.w300, 1),
+                                        getContainerForTable(width,"Male", 7, FontWeight.w300, 1),
+                                        getContainerForTable(width,widget.data[index].stu_email.toString(), 20, FontWeight.w300, 1),
                                       ],
                                     ),
                                   ),
                                 );
-                              }),
+                              }):Center(child: CircularProgressIndicator()),
                         )
                       ],
                     ),
@@ -354,3 +412,299 @@ class _getHomePageState extends State<getHomePage> {
     );
   }
 }
+
+
+
+class FacultyHomeMobile extends StatefulWidget {
+  final List<StudentModel> data;
+  final switch_req;
+  final userDetails;
+  final isFetching;
+
+  const FacultyHomeMobile(this.data,this.userDetails,this.switch_req,this.isFetching,{Key? key}) : super(key: key);
+
+  @override
+  State<FacultyHomeMobile> createState() => _FacultyHomeMobileState();
+}
+
+class _FacultyHomeMobileState extends State<FacultyHomeMobile> {
+  List<dynamic> data = [
+    {
+      "S.No": 1,
+      "Roll No": "202CT141",
+      "Name": "VENKAT RAMAN S P",
+      "Department": "COMPUTER TECHNOLOGY",
+      "Gender": "Male",
+      "Mail ID": "venkatraman.ct20@bitsathy.ac.in"
+    },
+    {
+      "S.No": 1,
+      "Roll No": "202CT141",
+      "Name": "VENKAT RAMAN S P",
+      "Department": "COMPUTER TECHNOLOGY",
+      "Gender": "Male",
+      "Mail ID": "venkatraman.ct20@bitsathy.ac.in"
+    },
+    {
+      "S.No": 1,
+      "Roll No": "202CT141",
+      "Name": "VENKAT RAMAN S P",
+      "Department": "COMPUTER SCIENCE AND BUSSINESS SYSTEMS",
+      "Gender": "Male",
+      "Mail ID": "venkatraman.ct20@bitsathy.ac.in"
+    },
+    {
+      "S.No": 1,
+      "Roll No": "202CT141",
+      "Name": "VENKAT RAMAN S P",
+      "Department": "COMPUTER TECHNOLOGY",
+      "Gender": "Male",
+      "Mail ID": "venkatraman.ct20@bitsathy.ac.in"
+    },
+    {
+      "S.No": 1,
+      "Roll No": "202CT141",
+      "Name": "VENKAT RAMAN S P",
+      "Department": "COMPUTER TECHNOLOGY",
+      "Gender": "Male",
+      "Mail ID": "venkatraman.ct20@bitsathy.ac.in"
+    },
+    {
+      "S.No": 1,
+      "Roll No": "202CT141",
+      "Name": "VENKAT RAMAN S P",
+      "Department": "COMPUTER TECHNOLOGY",
+      "Gender": "Male",
+      "Mail ID": "venkatraman.ct20@bitsathy.ac.in"
+    },
+    {
+      "S.No": 1,
+      "Roll No": "202CT141",
+      "Name": "VENKAT RAMAN S P",
+      "Department": "COMPUTER SCIENCE AND BUSSINESS SYSTEMS",
+      "Gender": "Male",
+      "Mail ID": "venkatraman.ct20@bitsathy.ac.in"
+    },
+    {
+      "S.No": 2,
+      "Roll No": "202CT141",
+      "Name": "VENKAT RAMAN S P",
+      "Department": "COMPUTER TECHNOLOGY",
+      "Gender": "Male",
+      "Mail ID": "venkatraman.ct20@bitsathy.ac.in"
+    }
+  ];
+  List<String> dropdownItems = [
+    "Student Database",
+    "Faculties"
+  ];
+
+  String value = "Student Database";
+
+  onChanged(e){
+    setState(() {
+      if(e == "Student Database")
+        selected = 0;
+      else
+        selected = 1;
+      value = e;
+    });
+  }
+  int selected = 0;
+  String lab_id = "0";
+  String fac_id = "0";
+  getCurrentUserLabId() async{
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    var val = pref.getString("user");
+    var userDetails = jsonDecode(val.toString());
+    setState(() {
+      lab_id = userDetails["details"][0]["LAB_ID"];
+      fac_id = userDetails["details"][0]["FACULTY_ID"];
+    });
+    // print(userDetails["details"][0]["LAB_ID"]);
+  }
+
+  @override
+  void initState() {
+    print("In mobile view");
+    print(widget.data.toString());
+    getCurrentUserLabId();
+  }
+  @override
+  Widget build(BuildContext context) {
+    var width = 40.toDouble();
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Color(0xff370d57),
+        leading: Container(),
+        actions: [
+          IconButton(onPressed: (){}, icon: Icon(Icons.logout))
+        ],
+      ),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            SizedBox(height: 30,),
+            Padding(
+              padding: const EdgeInsets.only(left: 20,right: 20),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Expanded(flex:1,child: Container()),
+                  Expanded(
+                    flex: 3,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        getStyledTextForProfileCard("Lab Name"),
+                        SizedBox(height: 20,),
+                        getStyledTextForProfileCard("Lab Code"),
+                        SizedBox(height: 20,),
+                        getStyledTextForProfileCard("No Of Students"),
+                      ],
+                    ),
+                  ),
+                  Expanded(
+                      flex: 2,
+                      child: Column(
+                        children: [
+                          Text(":"),
+                          SizedBox(height: 20,),
+                          Text(":"),
+                          SizedBox(height: 20,),
+                          Text(":")
+                        ],
+                      )),
+                  Expanded(
+                    flex: 5,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        getStyledTextForProfileCard("Cloud"),
+                        SizedBox(height: 20,),
+                        getStyledTextForProfileCard("1"),
+                        SizedBox(height: 20,),
+                        getStyledTextForProfileCard("97"),
+                      ],
+                    ),
+                  )
+
+                ],
+              ),
+            ),
+            SizedBox(height: 30,),
+            Padding(
+              padding: const EdgeInsets.all(20),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Container(
+                    width: 250,
+                      child: CustomDropdownButton2(
+                          buttonDecoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            border: null
+                          ),
+                          hint: "Choose Database",
+                          value: value,
+                          dropdownItems: dropdownItems,
+                          onChanged: onChanged)
+                  ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: (selected == 0)?Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Expanded(flex:1,child: customizedTextStyle("S.No", 14, FontWeight.w400),),
+                      Expanded(flex:4,child: customizedTextStyle("Name", 14, FontWeight.w400),),
+                      Expanded(flex:5,child: customizedTextStyle("Department", 14, FontWeight.w400),),
+                    ],
+                  ),
+                  for(int index=0;index<widget.data.length;index++)
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: ConstrainedBox(
+                        constraints: BoxConstraints(minHeight: 50),
+                        child: Container(
+                          color: index%2==0?Colors.white: Colors.grey.shade100.withOpacity(0.5),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Expanded(flex:1,child: customizedTextStyle((index+1).toString(), 14, FontWeight.w300),),
+                              Expanded(flex:4,child: customizedTextStyle(widget.data[index].stu_name.toString(), 14, FontWeight.w300),),
+                              Expanded(flex:5,child: customizedTextStyle(widget.data[index].dept.toString(), 14, FontWeight.w300)),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                ],
+              ):LabFaculty(lab_id, fac_id)
+            ),
+          ],
+        ),
+      ),
+      floatingActionButton: InkWell(
+        onTap: (){
+          Navigator.push(context, MaterialPageRoute(builder: (context)=>Material(child: FacultySwitch(widget.userDetails, widget.isFetching, widget.switch_req))));
+        },
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20),
+            gradient:  LinearGradient(
+                colors: [Color(0xff6a2f96),Color(0xff77449e),Color(0xffbbb5ff)]
+            )
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(20),
+            child: Text("Switch Req",style: TextStyle(color: Colors.white),),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+
+class LabFaculty extends StatefulWidget {
+  final labid;
+  final fac_id;
+  const LabFaculty(this.labid,this.fac_id,{Key? key}) : super(key: key);
+
+  @override
+  State<LabFaculty> createState() => _LabFacultyState();
+}
+
+class _LabFacultyState extends State<LabFaculty> {
+  List<FacultyOfLab> fac_of_lab= [];
+  FacultyOfLab? inchargeDetails;
+  getFaculties (String? inchargeId) async {
+    var facultyObjects = await getLabFacultyDetails(widget.labid.toString());
+
+    for(var fac in facultyObjects) {
+      fac_of_lab.add(FacultyOfLab(fac["FACULTY_ID"], fac["FACULTY_NAME"], fac["FACULTY_EMAIL"], fac["CONTACT"], fac["LAB_ID"]));
+      if(inchargeId == fac["FACULTY_ID"]) {
+        inchargeDetails = fac_of_lab.last;
+      }
+    }
+    setState(() {
+
+    });
+  }
+  @override
+  void initState() {
+    getFaculties(widget.fac_id);
+  }
+  @override
+  Widget build(BuildContext context) {
+    // return Center(child:Text("Faculties"));
+    return renderLabFaculties(new ScrollController(), fac_of_lab, Responsive.isMobile(context));
+  }
+}
+
+

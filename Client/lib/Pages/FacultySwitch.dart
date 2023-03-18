@@ -1,12 +1,23 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:http/http.dart';
+import 'package:special_lab_dashboard/Components.dart';
+import 'package:special_lab_dashboard/Components.dart';
+import 'package:special_lab_dashboard/Components.dart';
+import 'package:special_lab_dashboard/Components.dart';
+import 'package:special_lab_dashboard/Components.dart';
+import 'package:special_lab_dashboard/Components.dart';
+import 'package:special_lab_dashboard/Components.dart';
+import 'package:special_lab_dashboard/Models/RequestModel.dart';
+import 'package:special_lab_dashboard/responsive.dart';
 
 import '../Utilities/Util.dart';
 // import 'package:google_fonts/google_fonts.dart';
 
 class FacultySwitch extends StatefulWidget {
-  const FacultySwitch({Key? key}) : super(key: key);
+  final userDetails, isFetching, data;
+  const FacultySwitch(this.userDetails, this.isFetching, this.data, {Key? key}) : super(key: key);
 
   @override
   State<FacultySwitch> createState() => _FacultySwitchState();
@@ -16,98 +27,6 @@ class _FacultySwitchState extends State<FacultySwitch> {
   bool press1 = false;
   bool press2 = true;
 
-  List data = [
-    {
-      "S.No": 1,
-      "Roll No": "202CT141",
-      "Name": "VENKAT RAMAN S P",
-      "Department": "COMPUTER TECHNOLOGY",
-      "Year": "III",
-      "History": 5,
-      "From": "Cloud Lab"
-    },
-    {
-      "S.No": 1,
-      "Roll No": "202CT141",
-      "Name": "VENKAT RAMAN S P",
-      "Department": "COMPUTER TECHNOLOGY",
-      "Year": "III",
-      "History": 5,
-      "From": "Cloud Lab"
-    },
-    {
-      "S.No": 1,
-      "Roll No": "202CT141",
-      "Name": "VENKAT RAMAN S P",
-      "Department": "COMPUTER TECHNOLOGY",
-      "Year": "III",
-      "History": 5,
-      "From": "Cloud Lab"
-    },
-    {
-      "S.No": 1,
-      "Roll No": "202CT141",
-      "Name": "VENKAT RAMAN S P",
-      "Department": "COMPUTER TECHNOLOGY",
-      "Year": "III",
-      "History": 5,
-      "From": "Cloud Lab"
-    },
-    {
-      "S.No": 1,
-      "Roll No": "202CT141",
-      "Name": "VENKAT RAMAN S P",
-      "Department": "COMPUTER TECHNOLOGY",
-      "Year": "III",
-      "History": 5,
-      "From": "Cloud Lab"
-    },
-    {
-      "S.No": 1,
-      "Roll No": "202CT141",
-      "Name": "VENKAT RAMAN S P",
-      "Department": "COMPUTER TECHNOLOGY",
-      "Year": "III",
-      "History": 5,
-      "From": "Cloud Lab"
-    },
-    {
-      "S.No": 1,
-      "Roll No": "202CT141",
-      "Name": "VENKAT RAMAN S P",
-      "Department": "COMPUTER TECHNOLOGY",
-      "Year": "III",
-      "History": 5,
-      "From": "Cloud Lab"
-    },
-    {
-      "S.No": 1,
-      "Roll No": "202CT141",
-      "Name": "VENKAT RAMAN S P",
-      "Department": "COMPUTER TECHNOLOGY",
-      "Year": "III",
-      "History": 5,
-      "From": "Cloud Lab"
-    },
-    {
-      "S.No": 1,
-      "Roll No": "202CT141",
-      "Name": "VENKAT RAMAN S P",
-      "Department": "COMPUTER TECHNOLOGY",
-      "Year": "III",
-      "History": 5,
-      "From": "Cloud Lab"
-    },
-    {
-      "S.No": 1,
-      "Roll No": "202CT141",
-      "Name": "VENKAT RAMAN S P",
-      "Department": "COMPUTER TECHNOLOGY",
-      "Year": "III",
-      "History": 5,
-      "From": "Cloud Lab"
-    },
-  ];
   int selec = 0;
 
   @override
@@ -116,7 +35,7 @@ class _FacultySwitchState extends State<FacultySwitch> {
     var height = size.height / 100;
     var width = size.width / 100;
 
-    return Expanded(
+    return (Responsive.isMobile(context))?FacultySwitchMobile(widget.data["joining"],widget.data["leaving"]):Expanded(
       flex: 40,
       child: Padding(
         padding: const EdgeInsets.all(12.0),
@@ -179,24 +98,22 @@ class _FacultySwitchState extends State<FacultySwitch> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Text(
-                            "Cloud Computing",
+                            widget.userDetails["details"][0]["LAB_NAME"],
                             style: GoogleFonts.poppins(
-                                fontWeight: FontWeight.w500,
-                                fontSize: 24),
+                                fontWeight: FontWeight.w500, fontSize: 24),
                           ),
-                          Text(
-                            " - 148 Students",
+                          (!widget.isFetching)?Text(
+                            " - " + widget.data.length.toString() + " students",
                             style: GoogleFonts.poppins(
-                                fontWeight: FontWeight.w500,
-                                fontSize: 18),
-                          )
+                                fontWeight: FontWeight.w500, fontSize: 18),
+                          ):CircularProgressIndicator()
                         ],
                       ),
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 8.0),
                       child: Text(
-                        "SLB-031",
+                        widget.userDetails["details"][0]["LAB_ID"],
                         style: GoogleFonts.poppins(
                             fontWeight: FontWeight.w500, fontSize: 17),
                       ),
@@ -287,7 +204,7 @@ class _FacultySwitchState extends State<FacultySwitch> {
                       width: width * 100,
                       height: height * 53,
                       child: TabBarView(
-                        children: [table(data, "From"), table(data, "To")],
+                        children: [table(widget.data["joining"], "From"), table(widget.data["leaving"], "To")],
                       ),
                     ),
                   ],
@@ -300,12 +217,12 @@ class _FacultySwitchState extends State<FacultySwitch> {
     );
   }
 
-  Widget table(List data, String where) {
+  Widget table(List<RequestModel> data, String where) {
     var size = MediaQuery.of(context).size;
     var height = size.height / 100;
     var width = size.width / 100;
 
-    return Container(
+    return (data.length!=0)?Container(
       width: width * 100,
       height: height * 60,
       child: Column(
@@ -321,10 +238,11 @@ class _FacultySwitchState extends State<FacultySwitch> {
                   getContainerForTable(width, "S.No", 6, FontWeight.w500, 1.2),
                   getContainerForTable(width, "Roll No", 8, FontWeight.w500, 1.2),
                   getContainerForTable(width, "Name", 11, FontWeight.w500, 1.2),
-                  getContainerForTable(width, "Department", 17, FontWeight.w500, 1.2),
+                  getContainerForTable(width, "Department", 12, FontWeight.w500, 1.2),
                   getContainerForTable(width, "Year", 7, FontWeight.w500, 1.2),
                   getContainerForTable(width, "History", 4.5, FontWeight.w500, 1.2),
                   getContainerForTable(width, where, 6, FontWeight.w500, 1.2),
+                  getContainerForTable(width, "Reason", 5, FontWeight.w500, 1.2),
                   getContainerForTable(width, "Approval", 15, FontWeight.w500, 1.2),
                 ],
               ),
@@ -343,13 +261,64 @@ class _FacultySwitchState extends State<FacultySwitch> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          getContainerForTable(width,data[index]['S.No'].toString(), 6, FontWeight.w300, 1),
-                          getContainerForTable(width,data[index]['Roll No'].toString(), 8, FontWeight.w300, 1),
-                          getContainerForTable(width,data[index]['Name'].toString(), 11, FontWeight.w300, 1),
-                          getContainerForTable(width,data[index]['Department'].toString(), 17, FontWeight.w300, 1),
-                          getContainerForTable(width,data[index]['Year'].toString(), 7, FontWeight.w300, 1),
-                          getContainerForTable(width,data[index]['History'].toString(), 4.5, FontWeight.w300, 1),
-                          getContainerForTable(width,data[index]['From'].toString(), 6, FontWeight.w300, 1),
+                          getContainerForTable(width,(index+1).toString(), 6, FontWeight.w300, 1),
+                          getContainerForTable(width,data[index].stu!.stu_id.toString(), 8, FontWeight.w300, 1),
+                          getContainerForTable(width,data[index].stu!.stu_name, 11, FontWeight.w300, 1),
+                          getContainerForTable(width,data[index].stu!.dept, 12, FontWeight.w300, 1),
+                          getContainerForTable(width,data[index].stu!.year, 7, FontWeight.w300, 1),
+                          getContainerForTable(width,data[index].stu!.count, 4.5, FontWeight.w300, 1),
+                          getContainerForTable(width,(where == "From")?data[index].from_lab_name.toString():data[index].to_lab_name.toString(), 6, FontWeight.w300, 1),
+                          Container(
+                            width: width*5,
+                            child: Container(
+                              width: 60,
+                              height: 30.0,
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  border: Border.all(
+                                      width: 1, color: Color(0xff5749f3)),
+                                  borderRadius: BorderRadius.circular(7.5),
+                                  boxShadow: const [
+                                    BoxShadow(
+                                      color: Colors.black12,
+                                      offset: Offset(0.0, 1.5),
+                                      blurRadius: 1.5,
+                                    ),
+                                  ]),
+                              child: Material(
+                                color: Colors.transparent,
+                                child: InkWell(
+                                    onTap: () {
+                                      showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return AlertDialog(
+                                            title: Padding(
+                                              padding: const EdgeInsets.only(left: 32.0, right: 32.0),
+                                              child: Text(
+                                                  'Reason',
+                                                  style: GoogleFonts.poppins(
+                                                    fontWeight: FontWeight.bold,
+                                                  )
+                                              ),
+                                            ),
+                                            content: Padding(
+                                              padding: const EdgeInsets.only(left: 32.0, right: 32.0),
+                                              child: Text(
+                                                  '${data[index].reason} ',
+                                                  style: GoogleFonts.poppins(
+                                                    fontWeight: FontWeight.w700,
+                                                  )
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                      );
+                                    },
+                                    child: Center(child: Text("View",))),
+                              ),
+                            ),
+                          ),
                           Container(
                             width: width * 15,
                             alignment: Alignment.centerLeft,
@@ -360,7 +329,7 @@ class _FacultySwitchState extends State<FacultySwitch> {
                                   width: 60,
                                   height: 25.0,
                                   child: Material(
-                                      borderRadius: BorderRadius.circular(5),
+                                    borderRadius: BorderRadius.circular(5),
                                     color: Colors.red,
                                     child: InkWell(
                                         onTap: () {},
@@ -402,6 +371,350 @@ class _FacultySwitchState extends State<FacultySwitch> {
           ),
         ],
       ),
+    ):Container(
+        width: width * 100,
+        height: height * 60,
+        child: Center(child: (where=='From')?Text("No Joining Requests Available",  style: GoogleFonts.poppins(
+          fontWeight: FontWeight.bold,
+          fontSize: 24,
+        )):Text("No Leaving Requests Available", style: GoogleFonts.poppins(
+          fontWeight: FontWeight.bold,
+          fontSize: 24,
+        )))
     );
   }
 }
+
+
+
+class FacultySwitchMobile extends StatefulWidget {
+  final joining_data,leaving_data;
+  const FacultySwitchMobile(this.joining_data,this.leaving_data,{Key? key}) : super(key: key);
+
+  @override
+  State<FacultySwitchMobile> createState() => _FacultySwitchMobileState();
+}
+
+class _FacultySwitchMobileState extends State<FacultySwitchMobile> with TickerProviderStateMixin {
+  TabController? _controller;
+
+  @override
+  void initState() {
+    print(widget.joining_data.toString());
+    _controller = new TabController(length: 2, vsync: this);
+  }
+  List<dynamic> data = [
+    {
+      "S.No": 1,
+      "Roll No": "202CT141",
+      "Name": "VENKAT RAMAN S P",
+      "Department": "COMPUTER TECHNOLOGY",
+      "Gender": "Male",
+      "Mail ID": "venkatraman.ct20@bitsathy.ac.in"
+    },
+    {
+      "S.No": 1,
+      "Roll No": "202CT141",
+      "Name": "VENKAT RAMAN S P",
+      "Department": "COMPUTER TECHNOLOGY",
+      "Gender": "Male",
+      "Mail ID": "venkatraman.ct20@bitsathy.ac.in"
+    },
+    {
+      "S.No": 1,
+      "Roll No": "202CT141",
+      "Name": "VENKAT RAMAN S P",
+      "Department": "COMPUTER TECHNOLOGY",
+      "Gender": "Male",
+      "Mail ID": "venkatraman.ct20@bitsathy.ac.in"
+    },
+    {
+      "S.No": 1,
+      "Roll No": "202CT141",
+      "Name": "VENKAT RAMAN S P",
+      "Department": "COMPUTER TECHNOLOGY",
+      "Gender": "Male",
+      "Mail ID": "venkatraman.ct20@bitsathy.ac.in"
+    },
+    {
+      "S.No": 1,
+      "Roll No": "202CT141",
+      "Name": "VENKAT RAMAN S P",
+      "Department": "COMPUTER TECHNOLOGY",
+      "Gender": "Male",
+      "Mail ID": "venkatraman.ct20@bitsathy.ac.in"
+    },
+    {
+      "S.No": 1,
+      "Roll No": "202CT141",
+      "Name": "VENKAT RAMAN S P",
+      "Department": "COMPUTER TECHNOLOGY",
+      "Gender": "Male",
+      "Mail ID": "venkatraman.ct20@bitsathy.ac.in"
+    },
+    {
+      "S.No": 1,
+      "Roll No": "202CT141",
+      "Name": "VENKAT RAMAN S P",
+      "Department": "COMPUTER TECHNOLOGY",
+      "Gender": "Male",
+      "Mail ID": "venkatraman.ct20@bitsathy.ac.in"
+    },
+    {
+      "S.No": 1,
+      "Roll No": "202CT141",
+      "Name": "VENKAT RAMAN S P",
+      "Department": "COMPUTER TECHNOLOGY",
+      "Gender": "Male",
+      "Mail ID": "venkatraman.ct20@bitsathy.ac.in"
+    },
+    {
+      "S.No": 1,
+      "Roll No": "202CT141",
+      "Name": "VENKAT RAMAN S P",
+      "Department": "COMPUTER TECHNOLOGY",
+      "Gender": "Male",
+      "Mail ID": "venkatraman.ct20@bitsathy.ac.in"
+    },
+    {
+      "S.No": 1,
+      "Roll No": "202CT141",
+      "Name": "VENKAT RAMAN S P",
+      "Department": "COMPUTER TECHNOLOGY",
+      "Gender": "Male",
+      "Mail ID": "venkatraman.ct20@bitsathy.ac.in"
+    },
+    {
+      "S.No": 1,
+      "Roll No": "202CT141",
+      "Name": "VENKAT RAMAN S P",
+      "Department": "COMPUTER SCIENCE AND BUSSINESS SYSTEMS",
+      "Gender": "Male",
+      "Mail ID": "venkatraman.ct20@bitsathy.ac.in"
+    },
+    {
+      "S.No": 1,
+      "Roll No": "202CT141",
+      "Name": "VENKAT RAMAN S P",
+      "Department": "COMPUTER TECHNOLOGY",
+      "Gender": "Male",
+      "Mail ID": "venkatraman.ct20@bitsathy.ac.in"
+    },
+    {
+      "S.No": 1,
+      "Roll No": "202CT141",
+      "Name": "VENKAT RAMAN S P",
+      "Department": "COMPUTER TECHNOLOGY",
+      "Gender": "Male",
+      "Mail ID": "venkatraman.ct20@bitsathy.ac.in"
+    },
+    {
+      "S.No": 1,
+      "Roll No": "202CT141",
+      "Name": "VENKAT RAMAN S P",
+      "Department": "COMPUTER TECHNOLOGY",
+      "Gender": "Male",
+      "Mail ID": "venkatraman.ct20@bitsathy.ac.in"
+    },
+    {
+      "S.No": 1,
+      "Roll No": "202CT141",
+      "Name": "VENKAT RAMAN S P",
+      "Department": "COMPUTER SCIENCE AND BUSSINESS SYSTEMS",
+      "Gender": "Male",
+      "Mail ID": "venkatraman.ct20@bitsathy.ac.in"
+    },
+    {
+      "S.No": 2,
+      "Roll No": "202CT141",
+      "Name": "VENKAT RAMAN S P",
+      "Department": "COMPUTER TECHNOLOGY",
+      "Gender": "Male",
+      "Mail ID": "venkatraman.ct20@bitsathy.ac.in"
+    }
+  ];
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Color(0xff370d57),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(10),
+        child: Column(
+          children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Text("Lab Switch Request",style: GoogleFonts.poppins(fontSize: 18,fontWeight: FontWeight.bold)),
+                    ],
+                  ),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Container(
+                      width: 250,
+                      child: TabBar(
+                          indicatorColor: Colors.deepPurple,
+                          indicator: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color: Colors.black12),
+                          controller: _controller,
+                        tabs: [
+                      Tab(
+                        child: Text(
+                          "Joining",
+                          style: GoogleFonts.poppins(
+                              fontWeight: FontWeight.w400,
+                              fontSize: 14,
+                              color: Colors.black),
+                        ),
+                      ),
+                      Tab(child: Text(
+                        "Leaving",
+                        style: GoogleFonts.poppins(
+                            fontWeight: FontWeight.w400,
+                            fontSize: 14,
+                            color: Colors.black),
+                      ),)
+                    ],
+              ),
+                    ),
+                  ],
+                ),
+                Expanded(
+                  child: TabBarView(
+                      controller: _controller,
+                      children: [
+                          Column(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Row(
+                                  children: [
+                                    Expanded(flex:6,child: getStyledTextForProfileCard("Name")),
+                                    Expanded(flex:1,child:Container()),
+                                    Expanded(flex:3,child: getStyledTextForProfileCard("Approval")),
+                                  ],
+                                ),
+                              ),
+                              Expanded(
+                                child: ListView.separated(
+                                    itemCount: widget.joining_data.length,
+                                    shrinkWrap: true,
+                                    itemBuilder: (BuildContext context,int index){
+                                  return GestureDetector(
+                                    onTap: (){
+                                      showDialog(context: context, builder: (BuildContext context){
+                                        return showStudentDetailsDialog(widget.joining_data[index]);
+                                      });
+                                    },
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        color: index%2==0?Colors.white: Colors.grey.shade100.withOpacity(0.5),
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Row(
+                                          children: [
+                                            Expanded(flex:6, child: Text(widget.joining_data[index].stu.stu_name)),
+                                            Expanded(flex:1,child:Container()),
+                                            Expanded(
+                                              flex:3,
+                                              child: Row(
+                                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                                children: [
+                                                  ElevatedButton(onPressed: (){}, child: Icon(Icons.check),
+                                                    style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
+                                                  ),
+                                                  ElevatedButton(onPressed: (){}, child: Icon(Icons.close),
+                                                    style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                }, separatorBuilder: (BuildContext context, int index) {
+                                      return SizedBox(height: 10,);
+                                },),
+                              )
+                            ],
+                          ),
+                          Column(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Row(
+                                children: [
+                                  Expanded(flex:6,child: getStyledTextForProfileCard("Name")),
+                                  Expanded(flex:1,child:Container()),
+                                  Expanded(flex:3,child: getStyledTextForProfileCard("Approval")),
+                                ],
+                              ),
+                            ),
+                            Expanded(
+                              child: ListView.separated(
+                                itemCount: widget.leaving_data.length,
+                                shrinkWrap: true,
+                                itemBuilder: (BuildContext context,int index){
+                                  return GestureDetector(
+                                    onTap: (){
+                                      showDialog(context: context, builder: (BuildContext context){
+                                          return showStudentDetailsDialog(widget.leaving_data[index]);
+                                      });
+                                    },
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        color: index%2==0?Colors.white: Colors.grey.shade100.withOpacity(0.5),
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Row(
+                                          children: [
+                                            Expanded(flex:6, child: Text(widget.leaving_data[index].stu.stu_name)),
+                                            Expanded(flex:1,child:Container()),
+                                            Expanded(
+                                              flex:3,
+                                              child: Row(
+                                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                                children: [
+                                                  ElevatedButton(onPressed: (){}, child: Icon(Icons.check),
+                                                    style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
+                                                  ),
+                                                  ElevatedButton(onPressed: (){}, child: Icon(Icons.close),
+                                                    style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                }, separatorBuilder: (BuildContext context, int index) {
+                                return SizedBox(height: 10,);
+                              },),
+                            )
+                          ],
+                        ),
+                    ]),
+                )
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+
+

@@ -1,15 +1,19 @@
 
+import 'package:dropdown_button2/custom_dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:special_lab_dashboard/Models/FacultyModel.dart';
 import 'package:special_lab_dashboard/Utilities/Util.dart';
+import 'package:special_lab_dashboard/responsive.dart';
 
-getFacultyCard(FacultyOfLab faculty)
+import 'APIHandler/apiHandler.dart';
+
+getFacultyCard(FacultyOfLab faculty,wid)
 {
   return Align(
     alignment: AlignmentDirectional.center,
     child: Container(
-      width: 300,
+      width: wid,
       // color: Colors.white,
       child: Card(
         elevation: 10,
@@ -74,7 +78,7 @@ getFacultyCard(FacultyOfLab faculty)
 }
 
 
-renderStudentDetailsCard(userdetails) {
+renderStudentDetailsCard(userdetails, FacultyOfLab incharge,String mylab) {
   return Column(
     children: [
       Container(
@@ -154,11 +158,12 @@ renderStudentDetailsCard(userdetails) {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
+
                       getStyledTextForProfileCard(userdetails["details"][0]["YEAR"]), getSizedBox(15),
                       getStyledTextForProfileCard("CSE"),getSizedBox(15),
-                      getStyledTextForProfileCard("Cloud Computing"),getSizedBox(15),
+                      getStyledTextForProfileCard(mylab),getSizedBox(15),
                       getStyledTextForProfileCard(userdetails["details"][0]["LAB_ID"].toString()),getSizedBox(15),
-                      getStyledTextForProfileCard("Nataraj N"),getSizedBox(15),
+                      getStyledTextForProfileCard(incharge.fac_name ?? ""),getSizedBox(15),
                       getStyledTextForProfileCard("29.08.20 "),getSizedBox(15),
                       getStyledTextForProfileCard(userdetails["details"][0]["COUNT"].toString()),getSizedBox(15),
 
@@ -281,4 +286,187 @@ renderLabAnanlysisBar(labname,int width,int index)
 
   );
 }
+
+renderLabFaculties(ScrollController sc, List<dynamic> facultyObjects,bool isMobile) {
+  return (isMobile)?Padding(
+    padding: const EdgeInsets.symmetric(horizontal: 9.0),
+    child: Column(
+      children: [
+        for(int i=0;i<facultyObjects.length;i++)
+            getFacultyCard(facultyObjects[i],350),
+      ],
+    )
+  ):Container(
+    height: 130,
+    child: Scrollbar(
+      // thumbVisibility: true,
+      // trackVisibility: true,
+      controller: sc,
+      interactive: true,
+      child: ListView.builder(
+          shrinkWrap: true,
+          controller: sc,
+          itemCount: facultyObjects.length,
+          scrollDirection: Axis.horizontal,
+          itemBuilder: (BuildContext context,int index){
+            return Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 9.0),
+              child: getFacultyCard(facultyObjects[index],300),
+            );
+          }),
+    ),
+  );
+}
+
+
+studentLabSwithcForm(bool isFetchingLab,myLab,switTo,specialLabsNames,getToLabID,userDetails,id2,details)
+{
+  var reason = new TextEditingController();
+  return StatefulBuilder(
+    builder: (BuildContext context, void Function(void Function()) setState) {
+      return Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text("Switching From"),
+          SizedBox(height: 10,),
+          ClipRRect(
+            borderRadius: BorderRadius.all(Radius.circular(20)),
+            child: Container(
+              color: Color(0xffefefef),
+              child: TextField(
+                controller: TextEditingController(text: (!isFetchingLab)?myLab:""),
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(20))
+                  ),
+                ),
+                style: GoogleFonts.poppins(fontSize: 15),
+                readOnly: true,
+              ),
+            ),
+          ),
+          SizedBox(height: 20,),
+          Text("Switching To"),
+          SizedBox(height: 10,),
+          ClipRRect(
+            borderRadius: BorderRadius.all(Radius.circular(15)),
+            child: Container(
+              color: Color(0xffefefef),
+              child: CustomDropdownButton2(
+                hint: switTo??"Select Lab",
+                dropdownWidth: 200,
+                dropdownItems: (!isFetchingLab)?specialLabsNames:[],
+                value: switTo,
+                onChanged: (value) {
+                  // print(value);
+                  setState(() {
+                    print("Switch to : "+value.toString());
+                    switTo = value;
+                    for(int i=0;i<details.length;i++) {
+                      if(value.toString()==details[i]['labname']){
+                        setState(() {
+                          id2 = details[i]['headid'];
+                        });
+                      }
+                    }
+                  });
+                },
+                buttonWidth: 400,
+              ),
+            ),
+          ),
+          SizedBox(height: 20,),
+          Text("Reason"),
+          SizedBox(height: 10,),
+          ClipRRect(
+            borderRadius: BorderRadius.all(Radius.circular(10)),
+            child: Container(
+              color: Color(0xffefefef),
+              child: TextField(
+                controller: reason,
+                decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10))
+                    ),
+                    hintText: "Write here..."
+                ),
+                maxLines: 5,
+              ),
+            ),
+          ),
+          SizedBox(height: 20,),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10)
+                ),
+                child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: Color(0xff5749f3)
+                    ),
+                    onPressed: (!isFetchingLab)?() async{
+                      if(reason.text.isEmpty){setState(() {
+                        reason.text = '';
+                      });
+                      }
+                      // print("id1 "+v.toString());
+                      // print("id2 "+id2.toString());
+                      // print("reason "+reason.text);
+                      await postRequestToChangeSP(userDetails["details"][0]["FACULTY_ID"].toString(), id2.toString(), "1000", reason.text, myLab, switTo);
+                    }:(){
+
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.all(12),
+                      child: Text("Submit"),
+                    )
+                ),
+              ),
+            ],
+          )
+        ],
+      );
+    },
+  );
+}
+
+
+renderRowForDialog(String title,String value)
+{
+  return Padding(
+    padding: const EdgeInsets.all(8.0),
+    child: Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Expanded(flex:4,child: customizedTextStyle(title, 14, FontWeight.w400),),
+        Expanded(flex:1,child: customizedTextStyle(":", 14, FontWeight.w400),),
+        Expanded(flex:5,child: customizedTextStyle(value, 14, FontWeight.w400),),
+      ],
+    ),
+  );
+}
+
+
+showStudentDetailsDialog(data)
+{
+  return AlertDialog(
+    content: Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        renderRowForDialog("Name",data.stu.stu_name),
+        renderRowForDialog("Roll No",data.stu.stu_id.toString(),),
+        renderRowForDialog("Email",data.stu.stu_email.toString()),
+        renderRowForDialog("Dept",data.stu.dept.toString(),),
+        renderRowForDialog("Year",data.stu.year.toString(),),
+        renderRowForDialog("Contact",data.stu.stu_contact.toString(),),
+        renderRowForDialog("Reason",data.reason.toString(),),
+      ],
+    ),
+  );
+}
+
+
 
