@@ -28,3 +28,7 @@ JSON Data Sample:
 1. Type: GET, Route: /getAllCount/get ---> to get all counts 
 2. 1. Type: GET, Route: /getAllCount/get/<ID here> ---> to get count of students in a LAB 
 
+// Special Labs:
+---------------
+1. /labs/getAllLabsDetail ---> All lab details for ADMIN
+

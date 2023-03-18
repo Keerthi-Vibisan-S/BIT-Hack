@@ -15,12 +15,14 @@ route.post("/getFaculty", authenticate, (req, res) => {
     sql_con.query(q, (err, result) => {
       if (err) {
         console.log(err);
+        res.send("Server ERROR").status(500);
       } else {
         res.json(result);
       }
     });
   } catch (err) {
     console.log("An error ------> " + err);
+    res.send("Server ERROR").status(500);
   }
 });
 
@@ -32,12 +34,14 @@ route.get("/getLabs", authenticate, (req, res) => {
     sql_con.query(q, (err, result) => {
       if (err) {
         console.log(err);
+        res.send("Server ERROR").status(500);
       } else {
         res.json(result);
       }
     });
   } catch (err) {
     console.log("An error ------> " + err);
+    res.send("Server ERROR").status(500);
   }
 });
 
@@ -51,6 +55,7 @@ route.get("/getFullLab/:id", authenticate, (req, res) => {
         sql_con.query(`${facultyQuery}${studentQuery}`, (err, result) => {
             if(err) {
                 console.log(err);
+                res.send("Server ERROR").status(500);
             }
             else {
                 const data = {};
@@ -62,9 +67,30 @@ route.get("/getFullLab/:id", authenticate, (req, res) => {
     }
     catch(err){
         console.log("An error ------> "+err);
+        res.send("Server ERROR").status(500);
     }
 })
 
+
+//! GET ALL DETAILS IN A SINGLE GO
+route.get("/getAllLabsDetail", authenticate, (req, res) => {
+  const query = "SELECT FACULTY.LAB_ID, (SELECT LAB_NAME FROM SPECIALLAB WHERE LAB_ID = LAB_HEAD.LAB_ID) AS LAB_NAME,FACULTY.FACULTY_NAME, (SELECT COUNT(LAB_ID) FROM STUDENT WHERE STUDENT.LAB_ID = LAB_HEAD.LAB_ID) AS LAB_STRENGTH FROM LAB_HEAD, FACULTY WHERE FACULTY.FACULTY_ID = LAB_HEAD.LAB_HEAD_ID;";
+  try {
+      sql_con.query(query, (err, result) => {
+          if(err) {
+              console.log(err);
+              res.send("Server ERROR").status(500);
+          }
+          else {
+              res.json(result).status(200);
+          }
+      })
+  }
+  catch(err){
+      console.log("An error ------> "+err);
+      res.send("Server ERROR").status(500);
+  }
+})
 
 module.exports = route;
 
