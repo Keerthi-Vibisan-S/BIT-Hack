@@ -179,13 +179,13 @@ renderStudentDetailsCard(userdetails, FacultyOfLab incharge,String mylab) {
   );
 }
 
-renderCards(title,count,startcolor,endcolor)
+renderCardsForAdminPage(title,count,startcolor,endcolor,height,width,fontsize,countFontSize,double padding,double radius)
 {
   return Padding(
-    padding: const EdgeInsets.all(8.0),
+    padding: EdgeInsets.only(left: padding,right: 20,bottom: 8),
     child: Container(
-      height: 150,
-      width: 300,
+      height: height,
+      width: width,
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [Color(startcolor),Color(endcolor)],
@@ -199,44 +199,48 @@ renderCards(title,count,startcolor,endcolor)
             offset: Offset(0, 0), // Shadow position
           ),
         ],
-        borderRadius: BorderRadius.circular(15)
+        borderRadius: BorderRadius.circular(radius)
       ),
       child: Padding(
-        padding: const EdgeInsets.only(left:20,top:20,bottom:20),
+        padding: const EdgeInsets.only(left:20,top:20,bottom:10),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Text(title.toString(),style: GoogleFonts.poppins(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.white
-                ),),
+                Expanded(
+                  child: Text(title.toString(),style: GoogleFonts.poppins(
+                    fontSize: fontsize,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.white
+                  ),),
+                ),
               ],
             ),
-            SizedBox(height: 10,),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Container(
-                  width: 90,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.only(topLeft: Radius.circular(10),bottomLeft: Radius.circular(10)),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 4),
-                      child: Align(
-                        alignment: AlignmentDirectional.center,
-                        child: Text(count.toString(),style: GoogleFonts.poppins(
-                            fontSize: 24,fontWeight: FontWeight.w500
-                        ),),
+            Padding(
+              padding: const EdgeInsets.only(top:24),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Container(
+                    width: 90,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.only(topLeft: Radius.circular(10),bottomLeft: Radius.circular(10)),
                       ),
-                    )
-                )
-              ],
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5.5),
+                        child: Align(
+                          alignment: AlignmentDirectional.center,
+                          child: Text(count.toString(),style: GoogleFonts.poppins(
+                              fontSize: countFontSize,fontWeight: FontWeight.w500
+                          ),),
+                        ),
+                      )
+                  )
+                ],
+              ),
             )
           ],
         ),

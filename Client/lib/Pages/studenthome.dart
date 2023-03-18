@@ -62,6 +62,7 @@ class _StudentHomeState extends State<StudentHome> {
 
   changeScreen()
   {
+    print("In change screen");
     setState(() {
       if (press2 == true) {
         press2 = false;
@@ -164,6 +165,7 @@ class _StudentHomeState extends State<StudentHome> {
         );
   }
 }
+
 
 class getStudentHome extends StatefulWidget {
   final userdetails, facultyObjects, isFetchingHome, myLab, inchargeDetails;
@@ -455,7 +457,7 @@ class StudentHomeMobile extends StatefulWidget {
   final myLab;
   final ScrollController sc;
   final facultyObjects,isFetchingSwitch, specialLabsNames, details;
-  final changeScreen;
+  final Function changeScreen;
   const StudentHomeMobile(this.userdetails,this.inchargeDetails,this.myLab,this.sc,this.facultyObjects,this.isFetchingSwitch,this.specialLabsNames,this.details,this.changeScreen,{Key? key}) : super(key: key);
 
   @override
@@ -513,6 +515,7 @@ class _StudentHomeMobileState extends State<StudentHomeMobile> {
       ),
       floatingActionButton: FloatingActionButton(onPressed: (){
         // widget.changeScreen();
+
         Navigator.push(context, MaterialPageRoute(builder: (context)=>Material(child: LabSwitchPage(widget.userdetails, widget.isFetchingSwitch, widget.specialLabsNames, widget.details, widget.myLab, widget.inchargeDetails))));
       },child: Icon(Icons.swap_horiz),),
     );

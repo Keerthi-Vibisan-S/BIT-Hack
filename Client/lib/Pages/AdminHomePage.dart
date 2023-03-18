@@ -1,15 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:just_the_tooltip/just_the_tooltip.dart';
 import 'package:special_lab_dashboard/Components.dart';
 import 'package:special_lab_dashboard/Pages/AdminSpecialLabDatabase.dart';
 import 'package:special_lab_dashboard/Pages/AdminSpecificLabView.dart';
 import 'package:special_lab_dashboard/Pages/AdminConfirmPage.dart';
 import 'package:special_lab_dashboard/Utilities/Util.dart';
 import 'package:special_lab_dashboard/responsive.dart';
-import 'package:super_tooltip/super_tooltip.dart';
 
 class AdminHomePage extends StatefulWidget {
   const AdminHomePage({Key? key}) : super(key: key);
@@ -61,8 +60,8 @@ class _AdminHomePageState extends State<AdminHomePage> {
     var height = size.height/100;
     var width = size.width/100;
     List<Widget> screens = [getAdminHomePage(), AdminSpecialLabDatabase(), InchargeSwitch()];
-    return Scaffold(
-      body: Container(
+    return (Responsive.isMobile(context))?AdminHomePageMobile():Material(
+      child: Container(
         color: Color(0xff210368),
         child: Row(
           children: [
@@ -106,13 +105,13 @@ class _AdminHomePageState extends State<AdminHomePage> {
 
                       ),
                       child: IconButton(
-                        onPressed: (){
-                          pageNo=1;
-                          setState(() {
+                          onPressed: (){
+                            pageNo=1;
+                            setState(() {
 
-                          });
-                        },
-                        icon: Icon(Icons.dashboard),
+                            });
+                          },
+                          icon: Icon(Icons.dashboard),
                           color:(pageNo==1)?Color(0xff210368):Colors.white
                       ),
                     ),
@@ -162,41 +161,41 @@ class _AdminHomePageState extends State<AdminHomePage> {
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 100),
                             child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  "Portal",
-                                  style: GoogleFonts.poppins(
-                                      fontWeight: FontWeight.w600, fontSize: 28),
-                                ),
-                                Row(
-                                  children: [
-                                    CircleAvatar(),
-                                    SizedBox(
-                                      width: 24,
-                                    ),
-                                    GestureDetector(
-                                      onTap: (){
-                                        Navigator.pop(context);
-                                      },
-                                      child: Row(
-                                        children: [
-                                          Icon(Icons.login_outlined),
-                                          SizedBox(
-                                            width: 10,
-                                          ),
-                                          Text("Logout", style: GoogleFonts.poppins(
-                                              fontWeight: FontWeight.w400,
-                                              decoration: TextDecoration.none,
-                                              color: Colors.black,
-                                              fontSize: 17.5
-                                          ),)
-                                        ],
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    "Portal",
+                                    style: GoogleFonts.poppins(
+                                        fontWeight: FontWeight.w600, fontSize: 28),
+                                  ),
+                                  Row(
+                                    children: [
+                                      CircleAvatar(),
+                                      SizedBox(
+                                        width: 24,
                                       ),
-                                    )
-                                  ],
-                                )
-                              ]
+                                      GestureDetector(
+                                        onTap: (){
+                                          Navigator.pop(context);
+                                        },
+                                        child: Row(
+                                          children: [
+                                            Icon(Icons.login_outlined),
+                                            SizedBox(
+                                              width: 10,
+                                            ),
+                                            Text("Logout", style: GoogleFonts.poppins(
+                                                fontWeight: FontWeight.w400,
+                                                decoration: TextDecoration.none,
+                                                color: Colors.black,
+                                                fontSize: 17.5
+                                            ),)
+                                          ],
+                                        ),
+                                      )
+                                    ],
+                                  )
+                                ]
                             ),
                           ),
                           getSizedBox(20),
@@ -240,7 +239,6 @@ class _getAdminHomePageState extends State<getAdminHomePage> {
   List<int> labStudentsCount = [3, 6, 2, 9, 7, 4, 3, 6, 2, 9, 7, 4];
   String labName = "";
   bool changed = false;
-  final tooltipController = JustTheController();
 
   double x = 0.0;
   double y = 0.0;
@@ -278,31 +276,14 @@ class _getAdminHomePageState extends State<getAdminHomePage> {
                 ],
               ),
               SizedBox(height: 20,),
-              (Responsive.isDesktop(context))
-                  ? Row(
+              Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        renderCards(
-                            "No. of Special Labs", 27, 0xff1e1492, 0xffaba8d6),
-                        renderCards("No. of Faculties Working", 54, 0xffff8a1d,
-                            0xffffd7b2),
-                        renderCards(
-                            "No. of Students Enrolled", 1175, 0xff024d19, 0xff66cc85),
-                        renderCards("No. of Students not Enrolled", 103, 0xffff0000,
-                            0xffe892a1),
+                        renderCardsForAdminPage("Special Labs", 27, 0xff1e1492, 0xffaba8d6,150,300,18,24,8,15),
+                        renderCardsForAdminPage("Faculties Working", 54, 0xffff8a1d,0xffffd7b2,150,300,18,24,8,15),
+                        renderCardsForAdminPage("Students Enrolled", 1175, 0xff024d19, 0xff66cc85,150,300,18,24,8,15),
+                        renderCardsForAdminPage("Students not Enrolled", 103, 0xffff0000,0xffe892a1,150,300,18,24,8,15),
                         // Expanded(flex: 2,child: Container())
-                      ],
-                    )
-                  : Wrap(
-                      children: [
-                        renderCards(
-                            "No. of Special Labs", 27, 0xff1e1492, 0xffaba8d6),
-                        renderCards("No. of Faculties Working", 54, 0xff191919,
-                            0xff787878),
-                        renderCards(
-                            "No. of Students Enrolled", 1175, 0xffff8a1d, 0xffffd7b2),
-                        renderCards("No. of Students not Enrolled", 103, 0xff191919,
-                            0xff787878),
                       ],
                     ),
               SizedBox(height: 30,),
@@ -439,6 +420,7 @@ class ShowSpecialLabStats extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Text(labname,style: GoogleFonts.poppins(decoration : TextDecoration.none,fontSize: 15,color: Colors.black,),),
+
               ],
             ),
             SizedBox(height: 30,),
@@ -507,6 +489,259 @@ class ShowSpecialLabStats extends StatelessWidget {
     );
   }
 }
+
+
+class TempCont extends StatelessWidget {
+  const TempCont({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Text("List of students year wise"),
+    );
+  }
+}
+
+
+class ShowSpecialLabStatsMobile extends StatefulWidget {
+  final labName,studentsCount;
+  final List<String> faculties;
+  const ShowSpecialLabStatsMobile(this.labName,this.studentsCount,this.faculties,{Key? key}) : super(key: key);
+
+  @override
+  State<ShowSpecialLabStatsMobile> createState() => _ShowSpecialLabStatsMobileState();
+}
+
+class _ShowSpecialLabStatsMobileState extends State<ShowSpecialLabStatsMobile> {
+  bool isExpanded = false;
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(left: 20,right: 20,top: 8),
+      child: Container(
+        decoration: BoxDecoration(
+          color: Color(0xfff5f5f5),
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(10),
+          child: ExpansionTile(
+            onExpansionChanged: (e){
+              if(e)
+                {
+                  setState(() {
+                    isExpanded = e;
+                  });
+                }
+              else
+                {
+                  setState(() {
+                    isExpanded = false;
+                  });
+                }
+            },
+            textColor: Colors.black,
+            title: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(widget.labName.toString()),
+                SizedBox(height: 30,),
+                Row(
+                  children: [
+                    getStyledTextForProfileCard("Total Strength"),
+                    SizedBox(width: 30,),
+                    (isExpanded)?Container():Text(widget.studentsCount.toString())
+                  ],
+                ),
+                (isExpanded)?Animate(
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text("I year",style: GoogleFonts.poppins(decoration : TextDecoration.none,fontSize: 15,color: Colors.black,)),
+                            Text("II year",style: GoogleFonts.poppins(decoration : TextDecoration.none,fontSize: 15,color: Colors.black,)),
+                            Text("III year",style: GoogleFonts.poppins(decoration : TextDecoration.none,fontSize: 15,color: Colors.black,)),
+                            Text("IV year",style: GoogleFonts.poppins(decoration : TextDecoration.none,fontSize: 15,color: Colors.black,)),
+                          ],
+                        ),
+                        Column(
+                          children: [
+                            for(int i=0;i<4;i++)
+                              Text(" : ")
+                          ],
+                        ),
+                        Column(
+                          children: [
+                            Text("32",style: GoogleFonts.poppins(decoration : TextDecoration.none,fontSize: 15,color: Colors.black,)),
+                            Text("60",style: GoogleFonts.poppins(decoration : TextDecoration.none,fontSize: 15,color: Colors.black,)),
+                            Text("72",style: GoogleFonts.poppins(decoration : TextDecoration.none,fontSize: 15,color: Colors.black,)),
+                            Text("38",style: GoogleFonts.poppins(decoration : TextDecoration.none,fontSize: 15,color: Colors.black,)),
+                          ],
+                        )
+                      ],
+                    ),
+                  ),
+                  effects: [FadeEffect(duration: Duration(milliseconds: 300),curve: Curves.linear)],
+                ):Container(),
+                SizedBox(height: 10,),
+                Row(
+                  children: [
+                    getStyledTextForProfileCard("Faculty"),
+                    SizedBox(width: 30,),
+                    (isExpanded)?Container():Text(widget.faculties[0]),
+                  ],
+                ),
+              ],
+            ),
+            iconColor: Colors.black,
+            children: [
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 20,left: 16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text("Nataraj N",style: GoogleFonts.poppins(decoration : TextDecoration.none,fontSize: 15,color: Colors.black,)),
+                      Text("Poornima",style: GoogleFonts.poppins(decoration : TextDecoration.none,fontSize: 15,color: Colors.black,)),
+                      Text("Nithya",style: GoogleFonts.poppins(decoration : TextDecoration.none,fontSize: 15,color: Colors.black,)),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        )
+      ),
+    );
+  }
+}
+
+
+
+class AdminHomePageMobile extends StatefulWidget {
+  const AdminHomePageMobile({Key? key}) : super(key: key);
+
+  @override
+  State<AdminHomePageMobile> createState() => _AdminHomePageMobileState();
+}
+
+class _AdminHomePageMobileState extends State<AdminHomePageMobile> {
+  List<String> labnames = [
+    "Cloud Computing",
+    "AR VR",
+    "IOT",
+    "Data Science",
+    "Hackathon",
+    "Mobile App",
+    "Cloud Computing",
+    "AR VR",
+    "IOT",
+    "Data Science",
+    "Hackathon",
+    "Mobile App"
+  ];
+  List<int> labStudentsCount = [3, 6, 2, 9, 7, 4, 3, 6, 2, 9, 7, 4];
+  List<String> faculties = ["Nataraj","Poornima","Nithya"];
+  int selected = 0;
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+
+      ),
+      drawer: Drawer(
+        child: Column(
+          children: [
+            Container(
+              height: 250,
+              color: Colors.green.shade50,
+            ),
+            ListTile(
+              onTap: (){
+                setState(() {
+                  // print(drawerState[0]);
+                  selected = 0;
+                });
+              },
+              textColor:(selected == 0)?Colors.white:Colors.black,
+              tileColor: (selected == 0)?Color(0xff210368):Colors.grey.shade100,
+              title: Text("Dashboard"),
+            ),
+            ListTile(
+              onTap: (){
+                setState(() {
+                  selected = 1;
+                });
+              },
+              textColor:(selected == 1)?Colors.white:Colors.black,
+              tileColor: (selected == 1)?Color(0xff210368):Colors.grey.shade100,
+              title: Text("Database"),
+            ),
+            ListTile(
+              onTap: (){
+                setState(() {
+                  selected = 2;
+                });
+              },
+              textColor:(selected == 2)?Colors.white:Colors.black,
+              tileColor: (selected == 2)?Color(0xff210368):Colors.grey.shade100,
+              title: Text("Switch Requests"),
+            ),
+          ],
+        ),
+      ),
+      body:SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(left:8,right: 8,bottom: 8,top: 8),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    getStyledTextForProfileCard("Special Lab Stats"),
+                  ],
+                ),
+              ),
+              Wrap(
+                crossAxisAlignment: WrapCrossAlignment.center,
+                children: [
+                  renderCardsForAdminPage("Special Labs", 27, 0xff1e1492, 0xffaba8d6,115,200,14,18,0,10),
+                  renderCardsForAdminPage("Faculties Working", 54, 0xffff8a1d,0xffffd7b2,115,200,14,18,0,10),
+                  renderCardsForAdminPage("Students Enrolled", 1175, 0xff024d19, 0xff66cc85,115,200,14,18,0,10),
+                  renderCardsForAdminPage("Students not Enrolled", 103, 0xffff0000,0xffe892a1,115,200,14,18,0,10),
+                ],
+              ),
+              Padding(
+                padding: EdgeInsets.only(top: 8, bottom: 8),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    getStyledTextForProfileCard("Special Lab Details"),
+                  ],
+                )
+              ),
+              for(int index=0;index<labnames.length;index++)
+                Padding(padding: EdgeInsets.only(bottom: 10),
+                  child: ShowSpecialLabStatsMobile(labnames[index],labStudentsCount[index],faculties),
+                ),
+              Container(
+                width: double.infinity
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
 
 
 

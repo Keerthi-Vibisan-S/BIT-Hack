@@ -8,7 +8,7 @@ import 'package:special_lab_dashboard/Models/SpecialLabModel.dart';
 import 'package:special_lab_dashboard/Models/StudentModel.dart';
 
 
-const API_LINK = "http://10.10.237.157/";
+// const API_LINK = "http://10.10.237.157/";
 // const API_LINK = "http://10.10.176.69/";
 const LOCALHOST = "http://localhost:80/";
 
