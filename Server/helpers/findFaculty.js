@@ -1,10 +1,10 @@
 const sql_con = require('../settings/databaseConnection');
 
-function findUser(email)
+function findFaculty(email)
 {
     console.log("EMAIL LLLLL 🚀🚀 ", email);
     try {
-    let q = `SELECT * FROM STUDENT WHERE STU_EMAIL like "${email}"`;
+    let q = `SELECT * FROM FACULTY WHERE FACULTY_EMAIL like "${email}"`;
     return new  Promise((resolve, reject) => {
         sql_con.query(q, (err, result) => {
         if(err) {
@@ -12,7 +12,7 @@ function findUser(email)
             reject("Error");
         }
         else {
-            resolve(result[0].STU_ID);
+            resolve(result[0].FACULTY_ID);
         }
     })})
 }
@@ -24,4 +24,4 @@ catch(err){
 }
 
 
-module.exports = findUser;
+module.exports = findFaculty;
