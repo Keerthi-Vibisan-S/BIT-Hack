@@ -6,16 +6,17 @@ import 'package:special_lab_dashboard/Components.dart';
 import 'package:special_lab_dashboard/Models/FacultyModel.dart';
 import 'package:special_lab_dashboard/Pages/LabSwitch.dart';
 import 'package:http/http.dart' as http;
+import 'package:special_lab_dashboard/Utilities/Colors.dart';
 import 'package:special_lab_dashboard/responsive.dart';
 
 import '../APIHandler/apiHandler.dart';
 import '../Models/SpecialLabModel.dart';
 import '../Utilities/Util.dart';
+import 'MobileView/Student/StudentHomeMobile.dart';
 
 class StudentHome extends StatefulWidget {
   var  userdetails;
   StudentHome(this.userdetails,{Key? key, }) : super(key: key);
-  StudentHome.empty();
 
   @override
   State<StudentHome> createState() => _StudentHomeState();
@@ -31,18 +32,16 @@ class _StudentHomeState extends State<StudentHome> {
   String? myLab; //
   List details = []; //
   List<FacultyOfLab> fac_of_lab= [];
-  FacultyOfLab? inchargeDetails;
+  FacultyOfLab inchargeDetails = new FacultyOfLab.empty();
 
   getFaculties (String? inchargeId) async {
     var facultyObjects = await getLabFacultyDetails(widget.userdetails["details"][0]["LAB_ID"].toString());
-
     for(var fac in facultyObjects) {
       fac_of_lab.add(FacultyOfLab(fac["FACULTY_ID"], fac["FACULTY_NAME"], fac["FACULTY_EMAIL"], fac["CONTACT"], fac["LAB_ID"]));
       if(inchargeId == fac["FACULTY_ID"]) {
         inchargeDetails = fac_of_lab.last;
       }
     }
-
     getSL();
   }
 
@@ -62,6 +61,7 @@ class _StudentHomeState extends State<StudentHome> {
 
   changeScreen()
   {
+    print("In change screen");
     setState(() {
       if (press2 == true) {
         press2 = false;
@@ -82,7 +82,10 @@ class _StudentHomeState extends State<StudentHome> {
   Widget build(BuildContext context) {
     ModalRoute.of(context)?.settings.arguments;
     return (Responsive.isMobile(context))
+        ?
+    (!isFetchingHome)
         ?StudentHomeMobile(widget.userdetails, inchargeDetails, myLab,new ScrollController(),fac_of_lab,isFetchingSwitch, specialLabsNames, details,changeScreen)
+        :Container()
         :Material(
           child: Scaffold(
       body: Container(
@@ -164,6 +167,7 @@ class _StudentHomeState extends State<StudentHome> {
         );
   }
 }
+
 
 class getStudentHome extends StatefulWidget {
   final userdetails, facultyObjects, isFetchingHome, myLab, inchargeDetails;
@@ -384,53 +388,6 @@ class _getStudentHomeState extends State<getStudentHome> {
                           flex:3,
                           child:Column(
                             children: [
-                              // SizedBox(height: 20,),
-// <<<<<<< HEAD
-//                               (Responsive.isDesktop(context))?
-//                               Hero(tag: "sjai", child: renderStudentDetailsCard(widget.userdetails))
-//                                   :SizedBox(
-//                                 // width: 1200,
-//                                 child: Row(
-//                                   mainAxisSize: MainAxisSize.min,
-//                                   children: [
-//                                     Expanded(
-//                                       child: Container(
-//                                         height: 130,
-//                                         child: Scrollbar(
-//                                           // thumbVisibility: true,
-//                                           // trackVisibility: true,
-//                                           controller: sc,
-//                                           interactive: true,
-//                                           child: ListView.builder(
-//                                               shrinkWrap: true,
-//                                               controller: sc,
-//                                               itemCount: 5,
-//                                               scrollDirection: Axis.horizontal,
-//                                               itemBuilder: (BuildContext context,int index){
-//                                                 return Padding(
-//                                                   padding: const EdgeInsets.symmetric(horizontal: 9.0),
-//                                                   child: getFacultyCard(facultyObjects[index]),
-//                                                 );
-//                                               }),
-//                                         ),
-//                                       ),
-//                                     ),
-//                                     // GestureDetector(
-//                                     //   onTap: (){
-//                                     //     _scrollRight();
-//                                     //     leftClick = true;
-//                                     //     setState(() {
-//                                     //
-//                                     //     });
-//                                     //   },
-//                                     //   child: CircleAvatar(
-//                                     //     child: Icon(Icons.arrow_right),
-//                                     //   ),
-//                                     // ),
-//                                   ],
-//                                 ),
-//                               ),
-// =======
                               (!widget.isFetchingHome)?Hero(tag: "sjai", child: renderStudentDetailsCard(widget.userdetails, widget.inchargeDetails, widget.myLab)):Center(child: CircularProgressIndicator(),)
                             ],
                           )
@@ -448,74 +405,4 @@ class _getStudentHomeState extends State<getStudentHome> {
   }
 }
 
-
-class StudentHomeMobile extends StatefulWidget {
-  final userdetails;
-  final inchargeDetails;
-  final myLab;
-  final ScrollController sc;
-  final facultyObjects,isFetchingSwitch, specialLabsNames, details;
-  final changeScreen;
-  const StudentHomeMobile(this.userdetails,this.inchargeDetails,this.myLab,this.sc,this.facultyObjects,this.isFetchingSwitch,this.specialLabsNames,this.details,this.changeScreen,{Key? key}) : super(key: key);
-
-  @override
-  State<StudentHomeMobile> createState() => _StudentHomeMobileState();
-}
-
-class _StudentHomeMobileState extends State<StudentHomeMobile> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        leading: Container(),
-        actions: [
-          IconButton(icon:Icon(Icons.logout),onPressed: (){
-
-          },),
-        ],
-      ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(left:8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Text("Profile",style: GoogleFonts.poppins(
-                      fontWeight: FontWeight.bold,fontSize: 20,decoration: TextDecoration.none,color: Colors.black,
-                    ),),
-                  ],
-                ),
-              ),
-              Card(
-                child: renderStudentDetailsCard(widget.userdetails, widget.inchargeDetails, widget.myLab),
-              ),
-              SizedBox(height: 20,),
-              Padding(
-                padding: const EdgeInsets.only(left:8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Text("Special Lab Faculties",style: GoogleFonts.poppins(
-                      fontWeight: FontWeight.bold,fontSize: 20,decoration: TextDecoration.none,color: Colors.black,
-                    ),),
-                  ],
-                ),
-              ),
-              renderLabFaculties(widget.sc, widget.facultyObjects,Responsive.isMobile(context))
-            ],
-          ),
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(onPressed: (){
-        // widget.changeScreen();
-        Navigator.push(context, MaterialPageRoute(builder: (context)=>Material(child: LabSwitchPage(widget.userdetails, widget.isFetchingSwitch, widget.specialLabsNames, widget.details, widget.myLab, widget.inchargeDetails))));
-      },child: Icon(Icons.swap_horiz),),
-    );
-  }
-}
 

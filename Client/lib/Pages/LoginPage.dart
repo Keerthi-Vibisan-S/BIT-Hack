@@ -11,6 +11,7 @@ import 'package:special_lab_dashboard/Navigator.dart';
 import 'package:special_lab_dashboard/Pages/FacultyHome.dart';
 
 import 'package:special_lab_dashboard/Pages/studenthome.dart';
+import 'package:special_lab_dashboard/responsive.dart';
 
 import 'AdminHomePage.dart';
 class LoginPage extends StatefulWidget {
@@ -62,7 +63,7 @@ class _LoginPageState extends State<LoginPage> {
             color: Colors.grey,
             child: Row(
               children: [
-                Expanded(child: Container(
+                (Responsive.isMobile(context))?Container():Expanded(child: Container(
                     child: Image.asset("assets/login_banner1.jpg"),
                 )),
                 Expanded(
@@ -198,6 +199,76 @@ class _LoginPageState extends State<LoginPage> {
                                       });
                                     }
                                   }
+                                  String email_id = details["email"].toString().toLowerCase();
+                                  if(!email_id.contains("@bitsathy.ac.in"))
+                                  {
+                                    showDialog(context: context, builder: (BuildContext context){
+                                      return AlertDialog(
+                                        content: Text("Logging with bitsathy email id"),
+                                      );
+                                    });
+                                    return;
+                                  }
+                                  // var userDetails;
+                                  try{
+                                    if(details["idToken"] != null && details["idToken"]!="") {
+                                      RegExp re = new RegExp(
+                                          r"^\w+\.?(\w\w)?(\d\d)?@bitsathy\.ac\.in$");
+                                      var iter = re.firstMatch(details["email"]!);
+                                      var match = iter?.groups([1, 2]);
+                                      var role = "Teacher";
+                                      if (match?[0] != null) {
+                                        role = "Student";
+                                        await checkValidUser(details["email"],details["idToken"]?.toString()).then((v) async {
+                                          if (v != "Error") {
+                                            userDetails = await v;
+                                            print(v);
+                                            SharedPreferences preferences = await SharedPreferences
+                                                .getInstance();
+                                            preferences.setString(
+                                                "user", json.encode(userDetails));
+                                            // Navigator.pushNamed(context, "/student_home",arguments: userDetails);
+                                            Navigator.push(
+                                                context, MaterialPageRoute(
+                                                builder: (context) =>
+                                                    NavigatorPage(
+                                                        role, userDetails)));
+                                          }
+
+                                        });
+                                      }
+                                      else {
+                                        await checkValidFacultyUser(
+                                            details["email"],
+                                            details["idToken"]?.toString()).then((
+                                            v) async {
+                                          if (v != "Error") {
+                                            userDetails = await v;
+                                            print(v);
+                                            SharedPreferences preferences = await SharedPreferences
+                                                .getInstance();
+                                            preferences.setString(
+                                                "user", json.encode(userDetails));
+                                            Navigator.push(
+                                                context, MaterialPageRoute(
+                                                builder: (context) =>
+                                                    NavigatorPage(
+                                                        role, userDetails)));
+                                          }
+
+                                        });
+                                      }
+                                    }
+                                  }
+                                  catch(e)
+                                  {
+                                    showDialog(context: context, builder: (BuildContext context){
+                                        return AlertDialog(
+                                          content: Text("Logging with bitsathy email id"),
+                                        );
+                                    });
+                                  }
+
 
 
                                   // Temporary - Section 2

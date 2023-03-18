@@ -3,6 +3,8 @@ import 'package:dropdown_button2/custom_dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:special_lab_dashboard/Models/FacultyModel.dart';
+import 'package:special_lab_dashboard/Pages/LoginPage.dart';
+import 'package:special_lab_dashboard/Utilities/Colors.dart';
 import 'package:special_lab_dashboard/Utilities/Util.dart';
 import 'package:special_lab_dashboard/responsive.dart';
 
@@ -28,8 +30,9 @@ getFacultyCard(FacultyOfLab faculty,wid)
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   CircleAvatar(
+                    backgroundColor: PRIMARY,
                     radius: 35,
-                    child: Icon(Icons.account_circle , size: 70),
+                    child: Icon(Icons.account_circle , size: 70,color: Colors.white,),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
@@ -99,9 +102,7 @@ renderStudentDetailsCard(userdetails, FacultyOfLab incharge,String mylab) {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             CircleAvatar(
-              // backgroundImage: NetworkImage(
-              //
-              // ),
+              backgroundImage: NetworkImage(userdetails["img"].toString()),
               radius: 50,
             ),
             Column(
@@ -179,13 +180,13 @@ renderStudentDetailsCard(userdetails, FacultyOfLab incharge,String mylab) {
   );
 }
 
-renderCards(title,count,startcolor,endcolor)
+renderCardsForAdminPage(title,count,startcolor,endcolor,height,width,fontsize,countFontSize,double padding,double radius)
 {
   return Padding(
-    padding: const EdgeInsets.all(8.0),
+    padding: EdgeInsets.only(left: padding,right: 20,bottom: 8),
     child: Container(
-      height: 150,
-      width: 300,
+      height: height,
+      width: width,
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [Color(startcolor),Color(endcolor)],
@@ -199,44 +200,48 @@ renderCards(title,count,startcolor,endcolor)
             offset: Offset(0, 0), // Shadow position
           ),
         ],
-        borderRadius: BorderRadius.circular(15)
+        borderRadius: BorderRadius.circular(radius)
       ),
       child: Padding(
-        padding: const EdgeInsets.only(left:20,top:20,bottom:20),
+        padding: const EdgeInsets.only(left:20,top:20,bottom:10),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Text(title.toString(),style: GoogleFonts.poppins(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.white
-                ),),
+                Expanded(
+                  child: Text(title.toString(),style: GoogleFonts.poppins(
+                    fontSize: fontsize,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.white
+                  ),),
+                ),
               ],
             ),
-            SizedBox(height: 10,),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Container(
-                  width: 90,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.only(topLeft: Radius.circular(10),bottomLeft: Radius.circular(10)),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 4),
-                      child: Align(
-                        alignment: AlignmentDirectional.center,
-                        child: Text(count.toString(),style: GoogleFonts.poppins(
-                            fontSize: 24,fontWeight: FontWeight.w500
-                        ),),
+            Padding(
+              padding: const EdgeInsets.only(top:24),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Container(
+                    width: 90,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.only(topLeft: Radius.circular(10),bottomLeft: Radius.circular(10)),
                       ),
-                    )
-                )
-              ],
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5.5),
+                        child: Align(
+                          alignment: AlignmentDirectional.center,
+                          child: Text(count.toString(),style: GoogleFonts.poppins(
+                              fontSize: countFontSize,fontWeight: FontWeight.w500
+                          ),),
+                        ),
+                      )
+                  )
+                ],
+              ),
             )
           ],
         ),
@@ -331,14 +336,14 @@ studentLabSwithcForm(bool isFetchingLab,myLab,switTo,specialLabsNames,getToLabID
           Text("Switching From"),
           SizedBox(height: 10,),
           ClipRRect(
-            borderRadius: BorderRadius.all(Radius.circular(20)),
+            borderRadius: BorderRadius.all(Radius.circular(10)),
             child: Container(
               color: Color(0xffefefef),
               child: TextField(
                 controller: TextEditingController(text: (!isFetchingLab)?myLab:""),
                 decoration: InputDecoration(
                   border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(20))
+                      borderRadius: BorderRadius.all(Radius.circular(10))
                   ),
                 ),
                 style: GoogleFonts.poppins(fontSize: 15),
@@ -350,7 +355,7 @@ studentLabSwithcForm(bool isFetchingLab,myLab,switTo,specialLabsNames,getToLabID
           Text("Switching To"),
           SizedBox(height: 10,),
           ClipRRect(
-            borderRadius: BorderRadius.all(Radius.circular(15)),
+            borderRadius: BorderRadius.all(Radius.circular(5)),
             child: Container(
               color: Color(0xffefefef),
               child: CustomDropdownButton2(
@@ -358,6 +363,7 @@ studentLabSwithcForm(bool isFetchingLab,myLab,switTo,specialLabsNames,getToLabID
                 dropdownWidth: 200,
                 dropdownItems: (!isFetchingLab)?specialLabsNames:[],
                 value: switTo,
+                buttonWidth: 500,
                 onChanged: (value) {
                   // print(value);
                   setState(() {
@@ -372,7 +378,6 @@ studentLabSwithcForm(bool isFetchingLab,myLab,switTo,specialLabsNames,getToLabID
                     }
                   });
                 },
-                buttonWidth: 400,
               ),
             ),
           ),
@@ -466,6 +471,35 @@ showStudentDetailsDialog(data)
       ],
     ),
   );
+}
+
+
+showLogoutDialog()
+{
+  return StatefulBuilder(builder: (BuildContext context,void Function(void Function()) setState){
+      return AlertDialog(
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text("Do you want to logout?"),
+            SizedBox(height: 20,),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                TextButton(onPressed: (){
+                  Navigator.pop(context);
+                }, child: Text("No",style: TextStyle(color: Colors.red),)),
+                TextButton(
+
+                    onPressed: (){
+                  Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>LoginPage()), (route) => false);
+                }, child: Text("Yes")),
+              ],
+            )
+          ],
+        ),
+      );
+  });
 }
 
 

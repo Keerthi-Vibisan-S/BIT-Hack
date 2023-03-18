@@ -1,15 +1,18 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+// import 'package:flutter_animate/flutter_animate.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:just_the_tooltip/just_the_tooltip.dart';
+import 'package:special_lab_dashboard/APIHandler/apiHandler.dart';
 import 'package:special_lab_dashboard/Components.dart';
 import 'package:special_lab_dashboard/Pages/AdminSpecialLabDatabase.dart';
 import 'package:special_lab_dashboard/Pages/AdminSpecificLabView.dart';
 import 'package:special_lab_dashboard/Pages/AdminConfirmPage.dart';
 import 'package:special_lab_dashboard/Utilities/Util.dart';
 import 'package:special_lab_dashboard/responsive.dart';
-import 'package:super_tooltip/super_tooltip.dart';
+
+import '../Utilities/Colors.dart';
+import 'MobileView/Admin/AdminHomePageMobile.dart';
 
 class AdminHomePage extends StatefulWidget {
   const AdminHomePage({Key? key}) : super(key: key);
@@ -21,6 +24,7 @@ class AdminHomePage extends StatefulWidget {
 class _AdminHomePageState extends State<AdminHomePage> {
   List<String> labnames = ["Cloud Computing","AR VR","IOT","Data Science","Hackathon","Mobile App"];
   var pageNo = 0;
+  int labsCount = 0;
   List data = [
     {
       "S.No": 1,
@@ -55,14 +59,27 @@ class _AdminHomePageState extends State<AdminHomePage> {
       "Mail ID": "venkatraman.ct20@bitsathy.ac.in"
     }
   ];
+
+
+  getData() async
+  {
+    await getDataForAdminDashboard();
+  }
+
+  @override
+  void initState() {
+    getData();
+  }
+
+
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     var height = size.height/100;
     var width = size.width/100;
     List<Widget> screens = [getAdminHomePage(), AdminSpecialLabDatabase(), InchargeSwitch()];
-    return Scaffold(
-      body: Container(
+    return (Responsive.isMobile(context))?AdminHomePageMobile():Material(
+      child: Container(
         color: Color(0xff210368),
         child: Row(
           children: [
@@ -106,13 +123,13 @@ class _AdminHomePageState extends State<AdminHomePage> {
 
                       ),
                       child: IconButton(
-                        onPressed: (){
-                          pageNo=1;
-                          setState(() {
+                          onPressed: (){
+                            pageNo=1;
+                            setState(() {
 
-                          });
-                        },
-                        icon: Icon(Icons.dashboard),
+                            });
+                          },
+                          icon: Icon(Icons.dashboard),
                           color:(pageNo==1)?Color(0xff210368):Colors.white
                       ),
                     ),
@@ -162,41 +179,41 @@ class _AdminHomePageState extends State<AdminHomePage> {
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 100),
                             child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  "Portal",
-                                  style: GoogleFonts.poppins(
-                                      fontWeight: FontWeight.w600, fontSize: 28),
-                                ),
-                                Row(
-                                  children: [
-                                    CircleAvatar(),
-                                    SizedBox(
-                                      width: 24,
-                                    ),
-                                    GestureDetector(
-                                      onTap: (){
-                                        Navigator.pop(context);
-                                      },
-                                      child: Row(
-                                        children: [
-                                          Icon(Icons.login_outlined),
-                                          SizedBox(
-                                            width: 10,
-                                          ),
-                                          Text("Logout", style: GoogleFonts.poppins(
-                                              fontWeight: FontWeight.w400,
-                                              decoration: TextDecoration.none,
-                                              color: Colors.black,
-                                              fontSize: 17.5
-                                          ),)
-                                        ],
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    "Portal",
+                                    style: GoogleFonts.poppins(
+                                        fontWeight: FontWeight.w600, fontSize: 28),
+                                  ),
+                                  Row(
+                                    children: [
+                                      CircleAvatar(),
+                                      SizedBox(
+                                        width: 24,
                                       ),
-                                    )
-                                  ],
-                                )
-                              ]
+                                      GestureDetector(
+                                        onTap: (){
+                                          Navigator.pop(context);
+                                        },
+                                        child: Row(
+                                          children: [
+                                            Icon(Icons.login_outlined),
+                                            SizedBox(
+                                              width: 10,
+                                            ),
+                                            Text("Logout", style: GoogleFonts.poppins(
+                                                fontWeight: FontWeight.w400,
+                                                decoration: TextDecoration.none,
+                                                color: Colors.black,
+                                                fontSize: 17.5
+                                            ),)
+                                          ],
+                                        ),
+                                      )
+                                    ],
+                                  )
+                                ]
                             ),
                           ),
                           getSizedBox(20),
@@ -240,7 +257,6 @@ class _getAdminHomePageState extends State<getAdminHomePage> {
   List<int> labStudentsCount = [3, 6, 2, 9, 7, 4, 3, 6, 2, 9, 7, 4];
   String labName = "";
   bool changed = false;
-  final tooltipController = JustTheController();
 
   double x = 0.0;
   double y = 0.0;
@@ -260,7 +276,7 @@ class _getAdminHomePageState extends State<getAdminHomePage> {
       child: SingleChildScrollView(
         controller: _scrollController,
         child: Padding(
-            padding: const EdgeInsets.only(top: 25, left: 100, right: 100),
+            padding: const EdgeInsets.only(top: 25, left: 100),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -278,31 +294,14 @@ class _getAdminHomePageState extends State<getAdminHomePage> {
                 ],
               ),
               SizedBox(height: 20,),
-              (Responsive.isDesktop(context))
-                  ? Row(
+              Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        renderCards(
-                            "No. of Special Labs", 27, 0xff1e1492, 0xffaba8d6),
-                        renderCards("No. of Faculties Working", 54, 0xffff8a1d,
-                            0xffffd7b2),
-                        renderCards(
-                            "No. of Students Enrolled", 1175, 0xff024d19, 0xff66cc85),
-                        renderCards("No. of Students not Enrolled", 103, 0xffff0000,
-                            0xffe892a1),
+                        renderCardsForAdminPage("Special Labs", 27, 0xff1e1492, 0xffaba8d6,150,300,18,24,8,15),
+                        renderCardsForAdminPage("Faculties Working", 54, 0xffff8a1d,0xffffd7b2,150,300,18,24,8,15),
+                        renderCardsForAdminPage("Students Enrolled", 1175, 0xff024d19, 0xff66cc85,150,300,18,24,8,15),
+                        renderCardsForAdminPage("Students not Enrolled", 103, 0xffff0000,0xffe892a1,150,300,18,24,8,15),
                         // Expanded(flex: 2,child: Container())
-                      ],
-                    )
-                  : Wrap(
-                      children: [
-                        renderCards(
-                            "No. of Special Labs", 27, 0xff1e1492, 0xffaba8d6),
-                        renderCards("No. of Faculties Working", 54, 0xff191919,
-                            0xff787878),
-                        renderCards(
-                            "No. of Students Enrolled", 1175, 0xffff8a1d, 0xffffd7b2),
-                        renderCards("No. of Students not Enrolled", 103, 0xff191919,
-                            0xff787878),
                       ],
                     ),
               SizedBox(height: 30,),
@@ -439,6 +438,7 @@ class ShowSpecialLabStats extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Text(labname,style: GoogleFonts.poppins(decoration : TextDecoration.none,fontSize: 15,color: Colors.black,),),
+
               ],
             ),
             SizedBox(height: 30,),
@@ -507,6 +507,11 @@ class ShowSpecialLabStats extends StatelessWidget {
     );
   }
 }
+
+
+
+
+
 
 
 

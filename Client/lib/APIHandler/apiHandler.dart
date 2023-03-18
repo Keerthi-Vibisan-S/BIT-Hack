@@ -8,6 +8,8 @@ import 'package:special_lab_dashboard/Models/SpecialLabModel.dart';
 import 'package:special_lab_dashboard/Models/StudentModel.dart';
 
 const API_LINK = "http://127.0.0.1:3000/";
+
+// const API_LINK = "http://10.10.237.157/";
 // const API_LINK = "http://10.10.176.69/";
 // const LOCALHOST = "http://localhost:80/";
 
@@ -107,6 +109,13 @@ Future<List<SpecialLab>> getSpecialLabs() async{
   return slobjs;
 
   // return json.decode(res.body);
+}
+
+Future<int> getDataForAdminDashboard() async{
+  int res = 0;
+  http.Response response = await http.get(Uri.parse("${API_LINK}getAllCount/get"));
+  print(response.body);
+  return res;
 }
 
 getLabFacultyDetails(String? lab_id) async
