@@ -113,7 +113,15 @@ Future<List<SpecialLab>> getSpecialLabs() async{
 
 getDataForAdminDashboard() async{
   int res = 0;
-  http.Response response = await http.get(Uri.parse("${API_LINK}getAllCount/get"));
+  SharedPreferences preferences = await SharedPreferences.getInstance();
+  String? token = preferences.getString("token");
+  http.Response response = await http.get(
+      Uri.parse("${API_LINK}getAllCount/get"),
+    headers: {
+    "Access-Control-Allow-Origin":"*",
+    "Content-Type":"application/json",
+    "Authorization": "Bearer ${token!}",
+  },);
   // print(response.body);
   return jsonDecode(response.body);
 }
