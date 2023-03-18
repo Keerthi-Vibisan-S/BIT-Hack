@@ -59,11 +59,15 @@ class _AdminHomePageState extends State<AdminHomePage> {
       "Mail ID": "venkatraman.ct20@bitsathy.ac.in"
     }
   ];
+  var result1;
 
 
   getData() async
   {
-    await getDataForAdminDashboard();
+      var result = await getDataForAdminDashboard();
+      setState(() {
+        result1 =result;
+      });
   }
 
   @override
@@ -72,12 +76,14 @@ class _AdminHomePageState extends State<AdminHomePage> {
   }
 
 
+
+
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     var height = size.height/100;
     var width = size.width/100;
-    List<Widget> screens = [getAdminHomePage(), AdminSpecialLabDatabase(), InchargeSwitch()];
+    List<Widget> screens = [getAdminHomePage(count: result1), AdminSpecialLabDatabase(), InchargeSwitch()];
     return (Responsive.isMobile(context))?AdminHomePageMobile(pageNo):Material(
       child: Container(
         color: Color(0xff210368),
@@ -186,7 +192,8 @@ class _AdminHomePageState extends State<AdminHomePage> {
 }
 
 class getAdminHomePage extends StatefulWidget {
-  const getAdminHomePage({Key? key}) : super(key: key);
+  final count;
+  const getAdminHomePage({Key? key, this.count}) : super(key: key);
 
   @override
   State<getAdminHomePage> createState() => _getAdminHomePageState();
@@ -227,6 +234,7 @@ class _getAdminHomePageState extends State<getAdminHomePage> {
     var width = size.width / 100;
     return Column(
       children: [
+
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 100),
           child: Row(

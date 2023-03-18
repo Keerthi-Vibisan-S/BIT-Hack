@@ -11,20 +11,15 @@ import 'RouteNames.dart';
 
 class RouteGenerator {
 
-  static getUserDetails() async {
-  SharedPreferences sp = await SharedPreferences.getInstance();
-  return sp.getString("user");
-}
+
   static _GeneratePageRoute generateRoute(RouteSettings settings)  {
-    var userDetails = getUserDetails();
-    print("user details "+userDetails.toString());
     switch (settings.name) {
       case RouteNames.STUDENT_HOME_PAGE:
         return _GeneratePageRoute(
-            widget: StudentHome(userDetails), routeName: settings.name.toString());
+            widget: StudentHome(), routeName: settings.name.toString());
       case RouteNames.FACULTY_HOME_PAGE:
         return _GeneratePageRoute(
-            widget: FacultyHome(userDetails), routeName: settings.name.toString(),
+            widget: FacultyHome(), routeName: settings.name.toString(),
         );
       default:
         return _GeneratePageRoute(

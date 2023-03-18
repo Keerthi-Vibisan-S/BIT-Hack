@@ -9,7 +9,7 @@ route.get("/", (req, res) => {
 })
 
 //! No of STU, NO OF faculty, NO of labs
-route.get("/get", authenticate, (req, res) => {
+route.get("/get", (req, res) => {
     const facultyQuery = 'SELECT count(*) AS NO_OF_FACULTY  FROM FACULTY;';
     const labsQuery = 'SELECT count(*) AS NO_OF_LABS FROM SPECIALLAB;';
     const studentsQuery = 'SELECT count(*) AS NO_OF_STUDENTS  FROM STUDENT;';

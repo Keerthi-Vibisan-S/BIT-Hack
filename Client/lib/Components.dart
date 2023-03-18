@@ -162,7 +162,7 @@ renderStudentDetailsCard(userdetails, FacultyOfLab incharge,String mylab) {
 
                       getStyledTextForProfileCard(userdetails["details"][0]["YEAR"]), getSizedBox(15),
                       getStyledTextForProfileCard("CSE"),getSizedBox(15),
-                      getStyledTextForProfileCard(mylab),getSizedBox(15),
+                     getStyledTextForProfileCard(mylab),getSizedBox(15),
                       getStyledTextForProfileCard(userdetails["details"][0]["LAB_ID"].toString()),getSizedBox(15),
                       getStyledTextForProfileCard(incharge.fac_name ?? ""),getSizedBox(15),
                       getStyledTextForProfileCard("29.08.20 "),getSizedBox(15),
@@ -292,7 +292,7 @@ renderLabAnanlysisBar(labname,int width,int index)
   );
 }
 
-renderLabFaculties(ScrollController sc, List<dynamic> facultyObjects,bool isMobile) {
+renderLabFaculties(ScrollController sc, facultyObjects,bool isMobile) {
   return (isMobile)?Padding(
     padding: const EdgeInsets.symmetric(horizontal: 9.0),
     child: Column(

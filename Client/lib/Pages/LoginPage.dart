@@ -1,4 +1,3 @@
-
 import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
@@ -58,30 +57,30 @@ class _LoginPageState extends State<LoginPage> {
         child: Card(
           elevation: 20,
           child: Container(
-            height: 450,
-            width: 750,
-            color: Colors.grey,
-            child: Row(
-              children: [
-                (Responsive.isMobile(context))?Container():Expanded(child: Container(
+              height: 450,
+              width: 750,
+              color: Colors.grey,
+              child: Row(
+                children: [
+                  (Responsive.isMobile(context))?Container():Expanded(child: Container(
                     child: Image.asset("assets/login_banner1.jpg"),
-                )),
-                Expanded(
-                  child: Container(
-                    color: Colors.white,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Container(
-                          width: 250,
-                          child: Column(
+                  )),
+                  Expanded(
+                    child: Container(
+                      color: Colors.white,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Container(
+                            width: 250,
+                            child: Column(
                               children: [
                                 Image.asset("assets/login_sl_logo.jpg"),
                                 TextField(
                                   controller: emailController,
                                   style: GoogleFonts.poppins(
-                                    fontWeight: FontWeight.w500,
-                                    color: Colors.black
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.black
                                   ),
                                   decoration: InputDecoration(
                                     hintText: "Email",
@@ -124,6 +123,7 @@ class _LoginPageState extends State<LoginPage> {
                                   //     // Navigator.pushNamed(context, "/student_home");
                                   //     Navigator.push(context, MaterialPageRoute(builder: (context) => StudentHome(userDetails)));
                                   //   }
+
                                   //
                                   //
                                   // else if(emailController.text == "Teacher")
@@ -136,7 +136,7 @@ class _LoginPageState extends State<LoginPage> {
                                   child: Text("Login", style: GoogleFonts.poppins(
                                       fontWeight: FontWeight.w500,
                                       color: Colors.white
-                                    ),
+                                  ),
                                   ),
                                 ),
                                 SizedBox(height: 20,),
@@ -151,7 +151,68 @@ class _LoginPageState extends State<LoginPage> {
                                   // While Testing for Faculty Comment section 1 and Uncomment Section 2 (Since Google Sign for Faculty is not Set
 
                                   // Permanent Google Sign In Method - Section 1
+
                                   // var details = await _handleSignIn();
+                                  var details = await _handleSignIn();
+                                  var userDetails;
+                                  if(details["idToken"] != null && details["idToken"]!="") {
+                                    RegExp re = new RegExp(
+                                        r"^\w+\.?(\w\w)?(\d\d)?@bitsathy\.ac\.in$");
+                                    var iter = re.firstMatch(details["email"]!);
+                                    var match = iter?.groups([1, 2]);
+                                    var role = "Teacher";
+                                    if (match?[0] != null) {
+                                      role = "Student";
+                                      await checkValidUser(details["email"],details["idToken"]?.toString()).then((v) async {
+                                        if (v != "Error") {
+                                          userDetails = await v;
+                                          print(v);
+                                          SharedPreferences preferences = await SharedPreferences
+                                              .getInstance();
+                                          preferences.setString(
+                                              "user", json.encode(userDetails));
+                                          // Navigator.pushNamed(context, "/student_home",arguments: userDetails);
+                                          Navigator.push(
+                                              context, MaterialPageRoute(
+                                              builder: (context) =>
+                                                  NavigatorPage(
+                                                      "Student")));
+                                        }
+                                      });
+                                    }
+                                    else {
+                                      await checkValidFacultyUser(
+                                          details["email"],
+                                          details["idToken"]?.toString()).then((
+                                          v) async {
+                                        if (v != "Error") {
+                                          userDetails = await v;
+                                          print(v);
+                                          SharedPreferences preferences = await SharedPreferences
+                                              .getInstance();
+                                          preferences.setString(
+                                              "user", json.encode(userDetails));
+                                          Navigator.push(
+                                              context, MaterialPageRoute(
+                                              builder: (context) =>
+                                                  NavigatorPage(
+                                                      role)));
+                                        }
+                                      });
+                                    }
+                                  }
+                                  String email_id = details["email"].toString().toLowerCase();
+                                  if(!email_id.contains("@bitsathy.ac.in"))
+                                  {
+                                    showDialog(context: context, builder: (BuildContext context){
+                                      return AlertDialog(
+                                        content: Text("Logging with bitsathy email id"),
+                                      );
+                                    });
+                                    return;
+                                  }
+                                  // Temporary - Section 2
+                                  // var details = {"email":  emailController.text, "idToken": ""};
                                   // var userDetails;
                                   // if(details["idToken"] != null && details["idToken"]!="") {
                                   //   RegExp re = new RegExp(
@@ -174,7 +235,7 @@ class _LoginPageState extends State<LoginPage> {
                                   //             context, MaterialPageRoute(
                                   //             builder: (context) =>
                                   //                 NavigatorPage(
-                                  //                     role, userDetails)));
+                                  //                     role)));
                                   //       }
                                   //     });
                                   //   }
@@ -194,7 +255,7 @@ class _LoginPageState extends State<LoginPage> {
                                   //             context, MaterialPageRoute(
                                   //             builder: (context) =>
                                   //                 NavigatorPage(
-                                  //                     role, userDetails)));
+                                  //                     "Teacher")));
                                   //       }
                                   //     });
                                   //   }
@@ -272,8 +333,8 @@ class _LoginPageState extends State<LoginPage> {
 
 
                                   // Temporary - Section 2
-                                  var details = {"email":  emailController.text, "idToken": ""};
-                                  var userDetails;
+                                  details = {"email":  emailController.text, "idToken": ""};
+                                  // var userDetails;
                                     RegExp re = new RegExp(
                                         r"^\w+\.?(\w\w)?(\d\d)?@bitsathy\.ac\.in$");
                                     var iter = re.firstMatch(details["email"]!);
@@ -295,7 +356,7 @@ class _LoginPageState extends State<LoginPage> {
                                               context, MaterialPageRoute(
                                               builder: (context) =>
                                                   NavigatorPage(
-                                                      role, userDetails)));
+                                                      role)));
                                         }
                                       });
                                     }
@@ -316,17 +377,17 @@ class _LoginPageState extends State<LoginPage> {
                                               context, MaterialPageRoute(
                                               builder: (context) =>
                                                   NavigatorPage(
-                                                      role, userDetails)));
+                                                      role)));
                                         }
                                       });
                                     }
 
                                 }, child: Text("Sign in Google",
-                                    style: GoogleFonts.poppins(
-                                        fontWeight: FontWeight.w500,
-                                        color: Colors.white
-                                    ),
-                                  )
+                                  style: GoogleFonts.poppins(
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.white
+                                  ),
+                                )
                                 ),
 
                                 // Text("Forget Password"),
@@ -334,13 +395,13 @@ class _LoginPageState extends State<LoginPage> {
                                 // Text("Or continue with Google"),
                               ],
                             ),
-                        ),
-                      ],
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                )
-              ],
-            )
+                  )
+                ],
+              )
           ),
         ),
       ),

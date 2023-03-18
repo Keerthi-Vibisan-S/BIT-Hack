@@ -18,8 +18,7 @@ import '../responsive.dart';
 import 'MobileView/Faculty/FacultyHomeMobile.dart';
 
 class FacultyHome extends StatefulWidget {
-  final userDetails;
-  FacultyHome(this.userDetails, {Key? key}) : super(key: key);
+  FacultyHome({Key? key}) : super(key: key);
 
   @override
   State<FacultyHome> createState() => _FacultyHomeState();
@@ -33,7 +32,7 @@ class _FacultyHomeState extends State<FacultyHome> {
   bool isFetchingStudents = true, isFetchingRequests = true;
 
   getStudentsUnderFac() async {
-    await getAllStudentUnderFaculty(widget.userDetails["details"][0]["FACULTY_ID"]).then((v)=>{
+    await getAllStudentUnderFaculty(userdetails["details"][0]["FACULTY_ID"]).then((v)=>{
         setState(() {
           isFetchingStudents = false;
           data = v;
@@ -44,7 +43,7 @@ class _FacultyHomeState extends State<FacultyHome> {
   }
 
   getRequests() async{
-    await getAllStudentRequestsUnderFaculty(widget.userDetails["details"][0]["FACULTY_ID"]).then((v){
+    await getAllStudentRequestsUnderFaculty(userdetails["details"][0]["FACULTY_ID"]).then((v){
       setState(() {
         // print(v);
         requests = v;
@@ -54,15 +53,26 @@ class _FacultyHomeState extends State<FacultyHome> {
 
   }
 
+  var userdetails;
+  GetStoredValue() async{
+    SharedPreferences preferences = await SharedPreferences
+        .getInstance();
+    setState(() {
+      userdetails = jsonDecode(preferences.getString("user")!);
+    });
+    print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+    print(userdetails);
+  }
+
   @override
   void initState() {
+    GetStoredValue().then((value){
+      getStudentsUnderFac().then((v){
+        setState(() {
 
-    getStudentsUnderFac().then((v){
-      setState(() {
-
+        });
       });
     });
-
   }
 
   @override
@@ -70,7 +80,7 @@ class _FacultyHomeState extends State<FacultyHome> {
     // print("args" + (ModalRoute.of(context)?.settings.arguments as String).toString());
     return (Responsive.isMobile(context))
           ? (!isFetchingStudents)
-              ? FacultyHomeMobile(data,widget.userDetails,requests,isFetchingRequests)
+              ? FacultyHomeMobile(data,userdetails,requests,isFetchingRequests)
               : Container()
           : Scaffold(
       body: getBackground(Row(
@@ -136,7 +146,7 @@ class _FacultyHomeState extends State<FacultyHome> {
               ),
             ],
           ),
-          (press1)?getHomePage(widget.userDetails, isFetchingStudents, data):FacultySwitch(widget.userDetails, isFetchingRequests, requests)
+          (press1)?getHomePage(userdetails, isFetchingStudents, data):FacultySwitch(userdetails, isFetchingRequests, requests)
         ],
       )),
     );
@@ -152,7 +162,7 @@ class getHomePage extends StatefulWidget {
 }
 
 class _getHomePageState extends State<getHomePage> {
-  List<dynamic> data = [
+  var data = [
     {
       "S.No": 1,
       "Roll No": "202CT141",
