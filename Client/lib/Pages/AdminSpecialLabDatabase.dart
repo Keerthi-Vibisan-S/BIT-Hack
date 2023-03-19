@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:special_lab_dashboard/APIHandler/apiHandler.dart';
 import 'package:special_lab_dashboard/Pages/MobileView/Admin/AdminSpecialLabDatabase.dart';
 
 import '../Utilities/Util.dart';
@@ -73,6 +74,24 @@ class _AdminSpecialLabDatabaseState extends State<AdminSpecialLabDatabase> {
       "Strength": "57",
     },
   ];
+  @override
+  void initState() {
+    getAllLabdata();
+    super.initState();
+  }
+
+  var res;
+
+
+  getAllLabdata() async{
+      dynamic result = await getAllspclabs();
+      setState(() {
+        res = result;
+      });
+      print(res);
+  }
+
+
   int pageNo = 1;
   @override
   Widget build(BuildContext context) {
@@ -199,7 +218,7 @@ class _AdminSpecialLabDatabaseState extends State<AdminSpecialLabDatabase> {
                           height: height*55,
                           // color: Colors.red,
                           child: ListView.builder(
-                              itemCount: data.length,
+                              itemCount: res.length,
                               itemBuilder: (BuildContext context, int index) {
                                 return Container(
                                   height: height * 7,
@@ -210,10 +229,10 @@ class _AdminSpecialLabDatabaseState extends State<AdminSpecialLabDatabase> {
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
                                         getContainerForTable(width, (index+1).toString()+".", 6, FontWeight.w300, 1),
-                                        getContainerForTable(width, data[index]['Spl_lab'],22, FontWeight.w300, 1),
-                                        getContainerForTable(width, data[index]['Lab_id'], 9, FontWeight.w300, 1),
-                                        getContainerForTable(width, data[index]['Incharge'], 9,FontWeight.w300, 1),
-                                        getContainerForTable(width, data[index]['Strength'], 6, FontWeight.w300, 1),
+                                        getContainerForTable(width, res[index]['LAB_NAME'],22, FontWeight.w300, 1),
+                                        getContainerForTable(width, res[index]['LAB_ID'].toString(), 9, FontWeight.w300, 1),
+                                        getContainerForTable(width, res[index]['FACULTY_NAME'], 9,FontWeight.w300, 1),
+                                        getContainerForTable(width, res[index]['LAB_STRENGTH'].toString(), 6, FontWeight.w300, 1),
                                         Container(
                                           width: width*4,
                                           child: Container(
