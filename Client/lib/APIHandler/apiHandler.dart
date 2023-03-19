@@ -130,6 +130,20 @@ getDataForAdminDashboard() async{
   return jsonDecode(response.body);
 }
 
+getAllspclabs() async{
+  SharedPreferences preferences = await SharedPreferences.getInstance();
+  String? token = preferences.getString("token");
+  http.Response response = await http.get(
+    Uri.parse("${API_LINK}labs/getAllLabsDetail"),
+    headers: {
+      "Access-Control-Allow-Origin":"*",
+      "Content-Type":"application/json",
+      "Authorization": "Bearer ${token!}",
+    },);
+  // print(response.body);
+  return jsonDecode(response.body);
+}
+
 getLabFacultyDetails(String? lab_id) async
 {
   SharedPreferences preferences = await SharedPreferences.getInstance();

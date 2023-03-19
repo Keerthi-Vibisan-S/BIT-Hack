@@ -6,12 +6,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:special_lab_dashboard/APIHandler/apiHandler.dart';
 import 'package:special_lab_dashboard/Components.dart';
 import 'package:special_lab_dashboard/Pages/AdminSpecialLabDatabase.dart';
-import 'package:special_lab_dashboard/Pages/AdminSpecificLabView.dart';
 import 'package:special_lab_dashboard/Pages/AdminConfirmPage.dart';
-import 'package:special_lab_dashboard/Utilities/Util.dart';
 import 'package:special_lab_dashboard/responsive.dart';
-
-import '../Utilities/Colors.dart';
 import 'MobileView/Admin/AdminHomePageMobile.dart';
 
 class AdminHomePage extends StatefulWidget {
@@ -66,8 +62,9 @@ class _AdminHomePageState extends State<AdminHomePage> {
   {
       var result = await getDataForAdminDashboard();
       setState(() {
-        result1 =result;
+        result1 = result;
       });
+      print(result1);
   }
 
   @override
@@ -178,7 +175,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
 
                     child: Padding(
                       padding: EdgeInsets.only(top: 40,),
-                      child: (pageNo == 0)?getAdminHomePage():(pageNo == 1)?AdminSpecialLabDatabase():InchargeSwitch(),
+                      child: (pageNo == 0)?getAdminHomePage(count: result1):(pageNo == 1)?AdminSpecialLabDatabase():InchargeSwitch(),
                     ),
                   ),
                 ),
@@ -234,7 +231,6 @@ class _getAdminHomePageState extends State<getAdminHomePage> {
     var width = size.width / 100;
     return Column(
       children: [
-
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 100),
           child: Row(
@@ -300,11 +296,11 @@ class _getAdminHomePageState extends State<getAdminHomePage> {
                   Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            renderCardsForAdminPage("Special Labs", 27, 0xff1e1492, 0xffaba8d6,150,300,18,24,8,15),
-                            renderCardsForAdminPage("Faculties Working", 54, 0xffff8a1d,0xffffd7b2,150,300,18,24,8,15),
-                            renderCardsForAdminPage("Students Enrolled", 1175, 0xff024d19, 0xff66cc85,150,300,18,24,8,15),
-                            renderCardsForAdminPage("Students not Enrolled", 103, 0xffff0000,0xffe892a1,150,300,18,24,8,15),
-                            // Expanded(flex: 2,child: Container())
+                            renderCardsForAdminPage("Special Labs", widget.count['NO_OF_LABS'], 0xff1e1492, 0xffaba8d6,150,width*19,18,24,8,15),
+                            renderCardsForAdminPage("Faculties Working",  widget.count['NO_OF_FACULTY'], 0xffff8a1d,0xffffd7b2,150,width*19,18,24,8,15),
+                            renderCardsForAdminPage("Students Enrolled", widget.count['NO_OF_STUDENTS'], 0xff024d19, 0xff66cc85,150,width*19,18,24,8,15),
+                            renderCardsForAdminPage("Students not Enrolled", 103, 0xffff0000,0xffe892a1,150,width*19,18,24,8,15),
+                            Expanded(flex: 2,child: Container())
                           ],
                         ),
                   SizedBox(height: 30,),
