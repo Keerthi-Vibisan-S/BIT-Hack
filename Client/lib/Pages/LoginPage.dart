@@ -151,9 +151,75 @@ class _LoginPageState extends State<LoginPage> {
                                   // While Testing for Faculty Comment section 1 and Uncomment Section 2 (Since Google Sign for Faculty is not Set
 
                                   // Permanent Google Sign In Method - Section 1
-
                                   // var details = await _handleSignIn();
-                                  var details = await _handleSignIn();
+                                  // print(details.toString());
+                                  // var userDetails;
+                                  // if(details["idToken"] != null && details["idToken"]!="") {
+                                  //   RegExp re = new RegExp(
+                                  //       r"^\w+\.?(\w\w)?(\d\d)?@bitsathy\.ac\.in$");
+                                  //   var iter = re.firstMatch(details["email"]!);
+                                  //   var match = iter?.groups([1, 2]);
+                                  //   var role = "Teacher";
+                                  //   if (match?[0] != null) {
+                                  //     role = "Student";
+                                  //     print("Student");
+                                  //     await checkValidUser(details["email"],details["idToken"]?.toString()).then((v) async {
+                                  //       print("---------");
+                                  //       print(v.toString());
+                                  //       if (v != "Error") {
+                                  //         userDetails = await v;
+                                  //         print(v);
+                                  //         SharedPreferences preferences = await SharedPreferences
+                                  //             .getInstance();
+                                  //         preferences.setString(
+                                  //             "user", json.encode(userDetails));
+                                  //         // Navigator.pushNamed(context, "/student_home",arguments: userDetails);
+                                  //         Navigator.push(
+                                  //             context, MaterialPageRoute(
+                                  //             builder: (context) =>
+                                  //                 NavigatorPage(
+                                  //                     "Student")));
+                                  //       }
+                                  //     });
+                                  //   }
+                                  //   else {
+                                  //     await checkValidFacultyUser(
+                                  //         details["email"],
+                                  //         details["idToken"]?.toString()).then((
+                                  //         v) async {
+                                  //       if (v != "Error") {
+                                  //         userDetails = await v;
+                                  //         print(v);
+                                  //         SharedPreferences preferences = await SharedPreferences
+                                  //             .getInstance();
+                                  //         preferences.setString(
+                                  //             "user", json.encode(userDetails));
+                                  //         Navigator.push(
+                                  //             context, MaterialPageRoute(
+                                  //             builder: (context) =>
+                                  //                 NavigatorPage(
+                                  //                     role)));
+                                  //       }
+                                  //     });
+                                  //   }
+                                  // }
+                                  // String email_id = details["email"].toString().toLowerCase();
+                                  // if(!email_id.contains("@bitsathy.ac.in"))
+                                  // {
+                                  //   showDialog(context: context, builder: (BuildContext context){
+                                  //     return AlertDialog(
+                                  //       content: Text("Logging with bitsathy email id"),
+                                  //     );
+                                  //   });
+                                  //   return;
+                                  // }
+
+
+
+
+                                  // Temporary - Section 2
+                                  var details = {"email":  emailController.text, "idToken": "aa"};
+                                  print("details"+details.toString());
                                   var userDetails;
                                   if(details["idToken"] != null && details["idToken"]!="") {
                                     RegExp re = new RegExp(
@@ -176,11 +242,12 @@ class _LoginPageState extends State<LoginPage> {
                                               context, MaterialPageRoute(
                                               builder: (context) =>
                                                   NavigatorPage(
-                                                      "Student")));
+                                                      role)));
                                         }
                                       });
                                     }
                                     else {
+                                      print("Teacher");
                                       await checkValidFacultyUser(
                                           details["email"],
                                           details["idToken"]?.toString()).then((
@@ -196,7 +263,7 @@ class _LoginPageState extends State<LoginPage> {
                                               context, MaterialPageRoute(
                                               builder: (context) =>
                                                   NavigatorPage(
-                                                      role)));
+                                                      "Teacher")));
                                         }
                                       });
                                     }
@@ -211,10 +278,71 @@ class _LoginPageState extends State<LoginPage> {
                                     });
                                     return;
                                   }
+                                  // var userDetails;
+                                  try{
+                                    if(details["idToken"] != null && details["idToken"]!="") {
+                                      RegExp re = new RegExp(
+                                          r"^\w+\.?(\w\w)?(\d\d)?@bitsathy\.ac\.in$");
+                                      var iter = re.firstMatch(details["email"]!);
+                                      var match = iter?.groups([1, 2]);
+                                      var role = "Teacher";
+                                      if (match?[0] != null) {
+                                        role = "Student";
+                                        await checkValidUser(details["email"],details["idToken"]?.toString()).then((v) async {
+                                          if (v != "Error") {
+                                            userDetails = await v;
+                                            print(v);
+                                            SharedPreferences preferences = await SharedPreferences
+                                                .getInstance();
+                                            preferences.setString(
+                                                "user", json.encode(userDetails));
+                                            // Navigator.pushNamed(context, "/student_home",arguments: userDetails);
+                                            Navigator.push(
+                                                context, MaterialPageRoute(
+                                                builder: (context) =>
+                                                    NavigatorPage(
+                                                        role)));
+                                          }
+
+                                        });
+                                      }
+                                      else {
+                                        await checkValidFacultyUser(
+                                            details["email"],
+                                            details["idToken"]?.toString()).then((
+                                            v) async {
+                                          if (v != "Error") {
+                                            userDetails = await v;
+                                            print(v);
+                                            SharedPreferences preferences = await SharedPreferences
+                                                .getInstance();
+                                            preferences.setString(
+                                                "user", json.encode(userDetails));
+                                            Navigator.push(
+                                                context, MaterialPageRoute(
+                                                builder: (context) =>
+                                                    NavigatorPage(
+                                                        "Teacher")));
+                                          }
+
+                                        });
+                                      }
+                                    }
+                                  }
+                                  catch(e)
+                                  {
+                                    showDialog(context: context, builder: (BuildContext context){
+                                        return AlertDialog(
+                                          content: Text("Logging with bitsathy email id"),
+                                        );
+                                    });
+                                  }
+
+
+
                                   // Temporary - Section 2
                                   // var details = {"email":  emailController.text, "idToken": ""};
-                                  // var userDetails;
-                                  // if(details["idToken"] != null && details["idToken"]!="") {
+                                  // // var userDetails;
                                   //   RegExp re = new RegExp(
                                   //       r"^\w+\.?(\w\w)?(\d\d)?@bitsathy\.ac\.in$");
                                   //   var iter = re.firstMatch(details["email"]!);
@@ -222,15 +350,16 @@ class _LoginPageState extends State<LoginPage> {
                                   //   var role = "Teacher";
                                   //   if (match?[0] != null) {
                                   //     role = "Student";
-                                  //     await checkValidUser(details["email"],details["idToken"]?.toString()).then((v) async {
+                                  //     await checkValidUser(details["email"],
+                                  //         details["idToken"]?.toString()).then((
+                                  //         v) async {
                                   //       if (v != "Error") {
                                   //         userDetails = await v;
                                   //         print(v);
                                   //         SharedPreferences preferences = await SharedPreferences
                                   //             .getInstance();
-                                  //         preferences.setString(
-                                  //             "user", json.encode(userDetails));
-                                  //         // Navigator.pushNamed(context, "/student_home",arguments: userDetails);
+                                  //
+                                  //         preferences.setString("user", json.encode(userDetails));
                                   //         Navigator.push(
                                   //             context, MaterialPageRoute(
                                   //             builder: (context) =>
@@ -251,136 +380,15 @@ class _LoginPageState extends State<LoginPage> {
                                   //             .getInstance();
                                   //         preferences.setString(
                                   //             "user", json.encode(userDetails));
+                                  //         // Navigator.pushNamed(context, "/faculty_home",arguments: "Testing arguments feature!!!");
                                   //         Navigator.push(
                                   //             context, MaterialPageRoute(
                                   //             builder: (context) =>
                                   //                 NavigatorPage(
-                                  //                     "Teacher")));
+                                  //                     role)));
                                   //       }
                                   //     });
                                   //   }
-                                  // }
-                                  // String email_id = details["email"].toString().toLowerCase();
-                                  // if(!email_id.contains("@bitsathy.ac.in"))
-                                  // {
-                                  //   showDialog(context: context, builder: (BuildContext context){
-                                  //     return AlertDialog(
-                                  //       content: Text("Logging with bitsathy email id"),
-                                  //     );
-                                  //   });
-                                  //   return;
-                                  // }
-                                  // // var userDetails;
-                                  // try{
-                                  //   if(details["idToken"] != null && details["idToken"]!="") {
-                                  //     RegExp re = new RegExp(
-                                  //         r"^\w+\.?(\w\w)?(\d\d)?@bitsathy\.ac\.in$");
-                                  //     var iter = re.firstMatch(details["email"]!);
-                                  //     var match = iter?.groups([1, 2]);
-                                  //     var role = "Teacher";
-                                  //     if (match?[0] != null) {
-                                  //       role = "Student";
-                                  //       await checkValidUser(details["email"],details["idToken"]?.toString()).then((v) async {
-                                  //         if (v != "Error") {
-                                  //           userDetails = await v;
-                                  //           print(v);
-                                  //           SharedPreferences preferences = await SharedPreferences
-                                  //               .getInstance();
-                                  //           preferences.setString(
-                                  //               "user", json.encode(userDetails));
-                                  //           // Navigator.pushNamed(context, "/student_home",arguments: userDetails);
-                                  //           Navigator.push(
-                                  //               context, MaterialPageRoute(
-                                  //               builder: (context) =>
-                                  //                   NavigatorPage(
-                                  //                       role, userDetails)));
-                                  //         }
-                                  //
-                                  //       });
-                                  //     }
-                                  //     else {
-                                  //       await checkValidFacultyUser(
-                                  //           details["email"],
-                                  //           details["idToken"]?.toString()).then((
-                                  //           v) async {
-                                  //         if (v != "Error") {
-                                  //           userDetails = await v;
-                                  //           print(v);
-                                  //           SharedPreferences preferences = await SharedPreferences
-                                  //               .getInstance();
-                                  //           preferences.setString(
-                                  //               "user", json.encode(userDetails));
-                                  //           Navigator.push(
-                                  //               context, MaterialPageRoute(
-                                  //               builder: (context) =>
-                                  //                   NavigatorPage(
-                                  //                       role, userDetails)));
-                                  //         }
-                                  //
-                                  //       });
-                                  //     }
-                                  //   }
-                                  // }
-                                  // catch(e)
-                                  // {
-                                  //   showDialog(context: context, builder: (BuildContext context){
-                                  //       return AlertDialog(
-                                  //         content: Text("Logging with bitsathy email id"),
-                                  //       );
-                                  //   });
-                                  // }
-
-
-
-                                  // Temporary - Section 2
-                                  details = {"email":  emailController.text, "idToken": ""};
-                                  // var userDetails;
-                                    RegExp re = new RegExp(
-                                        r"^\w+\.?(\w\w)?(\d\d)?@bitsathy\.ac\.in$");
-                                    var iter = re.firstMatch(details["email"]!);
-                                    var match = iter?.groups([1, 2]);
-                                    var role = "Teacher";
-                                    if (match?[0] != null) {
-                                      role = "Student";
-                                      await checkValidUser(details["email"],
-                                          details["idToken"]?.toString()).then((
-                                          v) async {
-                                        if (v != "Error") {
-                                          userDetails = await v;
-                                          print(v);
-                                          SharedPreferences preferences = await SharedPreferences
-                                              .getInstance();
-
-                                          preferences.setString("user", json.encode(userDetails));
-                                          Navigator.push(
-                                              context, MaterialPageRoute(
-                                              builder: (context) =>
-                                                  NavigatorPage(
-                                                      role)));
-                                        }
-                                      });
-                                    }
-                                    else {
-                                      await checkValidFacultyUser(
-                                          details["email"],
-                                          details["idToken"]?.toString()).then((
-                                          v) async {
-                                        if (v != "Error") {
-                                          userDetails = await v;
-                                          print(v);
-                                          SharedPreferences preferences = await SharedPreferences
-                                              .getInstance();
-                                          preferences.setString(
-                                              "user", json.encode(userDetails));
-                                          // Navigator.pushNamed(context, "/faculty_home",arguments: "Testing arguments feature!!!");
-                                          Navigator.push(
-                                              context, MaterialPageRoute(
-                                              builder: (context) =>
-                                                  NavigatorPage(
-                                                      role)));
-                                        }
-                                      });
-                                    }
 
                                 }, child: Text("Sign in Google",
                                   style: GoogleFonts.poppins(

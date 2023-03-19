@@ -12,7 +12,7 @@ void main(){
         debugShowCheckedModeBanner: false,
         initialRoute: "/",
         routes: {
-          '/' : (context) => const AdminHomePage(),
+          '/' : (context) => const LoginPage(),
         },
         // onGenerateRoute: RouteGenerator.generateRoute,
         // home: LoginPage(),

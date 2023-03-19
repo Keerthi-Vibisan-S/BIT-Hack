@@ -8,8 +8,8 @@ import 'package:special_lab_dashboard/Models/SpecialLabModel.dart';
 import 'package:special_lab_dashboard/Models/StudentModel.dart';
 
 
-const API_LINK = "http://10.30.10.10:3001/";
-// const API_LINK = "http://127.0.0.1:3000/";
+// const API_LINK = "http://10.30.10.10:3001/";
+const API_LINK = "http://127.0.0.1:3000/";
 // http://10.30.10.10:3001/
 
 // const API_LINK = "http://10.10.237.157/";
@@ -27,6 +27,7 @@ dynamic checkValidUser(String? email, String? idToken) async{
         "token": idToken!
       })
   ).then((value) async {
+    print(value.toString());
     res = value;
     // print(value);
     // SharedPreferences preferences = await SharedPreferences.getInstance();
@@ -51,7 +52,7 @@ dynamic checkValidFacultyUser(String? email, String? idToken) async{
       })
   ).then((value) async {
     res = value;
-    // print(value);
+    print(value.body);
     // SharedPreferences preferences = await SharedPreferences.getInstance();
     // preferences.setString("user-id", value);
   }).catchError((err){

@@ -11,6 +11,7 @@ import 'package:special_lab_dashboard/responsive.dart';
 
 import '../APIHandler/apiHandler.dart';
 import '../Models/SpecialLabModel.dart';
+import '../Utilities/Colors.dart';
 import '../Utilities/Util.dart';
 import 'MobileView/Student/StudentHomeMobile.dart';
 
@@ -101,7 +102,7 @@ class _StudentHomeState extends State<StudentHome> {
         :Material(
           child: Scaffold(
       body: Container(
-          color: Color(0xff210368),
+          color: PRIMARY,
           child: Row(
             children: [
               Expanded(
