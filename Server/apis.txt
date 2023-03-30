@@ -1,6 +1,7 @@
 /authenticate/verify --> To Login (object.data --> to access ALL)
 /labs/getFaculty --> To get faculty list in special lab
 
+---------------------------------------------------------------------------------------------------
 
 // Lab Request Change:
 ---------------------
@@ -15,6 +16,25 @@ JSON Data Sample:
     "reason": "I wanna change Lab!"
 }
 
+2. /request/fromDecision  ----> From lab faculty approval
+Req: PATCH
+JSON Sample:
+{
+    "r_id": "9",  ----> Request ID
+    "stu_id": "202CT113", ---> Student Roll Number
+    "decision":"OK" ---> ["OK", "CANCEL"]
+}
+
+3. /request/toDecision ---> To lab faculty approval
+Req: PATCH
+JSON Sample:
+{
+    "r_id": "9",
+    "stu_id": "202CT113",
+    "decision":"OK"
+}
+
+----------------------------------------------------------------------------------------------------
 
 // Faculty Dahboard:
    ----------------

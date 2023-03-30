@@ -2,9 +2,9 @@ const express = require("express");
 const sql_con = require("../settings/databaseConnection");
 const authenticate = require("../helpers/auth_middleware");
 const findUser = require("../helpers/findUser");
-const con = require("../settings/databaseConnection");
 const sendEmail = require("../templates/mailTemplate");
 const checkApprovals = require("../helpers/HeadMailTrigger");
+const findFaculty = require("../helpers/findFaculty");
 
 const route = express.Router();
 
@@ -40,9 +40,8 @@ route.post("/addReq", authenticate, async (req, res) => {
 });
 
 //! FROM LAB FACULTY APPROVAL
-//! 💀 Faculty id must be taken from mail authorization
-route.patch("/fromDecision/:id", (req, res) => {
-  let f_id = req.params.id; // This must be dynamic
+route.patch("/fromDecision", authenticate, async (req, res) => {
+  let f_id = await findFaculty(req.email); 
 
   let s_id = req.body.stu_id;
   let r_id = req.body.r_id;
@@ -50,7 +49,7 @@ route.patch("/fromDecision/:id", (req, res) => {
   let q = `UPDATE REQUESTS SET FROM_APPROVAL = "${decision}" WHERE FROM_LAB_FAC_ID = "${f_id}" AND R_ID = "${r_id}";`;
   let stu_q = `SELECT STU_EMAIL FROM STUDENT where STU_ID = "${s_id}";`;
   try {
-    sql_con.query(`${q}${stu_q}`, (err, result) => {
+    sql_con.query(`${q}${stu_q}`, authenticate, (err, result) => {
       if(err) {
         console.log("An error ---> ", err);
         res.send("Server side error").status(500);
@@ -58,10 +57,9 @@ route.patch("/fromDecision/:id", (req, res) => {
       else {
         // 1. Trigger mail send function
         // 2. Response to frontend
-        // console.log(result[0]);
-        //console.log(result[1][0].STU_EMAIL);
+       
         //! Sending email to Student
-        sendEmail(result[1][0].STU_EMAIL, "From lab Approval", decision);
+        sendEmail(result[1][0].STU_EMAIL, "From lab", decision);
         checkApprovals(r_id);
         res.send("Your Decision Updated").status(200);
 
@@ -77,8 +75,8 @@ route.patch("/fromDecision/:id", (req, res) => {
 
 
 //! To lab approval
-route.patch("/toDecision/:id", (req, res) => {
-  let f_id = req.params.id; // This must be dynamic
+route.patch("/toDecision", authenticate, async (req, res) => {
+  let f_id = await findFaculty(req.email); 
 
   let s_id = req.body.stu_id;
   let r_id = req.body.r_id;
@@ -92,7 +90,7 @@ route.patch("/toDecision/:id", (req, res) => {
         res.send("Server side error").status(500);
       }
       else {
-        sendEmail(result[1][0].STU_EMAIL, "To lab Approval", decision);
+        sendEmail(result[1][0].STU_EMAIL, "To lab", decision);
         checkApprovals(r_id);
         res.send("Your Decision Updated").status(200);
 
