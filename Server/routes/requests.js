@@ -47,7 +47,7 @@ route.patch("/fromDecision/:id", (req, res) => {
   let s_id = req.body.stu_id;
   let r_id = req.body.r_id;
   let decision = req.body.decision;
-  let q = `UPDATE REQUESTS SET FROM_APPROVAL = "OK" WHERE FROM_LAB_FAC_ID = "${f_id}" AND R_ID = "${r_id}";`;
+  let q = `UPDATE REQUESTS SET FROM_APPROVAL = "${decision}" WHERE FROM_LAB_FAC_ID = "${f_id}" AND R_ID = "${r_id}";`;
   let stu_q = `SELECT STU_EMAIL FROM STUDENT where STU_ID = "${s_id}";`;
   try {
     sql_con.query(`${q}${stu_q}`, (err, result) => {
@@ -62,10 +62,41 @@ route.patch("/fromDecision/:id", (req, res) => {
         //console.log(result[1][0].STU_EMAIL);
         //! Sending email to Student
         sendEmail(result[1][0].STU_EMAIL, "From lab Approval", decision);
+        checkApprovals(r_id);
         res.send("Your Decision Updated").status(200);
 
         //! Wen need to check for both approval so we can send mail to HEAD
+      }
+    })
+  } catch (error) {
+    console.log(error);
+    res.send("Server side error").status(500);
+  }
+
+})
+
+
+//! To lab approval
+route.patch("/toDecision/:id", (req, res) => {
+  let f_id = req.params.id; // This must be dynamic
+
+  let s_id = req.body.stu_id;
+  let r_id = req.body.r_id;
+  let decision = req.body.decision;
+  let q = `UPDATE REQUESTS SET TO_APPROVAL = "${decision}" WHERE TO_LAB_FAC_ID = "${f_id}" AND R_ID = "${r_id}";`;
+  let stu_q = `SELECT STU_EMAIL FROM STUDENT where STU_ID = "${s_id}";`;
+  try {
+    sql_con.query(`${q}${stu_q}`, (err, result) => {
+      if(err) {
+        console.log("An error ---> ", err);
+        res.send("Server side error").status(500);
+      }
+      else {
+        sendEmail(result[1][0].STU_EMAIL, "To lab Approval", decision);
         checkApprovals(r_id);
+        res.send("Your Decision Updated").status(200);
+
+        //! Wen need to check for both approval so we can send mail to HEAD
       }
     })
   } catch (error) {
