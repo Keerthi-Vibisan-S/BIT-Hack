@@ -9,20 +9,21 @@ const transporter = nodeMailer.createTransport({
   }
 })
 
-function sendEmail(toEmail) {
+function sendEmail(toEmail, author, decision) {
   const options = {
     from: mailId,
     to: toEmail,
     subject: "Regarding Lab Change",
-    text: "Sample mail Send Check"
+    text: `Sample mail Send Check, your lab change request ${decision} by ${author}`
   };
   
   transporter.sendMail(options, (err, info) => {
     if(err) {
       console.log("Error --> ", err);
-      return;
+      return false;
     }
     console.log(info);
+    return true;
   })
 }
 
