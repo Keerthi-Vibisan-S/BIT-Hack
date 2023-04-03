@@ -23,6 +23,8 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   var emailController = TextEditingController();
   GoogleSignIn? _googleSignIn;
+
+
   Future<Map> _handleSignIn() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     var details= {"email":"", "idToken":""};
@@ -49,6 +51,8 @@ class _LoginPageState extends State<LoginPage> {
     }
     return details;
   }
+
+
   var userDetails;
   @override
   Widget build(BuildContext context) {
@@ -103,40 +107,6 @@ class _LoginPageState extends State<LoginPage> {
                                         fontWeight: FontWeight.w500,
                                         color: Colors.black54
                                     ),
-                                  ),
-                                ),
-                                SizedBox(height: 20,),
-                                ElevatedButton(onPressed: (){
-                                  // var userDetails = "{\"email\":\"balasuriya.cs20@bitsathy.ac.in\",\"verify\":true,\"name\":\"BALASURIYA K A\",\"img\":\"https://lh3.googleusercontent.com/a/AGNmyxZdo8m7KpccPALmjk2YYWqtTzhZlAbYtLzDBtwegQ=s96-c\",\"details\":[{\"STU_ID\":\"201CS130\",\"STU_NAME\":\"BALA SURIYA K A\",\"STU_EMAIL\":\"balasuriya.cs20@bitsathy.ac.in\",\"STU_CONTACT\":\"9782315975\",\"LAB_ID\":\"5\",\"FACULTY_ID\":\"105\",\"COUNT\":0,\"LAST_UPDATED_DATE\":\"2023-02-17T18:30:00.000Z\",\"DEPT\":\"COMPUTER SCIENCE ENGINEERING\",\"YEAR\":\"3rd Year\"}]}";
-                                  // print(userDetails);
-                                  // if(emailController.text == "Student")
-                                  //   Navigator.push(context, MaterialPageRoute(builder: (context) => StudentHome(userDetails)));
-                                  //
-                                  // else if(emailController.text == "Teacher")
-                                  //   Navigator.push(context, MaterialPageRoute(builder: (context) => FacultyHome()));
-                                  //
-                                  // else
-                                  //   Navigator.push(context, MaterialPageRoute(builder: (context) => AdminHomePage()));
-                                  // var userDetails = "{\"email\":\"balasuriya.cs20@bitsathy.ac.in\",\"verify\":true,\"name\":\"BALASURIYA K A\",\"img\":\"https://lh3.googleusercontent.com/a/AGNmyxZdo8m7KpccPALmjk2YYWqtTzhZlAbYtLzDBtwegQ=s96-c\",\"details\":[{\"STU_ID\":\"201CS130\",\"STU_NAME\":\"BALA SURIYA K A\",\"STU_EMAIL\":\"balasuriya.cs20@bitsathy.ac.in\",\"STU_CONTACT\":\"9782315975\",\"LAB_ID\":\"5\",\"FACULTY_ID\":\"105\",\"COUNT\":0,\"LAST_UPDATED_DATE\":\"2023-02-17T18:30:00.000Z\",\"DEPT\":\"COMPUTER SCIENCE ENGINEERING\",\"YEAR\":\"3rd Year\"}]}";
-                                  // if(emailController.text == "Student")
-                                  //   {
-                                  //     // Navigator.pushNamed(context, "/student_home");
-                                  //     Navigator.push(context, MaterialPageRoute(builder: (context) => StudentHome(userDetails)));
-                                  //   }
-
-                                  //
-                                  //
-                                  // else if(emailController.text == "Teacher")
-                                  //   Navigator.push(context, MaterialPageRoute(builder: (context) => FacultyHome(userDetails)));
-                                  //
-                                  // else
-                                  //   Navigator.push(context, MaterialPageRoute(builder: (context) => AdminHomePage()));
-
-                                },
-                                  child: Text("Login", style: GoogleFonts.poppins(
-                                      fontWeight: FontWeight.w500,
-                                      color: Colors.white
-                                  ),
                                   ),
                                 ),
                                 SizedBox(height: 20,),
@@ -213,7 +183,8 @@ class _LoginPageState extends State<LoginPage> {
 
 
                                   // Temporary - Section 2
-                                  // var details = {"email":  emailController.text, "idToken": "aa"};
+                                  // var details = {"email":"cloud@bitsathy.ac.in","idToken":"eyJhbGciOiJSUzI1NiIsImtpZCI6IjFhYWU4ZDdjOTIwNThiNWVlYTQ1Njg5NWJmODkwODQ1NzFlMzA2ZjMiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJhY2NvdW50cy5nb29nbGUuY29tIiwiYXpwIjoiODUyNzYyMjQxNDkwLWdyNDVuZ2hjNDVya3ZqcDViczN1cXZyNHEwcWtwODBoLmFwcHMuZ29vZ2xldXNlcmNvbnRlbnQuY29tIiwiYXVkIjoiODUyNzYyMjQxNDkwLWdyNDVuZ2hjNDVya3ZqcDViczN1cXZyNHEwcWtwODBoLmFwcHMuZ29vZ2xldXNlcmNvbnRlbnQuY29tIiwic3ViIjoiMTE0Nzg0NTkzNTcwNDE4ODk1NTAxIiwiaGQiOiJiaXRzYXRoeS5hYy5pbiIsImVtYWlsIjoiY2xvdWRAYml0c2F0aHkuYWMuaW4iLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwiYXRfaGFzaCI6InZWMnFVY1l3bGJkTUF0b0RGeU03Q2ciLCJuYW1lIjoiQ0xPVUQgTEFCIEJJVCIsInBpY3R1cmUiOiJodHRwczovL2xoMy5nb29nbGV1c2VyY29udGVudC5jb20vYS9BR05teXhZUC1MYk5YMVVDTUp5N1o2YVQ1dGFlNTN2UWtjMEJQOXFIazVRSj1zOTYtYyIsImdpdmVuX25hbWUiOiJDTE9VRCBMQUIiLCJmYW1pbHlfbmFtZSI6IkJJVCIsImxvY2FsZSI6ImVuIiwiaWF0IjoxNjgwNTA5NjczLCJleHAiOjE2ODA1MTMyNzMsImp0aSI6Ijc3OGE5NTZhZDNhMTQyNzhkOGFlZWIzYzRhYjBjOTFhYjAyZTc3MTcifQ.kOEnSqL3iZ1fn3ltTpm59XJ94cEIT5R9vYnlIoQXbPOawi-RIDd86tqJW4mJ30M4FaBYd9ou1JgrGIZ8SslR6SnF6XKIBt7cvr-qH5o-WRnLqqNetSHYmroTTqPplKBu6ieLaedS9BdXM17ZZAZt1flKTNZJ588KegRgaAYcV4oqJj4f0HDQ-tYa4wM9sImpizrQTZSpy6eKh79PnmWRcZfAxSP-ZOCRd70m0m90b4ybHLexvMT2jXPAOady1cv9cv8aiK1VGUoNCKrhMH-8f_75taSYIjSoAtHFU-1FFq6AYe9G7MIJ3RVEbTHN7w8byJGrKkI-LCHysDiOcMqQZQ"};
+                                  // // var details = {"email":"cloud@bitsathy.ac.in","details":[{"FACULTY_ID":"1001","FACULTY_NAME":"Clouds","FACULTY_EMAIL":\"cloud@bitsathy.ac.in\",\"CONTACT\":\"9655997760\",\"LAB_ID\":\"1\",\"LAB_NAME\":\"Cloud Computing\"}]};
                                   // print("details"+details.toString());
                                   // var userDetails;
                                   // if(details["idToken"] != null && details["idToken"]!="") {
@@ -223,6 +194,7 @@ class _LoginPageState extends State<LoginPage> {
                                   //   var match = iter?.groups([1, 2]);
                                   //   var role = "Teacher";
                                   //   if (match?[0] != null) {
+                                  //     print("Student");
                                   //     role = "Student";
                                   //     await checkValidUser(details["email"],details["idToken"]?.toString()).then((v) async {
                                   //       if (v != "Error") {
@@ -245,8 +217,8 @@ class _LoginPageState extends State<LoginPage> {
                                   //     print("Teacher");
                                   //     await checkValidFacultyUser(
                                   //         details["email"],
-                                  //         details["idToken"]?.toString()).then((
-                                  //         v) async {
+                                  //         details["idToken"]?.toString()).then((v) async {
+                                  //           print("Response"+v.toString());
                                   //       if (v != "Error") {
                                   //         userDetails = await v;
                                   //         print(v);
@@ -254,6 +226,7 @@ class _LoginPageState extends State<LoginPage> {
                                   //             .getInstance();
                                   //         preferences.setString(
                                   //             "user", json.encode(userDetails));
+                                  //         preferences.setString("token", details["idToken"].toString());
                                   //         Navigator.push(
                                   //             context, MaterialPageRoute(
                                   //             builder: (context) =>
@@ -263,77 +236,6 @@ class _LoginPageState extends State<LoginPage> {
                                   //     });
                                   //   }
                                   // }
-                                  // String email_id = details["email"].toString().toLowerCase();
-                                  // if(!email_id.contains("@bitsathy.ac.in"))
-                                  // {
-                                  //   showDialog(context: context, builder: (BuildContext context){
-                                  //     return AlertDialog(
-                                  //       content: Text("Logging with bitsathy email id"),
-                                  //     );
-                                  //   });
-                                  //   return;
-                                  // }
-                                  // // var userDetails;
-                                  // try{
-                                  //   if(details["idToken"] != null && details["idToken"]!="") {
-                                  //     RegExp re = new RegExp(
-                                  //         r"^\w+\.?(\w\w)?(\d\d)?@bitsathy\.ac\.in$");
-                                  //     var iter = re.firstMatch(details["email"]!);
-                                  //     var match = iter?.groups([1, 2]);
-                                  //     var role = "Teacher";
-                                  //     if (match?[0] != null) {
-                                  //       role = "Student";
-                                  //       await checkValidUser(details["email"],details["idToken"]?.toString()).then((v) async {
-                                  //         if (v != "Error") {
-                                  //           userDetails = await v;
-                                  //           print(v);
-                                  //           SharedPreferences preferences = await SharedPreferences
-                                  //               .getInstance();
-                                  //           preferences.setString(
-                                  //               "user", json.encode(userDetails));
-                                  //           // Navigator.pushNamed(context, "/student_home",arguments: userDetails);
-                                  //           Navigator.push(
-                                  //               context, MaterialPageRoute(
-                                  //               builder: (context) =>
-                                  //                   NavigatorPage(
-                                  //                       role)));
-                                  //         }
-                                  //
-                                  //       });
-                                  //     }
-                                  //     else {
-                                  //       await checkValidFacultyUser(
-                                  //           details["email"],
-                                  //           details["idToken"]?.toString()).then((
-                                  //           v) async {
-                                  //         if (v != "Error") {
-                                  //           userDetails = await v;
-                                  //           print(v);
-                                  //           SharedPreferences preferences = await SharedPreferences
-                                  //               .getInstance();
-                                  //           preferences.setString(
-                                  //               "user", json.encode(userDetails));
-                                  //           Navigator.push(
-                                  //               context, MaterialPageRoute(
-                                  //               builder: (context) =>
-                                  //                   NavigatorPage(
-                                  //                       "Teacher")));
-                                  //         }
-                                  //
-                                  //       });
-                                  //     }
-                                  //   }
-                                  // }
-                                  // catch(e)
-                                  // {
-                                  //   showDialog(context: context, builder: (BuildContext context){
-                                  //       return AlertDialog(
-                                  //         content: Text("Logging with bitsathy email id"),
-                                  //       );
-                                  //   });
-                                  // }
-
-
                                 }, child: Text("Sign in Google",
                                   style: GoogleFonts.poppins(
                                       fontWeight: FontWeight.w500,
@@ -361,232 +263,3 @@ class _LoginPageState extends State<LoginPage> {
   }
 }
 
-
-
-//
-// // Figma Flutter Generator Desktop1Widget - FRAME
-// Container(
-// width: 1440,
-// height: 1024,
-// decoration: BoxDecoration(
-// color : Color.fromRGBO(255, 255, 255, 0.8500000238418579),
-// ),
-// child: Stack(
-// children: <Widget>[
-// Positioned(
-// top: 295,
-// left: 391,
-// child: Container(
-// width: 657,
-// height: 433,
-//
-// child: Stack(
-// children: <Widget>[
-// Positioned(
-// top: 0,
-// left: 1,
-// child: Container(
-// width: 656,
-// height: 433,
-// decoration: BoxDecoration(
-// borderRadius : BorderRadius.only(
-// topLeft: Radius.circular(1),
-// topRight: Radius.circular(1),
-// bottomLeft: Radius.circular(1),
-// bottomRight: Radius.circular(1),
-// ),
-// boxShadow : [BoxShadow(
-// color: Color.fromRGBO(0, 0, 0, 0.05000000074505806),
-// offset: Offset(0,0),
-// blurRadius: 0
-// )],
-// color : Color.fromRGBO(238, 238, 238, 1),
-// )
-// )
-// ),
-// Positioned(
-// top: 0,
-// left: 0,
-// child: Container(
-// width: 329,
-// height: 433,
-// decoration: BoxDecoration(
-// color : Color.fromRGBO(217, 217, 217, 1),
-// )
-// )
-// ),
-// Positioned(
-// top: 308,
-// left: 446,
-// child: Text('Forgot Password?',
-// textAlign: TextAlign.left,
-// style: GoogleFonts.poppins(
-//
-// fontFamily: 'Inter',
-// fontSize: 9.5,
-// letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
-// fontWeight: FontWeight.normal,
-// height: 1
-// ),)
-// ),Positioned(
-// top: 253,
-// left: 389,
-// child: Container(
-// decoration: BoxDecoration(
-// color : Color.fromRGBO(255, 138, 138, 1),
-// ),
-// padding: EdgeInsets.symmetric(horizontal: 82, vertical: 14),
-// child: Row(
-// mainAxisSize: MainAxisSize.min,
-//
-// children: <Widget>[
-// Text('LOGIN', textAlign: TextAlign.left, style: GoogleFonts.poppins(
-// color: Color.fromRGBO(0, 0, 0, 1),
-// fontFamily: 'Inter',
-// fontSize: 10,
-// letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
-// fontWeight: FontWeight.normal,
-// height: 1
-// ),),
-//
-// ],
-// ),
-// )
-// ),Positioned(
-// top: 355,
-// left: 421,
-// child: Text('Or Continue With', textAlign: TextAlign.left, style: GoogleFonts.poppins(
-// color: Color.fromRGBO(0, 0, 0, 1),
-// fontFamily: 'Inter',
-// fontSize: 10,
-// letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
-// fontWeight: FontWeight.normal,
-// height: 1
-// ),)
-// ),Positioned(
-// top: 159,
-// left: 388,
-// child: Container(
-// width: 205,
-// height: 15,
-//
-// child: Stack(
-// children: <Widget>[
-// Positioned(
-// top: 0,
-// left: 1,
-// child: TextField()
-// ),Positioned(
-// top: 15,
-// left: 0,
-// child: Divider(
-// color: Color.fromRGBO(0, 0, 0, 1),
-// thickness: 0.5
-// )
-//
-// ),
-// ]
-// )
-// )
-// ),Positioned(
-// top: 205,
-// left: 389,
-// child: Container(
-// width: 204,
-// height: 15,
-//
-// child: Stack(
-// children: <Widget>[
-// Positioned(
-// top: 0,
-// left: 0.995121955871582,
-// child: TextField()
-// ),Positioned(
-// top: 15,
-// left: 0,
-// child: Divider(
-// color: Color.fromRGBO(0, 0, 0, 1),
-// thickness: 0.5
-// )
-//
-// ),
-// ]
-// )
-// )
-// ),Positioned(
-// top: 56,
-// left: 452,
-// child: Container(
-// width: 87.87602996826172,
-// height: 37,
-//
-// child: Stack(
-// children: <Widget>[
-// Positioned(
-// top: 9,
-// left: 0,
-// child: Text('Camps', textAlign: TextAlign.left, style: GoogleFonts.poppins(
-// color: Color.fromRGBO(0, 0, 0, 1),
-// fontFamily: 'Paprika',
-// fontSize: 20,
-// letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
-// fontWeight: FontWeight.normal,
-// height: 1
-// ),)
-// ),Positioned(
-// top: 0,
-// left: 59.9635009765625,
-// child: Transform.rotate(
-// angle: -21.49999928013559 * (3.14 / 180),
-// child: Container(
-// width: 29.999996185302734,
-// height: 18.999998092651367,
-// decoration: BoxDecoration(
-// image : DecorationImage(
-// image: AssetImage('assets/images/Pngwing1.png'),
-// fit: BoxFit.fitWidth
-// ),
-// )
-// ),
-// )
-// ),
-// ]
-// )
-// )
-// ),Positioned(
-// top: 343,
-// left: 509,
-// child: Container(
-// width: 35,
-// height: 35,
-//
-// child: Stack(
-// children: <Widget>[
-// Positioned(
-// top: 0,
-// left: 0,
-// child: Container(
-// width: 35,
-// height: 35,
-// decoration: BoxDecoration(
-// borderRadius : BorderRadius.only(
-// topLeft: Radius.circular(20),
-// topRight: Radius.circular(20),
-// bottomLeft: Radius.circular(20),
-// bottomRight: Radius.circular(20),
-// ),
-// boxShadow : [BoxShadow(
-// color: Color.fromRGBO(0, 0, 0, 0.05000000074505806),
-// offset: Offset(0,0),
-// blurRadius: 0
-// )],
-// color : Color.fromRGBO(242, 242, 242, 1),
-// )
-// )
-// ),Positioned(
-// top: 4,
-// left: 4,
-// child: Container(
-// width: 27,
-// height: 27,
-// decoration: BoxDecora

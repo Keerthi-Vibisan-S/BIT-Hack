@@ -411,7 +411,8 @@ studentLabSwithcForm(bool isFetchingLab,myLab,switTo,specialLabsNames,getToLabID
                         backgroundColor: PRIMARY
                     ),
                     onPressed: (!isFetchingLab)?() async{
-                      if(reason.text.isEmpty){setState(() {
+                      if(reason.text.isEmpty){
+                        setState(() {
                         reason.text = '';
                       });
                       }

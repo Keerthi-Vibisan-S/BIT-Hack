@@ -12,6 +12,7 @@ import 'package:special_lab_dashboard/Components.dart';
 import 'package:special_lab_dashboard/Models/RequestModel.dart';
 import 'package:special_lab_dashboard/responsive.dart';
 
+import '../APIHandler/apiHandler.dart';
 import '../Utilities/Util.dart';
 import 'MobileView/Faculty/FacultySwitchMobile.dart';
 // import 'package:google_fonts/google_fonts.dart';
@@ -205,7 +206,10 @@ class _FacultySwitchState extends State<FacultySwitch> {
                       width: width * 100,
                       height: height * 53,
                       child: TabBarView(
-                        children: [table(widget.data["joining"], "From"), table(widget.data["leaving"], "To")],
+                        children: [
+                          table(widget.data["joining"], "From"),
+                          table(widget.data["leaving"], "To")
+                        ],
                       ),
                     ),
                   ],
@@ -333,7 +337,22 @@ class _FacultySwitchState extends State<FacultySwitch> {
                                     borderRadius: BorderRadius.circular(5),
                                     color: Colors.red,
                                     child: InkWell(
-                                        onTap: () {},
+                                        onTap: () {
+                                          if(where == "To")
+                                            {
+                                              print("toDecision");
+                                              print(data[index].r_id.toString());
+                                              print(data[index].stu?.stu_id);
+                                              print("CANCEL");
+                                            }
+                                          else
+                                            {
+                                              print("fromDecision");
+                                              print(data[index].r_id.toString());
+                                              print(data[index].stu?.stu_id);
+                                              print("CANCEL");
+                                            }
+                                        },
                                         child: const Center(
                                           child: Icon(
                                             Icons.close,
@@ -352,7 +371,22 @@ class _FacultySwitchState extends State<FacultySwitch> {
                                     borderRadius: BorderRadius.circular(5),
                                     color: Color(0xff5749f3),
                                     child: InkWell(
-                                        onTap: () {},
+                                        onTap: () {
+                                            if(where == "To")
+                                              {
+                                                print("fromDecision");
+                                                print(data[index].r_id.toString());
+                                                print(data[index].stu?.stu_id);
+                                                print("OK");
+                                              }
+                                            else
+                                              {
+                                                print("toDecision");
+                                                print(data[index].r_id.toString());
+                                                print(data[index].stu?.stu_id);
+                                                print("OK");
+                                              }
+                                        },
                                         child: const Center(
                                           child: Icon(
                                             Icons.check,

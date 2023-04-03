@@ -9,8 +9,9 @@ import 'package:special_lab_dashboard/Models/StudentModel.dart';
 
 
 // const API_LINK = "http://10.30.10.10:3001/";
-const API_LINK = "http://127.0.0.1:3000/";
+// const API_LINK = "http://127.0.0.1:3000/";
 // http://10.30.10.10:3001/
+const API_LINK = "http://localhost:3000/";
 
 // const API_LINK = "http://10.10.237.157/";
 // const API_LINK = "http://10.10.176.69/";
@@ -62,6 +63,14 @@ dynamic postRequestToChangeSP(String? fromFacId, String? toFacId, String? head_i
   var res;
   SharedPreferences preferences = await SharedPreferences.getInstance();
   String? token = preferences.getString("token");
+  // print({
+  //   "from_lab_faculty_id": fromFacId,
+  //   "to_lab_faculty_id": toFacId,
+  //   "head_id": "1000",
+  //   "reason": reason,
+  //   // "from_lab_name" : from_lab,
+  //   // "to_lab_name" : to_lab
+  // });
   await http.post(Uri.parse("${API_LINK}request/addReq"),
       headers: {
         "content-type" : "application/json",
@@ -156,6 +165,7 @@ getAllStudentUnderFaculty(String? fac_id) async
 {
   SharedPreferences preferences = await SharedPreferences.getInstance();
   var token = preferences.getString("token") ?? "";
+  print("Token : "+token);
   http.Response response =  await http.get(
       Uri.parse("${API_LINK}faculty/getStudents"),
       headers: {
@@ -164,6 +174,8 @@ getAllStudentUnderFaculty(String? fac_id) async
         "Authorization": "Bearer $token",
       },
   );
+
+  print("getAllStudentUnderFaculty response "+response.body);
   
   List<StudentModel> students_under_fac = [];
   var ans = json.decode(response.body);
@@ -218,4 +230,25 @@ getHistoryOfStudent(String? stu_id) async {
 
   var ans = (json.decode(response.body))[0];
   return StudentModel.forRequests(ans["STU_ID"],ans["STU_NAME"], ans["COUNT"].toString(), ans["DEPT"], ans["YEAR"]);
+}
+
+
+
+postApprovalOfLabFaculty(String where,int req_id,String stu_id,String decision) async
+{
+  SharedPreferences pref = await SharedPreferences.getInstance();
+  var token = pref.getString("token");
+  http.Response response = await http.patch(
+    Uri.parse("${API_LINK}request/${where}"),
+    headers: {
+      "Access-Control-Allow-Origin":"*",
+      "Content-Type":"application/json",
+      "Authorization": "Bearer $token",
+    },
+    body: json.encode({
+        "r_id": req_id.toString(),
+        "stu_id": stu_id,
+        "decision":decision
+    })
+  );
 }

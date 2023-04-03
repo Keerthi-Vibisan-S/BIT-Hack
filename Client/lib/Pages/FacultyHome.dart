@@ -32,17 +32,19 @@ class _FacultyHomeState extends State<FacultyHome> {
   bool isFetchingStudents = true, isFetchingRequests = true;
 
   getStudentsUnderFac() async {
-    await getAllStudentUnderFaculty(userdetails["details"][0]["FACULTY_ID"]).then((v)=>{
+    await getAllStudentUnderFaculty(userdetails["details"][0]["FACULTY_ID"]).then((v){
+      print("All students under faculty"+v.toString());
         setState(() {
           isFetchingStudents = false;
           data = v;
           getRequests();
-        })
+        });
     });
   }
 
   getRequests() async{
     await getAllStudentRequestsUnderFaculty(userdetails["details"][0]["FACULTY_ID"]).then((v){
+      print("students request"+v.toString());
       setState(() {
         requests = v;
         isFetchingRequests = false;
@@ -56,6 +58,7 @@ class _FacultyHomeState extends State<FacultyHome> {
     SharedPreferences preferences = await SharedPreferences
         .getInstance();
     setState(() {
+      print("Stored value"+preferences.getString("user").toString());
       userdetails = jsonDecode(preferences.getString("user")!);
     });
   }
@@ -142,6 +145,7 @@ class _FacultyHomeState extends State<FacultyHome> {
             ],
           ),
           (press1)?getHomePage(userdetails, isFetchingStudents, data):FacultySwitch(userdetails, isFetchingRequests, requests)
+          // (press1)?Container(child:Text("Testing1")):Container(child: Text("Testing 2"),)
         ],
       )),
     );
@@ -225,6 +229,7 @@ class _getHomePageState extends State<getHomePage> {
   ];
   @override
   void initState() {
+
   }
   @override
   Widget build(BuildContext context) {
