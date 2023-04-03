@@ -88,7 +88,6 @@ class _AdminSpecialLabDatabaseState extends State<AdminSpecialLabDatabase> {
       setState(() {
         res = result;
       });
-      print(res);
   }
 
 

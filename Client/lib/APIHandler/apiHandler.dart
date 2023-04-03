@@ -27,13 +27,10 @@ dynamic checkValidUser(String? email, String? idToken) async{
         "token": idToken!
       })
   ).then((value) async {
-    print(value.toString());
     res = value;
-    // print(value);
     // SharedPreferences preferences = await SharedPreferences.getInstance();
     // preferences.setString("user-id", value);
   }).catchError((err){
-    print("Error: $err");
     return "Error";
   });
 
@@ -52,11 +49,9 @@ dynamic checkValidFacultyUser(String? email, String? idToken) async{
       })
   ).then((value) async {
     res = value;
-    print(value.body);
     // SharedPreferences preferences = await SharedPreferences.getInstance();
     // preferences.setString("user-id", value);
   }).catchError((err){
-    print("Error: $err");
     return err;
   });
 
@@ -64,11 +59,9 @@ dynamic checkValidFacultyUser(String? email, String? idToken) async{
 }
 
 dynamic postRequestToChangeSP(String? fromFacId, String? toFacId, String? head_id, String? reason, String? from_lab, String? to_lab) async{
-  print(fromFacId.toString()+toFacId.toString()+head_id.toString()+reason.toString()+from_lab.toString()+to_lab.toString());
   var res;
   SharedPreferences preferences = await SharedPreferences.getInstance();
   String? token = preferences.getString("token");
-  // print("Token : "+token.toString());
   await http.post(Uri.parse("${API_LINK}request/addReq"),
       headers: {
         "content-type" : "application/json",
@@ -85,7 +78,6 @@ dynamic postRequestToChangeSP(String? fromFacId, String? toFacId, String? head_i
   ).then((value) async {
     res = value;
   }).catchError((err){
-    print(err);
     return err;
   });
 }
@@ -94,7 +86,6 @@ Future<List<SpecialLab>> getSpecialLabs() async{
   var res;
   SharedPreferences preferences = await SharedPreferences.getInstance();
   String? token = preferences.getString("token");
-  // print("Token : "+token.toString());
   await http.get(Uri.parse("${API_LINK}labs/getLabs"),
       headers: {
         "content-type" : "application/json",
@@ -126,7 +117,6 @@ getDataForAdminDashboard() async{
     "Content-Type":"application/json",
     "Authorization": "Bearer ${token!}",
   },);
-  // print(response.body);
   return jsonDecode(response.body);
 }
 
@@ -140,7 +130,6 @@ getAllspclabs() async{
       "Content-Type":"application/json",
       "Authorization": "Bearer ${token!}",
     },);
-  // print(response.body);
   return jsonDecode(response.body);
 }
 

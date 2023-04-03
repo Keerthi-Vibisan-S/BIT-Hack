@@ -365,9 +365,7 @@ studentLabSwithcForm(bool isFetchingLab,myLab,switTo,specialLabsNames,getToLabID
                 value: switTo,
                 buttonWidth: 500,
                 onChanged: (value) {
-                  // print(value);
                   setState(() {
-                    print("Switch to : "+value.toString());
                     switTo = value;
                     for(int i=0;i<details.length;i++) {
                       if(value.toString()==details[i]['labname']){
@@ -410,16 +408,13 @@ studentLabSwithcForm(bool isFetchingLab,myLab,switTo,specialLabsNames,getToLabID
                 ),
                 child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                        backgroundColor: Color(0xff5749f3)
+                        backgroundColor: PRIMARY
                     ),
                     onPressed: (!isFetchingLab)?() async{
                       if(reason.text.isEmpty){setState(() {
                         reason.text = '';
                       });
                       }
-                      // print("id1 "+v.toString());
-                      // print("id2 "+id2.toString());
-                      // print("reason "+reason.text);
                       await postRequestToChangeSP(userDetails["details"][0]["FACULTY_ID"].toString(), id2.toString(), "1000", reason.text, myLab, switTo);
                     }:(){
 
@@ -493,7 +488,7 @@ showLogoutDialog()
 
                     onPressed: (){
                   Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>LoginPage()), (route) => false);
-                }, child: Text("Yes")),
+                }, child: Text("Yes",style: TextStyle(color: PRIMARY),)),
               ],
             )
           ],

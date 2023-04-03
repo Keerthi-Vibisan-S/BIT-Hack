@@ -31,7 +31,7 @@ route.get("/getStudents", authenticate, async (req, res) => {
 });
 
 //! Students REQUESTEDTO TEACHER TO CHANGE THE LAB
-route.get("/getReqStudents", authenticate, async (req, res) => {
+route.get("/getReqStudents", async (req, res) => {
   let f_id = await findFaculty(req.email);
   let q = `SELECT *, (SELECT LAB_NAME FROM FACULTY , SPECIALLAB WHERE FACULTY.FACULTY_ID = REQUESTS.FROM_LAB_FAC_ID AND FACULTY.LAB_ID = SPECIALLAB.LAB_ID) AS FROM_LAB, (SELECT LAB_NAME FROM FACULTY , SPECIALLAB WHERE FACULTY.FACULTY_ID = REQUESTS.TO_LAB_FAC_ID AND FACULTY.LAB_ID = SPECIALLAB.LAB_ID) AS TO_LAB FROM REQUESTS WHERE FROM_LAB_FAC_ID ="${f_id}" OR TO_LAB_FAC_ID ="${f_id}";`;
 
@@ -51,7 +51,7 @@ route.get("/getReqStudents", authenticate, async (req, res) => {
 });
 
 //! Student history for faculty page
-route.get("/getHistory/:sid", authenticate, (req, res) => {
+route.get("/getHistory/:sid", (req, res) => {
   let s_id = req.params.sid;
   let q = `SELECT * FROM STUDENT, REQUESTS WHERE STUDENT.STU_ID = "${s_id}" AND STUDENT.STU_ID=REQUESTS.STU_ID`;
 

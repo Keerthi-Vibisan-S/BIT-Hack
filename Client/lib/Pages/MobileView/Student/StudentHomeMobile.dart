@@ -76,8 +76,8 @@ class _StudentHomeMobileState extends State<StudentHomeMobile> {
       floatingActionButton: FloatingActionButton(
         backgroundColor: PRIMARY,
         onPressed: (){
-          widget.changeScreen();
-          // Navigator.push(context, MaterialPageRoute(builder: (context)=>Material(child: LabSwitchPage(widget.userdetails, widget.isFetchingSwitch, widget.specialLabsNames, widget.details, widget.myLab, widget.inchargeDetails))));
+          // widget.changeScreen();
+          Navigator.push(context, MaterialPageRoute(builder: (context)=>Material(child: LabSwitchPage(widget.userdetails, widget.isFetchingSwitch, widget.specialLabsNames, widget.details, widget.myLab, widget.inchargeDetails))));
         },child: Icon(Icons.swap_horiz,color: Colors.white,),),
     );
   }

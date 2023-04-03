@@ -20,7 +20,6 @@ class _FacultySwitchMobileState extends State<FacultySwitchMobile> with TickerPr
 
   @override
   void initState() {
-    print(widget.joining_data.toString());
     _controller = new TabController(length: 2, vsync: this);
   }
   List<dynamic> data = [

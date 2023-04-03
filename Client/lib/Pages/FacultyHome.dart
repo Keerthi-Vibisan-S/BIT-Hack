@@ -37,7 +37,6 @@ class _FacultyHomeState extends State<FacultyHome> {
           isFetchingStudents = false;
           data = v;
           getRequests();
-          print("All Students "+v.toString());
         })
     });
   }
@@ -45,7 +44,6 @@ class _FacultyHomeState extends State<FacultyHome> {
   getRequests() async{
     await getAllStudentRequestsUnderFaculty(userdetails["details"][0]["FACULTY_ID"]).then((v){
       setState(() {
-        // print(v);
         requests = v;
         isFetchingRequests = false;
       });
@@ -60,8 +58,6 @@ class _FacultyHomeState extends State<FacultyHome> {
     setState(() {
       userdetails = jsonDecode(preferences.getString("user")!);
     });
-    print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
-    print(userdetails);
   }
 
   @override
@@ -77,7 +73,6 @@ class _FacultyHomeState extends State<FacultyHome> {
 
   @override
   Widget build(BuildContext context) {
-    // print("args" + (ModalRoute.of(context)?.settings.arguments as String).toString());
     return (Responsive.isMobile(context))
           ? (!isFetchingStudents)
               ? FacultyHomeMobile(data,userdetails,requests,isFetchingRequests)
@@ -230,7 +225,6 @@ class _getHomePageState extends State<getHomePage> {
   ];
   @override
   void initState() {
-    print("In Home page"+widget.data.toString());
   }
   @override
   Widget build(BuildContext context) {

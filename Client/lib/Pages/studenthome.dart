@@ -61,7 +61,6 @@ class _StudentHomeState extends State<StudentHome> {
 
   changeScreen()
   {
-    print("In change screen");
     setState(() {
       if (press2 == true) {
         press2 = false;
@@ -79,8 +78,6 @@ class _StudentHomeState extends State<StudentHome> {
     setState(() {
       userdetails = jsonDecode(preferences.getString("user")!);
     });
-    print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
-    print(userdetails);
   }
   
 

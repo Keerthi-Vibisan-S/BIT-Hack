@@ -64,7 +64,6 @@ class _AdminHomePageState extends State<AdminHomePage> {
       setState(() {
         result1 = result;
       });
-      print(result1);
   }
 
   @override
@@ -352,7 +351,6 @@ class _getAdminHomePageState extends State<getAdminHomePage> {
                                               });
                                             },
                                             onHover: (PointerEvent details) {
-                                              // print(_scrollController.position.pixels)
                                               setState(() {
                                                 isHover = true;
                                                 x = details.position.dx;
@@ -398,15 +396,7 @@ class _getAdminHomePageState extends State<getAdminHomePage> {
 
   @override
   void initState() {
-    // // Programatically display tooltip after two seconds
-    // Future.delayed(const Duration(seconds: 2), () {
-    //   tooltipController.showTooltip(immediately: false);
-    // });
-    //
-    // tooltipController.addListener(() {
-    //   // Prints the enum value of [TooltipStatus.isShowing] or [TooltipStatus.isHiding]
-    //   print('controller: ${tooltipController.value}');
-    // });
+    
   }
 }
 
