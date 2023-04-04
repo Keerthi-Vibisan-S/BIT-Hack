@@ -52,3 +52,7 @@ JSON Sample:
 ---------------
 1. /labs/getAllLabsDetail ---> All lab details for ADMIN
 
+ADMIN:
+------
+
+1. /authenticate/adminverify   ---> To Login Admin

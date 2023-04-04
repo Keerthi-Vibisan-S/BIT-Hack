@@ -59,22 +59,53 @@ route.post("/facultyverify", (req, res) => {
   let user = {};
 
   async function verify() {
-    // const ticket = await client.verifyIdToken({
-    //   idToken: token,
-    //   audience: CLIENT_ID,
-    // });
-
-    // const payload = ticket.getPayload();
-    // const userid = payload["sub"];
-    //   console.log("PAYLOAD: ", payload);
-    user.email = email;
-    // user.verify = payload.email_verified;
-    // user.name = payload.name;
-    // user.img = payload.picture;
+    const ticket = await client.verifyIdToken({
+      idToken: token,
+      audience: CLIENT_ID,
+    });
+    const payload = ticket.getPayload();
+    user.email = payload.email;
   }
+
   verify().then(async () => {
     if (user.email == email) {
       let q = `SELECT F.FACULTY_ID, F.FACULTY_NAME, F.FACULTY_EMAIL, F.CONTACT, F.LAB_ID, S.LAB_NAME FROM FACULTY AS F, SPECIALLAB AS S WHERE F.LAB_ID = S.LAB_ID AND F.FACULTY_EMAIL="${user.email}"`;
+      try {
+        sql_con.query(q, (err, result) => {
+          if (err) {
+            console.log(err);
+            res.send("Error").status(500);
+            res.end();
+          } else {
+            user.details = result;
+            res.send(user).status(200);
+            res.end();
+          }
+        });
+      } catch (err) {
+        console.log("An error ------> " + err);
+      }
+    }
+  });
+});
+
+route.post("/adminverify", (req, res) => {
+  const token = req.body.token;
+  const email = req.body.email;
+  let user = {};
+  console.log("❤️❤️❤️ ", token, "🆗🆗🆗 ", email);
+  async function verify() {
+    const ticket = await client.verifyIdToken({
+      idToken: token,
+      audience: CLIENT_ID,
+    });
+    const payload = ticket.getPayload();
+    user.email = payload.email;
+  }
+
+  verify().then(async () => {
+    if (user.email == email) {
+      let q = `SELECT * FROM SKILL_HEAD WHERE HEAD_EMAIL = "${email}"`;
       try {
         sql_con.query(q, (err, result) => {
           if (err) {
