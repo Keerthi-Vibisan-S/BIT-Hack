@@ -14,6 +14,10 @@ class LabSwitchMobile extends StatefulWidget {
 }
 
 class _LabSwitchMobileState extends State<LabSwitchMobile> {
+  refresh()
+  {
+    print("Refreshing");
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,7 +28,7 @@ class _LabSwitchMobileState extends State<LabSwitchMobile> {
         padding: const EdgeInsets.all(20),
         child: Column(
           children: [
-            studentLabSwithcForm(widget.isFetchingLab, widget.myLab, widget.switTo, widget.specialLabsNames, widget.getToLabID, widget.userDetails, widget.id2,widget.details)
+            studentLabSwithcForm(widget.isFetchingLab, widget.myLab, widget.switTo, widget.specialLabsNames, widget.getToLabID, widget.userDetails, widget.id2,widget.details,refresh)
           ],
         ),
       ),

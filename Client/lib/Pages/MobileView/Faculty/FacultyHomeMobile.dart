@@ -13,15 +13,16 @@ import '../../../Models/StudentModel.dart';
 import '../../../Utilities/Colors.dart';
 import '../../../Utilities/Util.dart';
 import '../../../responsive.dart';
-import '../../FacultySwitch.dart';
+import '../../WebView/Faculty/FacultySwitch.dart';
 
 class FacultyHomeMobile extends StatefulWidget {
   final List<StudentModel> data;
   final switch_req;
   final userDetails;
   final isFetching;
+  final refresh;
 
-  const FacultyHomeMobile(this.data,this.userDetails,this.switch_req,this.isFetching,{Key? key}) : super(key: key);
+  const FacultyHomeMobile(this.data,this.userDetails,this.switch_req,this.isFetching,this.refresh,{Key? key}) : super(key: key);
 
   @override
   State<FacultyHomeMobile> createState() => _FacultyHomeMobileState();
@@ -255,7 +256,7 @@ class _FacultyHomeMobileState extends State<FacultyHomeMobile> {
       ),
       floatingActionButton: InkWell(
         onTap: (){
-          Navigator.push(context, MaterialPageRoute(builder: (context)=>Material(child: FacultySwitch(widget.userDetails, widget.isFetching, widget.switch_req))));
+          Navigator.push(context, MaterialPageRoute(builder: (context)=>Material(child: FacultySwitch(widget.userDetails, widget.isFetching, widget.switch_req,widget.refresh))));
         },
         child: Container(
           decoration: BoxDecoration(

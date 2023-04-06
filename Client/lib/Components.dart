@@ -324,7 +324,7 @@ renderLabFaculties(ScrollController sc, facultyObjects,bool isMobile) {
 }
 
 
-studentLabSwithcForm(bool isFetchingLab,myLab,switTo,specialLabsNames,getToLabID,userDetails,id2,details)
+studentLabSwithcForm(bool isFetchingLab,myLab,switTo,specialLabsNames,getToLabID,userDetails,id2,details,var refresh)
 {
   var reason = new TextEditingController();
   return StatefulBuilder(
@@ -410,13 +410,27 @@ studentLabSwithcForm(bool isFetchingLab,myLab,switTo,specialLabsNames,getToLabID
                     style: ElevatedButton.styleFrom(
                         backgroundColor: PRIMARY
                     ),
-                    onPressed: (!isFetchingLab)?() async{
+                    // onPressed: ()
+                    // {
+                    //   refresh();
+                    // },
+                    onPressed: (!isFetchingLab)
+                        ?() async{
                       if(reason.text.isEmpty){
                         setState(() {
                         reason.text = '';
                       });
                       }
-                      await postRequestToChangeSP(userDetails["details"][0]["FACULTY_ID"].toString(), id2.toString(), "1000", reason.text, myLab, switTo);
+                      await postRequestToChangeSP(userDetails["details"][0]["FACULTY_ID"].toString(), id2.toString(), "1000", reason.text, myLab, switTo)
+                        .then((v){
+                        if(v == "Success")
+                        {
+                        showSuccessDialog("Success");
+                        }
+                        else if(v == "Error") {
+                          showSuccessDialog("Error");
+                        }
+                      });
                     }:(){
 
                     },
@@ -498,5 +512,17 @@ showLogoutDialog()
   });
 }
 
+
+
+showSuccessDialog(String response)
+{
+  return StatefulBuilder(builder: (BuildContext context,void Function(void Function()) setState)
+  {
+      return AlertDialog(
+        content: Text((response=="Success")?"Successfully updated":"Error while submitting"),
+      );
+  });
+
+}
 
 

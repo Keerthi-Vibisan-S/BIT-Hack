@@ -11,11 +11,16 @@ import 'package:special_lab_dashboard/Models/StudentModel.dart';
 // const API_LINK = "http://10.30.10.10:3001/";
 // const API_LINK = "http://127.0.0.1:3000/";
 // http://10.30.10.10:3001/
-const API_LINK = "http://localhost:3000/";
+// const API_LINK = "http://localhost:3000/";
+
+const API_LINK = "http://10.10.237.157:3000/";
 
 // const API_LINK = "http://10.10.237.157/";
 // const API_LINK = "http://10.10.176.69/";
 // const LOCALHOST = "http://localhost:80/";
+
+
+
 
 dynamic checkValidUser(String? email, String? idToken) async{
   var res;
@@ -86,8 +91,9 @@ dynamic postRequestToChangeSP(String? fromFacId, String? toFacId, String? head_i
       })
   ).then((value) async {
     res = value;
+    return "Success";
   }).catchError((err){
-    return err;
+    return "Error";
   });
 }
 
@@ -199,6 +205,7 @@ getAllStudentRequestsUnderFaculty(String? fac_id) async {
   );
   List<RequestModel> joiningRequests = [];
   List<RequestModel> leavingRequests = [];
+  print("All requests : "+response.body);
   var ans = json.decode(response.body);
 
   for(var req in ans){
@@ -234,12 +241,18 @@ getHistoryOfStudent(String? stu_id) async {
 
 
 
-postApprovalOfLabFaculty(String where,int req_id,String stu_id,String decision) async
+postApprovalOfLabFaculty(String where,String req_id,String stu_id,String decision) async
 {
   SharedPreferences pref = await SharedPreferences.getInstance();
   var token = pref.getString("token");
+  print("token "+token.toString());
+  // print({
+  //   "r_id": req_id.toString(),
+  //   "stu_id": stu_id,
+  //   "decision":decision
+  // });
   http.Response response = await http.patch(
-    Uri.parse("${API_LINK}request/${where}"),
+    Uri.parse("${API_LINK}request/$where"),
     headers: {
       "Access-Control-Allow-Origin":"*",
       "Content-Type":"application/json",
@@ -251,4 +264,25 @@ postApprovalOfLabFaculty(String where,int req_id,String stu_id,String decision) 
         "decision":decision
     })
   );
+  print("Decision respone");
+  print(response.body);
+}
+
+
+
+
+adminLogin(var details) async {
+  // print(json.encode(details));
+  await http.post(
+    Uri.parse("${API_LINK}authenticate/adminverify"),
+    headers: {
+      "content-type" : "application/json",
+    },
+    body:json.encode(details),
+  ).then((v)
+  {
+    return json.decode(v.body.toString());
+  }).catchError((err){
+    return err;
+  });
 }

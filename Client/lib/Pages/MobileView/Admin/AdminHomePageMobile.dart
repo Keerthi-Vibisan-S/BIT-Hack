@@ -3,8 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:special_lab_dashboard/Pages/AdminConfirmPage.dart';
-import 'package:special_lab_dashboard/Pages/AdminSpecialLabDatabase.dart';
+import 'package:special_lab_dashboard/Pages/WebView/Admin/AdminConfirmPage.dart';
 import 'package:special_lab_dashboard/Pages/MobileView/Admin/AdminHome.dart';
 import 'package:special_lab_dashboard/Pages/MobileView/Admin/AdminLabSwitch.dart';
 import 'package:special_lab_dashboard/Pages/MobileView/Admin/AdminSpecialLabDatabase.dart';
@@ -12,7 +11,7 @@ import 'package:special_lab_dashboard/Pages/MobileView/Admin/AdminSpecialLabData
 import '../../../Components.dart';
 import '../../../Utilities/Colors.dart';
 import '../../../Utilities/Util.dart';
-import '../../AdminHomePage.dart';
+import '../../WebView/Admin/AdminSpecialLabDatabase.dart';
 
 class AdminHomePageMobile extends StatefulWidget {
   final int pageNo;

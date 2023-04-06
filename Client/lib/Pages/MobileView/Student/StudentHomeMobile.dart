@@ -6,7 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../Components.dart';
 import '../../../Utilities/Colors.dart';
 import '../../../responsive.dart';
-import '../../LabSwitch.dart';
+import '../../WebView/Student/LabSwitch.dart';
 
 class StudentHomeMobile extends StatefulWidget {
   final userdetails;
