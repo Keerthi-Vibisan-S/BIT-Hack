@@ -12,7 +12,8 @@ function findFaculty(email)
             reject("Error");
         }
         else {
-            resolve(result[0].FACULTY_ID);
+            if(result.length == 0) resolve(null);
+            else resolve(result[0].FACULTY_ID);
         }
     })})
 }

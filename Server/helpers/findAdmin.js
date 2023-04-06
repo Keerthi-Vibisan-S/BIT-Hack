@@ -1,10 +1,10 @@
 const sql_con = require('../settings/databaseConnection');
 
-function findUser(email)
+function findAdmin(email)
 {
-    console.log("EMAIL LLLLL 🚀🚀 ", email);
+    //console.log("EMAIL Skill HEAD 🚀🚀 ", email);
     try {
-    let q = `SELECT * FROM STUDENT WHERE STU_EMAIL like "${email}"`;
+    let q = `SELECT * FROM 	SKILL_HEAD WHERE HEAD_EMAIL="${email}"`;
     return new  Promise((resolve, reject) => {
         sql_con.query(q, (err, result) => {
         if(err) {
@@ -12,17 +12,16 @@ function findUser(email)
             reject("Error");
         }
         else {
+            //console.log(result);
             if(result.length == 0) resolve(null);
-            else resolve(result[0].STU_ID);
+            else resolve(result[0].HEAD_ID);
         }
     })})
-}
-catch(err){
-    console.log("An error ------> "+err);
-    res.send("Error").status(500);
-    res.end();
-}
+    }
+    catch(err){
+        console.log("An error ------> "+err);
+    }
 }
 
 
-module.exports = findUser;
+module.exports = findAdmin;

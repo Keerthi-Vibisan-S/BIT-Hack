@@ -24,6 +24,9 @@ app.use('/request', request);
 const getCount = require('./routes/getCounts');
 app.use('/getAllCount', getCount);
 
+const admin = require('./routes/admin');
+app.use('/admin', admin);
+
 app.listen(3000,() => {
     console.log("Listening on port 3000");
 })
