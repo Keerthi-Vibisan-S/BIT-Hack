@@ -2,7 +2,7 @@ const sql_con = require('../settings/databaseConnection');
 
 function findAdmin(email)
 {
-    // console.log("EMAIL Skill HEAD 🚀🚀 ", email);
+    //console.log("EMAIL Skill HEAD 🚀🚀 ", email);
     try {
     let q = `SELECT * FROM 	SKILL_HEAD WHERE HEAD_EMAIL="${email}"`;
     return new  Promise((resolve, reject) => {

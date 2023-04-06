@@ -57,3 +57,4 @@ ADMIN:
 
 1. /authenticate/adminverify   ---> To Login Admin
 2. /admin/getPendingRequests   ---> Admin Pending Requests Get
+3. /admin/getPendingRequests   ---> All Request Get
