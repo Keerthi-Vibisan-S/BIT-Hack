@@ -20,7 +20,7 @@ route.get("/", (req, res) => {
         return;
     } 
 
-    let q = `SELECT * FROM REQUESTS WHERE FROM_APPROVAL = "OK" AND TO_APPROVAL = "OK" AND HEAD_APPROVAL LIKE "P%"`;
+    let q = `SELECT REQUESTS.*, STUDENT.STU_NAME, STUDENT.DEPT, STUDENT.YEAR, (SELECT LAB_NAME FROM FACULTY , SPECIALLAB WHERE FACULTY.FACULTY_ID = REQUESTS.FROM_LAB_FAC_ID AND FACULTY.LAB_ID = SPECIALLAB.LAB_ID) AS FROM_LAB, (SELECT LAB_NAME FROM FACULTY , SPECIALLAB WHERE FACULTY.FACULTY_ID = REQUESTS.TO_LAB_FAC_ID AND FACULTY.LAB_ID = SPECIALLAB.LAB_ID) AS TO_LAB FROM REQUESTS, STUDENT WHERE FROM_APPROVAL = "OK" AND TO_APPROVAL = "OK" AND HEAD_APPROVAL LIKE "P%" AND STUDENT.STU_ID = REQUESTS.STU_ID`;
 
     sql_con.query(q, (err, result) => {
         if(err) {
@@ -47,7 +47,7 @@ route.get("/", (req, res) => {
         return;
     } 
 
-    let q = `SELECT * FROM REQUESTS`;
+    let q = `SELECT REQUESTS.*, STUDENT.STU_NAME, STUDENT.DEPT, STUDENT.YEAR, (SELECT LAB_NAME FROM FACULTY , SPECIALLAB WHERE FACULTY.FACULTY_ID = REQUESTS.FROM_LAB_FAC_ID AND FACULTY.LAB_ID = SPECIALLAB.LAB_ID) AS FROM_LAB, (SELECT LAB_NAME FROM FACULTY , SPECIALLAB WHERE FACULTY.FACULTY_ID = REQUESTS.TO_LAB_FAC_ID AND FACULTY.LAB_ID = SPECIALLAB.LAB_ID) AS TO_LAB FROM REQUESTS, STUDENT WHERE STUDENT.STU_ID = REQUESTS.STU_ID`;
 
     sql_con.query(q, (err, result) => {
         if(err) {
@@ -63,5 +63,12 @@ route.get("/", (req, res) => {
         }
     })
   })
+
+//! Admin Accept or Decline request
+// 1. Update the data upon admin decision
+// 2. Then send emil to Student
+// if Confirmed ----> Change Student Lab
+// else leave it
+
 
   module.exports = route;
