@@ -2,6 +2,7 @@ const express = require("express");
 const sql_con = require("../settings/databaseConnection");
 const authenticate = require("../helpers/auth_middleware");
 const findAdmin = require("../helpers/findAdmin");
+const sendUnauthorized = require("../helpers/teacherUnauthorized");
 const route = express.Router();
 
 
@@ -15,10 +16,7 @@ route.get("/", (req, res) => {
     //console.log("logi:", admin);
 
     if(admin == null || admin == "Error") {
-        res.json({
-            "Error": "Not Allowed, Un-authorized"
-        }).status(401);
-        res.end();
+        sendUnauthorized(res);
         return;
     } 
 
@@ -45,10 +43,7 @@ route.get("/", (req, res) => {
     //console.log("logi:", admin);
 
     if(admin == null || admin == "Error") {
-        res.json({
-            "Error": "Not Allowed, Un-authorized"
-        }).status(401);
-        res.end();
+        sendUnauthorized(res);
         return;
     } 
 

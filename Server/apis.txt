@@ -59,7 +59,12 @@ ADMIN:
 2. /admin/getPendingRequests   ---> Admin Pending Requests Get
 3. /admin/getPendingRequests   ---> All Request Get
 
+------------------------------------------------------------------------------------------------------------------------------------
 
+Pending Routes:
+---------------
+1. Admin Accept or Reject
+2. Student should not request again until a request is completed
 
 
 AUTHORIZATION CHECK:
