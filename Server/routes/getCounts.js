@@ -3,6 +3,7 @@ const route = express.Router();
 const sql_con = require('../settings/databaseConnection');
 const authenticate = require('../helpers/auth_middleware');
 
+//! Needs to add Authorization
 
 route.get("/", (req, res) => {
     res.send("Counting Route");

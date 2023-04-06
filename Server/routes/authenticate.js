@@ -16,13 +16,14 @@ route.post("/verify", (req, res) => {
   const token = req.body.token;
   const email = req.body.email;
   let user = {};
-
+  console.log(token);
+  
   async function verify() {
     const ticket = await client.verifyIdToken({
       idToken: token,
       audience: CLIENT_ID,
     });
-
+    
     const payload = ticket.getPayload();
     const userid = payload["sub"];
     //   console.log("PAYLOAD: ", payload);
@@ -57,7 +58,9 @@ route.post("/facultyverify", (req, res) => {
   const token = req.body.token;
   const email = req.body.email;
   let user = {};
-
+  console.log(token);
+  // console.log(token);
+  
   async function verify() {
     const ticket = await client.verifyIdToken({
       idToken: token,
@@ -66,7 +69,7 @@ route.post("/facultyverify", (req, res) => {
     const payload = ticket.getPayload();
     user.email = payload.email;
   }
-
+  
   verify().then(async () => {
     if (user.email == email) {
       let q = `SELECT F.FACULTY_ID, F.FACULTY_NAME, F.FACULTY_EMAIL, F.CONTACT, F.LAB_ID, S.LAB_NAME FROM FACULTY AS F, SPECIALLAB AS S WHERE F.LAB_ID = S.LAB_ID AND F.FACULTY_EMAIL="${user.email}"`;
@@ -92,8 +95,10 @@ route.post("/facultyverify", (req, res) => {
 route.post("/adminverify", (req, res) => {
   const token = req.body.token;
   const email = req.body.email;
+  console.log(token);
   let user = {};
-  console.log("❤️❤️❤️ ", token, "🆗🆗🆗 ", email);
+  // console.log(req.body);
+  // console.log("❤️❤️❤️ ", token, "🆗🆗🆗 ", email);
   async function verify() {
     const ticket = await client.verifyIdToken({
       idToken: token,
