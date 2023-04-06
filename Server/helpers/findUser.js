@@ -12,7 +12,8 @@ function findUser(email)
             reject("Error");
         }
         else {
-            resolve(result[0].STU_ID);
+            if(result.length == 0) resolve(null);
+            else resolve(result[0].STU_ID);
         }
     })})
 }
