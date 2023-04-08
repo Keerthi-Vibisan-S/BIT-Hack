@@ -5,6 +5,7 @@ function updateLab(stu_id, fac_id, lab_id)
     //console.log("EMAIL Skill HEAD 🚀🚀 ", email);
     try {
     let q = `UPDATE STUDENT SET LAB_ID = "${lab_id}", FACULTY_ID = "${fac_id}" WHERE STU_ID = "${stu_id}";`;
+    console.log("🌳🌳🌳 ",q);
     return new  Promise((resolve, reject) => {
         sql_con.query(q, (err, result) => {
         if(err) {

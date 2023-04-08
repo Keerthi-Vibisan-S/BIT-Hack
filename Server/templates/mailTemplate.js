@@ -22,7 +22,7 @@ function sendEmail(toEmail, author, decision) {
       console.log("Error --> ", err);
       return false;
     }
-    console.log(info);
+   // console.log(info);
     return true;
   })
 }

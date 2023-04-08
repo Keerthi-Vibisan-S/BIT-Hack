@@ -84,13 +84,14 @@ route.post("/adminDecision", authenticate, async (req, res) => {
     let decision = req.body.decision;
     let req_id = req.body.req_id;
     let s_id = req.body.stu_id;
-    let to_lab_id = req.body.to_lab_id;
     let to_lab_fac_id = req.body.to_lab_fac_id;
 
     const q = `UPDATE REQUESTS SET HEAD_APPROVAL = "${decision}" WHERE R_ID = "${req_id}";`;
+    const lab_q = `SELECT * FROM LAB_HEAD WHERE LAB_HEAD_ID = "${to_lab_fac_id}";`;
+    console.log(lab_q);
     // console.log(q);
     const stu_q = `SELECT STU_EMAIL FROM STUDENT where STU_ID = "${s_id}";`;
-    sql_con.query(`${q}${stu_q}`, async (err, result) => {
+    sql_con.query(`${q}${stu_q}${lab_q}`, async (err, result) => {
         if(err) {
             res.json({
                 "Error": err
@@ -99,12 +100,18 @@ route.post("/adminDecision", authenticate, async (req, res) => {
         }
         else {
             res.send("Decision Updated").status(200).end();
-            sendEmail(result[1][0].STU_EMAIL, "Head Approval", decision);
+            console.log("Dec:  ", decision);
             if(decision == "OK") {
                 // Change lab 
-                let res = await updateLab(s_id, to_lab_fac_id, to_lab_id);
-                console.log("Admin Decision Update Result: ",res);
+                try{
+                    let res = await updateLab(s_id, to_lab_fac_id, result[2][0].LAB_ID);
+                    console.log(res);
+                }
+                catch(err){
+                    console.log("Error ---> ",err);
+                }
             }
+           // sendEmail(result[1][0].STU_EMAIL, "Head Approval", decision);
         }
     })
 })
