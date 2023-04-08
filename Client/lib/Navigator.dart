@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
-import 'package:special_lab_dashboard/Pages/FacultyHome.dart';
-import 'package:special_lab_dashboard/Pages/studenthome.dart';
+import 'package:special_lab_dashboard/Pages/WebView/Faculty/FacultyHome.dart';
+
+import 'Pages/WebView/Student/studenthome.dart';
 
 class NavigatorPage extends StatefulWidget {
   final role;

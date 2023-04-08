@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:html';
 
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -11,11 +12,16 @@ import 'package:special_lab_dashboard/Models/StudentModel.dart';
 // const API_LINK = "http://10.30.10.10:3001/";
 // const API_LINK = "http://127.0.0.1:3000/";
 // http://10.30.10.10:3001/
-const API_LINK = "http://localhost:3000/";
+// const API_LINK = "http://localhost:3000/";
+
+const API_LINK = "http://10.10.237.157:3000/";
 
 // const API_LINK = "http://10.10.237.157/";
 // const API_LINK = "http://10.10.176.69/";
 // const LOCALHOST = "http://localhost:80/";
+
+
+
 
 dynamic checkValidUser(String? email, String? idToken) async{
   var res;
@@ -86,31 +92,37 @@ dynamic postRequestToChangeSP(String? fromFacId, String? toFacId, String? head_i
       })
   ).then((value) async {
     res = value;
+    return "Success";
   }).catchError((err){
-    return err;
+    return "Error";
   });
 }
 
-Future<List<SpecialLab>> getSpecialLabs() async{
+getSpecialLabs() async{
   var res;
   SharedPreferences preferences = await SharedPreferences.getInstance();
   String? token = preferences.getString("token");
-  await http.get(Uri.parse("${API_LINK}labs/getLabs"),
+  http.Response? response ;
+  try{
+    response = await http.get(Uri.parse("${API_LINK}labs/getLabs"),
       headers: {
         "content-type" : "application/json",
         "Authorization" : "Bearer ${token!}",
       },
-  ).then((value) async {
-    res = value.body;
-  }).catchError((err){
-    print("Error ----> :${err}");
-  });
-  List<SpecialLab> slobjs= [];
-  var ans = json.decode(res);
-  for(var sl in ans) {
-    slobjs.add(SpecialLab(sl["LAB_ID"], sl["LAB_NAME"], sl["LAB_HEAD_ID"]));
+    );
+    res = response.body;
+    List<SpecialLab> slobjs= [];
+    var ans = json.decode(res);
+    for(var sl in ans) {
+      slobjs.add(SpecialLab(sl["LAB_ID"], sl["LAB_NAME"], sl["LAB_HEAD_ID"]));
+    }
+    return slobjs;
+  }catch(err){
+    if(response?.statusCode == 401){
+      print("session expired");
+      return [];
+    }
   }
-  return slobjs;
 
   // return json.decode(res.body);
 }
@@ -126,6 +138,10 @@ getDataForAdminDashboard() async{
     "Content-Type":"application/json",
     "Authorization": "Bearer ${token!}",
   },);
+  print(response.statusCode.toString());
+  if(response.statusCode == 401){
+    return {"error":"session expired"};
+  }
   return jsonDecode(response.body);
 }
 
@@ -176,7 +192,7 @@ getAllStudentUnderFaculty(String? fac_id) async
   );
 
   print("getAllStudentUnderFaculty response "+response.body);
-  
+
   List<StudentModel> students_under_fac = [];
   var ans = json.decode(response.body);
   for(var stu in ans){
@@ -199,6 +215,7 @@ getAllStudentRequestsUnderFaculty(String? fac_id) async {
   );
   List<RequestModel> joiningRequests = [];
   List<RequestModel> leavingRequests = [];
+  print("All requests : "+response.body);
   var ans = json.decode(response.body);
 
   for(var req in ans){
@@ -234,12 +251,18 @@ getHistoryOfStudent(String? stu_id) async {
 
 
 
-postApprovalOfLabFaculty(String where,int req_id,String stu_id,String decision) async
+postApprovalOfLabFaculty(String where,String req_id,String stu_id,String decision) async
 {
   SharedPreferences pref = await SharedPreferences.getInstance();
   var token = pref.getString("token");
+  print("token "+token.toString());
+  // print({
+  //   "r_id": req_id.toString(),
+  //   "stu_id": stu_id,
+  //   "decision":decision
+  // });
   http.Response response = await http.patch(
-    Uri.parse("${API_LINK}request/${where}"),
+    Uri.parse("${API_LINK}request/$where"),
     headers: {
       "Access-Control-Allow-Origin":"*",
       "Content-Type":"application/json",
@@ -251,4 +274,54 @@ postApprovalOfLabFaculty(String where,int req_id,String stu_id,String decision) 
         "decision":decision
     })
   );
+  print("Decision respone");
+  print(response.body);
+}
+
+
+
+
+adminLogin(var details) async {
+  // print(json.encode(details));
+  await http.post(
+    Uri.parse("${API_LINK}authenticate/adminverify"),
+    headers: {
+      "content-type" : "application/json",
+    },
+    body:json.encode(details),
+  ).then((v)
+  {
+    return json.decode(v.body.toString());
+  }).catchError((err){
+    return err;
+  });
+}
+
+
+Future<List<RequestModel>> getAdminRequests() async{
+  SharedPreferences pref = await SharedPreferences.getInstance();
+  var token = pref.getString("token");
+  List<RequestModel> requests = [];
+  await http.get(
+    Uri.parse("${API_LINK}admin/getPendingRequests"),
+    headers: {
+      "Access-Control-Allow-Origin":"*",
+      "Content-Type":"application/json",
+      "Authorization": "Bearer $token",
+    },
+  ).then((value){
+    try{
+      var res = json.decode(value.body);
+      for(var i in res){
+        StudentModel student =  StudentModel.forRequests(i["STU_ID"], i["STU_NAME"], 0.toString(), i["DEPT"], i["YEAR"]);
+        RequestModel request = new RequestModel.forAdmin(i["R_ID"].toString(), student, i["FROM_LAB_FAC_ID"], i["TO_LAB_FAC_ID"], i["FROM_APPROVAL"], i["TO_APPROVAL"],i["FROM_LAB"],i["TO_LAB"],i["HEAD_ID"], i["HEAD_APPROVAL"], i["REASON"]);
+        requests.add(request);
+      }
+    }
+    catch(err){
+      print("Error");
+    }
+
+  });
+  return requests;
 }

@@ -4,12 +4,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../../APIHandler/apiHandler.dart';
 import '../../../Components.dart';
 import '../../../Utilities/Util.dart';
 
 class FacultySwitchMobile extends StatefulWidget {
   final joining_data,leaving_data;
-  const FacultySwitchMobile(this.joining_data,this.leaving_data,{Key? key}) : super(key: key);
+  final refresh;
+  const FacultySwitchMobile(this.joining_data,this.leaving_data,this.refresh,{Key? key}) : super(key: key);
 
   @override
   State<FacultySwitchMobile> createState() => _FacultySwitchMobileState();
@@ -244,14 +246,32 @@ class _FacultySwitchMobileState extends State<FacultySwitchMobile> with TickerPr
                                         Expanded(flex:1,child:Container()),
                                         Expanded(
                                           flex:3,
-                                          child: Row(
+                                          child: (widget.joining_data[index].to_approval == "OK")
+                                              ?Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Text("Approved"),
+                                          )
+                                              :(widget.joining_data[index].to_approval == "CANCEL")
+                                              ?Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Text("Canceled"),
+                                          )
+                                              :Row(
                                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                             children: [
-                                              ElevatedButton(onPressed: (){}, child: Icon(Icons.check),
-                                                style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
-                                              ),
-                                              ElevatedButton(onPressed: (){}, child: Icon(Icons.close),
+                                              ElevatedButton(onPressed: (){
+                                                postApprovalOfLabFaculty("toDecision",data[index].r_id.toString(),data[index].stu?.stu_id ?? " ","CANCEL").then((v){
+                                                  widget.refresh();
+                                                });
+                                              }, child: Icon(Icons.close),
                                                 style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
+                                              ),
+                                              ElevatedButton(onPressed: (){
+                                                postApprovalOfLabFaculty("toDecision",data[index].r_id.toString(),data[index].stu?.stu_id ?? " ","OK").then((v){
+                                                  widget.refresh();
+                                                });
+                                              }, child: Icon(Icons.check),
+                                                style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
                                               ),
                                             ],
                                           ),
@@ -297,20 +317,37 @@ class _FacultySwitchMobileState extends State<FacultySwitchMobile> with TickerPr
                                   ),
                                   child: Padding(
                                     padding: const EdgeInsets.all(8.0),
-                                    child: Row(
+                                    child:Row(
                                       children: [
                                         Expanded(flex:6, child: Text(widget.leaving_data[index].stu.stu_name)),
                                         Expanded(flex:1,child:Container()),
                                         Expanded(
                                           flex:3,
-                                          child: Row(
+                                          child:(widget.leaving_data[index].from_approval == "OK")
+                                              ?Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Text("Approved"),
+                                          )
+                                              :(widget.leaving_data[index].from_approval == "CANCEL")
+                                              ?Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Text("Canceled"),
+                                          ):Row(
                                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                             children: [
-                                              ElevatedButton(onPressed: (){}, child: Icon(Icons.check),
-                                                style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
-                                              ),
-                                              ElevatedButton(onPressed: (){}, child: Icon(Icons.close),
+                                              ElevatedButton(onPressed: (){
+                                                postApprovalOfLabFaculty("fromDecision",data[index].r_id.toString(),data[index].stu?.stu_id ?? " ","CANCEL").then((v){
+                                                  widget.refresh();
+                                                });
+                                              }, child: Icon(Icons.close),
                                                 style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
+                                              ),
+                                              ElevatedButton(onPressed: (){
+                                                postApprovalOfLabFaculty("fromDecision",data[index].r_id.toString(),data[index].stu?.stu_id ?? " ","OK").then((v){
+                                                  widget.refresh();
+                                                });
+                                              }, child: Icon(Icons.check),
+                                                style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
                                               ),
                                             ],
                                           ),

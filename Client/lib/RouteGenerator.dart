@@ -1,11 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:special_lab_dashboard/Pages/LabSwitch.dart';
-import 'package:special_lab_dashboard/Pages/LoginPage.dart';
-import 'package:special_lab_dashboard/Pages/studenthome.dart';
 
-import 'Pages/FacultyHome.dart';
+import 'Pages/WebView/Faculty/FacultyHome.dart';
+import 'Pages/LoginPage.dart';
+import 'Pages/WebView/Student/studenthome.dart';
 import 'RouteNames.dart';
 
 

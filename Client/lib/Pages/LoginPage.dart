@@ -7,12 +7,8 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:special_lab_dashboard/APIHandler/apiHandler.dart';
 import 'package:special_lab_dashboard/Navigator.dart';
-import 'package:special_lab_dashboard/Pages/FacultyHome.dart';
-
-import 'package:special_lab_dashboard/Pages/studenthome.dart';
+import 'package:special_lab_dashboard/Pages/WebView/Faculty/FacultyHome.dart';
 import 'package:special_lab_dashboard/responsive.dart';
-
-import 'AdminHomePage.dart';
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
 
@@ -27,27 +23,21 @@ class _LoginPageState extends State<LoginPage> {
 
   Future<Map> _handleSignIn() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
+    // print(preferences.getString("token"));
     var details= {"email":"", "idToken":""};
 
-    if(preferences.getString("idToken") == null || preferences.getString("idToken") == "") {
-      try {
-        await _googleSignIn?.signIn().then((value) async {
-          details["email"] = value?.email ?? "email";
-          await value?.authentication.then((token) async {
-            details["idToken"] = token.idToken.toString();
-            preferences.setString("token", details["idToken"]!);
-          }).then((value) {
-            return details;
-          });
+    try {
+      await _googleSignIn?.signIn().then((value) async {
+        details["email"] = value?.email ?? "email";
+        await value?.authentication.then((token) async {
+          details["idToken"] = token.idToken.toString();
+          preferences.setString("token", details["idToken"]!);
+        }).then((value) {
+          return details;
         });
-      } catch (error) {
-        print(error);
-      }
-    }
-    else{
-      var user = json.decode(preferences.getString("user") ?? "");
-      details["email"] = user["email"];
-      details["idToken"] = preferences.getString("idToken") ?? "";
+      });
+    } catch (error) {
+      print(error);
     }
     return details;
   }
@@ -132,6 +122,7 @@ class _LoginPageState extends State<LoginPage> {
                                     if (match?[0] != null) {
                                       role = "Student";
                                       print("Student");
+                                      // print(details.toString());
                                       await checkValidUser(details["email"],details["idToken"]?.toString()).then((v) async {
                                         if (v != "Error") {
                                           userDetails = await v;
@@ -140,11 +131,7 @@ class _LoginPageState extends State<LoginPage> {
                                           preferences.setString(
                                               "user", json.encode(userDetails));
                                           // Navigator.pushNamed(context, "/student_home",arguments: userDetails);
-                                          Navigator.push(
-                                              context, MaterialPageRoute(
-                                              builder: (context) =>
-                                                  NavigatorPage(
-                                                      "Student")));
+                                          Navigator.pushNamed(context,"/studenthome");
                                         }
                                       });
                                     }
@@ -159,11 +146,7 @@ class _LoginPageState extends State<LoginPage> {
                                               .getInstance();
                                           preferences.setString(
                                               "user", json.encode(userDetails));
-                                          Navigator.push(
-                                              context, MaterialPageRoute(
-                                              builder: (context) =>
-                                                  NavigatorPage(
-                                                      role)));
+                                          Navigator.pushNamed(context,"/facultyhome");
                                         }
                                       });
                                     }

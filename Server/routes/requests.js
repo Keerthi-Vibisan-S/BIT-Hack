@@ -52,8 +52,6 @@ route.patch("/fromDecision", authenticate, async (req, res) => {
     sendUnauthorized(res);
     return;
   }
-  console.log("Error Here");
-  console.log(req.body);
   let s_id = req.body.stu_id;
   let r_id = req.body.r_id;
   let decision = req.body.decision;
@@ -93,7 +91,7 @@ route.patch("/toDecision", authenticate, async (req, res) => {
     sendUnauthorized(res);
     return;
   }
-
+  
   let s_id = req.body.stu_id;
   let r_id = req.body.r_id;
   let decision = req.body.decision;
