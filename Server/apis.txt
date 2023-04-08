@@ -58,6 +58,16 @@ ADMIN:
 1. /authenticate/adminverify   ---> To Login Admin
 2. /admin/getPendingRequests   ---> Admin Pending Requests Get
 3. /admin/getPendingRequests   ---> All Request Get
+4. POST, /admin/adminDecision ----> To make admin Decision
+JSON Format:
+-----------
+{
+    "req_id": "1",
+    "stu_id": "202CT131",
+    "decision":"OK",
+    "to_lab_id": "2",
+    "to_lab_fac_id": "102"
+}
 
 ------------------------------------------------------------------------------------------------------------------------------------
 

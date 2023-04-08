@@ -5,6 +5,7 @@ const findUser = require("../helpers/findUser");
 const sendEmail = require("../templates/mailTemplate");
 const checkApprovals = require("../helpers/HeadMailTrigger");
 const findFaculty = require("../helpers/findFaculty");
+const sendUnauthorized = require("../helpers/teacherUnauthorized");
 
 const route = express.Router();
 
@@ -17,7 +18,11 @@ route.post("/addReq", authenticate, async (req, res) => {
   //console.log("EMAIL LLLLL 🚀🚀 ", req.email);
   findUser(req.email).then((result) => {
     let stu_id = result;
-    console.log("From REQ PAGE 🚀🚀 ", stu_id);
+    if(stu_id == null || stu_id == "Error") {
+      sendUnauthorized(res);
+      return;
+    }
+    //console.log("From REQ PAGE 🚀🚀 ", stu_id);
     const from_id = req.body.from_lab_faculty_id;
     const to_id = req.body.to_lab_faculty_id;
     const approval_default = "Pending";
@@ -41,8 +46,16 @@ route.post("/addReq", authenticate, async (req, res) => {
 
 //! FROM LAB FACULTY APPROVAL
 
+<<<<<<< HEAD
 route.patch("/fromDecision",authenticate, async (req, res) => {
   let f_id =  await findFaculty(req.email); 
+=======
+  if(f_id == null || f_id == "Error") {
+    sendUnauthorized(res);
+    return;
+  }
+
+>>>>>>> 44003c1271ca6613224a0b18224ac1922d561b77
   let s_id = req.body.stu_id;
   let r_id = req.body.r_id;
   let decision = req.body.decision;
@@ -75,9 +88,20 @@ route.patch("/fromDecision",authenticate, async (req, res) => {
 
 
 //! To lab approval
+<<<<<<< HEAD
 route.patch("/toDecision/:id", async (req, res) => {
   // let f_id = await findFaculty(req.email); 
   let f_id = req.params.id;
+=======
+route.patch("/toDecision", authenticate, async (req, res) => {
+  let f_id = await findFaculty(req.email); 
+
+  if(f_id == null || f_id == "Error") {
+    sendUnauthorized(res);
+    return;
+  }
+
+>>>>>>> 44003c1271ca6613224a0b18224ac1922d561b77
   let s_id = req.body.stu_id;
   let r_id = req.body.r_id;
   let decision = req.body.decision;
@@ -101,7 +125,6 @@ route.patch("/toDecision/:id", async (req, res) => {
     console.log(error);
     res.send("Server side error").status(500);
   }
-
 })
 
 module.exports = route;
