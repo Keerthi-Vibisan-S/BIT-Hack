@@ -34,6 +34,7 @@ dynamic checkValidUser(String? email, String? idToken) async{
         "token": idToken!
       })
   ).then((value) async {
+    print(value);
     res = value;
     // SharedPreferences preferences = await SharedPreferences.getInstance();
     // preferences.setString("user-id", value);

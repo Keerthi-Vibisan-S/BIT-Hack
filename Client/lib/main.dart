@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:special_lab_dashboard/NewLoginPage.dart';
 import 'package:special_lab_dashboard/Pages/WebView/Admin/AdminHomePage.dart';
 import 'package:special_lab_dashboard/RouteGenerator.dart';
 import 'MyCustomScrollBehaviour.dart';
@@ -16,6 +17,7 @@ void main(){
         initialRoute: "/",
         routes: {
           '/' : (context) => const LoginPage(),
+          "/newLogin":(context)=>NewLoginPage(),
           '/adminlogin':(context) => AdminLoginPage(),
           '/studenthome':(context)=>StudentHome(),
           "/facultyhome":(context)=>FacultyHome(),
