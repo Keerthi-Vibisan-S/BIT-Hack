@@ -3,6 +3,7 @@ import 'package:special_lab_dashboard/Models/StudentModel.dart';
 class RequestModel{
   String? _r_id;
   StudentModel? _stu;
+  String? _stu_id;
   String? _from_lab_fac_id;
   String? _to_lab_fac_id;
   String? _from_approval;
@@ -13,7 +14,17 @@ class RequestModel{
   String? _from_lab_name;
   String? _to_lab_name;
 
+
+  RequestModel.forAdmin(this._r_id,this._stu,this._from_lab_fac_id,this._to_lab_fac_id,this._from_approval,this._to_approval,this._from_lab_name,this._to_lab_name,this._head_id,this._head_approval,this._reason);
+
   StudentModel? get stu => _stu;
+
+
+  String? get stu_id => _stu_id;
+
+  set stu_id(String? value) {
+    _stu_id = value;
+  }
 
   set stu(StudentModel? value) {
     _stu = value;

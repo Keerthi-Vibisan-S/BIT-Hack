@@ -62,6 +62,10 @@ class _AdminHomePageState extends State<AdminHomePage> {
   getData() async
   {
       var result = await getDataForAdminDashboard();
+      // if(result["error"]){
+      //   print(result["error"].toString());
+      //   return;
+      // }
       setState(() {
         result1 = result;
         fetching = false;
@@ -199,18 +203,7 @@ class getAdminHomePage extends StatefulWidget {
 
 class _getAdminHomePageState extends State<getAdminHomePage> {
   List<String> labnames = [
-    "Cloud Computing",
-    "AR VR",
-    "IOT",
-    "Data Science",
-    "Hackathon",
-    "Mobile App",
-    "Cloud Computing",
-    "AR VR",
-    "IOT",
-    "Data Science",
-    "Hackathon",
-    "Mobile App"
+
   ];
   List<int> labStudentsCount = [3, 6, 2, 9, 7, 4, 3, 6, 2, 9, 7, 4];
   String labName = "";
@@ -250,7 +243,10 @@ class _getAdminHomePageState extends State<getAdminHomePage> {
                     ),
                     GestureDetector(
                       onTap: (){
-                        Navigator.pop(context);
+                        showDialog(context: context, builder: (BuildContext context){
+                          return showLogoutDialog(true);
+                        });
+
                       },
                       child: Row(
                         children: [
@@ -300,7 +296,7 @@ class _getAdminHomePageState extends State<getAdminHomePage> {
                             renderCardsForAdminPage("Special Labs", widget.count['NO_OF_LABS'], 0xff1e1492, 0xffaba8d6,150,width*19,18,24,8,15),
                             renderCardsForAdminPage("Faculties Working",  widget.count['NO_OF_FACULTY'], 0xffff8a1d,0xffffd7b2,150,width*19,18,24,8,15),
                             renderCardsForAdminPage("Students Enrolled", widget.count['NO_OF_STUDENTS'], 0xff024d19, 0xff66cc85,150,width*19,18,24,8,15),
-                            renderCardsForAdminPage("Students not Enrolled", 103, 0xffff0000,0xffe892a1,150,width*19,18,24,8,15),
+                            renderCardsForAdminPage("Students not Enrolled", 1000, 0xffff0000,0xffe892a1,150,width*19,18,24,8,15),
                             Expanded(flex: 2,child: Container())
                           ],
                         ),
@@ -399,9 +395,24 @@ class _getAdminHomePageState extends State<getAdminHomePage> {
     );
   }
 
+  getData() async{
+    await getSpecialLabs().then((value){
+      if(value == []){
+        print("Session Expired");
+        return;
+      }
+      for(var special_lab in value){
+        labnames.add(special_lab.labname.toString());
+      }
+      setState(() {
+
+      });
+    });
+  }
+
   @override
   void initState() {
-    
+    getData();
   }
 }
 

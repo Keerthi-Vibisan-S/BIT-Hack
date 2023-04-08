@@ -1,6 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:special_lab_dashboard/APIHandler/apiHandler.dart';
+import 'package:special_lab_dashboard/Components.dart';
+import 'package:special_lab_dashboard/Models/RequestModel.dart';
 import 'package:special_lab_dashboard/Pages/MobileView/Admin/AdminLabSwitch.dart';
 import 'package:special_lab_dashboard/responsive.dart';
 
@@ -17,132 +20,36 @@ class _InchargeSwitchState extends State<InchargeSwitch> {
   bool press1 = false;
   bool press2 = true;
 
-  List data = [
-    {
-      "S.No": 1,
-      "Roll No": "202CT141",
-      "Name": "VENKAT RAMAN S P",
-      "Department": "COMPUTER TECHNOLOGY",
-      "Year": "III",
-      "History": 5,
-      "From": "Cloud Lab",
-      "To": "Data Science"
-    },
-    {
-      "S.No": 1,
-      "Roll No": "202CT141",
-      "Name": "VENKAT RAMAN S P",
-      "Department": "COMPUTER TECHNOLOGY",
-      "Year": "III",
-      "History": 5,
-      "From": "Cloud Lab",
-      "To": "Data Science"
-    },
-    {
-      "S.No": 1,
-      "Roll No": "202CT141",
-      "Name": "VENKAT RAMAN S P",
-      "Department": "COMPUTER TECHNOLOGY",
-      "Year": "III",
-      "History": 5,
-      "From": "Cloud Lab",
-      "To": "Data Science"
-    },
-    {
-      "S.No": 1,
-      "Roll No": "202CT141",
-      "Name": "VENKAT RAMAN S P",
-      "Department": "COMPUTER TECHNOLOGY",
-      "Year": "III",
-      "History": 5,
-      "From": "Cloud Lab",
-      "To": "Data Science"
-    },
-    {
-      "S.No": 1,
-      "Roll No": "202CT141",
-      "Name": "VENKAT RAMAN S P",
-      "Department": "COMPUTER TECHNOLOGY",
-      "Year": "III",
-      "History": 5,
-      "From": "Cloud Lab",
-      "To": "Data Science"
-    },
-    {
-      "S.No": 1,
-      "Roll No": "202CT141",
-      "Name": "VENKAT RAMAN S P",
-      "Department": "COMPUTER TECHNOLOGY",
-      "Year": "III",
-      "History": 5,
-      "From": "Cloud Lab",
-      "To": "Data Science"
-    },
-    {
-      "S.No": 1,
-      "Roll No": "202CT141",
-      "Name": "VENKAT RAMAN S P",
-      "Department": "COMPUTER TECHNOLOGY",
-      "Year": "III",
-      "History": 5,
-      "From": "Cloud Lab",
-      "To": "Data Science"
-    },
-    {
-      "S.No": 1,
-      "Roll No": "202CT141",
-      "Name": "VENKAT RAMAN S P",
-      "Department": "COMPUTER TECHNOLOGY",
-      "Year": "III",
-      "History": 5,
-      "From": "Cloud Lab",
-      "To": "Data Science"
-    },
-    {
-      "S.No": 1,
-      "Roll No": "202CT141",
-      "Name": "VENKAT RAMAN S P",
-      "Department": "COMPUTER TECHNOLOGY",
-      "Year": "III",
-      "History": 5,
-      "From": "Cloud Lab",
-      "To": "Data Science"
-    },
-    {
-      "S.No": 1,
-      "Roll No": "202CT141",
-      "Name": "VENKAT RAMAN S P",
-      "Department": "COMPUTER TECHNOLOGY",
-      "Year": "III",
-      "History": 5,
-      "From": "Cloud Lab",
-      "To": "Data Science"
-    },
-    {
-      "S.No": 1,
-      "Roll No": "202CT141",
-      "Name": "VENKAT RAMAN S P",
-      "Department": "COMPUTER TECHNOLOGY",
-      "Year": "III",
-      "History": 5,
-      "From": "Cloud Lab",
-      "To": "Data Science"
-    },
-  ];
+  List<RequestModel> requests = [];
+  bool _fetching = true;
+
   List data2 = [
     {"from": "Hackathon", "to": "Blockchain Technology"},
     {"from": "Hackathon", "to": "Blockchain Technology"},
     {"from": "Hackathon", "to": "Blockchain Technology"},
     {"from": "Hackathon", "to": "Blockchain Technology"}
   ];
-  Map<String, String> convert = {
-    "COMPUTER TECHNOLOGY": "CT",
-    "INFORMATION TECHNOLOGY": "IT"
-  };
-  Map<String, String> data3 = {
-    "from": "Blockchain Technology",
-    "to": "Cloud Computing Lab"
-  };
+
+
+
+  getData() async{
+    await getAdminRequests().then((value){
+      setState(() {
+        _fetching = false;
+        requests = value;
+      });
+    });
+  }
+
+
+  refresh(){
+    initState();
+  }
+
+  @override
+  void initState() {
+    getData();
+  }
 
   int selec = 0;
 
@@ -172,7 +79,9 @@ class _InchargeSwitchState extends State<InchargeSwitch> {
                     ),
                     GestureDetector(
                       onTap: (){
-                        Navigator.pop(context);
+                        showDialog(context: context, builder: (BuildContext context){
+                          return showLogoutDialog(true);
+                        });
                       },
                       child: Row(
                         children: [
@@ -250,7 +159,7 @@ class _InchargeSwitchState extends State<InchargeSwitch> {
                   getSizedBox(50),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 100),
-                    child: table(data),
+                    child: (_fetching)?Center(child: CircularProgressIndicator(),):table(requests),
                   ),
                 ],
               ),
@@ -261,7 +170,7 @@ class _InchargeSwitchState extends State<InchargeSwitch> {
     );
   }
 
-  Widget table(List data) {
+  Widget table(List<RequestModel> data) {
     var size = MediaQuery.of(context).size;
     var height = size.height / 100;
     var width = size.width / 100;
@@ -304,19 +213,19 @@ class _InchargeSwitchState extends State<InchargeSwitch> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        getContainerForTable(width,data[index]['S.No'].toString(), 3, FontWeight.w300, 1),
-                        getContainerForTable(width,data[index]['Roll No'].toString(), 4, FontWeight.w300, 1),
-                        getContainerForTable(width,data[index]['Name'].toString(), 8, FontWeight.w300, 1),
-                        getContainerForTable(width,data[index]['Department'].toString(), 10, FontWeight.w300, 1),
-                        getContainerForTable(width,data[index]['Year'].toString(), 3, FontWeight.w300, 1),
-                        getContainerForTable(width,data[index]['From'].toString(), 10.5, FontWeight.w300, 1),
-                        getContainerForTable(width,data[index]['To'].toString(), 10.5, FontWeight.w300, 1),
+                        getContainerForTable(width,(index+1).toString(), 3, FontWeight.w300, 1),
+                        getContainerForTable(width,requests[index].stu?.stu_id ?? " ", 4, FontWeight.w300, 1),
+                        getContainerForTable(width,requests[index].stu?.stu_name ?? " ", 8, FontWeight.w300, 1),
+                        getContainerForTable(width,requests[index].stu?.dept ?? " ", 10, FontWeight.w300, 1),
+                        getContainerForTable(width,requests[index].stu?.year ?? " ", 3, FontWeight.w300, 1),
+                        getContainerForTable(width,requests[index].from_lab_name.toString(), 10.5, FontWeight.w300, 1),
+                        getContainerForTable(width,requests[index].to_lab_name.toString(), 10.5, FontWeight.w300, 1),
                         Container(
                           width: width*7.5,
                           child: Row(
                             children: [
                               Text(
-                                data[index]['History'].toString(),
+                                "<>".toString(),
                                 style: GoogleFonts.poppins(
                                     fontWeight: FontWeight.w300,
                                     fontSize: width*1 -1.8
@@ -352,19 +261,19 @@ class _InchargeSwitchState extends State<InchargeSwitch> {
                                                 padding: const EdgeInsets.only(top: 32.0, left: 32.0, right: 32.0),
                                                 child: Row(
                                                   children: [
-                                                    Text(
-                                                        '${data[index]["Name"]} ',
-                                                        style: GoogleFonts.poppins(
-                                                        fontWeight: FontWeight.bold,
-                                                      )
-                                                    ),
-                                                    Text('\u2022  ${data[index]["Roll No"]}  \u2022  ${convert[data[index]['Department']]} \u2022 ${data[index]['Year']}',
-                                                        style: GoogleFonts.poppins(
-                                                          fontWeight: FontWeight.normal,
-                                                          color: Colors.black54,
-                                                          fontSize: 17.5
-                                                        )
-                                                    )
+                                                    // Text(
+                                                    //     '${data[index]["Name"]} ',
+                                                    //     style: GoogleFonts.poppins(
+                                                    //     fontWeight: FontWeight.bold,
+                                                    //   )
+                                                    // ),
+                                                    // Text('\u2022  ${data[index]["Roll No"]}  \u2022  ${convert[data[index]['Department']]} \u2022 ${data[index]['Year']}',
+                                                    //     style: GoogleFonts.poppins(
+                                                    //       fontWeight: FontWeight.normal,
+                                                    //       color: Colors.black54,
+                                                    //       fontSize: 17.5
+                                                    //     )
+                                                    // )
                                                   ],
                                                 ),
                                               ),
@@ -553,7 +462,9 @@ class _InchargeSwitchState extends State<InchargeSwitch> {
                                   borderRadius: BorderRadius.circular(5),
                                   color: Colors.red,
                                   child: InkWell(
-                                      onTap: () {},
+                                      onTap: () {
+                                        refresh();
+                                      },
                                       child: const Center(
                                         child: Icon(
                                           Icons.close,
@@ -572,7 +483,9 @@ class _InchargeSwitchState extends State<InchargeSwitch> {
                                   borderRadius: BorderRadius.circular(5),
                                   color: Color(0xff5749f3),
                                   child: InkWell(
-                                      onTap: () {},
+                                      onTap: () {
+                                        refresh();
+                                      },
                                       child: const Center(
                                         child: Icon(
                                           Icons.check,

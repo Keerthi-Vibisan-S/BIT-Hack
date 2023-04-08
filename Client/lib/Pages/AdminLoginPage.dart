@@ -92,7 +92,6 @@ class _AdminLoginPageState extends State<AdminLoginPage> {
                                 ),
                                 SizedBox(height: 20,),
                                 ElevatedButton(onPressed: () async {
-                                  print("Clicked");
                                   _googleSignIn = GoogleSignIn(
                                     clientId: "852762241490-gr45nghc45rkvjp5bs3uqvr4q0qkp80h.apps.googleusercontent.com",
                                     scopes: [
@@ -100,7 +99,6 @@ class _AdminLoginPageState extends State<AdminLoginPage> {
                                     ],
                                   );
                                   var details = await _handleSignIn();
-                                  print(details);
                                   await adminLogin(details).then((v)
                                   {
                                       Navigator.pushNamed(context, "/adminhome") ;

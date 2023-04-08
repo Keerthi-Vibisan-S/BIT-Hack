@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:special_lab_dashboard/APIHandler/apiHandler.dart';
 import 'package:special_lab_dashboard/Pages/MobileView/Admin/AdminSpecialLabDatabase.dart';
 
+import '../../../Components.dart';
 import '../../../Utilities/Util.dart';
 import '../../../responsive.dart';
 
@@ -120,7 +121,9 @@ class _AdminSpecialLabDatabaseState extends State<AdminSpecialLabDatabase> {
                     ),
                     GestureDetector(
                       onTap: (){
-                        Navigator.pop(context);
+                        showDialog(context: context, builder: (BuildContext context){
+                          return showLogoutDialog(true);
+                        });
                       },
                       child: Row(
                         children: [
@@ -255,7 +258,9 @@ class _AdminSpecialLabDatabaseState extends State<AdminSpecialLabDatabase> {
                                             child: Material(
                                               color: Colors.transparent,
                                               child: InkWell(
-                                                  onTap:(){},
+                                                  onTap:(){
+
+                                                  },
                                                   child: const Center(child: Text("View"))),
                                             ),
                                           ),

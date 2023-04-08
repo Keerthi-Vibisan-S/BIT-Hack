@@ -141,7 +141,7 @@ class _FacultyHomeMobileState extends State<FacultyHomeMobile> {
         actions: [
           IconButton(icon:Icon(Icons.logout),onPressed: (){
             showDialog(context: context, builder: (BuildContext context){
-              return showLogoutDialog();
+              return showLogoutDialog(false);
             });
           },),
         ],

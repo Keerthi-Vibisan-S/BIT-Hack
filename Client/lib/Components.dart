@@ -484,7 +484,7 @@ showStudentDetailsDialog(data)
 }
 
 
-showLogoutDialog()
+showLogoutDialog(bool isAdmin)
 {
   return StatefulBuilder(builder: (BuildContext context,void Function(void Function()) setState){
       return AlertDialog(
@@ -500,9 +500,14 @@ showLogoutDialog()
                   Navigator.pop(context);
                 }, child: Text("No",style: TextStyle(color: Colors.red),)),
                 TextButton(
-
                     onPressed: (){
-                  Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>LoginPage()), (route) => false);
+                      if(isAdmin){
+                        Navigator.pushNamedAndRemoveUntil(context, "/adminlogin", (route) => false);
+                      }
+                      else{
+                        Navigator.pushNamedAndRemoveUntil(context, "/", (route) => false);
+                      }
+
                 }, child: Text("Yes",style: TextStyle(color: PRIMARY),)),
               ],
             )
