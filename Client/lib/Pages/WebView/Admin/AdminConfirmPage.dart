@@ -395,11 +395,7 @@ class _InchargeSwitchState extends State<InchargeSwitch> {
                                                       color: Colors.red,
                                                       child: InkWell(
                                                           onTap: () async {
-                                                            // await sendMail("balasuriya.cs20@bitsathy.ac.in", {
-                                                            //   "stu_name":"Balasuriya K A",
-                                                            //   "from_lab":"Cloud Computing",
-                                                            //   "to_lab":"No Lab Interested"
-                                                            // });
+
                                                           },
                                                           child: Center(
                                                             child:  Text(
@@ -422,11 +418,7 @@ class _InchargeSwitchState extends State<InchargeSwitch> {
                                                       color: Color(0xff5749f3),
                                                       child: InkWell(
                                                           onTap: () async {
-                                                            // await sendMail("balasuriya.cs20@bitsathy.ac.in", {
-                                                            //   "stu_name":"Balasuriya K A",
-                                                            //   "from_lab":"Cloud Computing",
-                                                            //   "to_lab":"No Lab Interested"
-                                                            // });
+
                                                           },
                                                           child: Center(
                                                             child:  Text('Accept',
@@ -462,8 +454,10 @@ class _InchargeSwitchState extends State<InchargeSwitch> {
                                   borderRadius: BorderRadius.circular(5),
                                   color: Colors.red,
                                   child: InkWell(
-                                      onTap: () {
-                                        refresh();
+                                      onTap: () async{
+                                        await adminDecision(requests[index].r_id.toString(), requests[index].stu?.stu_id,requests[index].to_lab_fac_id,"CANCEL").then((v){
+                                          refresh();
+                                        });
                                       },
                                       child: const Center(
                                         child: Icon(
@@ -483,8 +477,10 @@ class _InchargeSwitchState extends State<InchargeSwitch> {
                                   borderRadius: BorderRadius.circular(5),
                                   color: Color(0xff5749f3),
                                   child: InkWell(
-                                      onTap: () {
-                                        refresh();
+                                      onTap: () async {
+                                        await adminDecision(requests[index].r_id.toString(), requests[index].stu?.stu_id, requests[index].to_lab_fac_id,"OK").then((v){
+                                          refresh();
+                                        });
                                       },
                                       child: const Center(
                                         child: Icon(

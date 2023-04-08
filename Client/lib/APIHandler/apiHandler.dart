@@ -275,7 +275,7 @@ postApprovalOfLabFaculty(String where,String req_id,String stu_id,String decisio
     })
   );
   print("Decision respone");
-  print(response.body);
+  // print(response.body);
 }
 
 
@@ -324,4 +324,26 @@ Future<List<RequestModel>> getAdminRequests() async{
 
   });
   return requests;
+}
+
+
+adminDecision(String reqId,String studentId,String toLabFacId,String decision) async{
+  // print("in function");
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    var token = pref.getString("token");
+    http.Response response = await http.post(
+      Uri.parse("${API_LINK}admin/adminDecision"),
+      headers: {
+        "Access-Control-Allow-Origin":"*",
+        "Content-Type":"application/json",
+        "Authorization": "Bearer $token",
+      },
+      body:json.encode({
+        "req_id": reqId,
+        "stu_id": studentId,
+        "decision":decision,
+        "to_lab_fac_id": toLabFacId
+      })
+    );
+    print(response.body);
 }
