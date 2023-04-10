@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -9,6 +10,7 @@ import 'package:special_lab_dashboard/APIHandler/apiHandler.dart';
 import 'package:special_lab_dashboard/Navigator.dart';
 import 'package:special_lab_dashboard/Pages/WebView/Faculty/FacultyHome.dart';
 import 'package:special_lab_dashboard/responsive.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
 
@@ -20,7 +22,6 @@ class _LoginPageState extends State<LoginPage> {
   var emailController = TextEditingController();
   GoogleSignIn? _googleSignIn;
 
-
   Future<Map> _handleSignIn() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     // print(preferences.getString("token"));
@@ -28,6 +29,7 @@ class _LoginPageState extends State<LoginPage> {
 
     try {
       await _googleSignIn?.signIn().then((value) async {
+
         details["email"] = value?.email ?? "email";
         await value?.authentication.then((token) async {
           details["idToken"] = token.idToken.toString();
@@ -39,6 +41,7 @@ class _LoginPageState extends State<LoginPage> {
     } catch (error) {
       print(error);
     }
+    print(details);
     return details;
   }
 
@@ -102,7 +105,8 @@ class _LoginPageState extends State<LoginPage> {
                                 SizedBox(height: 20,),
                                 ElevatedButton(onPressed: () async {
                                   _googleSignIn = GoogleSignIn(
-                                    clientId: "852762241490-gr45nghc45rkvjp5bs3uqvr4q0qkp80h.apps.googleusercontent.com",
+                                    // serverClientId: "852762241490-gr45nghc45rkvjp5bs3uqvr4q0qkp80h.apps.googleusercontent.com",
+                                    // clientId: "852762241490-gr45nghc45rkvjp5bs3uqvr4q0qkp80h.apps.googleusercontent.com",
                                     scopes: [
                                       'email',
                                     ],
@@ -124,6 +128,7 @@ class _LoginPageState extends State<LoginPage> {
                                       print("Student");
                                       // print(details.toString());
                                       await checkValidUser(details["email"],details["idToken"]?.toString()).then((v) async {
+                                        print(v);
                                         if (v != "Error") {
                                           userDetails = await v;
                                           SharedPreferences preferences = await SharedPreferences
@@ -150,16 +155,6 @@ class _LoginPageState extends State<LoginPage> {
                                         }
                                       });
                                     }
-                                  }
-                                  String email_id = details["email"].toString().toLowerCase();
-                                  if(!email_id.contains("@bitsathy.ac.in"))
-                                  {
-                                    showDialog(context: context, builder: (BuildContext context){
-                                      return AlertDialog(
-                                        content: Text("Logging with bitsathy email id"),
-                                      );
-                                    });
-                                    return;
                                   }
 
 

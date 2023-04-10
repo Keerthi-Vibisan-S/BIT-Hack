@@ -275,7 +275,9 @@ class _getHomePageState extends State<getHomePage> {
                             ),
                             GestureDetector(
                               onTap: (){
-                                Navigator.pop(context);
+                                showDialog(context: context, builder: (BuildContext context){
+                                  return showLogoutDialog(false);
+                                });
                               },
                               child: Row(
                                 children: [

@@ -159,10 +159,9 @@ renderStudentDetailsCard(userdetails, FacultyOfLab incharge,String mylab) {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-
                       getStyledTextForProfileCard(userdetails["details"][0]["YEAR"]), getSizedBox(15),
                       getStyledTextForProfileCard("CSE"),getSizedBox(15),
-                     getStyledTextForProfileCard(mylab),getSizedBox(15),
+                      getStyledTextForProfileCard(mylab),getSizedBox(15),
                       getStyledTextForProfileCard(userdetails["details"][0]["LAB_ID"].toString()),getSizedBox(15),
                       getStyledTextForProfileCard(incharge.fac_name ?? ""),getSizedBox(15),
                       getStyledTextForProfileCard("29.08.20 "),getSizedBox(15),
@@ -324,9 +323,10 @@ renderLabFaculties(ScrollController sc, facultyObjects,bool isMobile) {
 }
 
 
-studentLabSwithcForm(bool isFetchingLab,myLab,switTo,specialLabsNames,getToLabID,userDetails,id2,details,var refresh)
+studentLabSwitchForm(bool isFetchingLab,myLab,switTo,specialLabsNames,getToLabID,userDetails,id2,details,var refresh)
 {
   var reason = new TextEditingController();
+  String? switTo;
   return StatefulBuilder(
     builder: (BuildContext context, void Function(void Function()) setState) {
       return Column(
@@ -410,10 +410,6 @@ studentLabSwithcForm(bool isFetchingLab,myLab,switTo,specialLabsNames,getToLabID
                     style: ElevatedButton.styleFrom(
                         backgroundColor: PRIMARY
                     ),
-                    // onPressed: ()
-                    // {
-                    //   refresh();
-                    // },
                     onPressed: (!isFetchingLab)
                         ?() async{
                       if(reason.text.isEmpty){
@@ -423,12 +419,16 @@ studentLabSwithcForm(bool isFetchingLab,myLab,switTo,specialLabsNames,getToLabID
                       }
                       await postRequestToChangeSP(userDetails["details"][0]["FACULTY_ID"].toString(), id2.toString(), "1000", reason.text, myLab, switTo)
                         .then((v){
-                        if(v == "Success")
+                        if(v == "success")
                         {
-                        showSuccessDialog("Success");
+                          showDialog(context: context, builder: (BuildContext context){
+                            return showSuccessDialog("success");
+                          });
                         }
-                        else if(v == "Error") {
-                          showSuccessDialog("Error");
+                        else{
+                          showDialog(context: context, builder: (BuildContext context){
+                            return showSuccessDialog("error");
+                          });
                         }
                       });
                     }:(){
@@ -524,7 +524,7 @@ showSuccessDialog(String response)
   return StatefulBuilder(builder: (BuildContext context,void Function(void Function()) setState)
   {
       return AlertDialog(
-        content: Text((response=="Success")?"Successfully updated":"Error while submitting"),
+        content: Text((response=="success")?"Successfully updated":"Error while submitting"),
       );
   });
 

@@ -1,6 +1,4 @@
 import 'dart:convert';
-import 'dart:html';
-
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:special_lab_dashboard/Models/FacultyModel.dart';
@@ -12,10 +10,6 @@ import 'package:special_lab_dashboard/Models/StudentModel.dart';
 // const API_LINK = "http://10.30.10.10:3001/";
 // const API_LINK = "http://127.0.0.1:3000/";
 // http://10.30.10.10:3001/
-// const API_LINK = "http://localhost:3000/";
-
-const API_LINK = "http://10.10.237.157:3000/";
-
 // const API_LINK = "http://10.10.237.157/";
 // const API_LINK = "http://10.10.176.69/";
 // const LOCALHOST = "http://localhost:80/";
@@ -23,24 +17,40 @@ const API_LINK = "http://10.10.237.157:3000/";
 
 
 
+
+
+// const API_LINK = "http://localhost:3000/";
+
+const API_LINK = "http://10.10.237.157:3000/";
+
+
+
+
+
 dynamic checkValidUser(String? email, String? idToken) async{
   var res;
-  await http.post(Uri.parse("${API_LINK}authenticate/verify"),
-      headers: {
-        "content-type" : "application/json",
-      },
-      body: json.encode({
-        "email": email,
-        "token": idToken!
-      })
-  ).then((value) async {
-    print(value);
-    res = value;
-    // SharedPreferences preferences = await SharedPreferences.getInstance();
-    // preferences.setString("user-id", value);
-  }).catchError((err){
-    return "Error";
-  });
+  print("in checkValidUser");
+  try{
+    await http.post(Uri.parse("${API_LINK}authenticate/verify"),
+        headers: {
+          "content-type" : "application/json",
+        },
+        body: json.encode({
+          "email": email,
+          "token": idToken!
+        })
+    ).then((value) async {
+      print("Value");
+      print(value);
+      res = value;
+      // return json.decode(value.body);
+      // SharedPreferences preferences = await SharedPreferences.getInstance();
+      // preferences.setString("user-id", value);
+    });
+  }
+  catch(err){
+    print(err);
+  }
 
   return json.decode(res.body);
 }
@@ -66,7 +76,8 @@ dynamic checkValidFacultyUser(String? email, String? idToken) async{
   return json.decode(res.body);
 }
 
-dynamic postRequestToChangeSP(String? fromFacId, String? toFacId, String? head_id, String? reason, String? from_lab, String? to_lab) async{
+Future<String> postRequestToChangeSP(String? fromFacId, String? toFacId, String? head_id, String? reason, String? from_lab, String? to_lab) async{
+  String result = "success";
   var res;
   SharedPreferences preferences = await SharedPreferences.getInstance();
   String? token = preferences.getString("token");
@@ -93,10 +104,11 @@ dynamic postRequestToChangeSP(String? fromFacId, String? toFacId, String? head_i
       })
   ).then((value) async {
     res = value;
-    return "Success";
+    return "success";
   }).catchError((err){
-    return "Error";
+    result = "error";
   });
+  return result;
 }
 
 getSpecialLabs() async{

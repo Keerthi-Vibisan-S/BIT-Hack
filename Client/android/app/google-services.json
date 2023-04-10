@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "52819779871",
+    "project_id": "bitshack-507d8",
+    "storage_bucket": "bitshack-507d8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:52819779871:android:5bc420788f75b849d9502a",
+        "android_client_info": {
+          "package_name": "com.example.special_lab_dashboard"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "52819779871-ge7d4i7iu3v3sm0iqcnfov8e0g3ghepd.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.special_lab_dashboard",
+            "certificate_hash": "c7e4e1663fd435cf22b2215614efa63c0814db17"
+          }
+        },
+        {
+          "client_id": "52819779871-b4rif44mb3fkl8bm51b5vp2t7k38l08s.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAVTxGHYzlSZdQkevilNPZOfKk3FaTHvQU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "52819779871-4vhbvseatqqjfdhbtqol4hgfmec6lfoa.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

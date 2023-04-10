@@ -126,7 +126,7 @@ class _LabSwitchPageState extends State<LabSwitchPage> {
                                 flex:7,
                                 child: Padding(
                                   padding: const EdgeInsets.all(56.0),
-                                  child: studentLabSwithcForm(widget.isFetchingLab, widget.myLab, switTo, widget.specialLabsNames, getToLabID, widget.userDetails, id2,widget.details,refresh)
+                                  child: studentLabSwitchForm(widget.isFetchingLab, widget.myLab, switTo, widget.specialLabsNames, getToLabID, widget.userDetails, id2,widget.details,refresh)
                                 ),
                               ),
                               Expanded(flex:1,child: Container()),

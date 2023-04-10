@@ -31,7 +31,8 @@ class _NewLoginPageState extends State<NewLoginPage> {
               child: Container(
                 decoration: BoxDecoration(
                   image: DecorationImage(
-                    fit: BoxFit.fill,
+                    filterQuality: FilterQuality.high,
+                    fit: BoxFit.cover,
                       image: AssetImage("assets/slider.jpg"),
                   ),
                   borderRadius: BorderRadius.all(Radius.circular(10)),
@@ -56,33 +57,35 @@ class _NewLoginPageState extends State<NewLoginPage> {
                           color: Colors.white.withOpacity(0.2),
                       ),
                     ),
-                      child: Align(
-                        alignment: Alignment.center,
-                        child: Row(
-                          children: [
-                            Expanded(flex:3,child: Container()),
-                            Expanded(
-                              flex: 4,
+                      child: Row(
+                        children: [
+                          Expanded(flex:3,child: Container()),
+                          Expanded(
+                            flex: 4,
+                            child: InkWell(
+                              onTap: (){
+
+                              },
                               child: Container(
-                                height: 80,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.all(Radius.circular(10)),
-                                  gradient: LinearGradient(
-                                    colors: [Color(0xff3c2478),Color(0xff6c599b)]
-                                  )
+                                  color: PRIMARY,
                                 ),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                   Image(image: AssetImage("assets/google.png"),width:50,height: 50,),
-                                    Text("Sign in with Google",style: TextStyle(color: Colors.white),),
-                                  ],
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                     Image(image: AssetImage("assets/google.png"),width:25 ,height: 25,),
+                                      Text("Sign in with Google",style: TextStyle(color: Colors.white),),
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),
-                            Expanded(flex:3,child: Container()),
-                          ],
-                        ),
+                          ),
+                          Expanded(flex:3,child: Container()),
+                        ],
                       ),
                   ),
                 ),

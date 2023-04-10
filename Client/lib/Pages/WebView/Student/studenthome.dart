@@ -95,7 +95,7 @@ class _StudentHomeState extends State<StudentHome> {
     return (Responsive.isMobile(context))
         ?
     (!isFetchingHome)
-        ?StudentHomeMobile(userdetails, inchargeDetails, myLab,new ScrollController(),fac_of_lab,isFetchingSwitch, specialLabsNames, details,changeScreen)
+        ?StudentHomeMobile(userdetails, inchargeDetails, myLab,ScrollController(),fac_of_lab,isFetchingSwitch, specialLabsNames, details,changeScreen)
         :Container()
         :Material(
           child: Scaffold(
@@ -248,7 +248,9 @@ class _getStudentHomeState extends State<getStudentHome> {
                             ),
                             GestureDetector(
                               onTap: (){
-                                Navigator.pop(context);
+                                showDialog(context: context, builder: (BuildContext context){
+                                  return showLogoutDialog(false);
+                                });
                               },
                               child: Row(
                                 children: [

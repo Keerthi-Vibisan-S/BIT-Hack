@@ -28,7 +28,7 @@ class _LabSwitchMobileState extends State<LabSwitchMobile> {
         padding: const EdgeInsets.all(20),
         child: Column(
           children: [
-            studentLabSwithcForm(widget.isFetchingLab, widget.myLab, widget.switTo, widget.specialLabsNames, widget.getToLabID, widget.userDetails, widget.id2,widget.details,refresh)
+            studentLabSwitchForm(widget.isFetchingLab, widget.myLab, widget.switTo, widget.specialLabsNames, widget.getToLabID, widget.userDetails, widget.id2,widget.details,refresh)
           ],
         ),
       ),

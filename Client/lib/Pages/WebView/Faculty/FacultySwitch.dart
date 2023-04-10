@@ -75,7 +75,9 @@ class _FacultySwitchState extends State<FacultySwitch> {
                               ),
                               GestureDetector(
                                 onTap: (){
-                                  Navigator.pop(context);
+                                  showDialog(context: context, builder: (BuildContext context){
+                                    return showLogoutDialog(false);
+                                  });
                                 },
                                 child: Row(
                                   children: [

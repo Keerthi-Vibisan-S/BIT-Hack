@@ -47,6 +47,6 @@ customizedTextStyle(String text,fontsize,FontWeight fw)
 {
   return Padding(
     padding: const EdgeInsets.all(8.0),
-    child: Text(text, style: GoogleFonts.poppins(fontSize: fontsize,fontWeight: fw)),
+    child: Expanded(child: Text(text, style: GoogleFonts.poppins(fontSize: fontsize,fontWeight: fw))),
   );
 }

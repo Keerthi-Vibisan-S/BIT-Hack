@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:special_lab_dashboard/NewLoginPage.dart';
 import 'package:special_lab_dashboard/Pages/WebView/Admin/AdminHomePage.dart';
@@ -9,7 +10,14 @@ import 'Pages/LoginPage.dart';
 import 'Pages/WebView/Student/studenthome.dart';
 
 
-void main(){
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    name : 'BITSHACK',
+    options: FirebaseOptions(
+        apiKey: "AIzaSyBR1vYJ5NuA987XE7Aj3Ensfl4vX8LDAGA", appId: "1:52819779871:android:5bc420788f75b849d9502a", messagingSenderId: "52819779871", projectId: "bitshack-507d8")
+  );
+  
   runApp(
       MaterialApp(
         scrollBehavior: MyCustomScrollBehavior(),
