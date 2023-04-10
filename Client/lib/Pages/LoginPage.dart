@@ -106,7 +106,7 @@ class _LoginPageState extends State<LoginPage> {
                                 ElevatedButton(onPressed: () async {
                                   _googleSignIn = GoogleSignIn(
                                     // serverClientId: "852762241490-gr45nghc45rkvjp5bs3uqvr4q0qkp80h.apps.googleusercontent.com",
-                                    // clientId: "852762241490-gr45nghc45rkvjp5bs3uqvr4q0qkp80h.apps.googleusercontent.com",
+                                    clientId: "852762241490-gr45nghc45rkvjp5bs3uqvr4q0qkp80h.apps.googleusercontent.com",
                                     scopes: [
                                       'email',
                                     ],
